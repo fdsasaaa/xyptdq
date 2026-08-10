@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "publisher-article-diagnose-20260810-01",
+  "required_commit": "9f98e67890f2c866bfb014370f47d2cbea1fe42a",
+  "script": "scripts/ops/agent_tasks/publisher_article_diagnose.sh",
+  "script_sha256": "51ff2eaa89a8e298695c9469f3ec1d1acfbd4c5427adcb27646956658bdb5e45",
+  "timeout_seconds": 300
+}
