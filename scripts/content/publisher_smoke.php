@@ -2,13 +2,16 @@
 /**
  * Explicit one-article production smoke test for the Xunrui adapter.
  *
- * Dry run:
+ * Offline fixture validation (CI only):
+ *   php scripts/content/publisher_smoke.php --article=... --offline
+ *
+ * Live dry run:
  *   php scripts/content/publisher_smoke.php --article=content/smoke/ffc-betting-basics-risk-v1.json
  *
  * Commit (must be deliberate):
  *   php scripts/content/publisher_smoke.php --article=content/smoke/ffc-betting-basics-risk-v1.json --commit
  *
- * Dry-run is read-only but now validates the target category against the live
+ * Live dry-run is read-only but validates the target category against the live
  * CMS database, so a category-model mismatch cannot hide until commit mode.
  *
  * In commit mode the same article is submitted twice. The second call MUST
@@ -18,9 +21,10 @@
 
 declare(strict_types=1);
 
-$options = getopt('', ['article:', 'commit']);
+$options = getopt('', ['article:', 'commit', 'offline']);
 $articlePath = $options['article'] ?? '';
 $commit = array_key_exists('commit', $options);
+$offline = array_key_exists('offline', $options);
 
 function smokeFail(string $message, int $code = 1): void
 {
@@ -28,6 +32,9 @@ function smokeFail(string $message, int $code = 1): void
     exit($code);
 }
 
+if ($commit && $offline) {
+    smokeFail('--offline cannot be combined with --commit');
+}
 if ($articlePath === '' || !is_file($articlePath)) {
     smokeFail('--article must point to an existing JSON article');
 }
@@ -60,13 +67,19 @@ if ($encoded === false) {
 }
 $article['_content_hash'] = hash('sha256', $encoded);
 
+$mode = $commit ? 'COMMIT' : ($offline ? 'OFFLINE' : 'DRY-RUN');
 fwrite(STDOUT, sprintf(
     "[publisher-smoke] key=%s catid=%d title=%s mode=%s\n",
     (string) $article['article_key'],
     (int) $article['catid'],
     (string) $article['title'],
-    $commit ? 'COMMIT' : 'DRY-RUN'
+    $mode
 ));
+
+if ($offline) {
+    fwrite(STDOUT, "[publisher-smoke] OFFLINE FIXTURE PASS; no database connection or write attempted.\n");
+    exit(0);
+}
 
 $adapter = __DIR__ . '/cms_publish_adapter.php';
 if (!is_file($adapter)) {
