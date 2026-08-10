@@ -1,0 +1,45 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T14:59:48Z",
+  "job_id": "publisher-route-follow-diagnose-20260810-01",
+  "payload": {
+    "cms_id": 88,
+    "diagnostic": "PASS",
+    "probes": {
+      "new_direct": {
+        "effective_url": "https://www.laocaimi.org/index.php?c=show&id=88",
+        "http": 404
+      },
+      "new_module": {
+        "effective_url": "https://www.laocaimi.org/index.php?c=show&id=88",
+        "http": 404
+      },
+      "old47_direct": {
+        "effective_url": "https://www.laocaimi.org/index.php?c=show&id=47",
+        "http": 200
+      },
+      "old47_module": {
+        "effective_url": "https://www.laocaimi.org/index.php?c=show&id=47",
+        "http": 200
+      },
+      "old84_direct": {
+        "effective_url": "https://www.laocaimi.org/index.php?c=show&id=84",
+        "http": 404
+      },
+      "old84_module": {
+        "effective_url": "https://www.laocaimi.org/index.php?c=show&id=84",
+        "http": 404
+      }
+    },
+    "secrets_disclosed": false,
+    "task": "publisher_route_follow_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "b15b123317951e4067f01f5106722c0573fdf4e9",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_route_follow_diagnose.sh",
+  "script_sha256": "23b94c3732c5a4091db65541b203e6db15718768b7783e5915f8d82cde9a638e",
+  "started_at": "2026-08-10T14:59:46Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
