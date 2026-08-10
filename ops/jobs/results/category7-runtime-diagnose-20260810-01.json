@@ -1,0 +1,91 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T15:04:47Z",
+  "job_id": "category7-runtime-diagnose-20260810-01",
+  "payload": {
+    "article_rows": [
+      {
+        "catid": 2,
+        "id": 47,
+        "status": 9,
+        "tableid": 0,
+        "url": "/index.php?c=show&id=47"
+      },
+      {
+        "catid": 7,
+        "id": 84,
+        "status": 9,
+        "tableid": 0,
+        "url": "/index.php?c=show&id=84"
+      },
+      {
+        "catid": 7,
+        "id": 88,
+        "status": 9,
+        "tableid": 0,
+        "url": "/index.php?c=show&id=88"
+      }
+    ],
+    "categories": {
+      "2": {
+        "_source_model": "shared",
+        "_source_table": "dr_1_share_category",
+        "dirname": "gjfa",
+        "disabled": 0,
+        "displayorder": 0,
+        "id": 2,
+        "mid": "news",
+        "name": "挂机方案",
+        "pid": 0,
+        "show": 1
+      },
+      "7": {
+        "_source_model": "shared",
+        "_source_table": "dr_1_share_category",
+        "dirname": "seo-articles",
+        "disabled": 0,
+        "displayorder": 0,
+        "id": 7,
+        "mid": "news",
+        "name": "SEO文章",
+        "pid": 0,
+        "show": 1
+      }
+    },
+    "category_sources": [
+      {
+        "count": 0,
+        "exists": true,
+        "model": "dedicated",
+        "module_filter_column": null,
+        "table": "dr_1_news_category",
+        "usable": true
+      },
+      {
+        "count": 5,
+        "exists": true,
+        "model": "shared",
+        "module_filter_column": "mid",
+        "table": "dr_1_share_category",
+        "usable": true
+      }
+    ],
+    "diagnostic": "PASS",
+    "runtime_cache": {
+      "category7_pattern_mention_files": 54,
+      "exists": true,
+      "file_count": 111,
+      "seo_articles_mention_files": 4
+    },
+    "secrets_disclosed": false,
+    "task": "category7_runtime_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "e194ac2862a7676a1ea5711f326ec3a93c6f34b7",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/category7_runtime_diagnose.sh",
+  "script_sha256": "d49040b00458b19aa74ac5d292eb521523bc357e7cb7fd89086f86205527df76",
+  "started_at": "2026-08-10T15:04:46Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
