@@ -1,0 +1,26 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-10T14:41:48Z",
+  "job_id": "publisher-finalize-v8-20260810-01",
+  "payload": {
+    "blocking_item": "article_http",
+    "category_source": "dr_1_share_category",
+    "exit_code": 1,
+    "local_recovery_commit": "2f0bc9723d49a782481147285d9b628d22d52e96",
+    "main_source_commit": "67980ec80889cad6d088ae4f46e46d5df38ec53a",
+    "phase": "article_http",
+    "publisher_finalization": "BLOCKED",
+    "secrets_disclosed": false,
+    "server_deployed_ref": "2f0bc9723d49a782481147285d9b628d22d52e96",
+    "smoke_cms_id": 88,
+    "task": "publisher_finalize_v7"
+  },
+  "raw_log_published": false,
+  "required_commit": "e751e219c6d1922141d0ea850c971aad81978149",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_finalize_v8.sh",
+  "script_sha256": "add4cb81b91fad600e2baa8b519e465464d1f5caf7ffd495803e2991b7d6f0eb",
+  "started_at": "2026-08-10T14:41:36Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
