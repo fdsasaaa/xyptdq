@@ -1,16 +1,22 @@
 {
-  "version": 1,
-  "verified": false,
-  "verified_at": null,
-  "verified_article_id": null,
-  "notes": "Auto-publishing remains write-locked until a known-good manually published Xunrui CMS article is probed and all required auxiliary tables are confirmed.",
+  "version": 2,
+  "verified": true,
+  "verified_at": "2026-08-10T10:11:45Z",
+  "verified_article_id": 47,
+  "evidence": "docs/probes/publisher_probe_full_47.json",
+  "durable_idempotency_verified": false,
+  "durable_idempotency": {
+    "design": "dr_xyptdq_publish_registry",
+    "smoke_test_required": true
+  },
+  "notes": "Production probe confirms the normal immediate-publish article has rows in the main, data, hits and index tables. The time and search tables exist but article 47 has no row in either. File-queue production commits remain locked until the new adapter is smoke-tested twice against the same article_key and returns the same cms_id.",
   "required_tables": [
     "dr_1_news",
-    "dr_1_news_data_0"
-  ],
-  "auxiliary_tables": [
+    "dr_1_news_data_0",
     "dr_1_news_hits",
-    "dr_1_news_index",
+    "dr_1_news_index"
+  ],
+  "present_but_not_required_for_immediate_publish": [
     "dr_1_news_time",
     "dr_1_news_search"
   ]
