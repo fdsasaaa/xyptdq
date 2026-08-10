@@ -31,11 +31,12 @@ if [ -d "$CACHE_ROOT" ]; then
 fi
 
 TMP=$(mktemp /tmp/xyptdq-cache-vis.XXXXXX.json)
-cleanup() { rm -f "$TMP"; }
+TITLES_TMP=$(mktemp /tmp/xyptdq-cache-titles.XXXXXX)
+cleanup() { rm -f "$TMP" "$TITLES_TMP"; }
 trap cleanup EXIT
 printf '%s' "$ROWS" > "$TMP"
 
-python3 - "$TMP" > /tmp/xyptdq-cache-titles.$$ <<'PY'
+python3 - "$TMP" > "$TITLES_TMP" <<'PY'
 import json,sys
 rows=json.load(open(sys.argv[1],encoding='utf-8'))
 for row in rows:
@@ -47,15 +48,14 @@ COUNTS_JSON='{}'
 if [ "$CACHE_EXISTS" = true ]; then
   while IFS=$'\t' read -r id title; do
     [ -n "$title" ] || continue
-    count=$(grep -RIlF --binary-files=without-match -- "$title" "$CACHE_ROOT" 2>/dev/null | wc -l | tr -d ' ')
+    count=$( (grep -RIlF --binary-files=without-match -- "$title" "$CACHE_ROOT" 2>/dev/null || true) | wc -l | tr -d ' ')
     COUNTS_JSON=$(python3 - "$COUNTS_JSON" "$id" "$count" <<'PY'
 import json,sys
 x=json.loads(sys.argv[1]); x[str(sys.argv[2])]=int(sys.argv[3]); print(json.dumps(x,separators=(',',':')))
 PY
 )
-  done < /tmp/xyptdq-cache-titles.$$
+  done < "$TITLES_TMP"
 fi
-rm -f /tmp/xyptdq-cache-titles.$$
 
 python3 - "$RESULT_FILE" "$ROWS" "$CACHE_EXISTS" "$CACHE_FILES" "$COUNTS_JSON" <<'PY'
 import json,sys
