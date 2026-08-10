@@ -53,7 +53,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import hashlib, json, pathlib, re, subprocess, sys
+          import hashlib, json, pathlib, re, subprocess
 
           pending = pathlib.Path('ops/jobs/pending')
           jobs = sorted(pending.glob('*.json')) if pending.is_dir() else []
@@ -105,27 +105,50 @@ jobs:
             php scripts/content/publisher_smoke.php --article="$fixture" --offline | tee "$out"
             grep -Fq 'OFFLINE FIXTURE PASS' "$out"
             rm -f "$out"
+
+            out=$(mktemp)
+            php scripts/content/publisher_native_smoke.php --article="$fixture" --offline | tee "$out"
+            grep -Fq 'OFFLINE FIXTURE PASS' "$out"
+            rm -f "$out"
           done
-          echo "validated ${#fixtures[@]} smoke fixtures offline"
+          echo "validated ${#fixtures[@]} smoke fixtures through compatibility and native harnesses"
+
+      - name: Require native production publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq "require_once __DIR__ . '/cms_publish_native_adapter.php';" scripts/content/cms_publish_adapter.php
+          grep -Fq 'cms_publish_native_adapter.php' scripts/content/run_scheduled_publish.sh
+          if grep -Eiq 'INSERT[[:space:]]+INTO[[:space:]]+.*news' scripts/content/cms_publish_adapter.php; then
+            echo 'ERROR: legacy direct-SQL CMS content writer is active.' >&2
+            exit 1
+          fi
+          php -r '$x=json_decode(file_get_contents($argv[1]),true); if (($x["adapter"]??"")!=="scripts/content/cms_publish_native_adapter.php") exit(1);' config/publisher_capabilities.json
 
       - name: Reject duplicate native PDO placeholders
         shell: bash
         run: |
           python3 - <<'PY'
           import pathlib, re, sys
-          path = pathlib.Path('scripts/content/cms_publish_adapter.php')
-          src = path.read_text(encoding='utf-8')
-          blocks = re.findall(r'->prepare\((.*?)\)\s*(?:->|;)', src, flags=re.S)
+          paths = [
+              pathlib.Path('scripts/content/cms_publish_adapter.php'),
+              pathlib.Path('scripts/content/cms_publish_native_adapter.php'),
+          ]
           failed = False
-          for index, block in enumerate(blocks, 1):
-              names = re.findall(r':([A-Za-z_][A-Za-z0-9_]*)', block)
-              duplicates = sorted({name for name in names if names.count(name) > 1})
-              if duplicates:
-                  print(f'ERROR: prepare block {index} reuses named placeholders with native prepares: {duplicates}', file=sys.stderr)
-                  failed = True
+          total = 0
+          for path in paths:
+              src = path.read_text(encoding='utf-8')
+              blocks = re.findall(r'->prepare\((.*?)\)\s*(?:->|;)', src, flags=re.S)
+              total += len(blocks)
+              for index, block in enumerate(blocks, 1):
+                  names = re.findall(r':([A-Za-z_][A-Za-z0-9_]*)', block)
+                  duplicates = sorted({name for name in names if names.count(name) > 1})
+                  if duplicates:
+                      print(f'ERROR: {path} prepare block {index} reuses named placeholders with native prepares: {duplicates}', file=sys.stderr)
+                      failed = True
           if failed:
               sys.exit(1)
-          print(f'validated {len(blocks)} prepared-statement blocks: no duplicate named placeholders')
+          print(f'validated {total} prepared-statement blocks: no duplicate named placeholders')
           PY
 
       - name: Reject tracked secret files
@@ -141,8 +164,6 @@ jobs:
           done
           if [ "$bad" -ne 0 ]; then exit 1; fi
 
-          # Match an actual PEM/OpenSSH private-key header rather than prose or
-          # defensive code that merely mentions the words "private key".
           if git grep -I -n -E -- '-----BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY-----' -- .; then
             echo 'ERROR: private key material detected in tracked content.' >&2
             exit 1
