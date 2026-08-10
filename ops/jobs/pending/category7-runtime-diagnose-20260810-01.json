@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "category7-runtime-diagnose-20260810-01",
+  "required_commit": "e194ac2862a7676a1ea5711f326ec3a93c6f34b7",
+  "script": "scripts/ops/agent_tasks/category7_runtime_diagnose.sh",
+  "script_sha256": "d49040b00458b19aa74ac5d292eb521523bc357e7cb7fd89086f86205527df76",
+  "timeout_seconds": 300
+}
