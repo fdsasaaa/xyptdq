@@ -1,0 +1,36 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T22:50:53Z",
+  "job_id": "share-index-smoke-repair-20260811-01",
+  "payload": {
+    "backup_verification": "PASS",
+    "blocking_item": "NONE",
+    "http_after": {
+      "88": 200,
+      "89": 200
+    },
+    "http_before": {
+      "88": 404,
+      "89": 404
+    },
+    "phase": "final",
+    "repair_status": "PASS",
+    "repaired_ids": [
+      88,
+      89
+    ],
+    "secrets_disclosed": false,
+    "share_index_auto_increment_after": 90,
+    "share_index_repair": "PASS",
+    "sitemap_regenerated": "PASS",
+    "task": "repair_share_index_smoke_rows"
+  },
+  "raw_log_published": false,
+  "required_commit": "434c0dd8d721ae09719e478eb6989f9da4ee3fda",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/repair_share_index_smoke_rows.sh",
+  "script_sha256": "76fa480989d7e4b33237d5bdd1327e05fcea5aa9ffbac02d571dc61828124991",
+  "started_at": "2026-08-10T22:50:50Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
