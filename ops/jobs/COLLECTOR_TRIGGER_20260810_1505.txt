@@ -1,0 +1,1 @@
+Trigger result collection after category 7 runtime diagnostic.
