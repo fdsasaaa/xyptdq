@@ -1,0 +1,23 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-10T15:13:57Z",
+  "job_id": "publisher-catid2-final-smoke-20260810-01",
+  "payload": {
+    "blocking_item": "article_http",
+    "category_source": "dr_1_share_category",
+    "exit_code": 1,
+    "phase": "article_http",
+    "publisher_finalization": "BLOCKED",
+    "secrets_disclosed": false,
+    "smoke_cms_id": 89,
+    "task": "publisher_catid2_final_smoke"
+  },
+  "raw_log_published": false,
+  "required_commit": "995c2ce9368ab60c150750c9859f9e1117e537f9",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_catid2_final_smoke.sh",
+  "script_sha256": "ec6111e76e3abe81cd31ff2a23866463564f8b1b7872ec5d8720284ff144f93b",
+  "started_at": "2026-08-10T15:13:56Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
