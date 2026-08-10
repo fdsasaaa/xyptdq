@@ -1,0 +1,73 @@
+{template "header.html"}
+<div class="note note-danger">
+    {template "top.html"}
+</div>
+
+
+
+<div class="right-card-box">
+
+    <form class="form-horizontal" role="form" id="myform">
+        <div class="table-scrollable">
+            <table class="table table-striped table-bordered table-hover table-checkable dataTable">
+                <thead>
+                <tr class="heading">
+                    <th class="myselect">
+
+                    </th>
+                    <th width="200">类型</th>
+                    <th>说明</th>
+                    <th>{dr_lang('操作')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $i $t}
+                <tr class="odd gradeX" id="dr_row_{$t.id}">
+                    <td class="myselect">
+                       {$i+1}
+                    </td>
+                    <td>{$t.name}</td>
+                    <td>{$t.msg}</td>
+                    <td>
+                        {if $t.help}
+                        <label><a href="javascript:dr_help('{$t.help}');" class="btn btn-xs green"> <i class="fa fa-code"></i> 查看代码 </a></label>
+                        {else}
+                        <label><a href="javascript:dr_iframe_show2('{dr_url($t.uri)}');" class="btn btn-xs green"> <i class="fa fa-code"></i> 生成字段调用代码 </a></label>
+                        {/if}
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+        </div>
+
+
+    </form>
+
+</div>
+<script>
+    function dr_iframe_show2(url) {
+        top.layer.open({
+            type: 2,
+            title: "调用代码生成",
+            fix:true,
+            scrollbar: false,
+            shadeClose: true,
+            shade: 0,
+            area: ["95%", "90%"],
+            success: function(layero, index){
+                // 主要用于后台权限验证
+                var body = layer.getChildFrame('body', index);
+                var json = $(body).html();
+                if (json.indexOf('"code":0') > 0 && json.length < 500){
+                    var obj = JSON.parse(json);
+                    layer.close(index);
+                    dr_cmf_tips(0, obj.msg);
+                }
+            },
+            content: url
+        });
+    }
+    </script>
+
+{template "footer.html"}

@@ -1,0 +1,34 @@
+{template "header.html"}
+
+<form class="login-form"  id="myform" action="" method="post">
+    {$form}
+    <div class="logo">
+        <a href="/"><img src="{SITE_LOGO}" /> </a>
+    </div>
+
+
+    <div class="form-group" id="dr_row_sms">
+        <label class="control-label visible-ie8 visible-ie9">验证码</label>
+        <div class="input-group">
+            <div class="input-icon">
+                <input style="padding-left: 15px" type="text" class="form-control placeholder-no-fix" autocomplete="off" placeholder="验证码"  id="dr_code" name="code">
+            </div>
+            <div class="input-group-btn fc-code" style="padding-left: 10px;">
+                <a class="btn " type="button" onclick="dr_ajax_url('{$post_url}&code='+$('#dr_code').val())">立即激活</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-actions text-center margin-bottom-40">
+            账号激活验证码已经发送到{$verify_name}之中
+    </div>
+
+    <div class="create-account">
+        <p>
+            <a href="javascript:;" onclick="dr_ajax_url('{$verify_url}')">重发验证码</a>
+            <a style="color:red; margin-left: 10px" href="{dr_member_url('member/api/change')}">变更{if $verify_type == 'email'}邮箱{else}手机号码{/if}</a>
+        </p>
+    </div>
+</form>
+{template "footer.html"}

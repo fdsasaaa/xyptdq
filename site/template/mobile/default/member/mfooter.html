@@ -1,0 +1,57 @@
+</div>
+
+</div>
+
+</div>
+
+<div class="hui-fooer-line"></div>
+<div id="hui-footer">
+    <a href="{SITE_MURL}">
+        <div class="hui-footer-icons hui-icons-home"></div>
+        <div class="hui-footer-text">首页</div>
+    </a>
+    <a href="{dr_member_url('account/index')}">
+        <div class="hui-footer-icons hui-icons-news"></div>
+        <div class="hui-footer-text">资料</div>
+    </a>
+    <a href="{MEMBER_URL}" class="{if IS_MEMBER} hui-footer-active {/if}">
+        <div class="hui-footer-icons hui-icons-my"></div>
+        <div class="hui-footer-text">我的</div>
+    </a>
+</div>
+
+<script src="{THEME_PATH}member/mobile/js/mobile.js" type="text/javascript" charset="utf-8"></script>
+<script src="{THEME_PATH}member/mobile/js/accordion.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    hui('#hui-header-menu').click(function(){
+        hui.actionSheet(menus, "注销登录", function(e){
+            if (e.index == -1) {
+                dr_loginout()
+                // 退出
+            } else {
+                if (menu_url[e.index]) {
+                    window.location.href = menu_url[e.index];
+                }
+            }
+        });
+    });
+    hui.ready(function(){
+        hui.accordion(true, true);
+    });
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src="https://embed.tawk.to/6973762758104b1978d41f3e/1jflgb320";
+s1.charset="UTF-8";
+s1.setAttribute("crossorigin","*");
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

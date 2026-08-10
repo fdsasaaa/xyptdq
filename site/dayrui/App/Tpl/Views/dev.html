@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{dr_lang('可视化编辑')}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <script src="{THEME_PATH}assets/global/plugins/jquery.min.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <link href="{THEME_PATH}assets/icon/css/icon.css?v={CMF_UPDATE_TIME}" rel="stylesheet" type="text/css" />
+    <link href="{THEME_PATH}assets/global/css/admin{if !IS_XRDEV}.min{/if}.css?v={CMF_UPDATE_TIME}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">var admin_file = '{SELF}';var is_min = '{$is_min}'; var is_oemcms = '{IS_OEM_CMS}'; var is_mobile_cms = '{$is_mobile}'; var is_admin = '{if dr_in_array(1, $admin.roleid)}1{else}2{/if}';</script>
+    <script src="{LANG_PATH}lang.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/global/plugins/bootstrap/js/bootstrap.min.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/global/scripts/app{if !IS_XRDEV}.min{/if}.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/js/cms.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+
+    <style>
+        body {
+            min-height: 100%;
+            padding-top: 0;
+        }
+
+        .navbar-preview {
+            height: 53px;
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: 0;
+            border-radius: 0;
+
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+
+            background: #343a40;
+            background: linear-gradient(270deg, #343a40) center / cover;
+            background-size: 800% 800%;
+            -webkit-animation: navbaranimation 30s ease infinite;
+            -moz-animation: navbaranimation 30s ease infinite;
+            animation: navbaranimation 30s ease infinite;
+        }
+
+        .navbar-preview a {
+            color: #fff;
+        }
+
+        .navbar-preview .col-xs-6 {
+            height: 53px;
+            line-height: 53px;
+        }
+
+        .iframe-preview {
+            position: absolute;
+            height: calc(100% - 55px);
+            width: 100%;
+            border: none;
+            margin-top: 53px;
+        }
+
+        .iframe-preview-mobile {
+            width: 400px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .085);
+        }
+
+        .nav-link {
+            display: block;
+            padding: .5rem 1rem;
+        }
+
+        .nav-preview {
+            padding-top: 15px;
+            margin: 0;
+            list-style: none;
+            text-align: center;
+        }
+
+        .nav-preview li {
+            display: inline;
+        }
+
+        .nav-preview li > a, .nav-preview li > span {
+            display: inline-block;
+            padding: 0 14px;
+            font-size: 16px;
+            text-decoration: none !important;
+        }
+
+        .nav-preview .popover-title {
+            padding: 5px 14px;
+            line-height: 28px;
+        }
+
+        @-webkit-keyframes navbaranimation {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        @-moz-keyframes navbaranimation {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        @keyframes navbaranimation {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+        .nav-preview .active {
+            color: #343a40;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+
+{if $demo == 'pc'}
+<iframe id="myIframe" class="iframe-preview " width="100%" src="{$url}"></iframe>
+{else}
+<iframe id="myIframe" class="iframe-preview iframe-preview-mobile " width="100%" src="{$url}"></iframe>
+{/if}
+
+<nav class="navbar navbar-preview">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3">&nbsp;</div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group" style="margin-top: 7px">
+                    {if $devmenu}
+                    <div class="input-group-btn">
+                        <button type="button" class="btn green dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> {dr_lang('常用页面')}
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            {loop $devmenu $name $url}
+                            <li>
+                                <a href="javascript:dr_select_url('{$url}');"> {$name} </a>
+                            </li>
+                            {/loop}
+                        </ul>
+                    </div>
+                    {/if}
+                    <input type="text" class="form-control" id="dr_url">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn blue" onclick="javascript:dr_go_url();"> {dr_lang('前往')}
+                        </button>
+                    </div>
+                    <!-- /btn-group -->
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+
+    function dr_go_url() {
+        var url = $("#dr_url").val();
+        if (!url) {
+            dr_tips(0, '{dr_lang("页面地址不能为空")}')
+        }
+        if (url.indexOf('http://') !== -1 || url.indexOf('https://') !== -1) {
+            if (url.indexOf('{FC_NOW_HOST}') !== -1) {
+                $(".iframe-preview").attr('src', url);
+            } else {
+                dr_tips(0, '{dr_lang("页面地址不能输入当前域名之外的链接")}')
+            }
+        } else {
+            $(".iframe-preview").attr('src', url);
+        }
+        return false;
+    }
+    function dr_select_url(url) {
+        $(".iframe-preview").attr('src', url);
+        $("#dr_url").val(url);
+        return false;
+    }
+    $(function () {
+        $('#myIframe').on('load', function() { // 确保iframe加载完毕
+            var iframe = $(this.contentWindow.document.body); // 将其转换为jQuery对象
+            iframe.find('a').attr("href", 'javascript:;');
+            iframe.find('a').attr("target", '');
+            iframe.find('.tpl-edit-show').hover(
+                function() {
+                    $(this).attr('style', 'border: 1px dashed red;');
+                },
+                function() {
+                    $(this).attr('style', 'border: 0')
+                }
+            );
+            iframe.find('.tpl-edit-show').click(function (){
+                var at = $(this).data('action');
+                var url = '{dr_url($prefix."/edit")}&at='+at;
+                dr_iframe_show('edit', url);
+            });
+        });
+
+    });
+</script>
+
+</body>
+
+</html>

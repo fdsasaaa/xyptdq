@@ -1,0 +1,169 @@
+{template "header.html"}
+<div class="note note-danger">
+    {template "top.html"}
+</div>
+
+<script>
+    function to_tag(name) {
+        $.ajax({type: "POST",dataType:"json", url: '{dr_url("mbdy/categoryshow/tag")}&id='+name, data: $('#myform_'+name).serialize(),
+            success: function(json) {
+                if (json.code == 1) {
+                    layer.open({
+                        type: 1,
+                        title: "调用标签",
+                        fix:true,
+                        //scrollbar: false,
+                        shadeClose: true,
+                        shade: 0,
+                        area: ['400px', '500px'],
+                        content: "<div style='padding: 10px'>"+json.msg+"</div>"
+                    });
+                } else {
+                    dr_cmf_tips(0, json.msg);
+                }
+                return false;
+            },
+            error: function(HttpRequest, ajaxOptions, thrownError) {
+                dr_ajax_alert_error(HttpRequest, this, thrownError);
+            }
+        });
+    }
+</script>
+<div class="row">
+    <div class="col-md-12">
+
+        {if $share}
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+            <span class="caption-subject font-green-sharp">
+                共享栏目循环标签
+            </span>
+                    <span class="caption-helper">
+                用于把共享栏目数据进行列表输出，多条数据输出
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class="form-horizontal" id="myform_1">
+                    {dr_form_hidden()}
+                    <div class="form-body">
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">父级栏目</label>
+                            <div class="col-md-9">
+                                <label><input type="text" class="form-control" name="pid" value="{$catid}"></label>
+                                <span class="help-block"> 指定父级栏目id号，填写0表示输出顶级栏目 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">循环指定的栏目</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="id">
+                                <span class="help-block"> 指定栏目id查询，多个id以,号分开 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">条数限制</label>
+                            <div class="col-md-9">
+                                <label><input type="text" class="form-control" name="num"></label>
+                                <span class="help-block"> 表示显示数量，支持定点查询，例如1,2表示从第1条记录开始，共显示2条数据 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">返回变量</label>
+                            <div class="col-md-9">
+                                <label><input type="text" class="form-control" name="return" value="t"></label>
+                                <span class="help-block"> 默认返回变量为t，调用方式就是<?php echo '{'?>$t.字段值}（多级查询必须设置return=其他字母） </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-9">
+                                <button type="button" onclick="to_tag(1)" class="btn green">生成标签</button>
+                                <a href="javascript:dr_help(389);" class="btn default">查看手册</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    {else}
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+            <span class="caption-subject font-green-sharp">
+                独立模块栏目循环标签
+            </span>
+                    <span class="caption-helper">
+                用于把独立模块的栏目数据进行列表输出，多条数据输出
+            </span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class="form-horizontal" id="myform_2">
+                    {dr_form_hidden(['module' => $mid])}
+                    <div class="form-body">
+
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">父级栏目</label>
+                            <div class="col-md-9">
+                                <label><input type="text" class="form-control" name="pid" value="{$catid}"></label>
+                                <span class="help-block"> 指定父级栏目id号，填写0表示输出顶级栏目 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">循环指定的栏目</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="id">
+                                <span class="help-block"> 指定栏目id查询，多个id以,号分开 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">条数限制</label>
+                            <div class="col-md-9">
+                                <label><input type="text" class="form-control" name="num"></label>
+                                <span class="help-block"> 表示显示数量，支持定点查询，例如1,2表示从第1条记录开始，共显示2条数据 </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">返回变量</label>
+                            <div class="col-md-9">
+                                <label><input type="text" class="form-control" name="return" value="t"></label>
+                                <span class="help-block"> 默认返回变量为t，调用方式就是<?php echo '{'?>$t.字段值}（多级查询必须设置return=其他字母） </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-9">
+                                <button type="button" onclick="to_tag(2)" class="btn green">生成标签</button>
+                                <a href="javascript:dr_help(388);" class="btn default">查看手册</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {/if}
+
+
+    </div>
+</div>
+
+
+
+{template "footer.html"}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>{$meta_title}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <script src="{THEME_PATH}assets/global/plugins/jquery.min.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <link href="{THEME_PATH}assets/icon/css/icon.css?v={CMF_UPDATE_TIME}" rel="stylesheet" type="text/css" />
+    <link href="{THEME_PATH}assets/global/css/admin.min.css?v={CMF_UPDATE_TIME}" rel="stylesheet" type="text/css" />
+    <link href="{THEME_PATH}assets/global/css/min.css?v={CMF_UPDATE_TIME}" rel="stylesheet" type="text/css" />
+    <link href="{THEME_PATH}assets/global/css/my.css?v={CMF_UPDATE_TIME}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        var admin_file = 'index.php';
+        var is_min = '1';
+        var is_oemcms = '0';
+        var is_mobile_cms = '0';
+        var is_admin = 1;
+    </script>
+    <script src="{LANG_PATH}lang.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/global/plugins/bootstrap/js/bootstrap.min.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/global/scripts/app.min.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/js/cms.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+    <script src="{THEME_PATH}assets/global/plugins/js.cookie.min.js?v={CMF_UPDATE_TIME}" type="text/javascript"></script>
+</head>
+
+<body scroll="no" style="overflow: hidden;background:#eef1f5;" class="page-sidebar-closed-hide-logo page-admin-min page-container-bg-solid page-header-fixed page-sidebar-fixed ">
+<div class="page-header navbar navbar-fixed-top">
+    <div class="page-header-inner ">
+        <div class="page-logo">
+            <a>
+                <img src="{THEME_PATH}assets/logo.png" class="logo-default" />
+            </a>
+        </div>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+
+        <div class="page-top">
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="clearfix"> </div>
+<div class="page-container">
+    <div class="page-sidebar-wrapper">
+        <div class="page-sidebar navbar-collapse collapse">
+
+            <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-compact">
+
+                <li id="dr_menu_left_1" class=" dr_menu_item nav-item active open ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <span class="title">迅睿数据备份</span>
+                        <span class="selected"></span>
+                    </a>
+                    <ul class="sub-menu">
+
+                        {loop $menu $i $t}
+                        <li class="nav-item {if $class==$i}active open{/if}">
+                            <a href="/xdb/index.php?c=home&m={$i}"><span class="title">{$t}</span></a>
+                        </li>
+                        {/loop}
+
+                    </ul>
+                </li>
+
+            </ul>
+
+
+        </div>
+    </div>
+    <div class="page-content-wrapper">
+        <div class="page-content page-content3 mybody-nheader main-content">
+            <div class="page-body" style="padding: 20px;margin-top: 0px;">
+
+                <div class="note note-danger" style="color: red">
+                    数据备份或恢复之后，请将此目录（{ROOTPATH}xdb/）从网站根目录移除！
+                </div>

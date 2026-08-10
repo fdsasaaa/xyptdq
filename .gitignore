@@ -1,0 +1,86 @@
+# ============================================================
+# .gitignore - xyptdq/laocaimi Website
+# ============================================================
+
+# === Secrets & Credentials ===
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*_rsa
+id_rsa*
+*.crt
+*.csr
+secrets/
+credentials/
+wp-config.php
+config/database.php
+
+# === Database dumps ===
+*.sql
+*.sql.gz
+*.sql.bz2
+*.db
+*.sqlite
+*.sqlite3
+
+# === Backups & archives ===
+*.tar.gz
+*.tar.bz2
+*.zip
+*.rar
+*.7z
+backups/
+backup_*/
+*.bak
+*.bak_*
+
+# === Upload files (user-generated content) ===
+site/uploadfile/
+site/uploads/
+
+# === Cache & temp files ===
+site/cache/
+cache/
+tmp/
+temp/
+*.tmp
+*.cache
+*.log
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# === IDE & editor ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# === Node.js ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# === PHP composer ===
+vendor/
+composer.lock
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# === WorkBuddy internal ===
+.workbuddy/
