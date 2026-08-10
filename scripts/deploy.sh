@@ -11,6 +11,7 @@ WEBROOT="${XYPTDQ_WEBROOT:-/www/wwwroot/59.110.217.6}"
 REPO_DIR="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
 BACKUP_ROOT="${XYPTDQ_BACKUP_ROOT:-/root/backups}"
 CANONICAL="https://www.laocaimi.org"
+EXPECTED_FRAME_LOCK_HEX="436f646549676e697465723732"
 
 if [ ! -d "$REPO_DIR/.git" ] && [ -d /root/xyptdq/.git ]; then
     REPO_DIR=/root/xyptdq
@@ -49,6 +50,10 @@ if (preg_match("~<meta\\b[^>]*name=[\x22\x27]robots[\x22\x27][^>]*content=[\x22\
 ' "$body"
 }
 
+hex_of_file() {
+    od -An -tx1 -v "$1" | tr -d ' \n'
+}
+
 echo "=== Deployment start ==="
 echo "DEPLOY_ID: $DEPLOY_ID"
 echo "GIT_REF: $GIT_REF"
@@ -73,8 +78,31 @@ for required in "$BACKUP_SCRIPT" "$HEALTH_SCRIPT" "$SITEMAP_SCRIPT" "$SOURCE_HOM
     [ -f "$required" ] || { echo "ERROR: required deployment component missing: $required" >&2; exit 2; }
 done
 
-# Make the immutable target-ref payload indexable before it ever reaches the
-# webroot. Production is sanitized again after rsync as a defense-in-depth guard.
+# Production recovery invariant: on 2026-08-10 the site returned HTTP 500 after
+# rsync --delete removed CodeIgniter's System/Cache classes. Never deploy a ref
+# that does not contain the recovered framework source.
+echo "--- Framework integrity preflight ---"
+SOURCE_CACHE_FACTORY="$TMP_WORKTREE/site/dayrui/CodeIgniter72/System/Cache/CacheFactory.php"
+[ -f "$SOURCE_CACHE_FACTORY" ] || {
+    echo "ERROR: target ref is missing dayrui/CodeIgniter72/System/Cache/CacheFactory.php" >&2
+    echo "ERROR: refusing deploy because rsync --delete would recreate the 2026-08-10 HTTP 500 incident" >&2
+    exit 27
+}
+mapfile -t FRAME_LOCKS < <(find "$TMP_WORKTREE/site" -type f -iname 'frame.lock' -print)
+[ "${#FRAME_LOCKS[@]}" -eq 1 ] || {
+    echo "ERROR: expected exactly one frame.lock in target ref; found ${#FRAME_LOCKS[@]}" >&2
+    exit 28
+}
+FRAME_LOCK_SOURCE="${FRAME_LOCKS[0]}"
+FRAME_LOCK_REL="${FRAME_LOCK_SOURCE#"$TMP_WORKTREE/site/"}"
+FRAME_LOCK_HEX=$(hex_of_file "$FRAME_LOCK_SOURCE")
+[ "$FRAME_LOCK_HEX" = "$EXPECTED_FRAME_LOCK_HEX" ] || {
+    echo "ERROR: frame.lock bytes are not exact CodeIgniter72 without trailing newline" >&2
+    exit 29
+}
+echo "FRAMEWORK_SOURCE_INTEGRITY: PASS"
+
+# Make the target-ref payload indexable before it ever reaches the webroot.
 echo "--- Sanitize target-ref homepage robots ---"
 sanitize_homepage_robots "$SOURCE_HOME"
 
@@ -101,6 +129,17 @@ rsync -avz --delete \
     --exclude='config/database.php' \
     --exclude='.user.ini' \
     "$TMP_WORKTREE/site/" "$WEBROOT/"
+
+# Verify the framework files survived deployment exactly as versioned.
+PROD_CACHE_FACTORY="$WEBROOT/dayrui/CodeIgniter72/System/Cache/CacheFactory.php"
+PROD_FRAME_LOCK="$WEBROOT/$FRAME_LOCK_REL"
+[ -f "$PROD_CACHE_FACTORY" ] || { echo "ERROR: CacheFactory.php missing after rsync" >&2; exit 30; }
+[ -f "$PROD_FRAME_LOCK" ] || { echo "ERROR: frame.lock missing after rsync" >&2; exit 31; }
+[ "$(hex_of_file "$PROD_FRAME_LOCK")" = "$EXPECTED_FRAME_LOCK_HEX" ] || {
+    echo "ERROR: production frame.lock bytes changed during deploy" >&2
+    exit 32
+}
+echo "FRAMEWORK_PRODUCTION_INTEGRITY: PASS"
 
 echo "--- Sanitize production homepage robots ---"
 PROD_HOME="$WEBROOT/template/pc/default/home/index.html"
@@ -155,6 +194,8 @@ DEPLOY_LOG="$BACKUP_DIR/DEPLOY_RECORD.txt"
     echo "DATE: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "RESULT: SUCCESS"
     echo "BACKUP_VERIFY: PASS"
+    echo "FRAMEWORK_SOURCE_INTEGRITY: PASS"
+    echo "FRAMEWORK_PRODUCTION_INTEGRITY: PASS"
     echo "HOME_HTTP: $HOME_CODE"
     echo "ROBOTS_HTTP: $ROBOTS_CODE"
     echo "SITEMAP_HTTP: $SITEMAP_CODE"
