@@ -1,0 +1,31 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T22:32:41Z",
+  "job_id": "native-cms-smoke-identity-verify-20260811-01",
+  "payload": {
+    "catid": 2,
+    "cms_id": 84,
+    "content_matches_fixture": "YES",
+    "exact_title_row_count": 1,
+    "http_84": 200,
+    "http_88": 404,
+    "http_89": 404,
+    "http_reference_47": 200,
+    "http_registry_id": 200,
+    "identity_verification": "PASS",
+    "max_news_id": 89,
+    "registry_hash_matches_fixture": "YES",
+    "secrets_disclosed": false,
+    "status": 9,
+    "task": "native_cms_smoke_identity_verify",
+    "title_matches_fixture": "YES"
+  },
+  "raw_log_published": false,
+  "required_commit": "e91cdb71d69f04928b0f3fc1c2ef7a9faf73f524",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/native_cms_smoke_identity_verify.sh",
+  "script_sha256": "cc97a748110eb3b5abd2ccc641894712f1635691a3e7005028df36023aa638a9",
+  "started_at": "2026-08-10T22:32:39Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
