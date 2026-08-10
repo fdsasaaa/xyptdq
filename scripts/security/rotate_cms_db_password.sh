@@ -65,15 +65,17 @@ ACCOUNT_ROWS=$(mysql --protocol=socket --batch --skip-column-names -e \
 
 [ -n "$ACCOUNT_ROWS" ] || fail "no MariaDB account found for configured CMS user"
 
+ACCOUNT_FOUND=0
 ACCOUNT_PLUGIN=""
 while IFS=$'\t' read -r host plugin; do
     if [ "$host" = "$PREFERRED_ACCOUNT_HOST" ]; then
+        ACCOUNT_FOUND=1
         ACCOUNT_PLUGIN="$plugin"
         break
     fi
 done <<< "$ACCOUNT_ROWS"
 
-if [ -z "$ACCOUNT_PLUGIN" ]; then
+if [ "$ACCOUNT_FOUND" -ne 1 ]; then
     echo "[db-rotate] Configured DB host: $DB_HOST"
     echo "[db-rotate] Matching MariaDB account host not found; existing account hosts:" >&2
     while IFS=$'\t' read -r host plugin; do
@@ -111,7 +113,6 @@ chmod 700 "$TMPDIR_ROTATE"
 CONFIG_BACKUP="$TMPDIR_ROTATE/database.php.before"
 OLD_PASS_FILE="$TMPDIR_ROTATE/old_password"
 NEW_PASS_FILE="$TMPDIR_ROTATE/new_password"
-ROLLBACK_NEEDED=1
 
 cleanup() {
     if [ -d "${TMPDIR_ROTATE:-}" ]; then
@@ -134,19 +135,16 @@ chmod($argv[2],0600);
 openssl rand -hex 32 > "$NEW_PASS_FILE"
 chmod 600 "$NEW_PASS_FILE"
 NEW_PASSWORD=$(tr -d '\r\n' < "$NEW_PASS_FILE")
-OLD_PASSWORD=$(cat "$OLD_PASS_FILE")
 [[ "$NEW_PASSWORD" =~ ^[a-f0-9]{64}$ ]] || fail "generated password failed format invariant"
 
 rollback_rotation() {
     echo "[db-rotate] Verification failed; attempting automatic rollback" >&2
     cp -p "$CONFIG_BACKUP" "$DB_CONFIG"
     chmod 640 "$DB_CONFIG" || true
-    # Generated and old passwords are constrained to values that can be safely
-    # passed through the SQL literal below; old credential may contain quotes,
-    # so escape it with PHP before constructing the SQL file.
     OLD_SQL_ESCAPED=$(php -r 'echo str_replace(["\\","\x27"],["\\\\","\\\x27"],file_get_contents($argv[1]));' "$OLD_PASS_FILE")
     cat > "$TMPDIR_ROTATE/rollback.sql" <<SQL
 SET PASSWORD FOR '${DB_USER}'@'${PREFERRED_ACCOUNT_HOST}' = PASSWORD('${OLD_SQL_ESCAPED}');
+FLUSH PRIVILEGES;
 SQL
     chmod 600 "$TMPDIR_ROTATE/rollback.sql"
     mysql --protocol=socket < "$TMPDIR_ROTATE/rollback.sql" >/dev/null 2>&1 || true
@@ -194,7 +192,6 @@ if [ "$HOME_CODE" != "200" ] || [ "$ARTICLE_CODE" != "200" ]; then
     fail "HTTP verification failed home=$HOME_CODE article=$ARTICLE_CODE; rollback attempted"
 fi
 
-ROLLBACK_NEEDED=0
 # The temporary directory (including both password values) is destroyed by trap.
 echo "[db-rotate] ROTATED AND VERIFIED"
 echo "[db-rotate] home_http=$HOME_CODE article_http=$ARTICLE_CODE"
