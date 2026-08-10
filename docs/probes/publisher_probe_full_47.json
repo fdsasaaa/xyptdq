@@ -1,0 +1,1169 @@
+{
+    "generated_at": "2026-08-10T10:11:45+00:00",
+    "article_id": 47,
+    "database": "dayrui",
+    "table_prefix": "dr_",
+    "read_only": true,
+    "tables": {
+        "dr_1_news": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "catid",
+                    "Type": "smallint(5) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "title",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "主题"
+                },
+                {
+                    "Field": "thumb",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "缩略图"
+                },
+                {
+                    "Field": "keywords",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "关键字"
+                },
+                {
+                    "Field": "description",
+                    "Type": "text",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "描述"
+                },
+                {
+                    "Field": "hits",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "YES",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "浏览数"
+                },
+                {
+                    "Field": "uid",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者id"
+                },
+                {
+                    "Field": "author",
+                    "Type": "varchar(50)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "笔名"
+                },
+                {
+                    "Field": "status",
+                    "Type": "tinyint(2)",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "状态(已废弃)"
+                },
+                {
+                    "Field": "url",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "地址"
+                },
+                {
+                    "Field": "link_id",
+                    "Type": "int(10)",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": "0",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "同步id"
+                },
+                {
+                    "Field": "tableid",
+                    "Type": "smallint(5) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "附表id"
+                },
+                {
+                    "Field": "inputip",
+                    "Type": "varchar(200)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入者ip"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入时间"
+                },
+                {
+                    "Field": "updatetime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "更新时间"
+                },
+                {
+                    "Field": "displayorder",
+                    "Type": "int(10)",
+                    "Collation": null,
+                    "Null": "YES",
+                    "Key": "MUL",
+                    "Default": "0",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "排序值"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": {
+                "id": "47",
+                "catid": "2",
+                "title": "混合组选单式-中三",
+                "thumb": "59",
+                "keywords": "",
+                "description": "https://www.ilanzou.com/s/htsnTgW0",
+                "hits": "212",
+                "uid": "1",
+                "author": "创始人",
+                "status": "9",
+                "url": "/index.php?c=show&id=47",
+                "link_id": "0",
+                "tableid": "0",
+                "inputip": "161.129.45.180-34169",
+                "inputtime": "1770347665",
+                "updatetime": "1770347762",
+                "displayorder": "0"
+            }
+        },
+        "dr_1_news_category": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "pid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": "0",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "上级id"
+                },
+                {
+                    "Field": "pids",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "所有上级id"
+                },
+                {
+                    "Field": "name",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目名称"
+                },
+                {
+                    "Field": "dirname",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目目录"
+                },
+                {
+                    "Field": "pdirname",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "上级目录"
+                },
+                {
+                    "Field": "child",
+                    "Type": "tinyint(1) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": "0",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "是否有下级"
+                },
+                {
+                    "Field": "disabled",
+                    "Type": "tinyint(1) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": "0",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "是否禁用"
+                },
+                {
+                    "Field": "ismain",
+                    "Type": "tinyint(1) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": "1",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "是否主栏目"
+                },
+                {
+                    "Field": "childids",
+                    "Type": "text",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "下级所有id"
+                },
+                {
+                    "Field": "thumb",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目图片"
+                },
+                {
+                    "Field": "show",
+                    "Type": "tinyint(1) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": "1",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "是否显示"
+                },
+                {
+                    "Field": "setting",
+                    "Type": "mediumtext",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "属性配置"
+                },
+                {
+                    "Field": "displayorder",
+                    "Type": "mediumint(8)",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": "0",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_category_data": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "int(3) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_data_0": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "smallint(5) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "content",
+                    "Type": "mediumtext",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "YES",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "内容"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": {
+                "id": "47",
+                "uid": "1",
+                "catid": "2",
+                "content": {
+                    "length": 53,
+                    "sha256": "f1248432db2dd5102d4f62f7e77d5ca680be59d1e56208eb1e8c8e02139c68ea"
+                }
+            }
+        },
+        "dr_1_news_draft": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "cid",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "内容id"
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "content",
+                    "Type": "mediumtext",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "具体内容"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入时间"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_flag": {
+            "columns": [
+                {
+                    "Field": "flag",
+                    "Type": "tinyint(2) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": "1",
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "文档标记id"
+                },
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "文档内容id"
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_hits": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "文章id"
+                },
+                {
+                    "Field": "hits",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "总点击数"
+                },
+                {
+                    "Field": "day_hits",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "本日点击"
+                },
+                {
+                    "Field": "week_hits",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "本周点击"
+                },
+                {
+                    "Field": "month_hits",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "本月点击"
+                },
+                {
+                    "Field": "year_hits",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "年点击量"
+                },
+                {
+                    "Field": "day_time",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "本日"
+                },
+                {
+                    "Field": "week_time",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "本周"
+                },
+                {
+                    "Field": "month_time",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "本月"
+                },
+                {
+                    "Field": "year_time",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "年"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": {
+                "id": "47",
+                "hits": "212",
+                "day_hits": "1",
+                "week_hits": "1",
+                "month_hits": "8",
+                "year_hits": "211",
+                "day_time": "1786345266",
+                "week_time": "1786345266",
+                "month_time": "1785690974",
+                "year_time": "1770347741"
+            }
+        },
+        "dr_1_news_index": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "status",
+                    "Type": "tinyint(2)",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "审核状态"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入时间"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": {
+                "id": "47",
+                "uid": "1",
+                "catid": "2",
+                "status": "9",
+                "inputtime": "1770347762"
+            }
+        },
+        "dr_1_news_recycle": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "cid",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "内容id"
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "tinyint(3) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "content",
+                    "Type": "mediumtext",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "具体内容"
+                },
+                {
+                    "Field": "result",
+                    "Type": "text",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "删除理由"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入时间"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_search": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "varchar(32)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "catid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "params",
+                    "Type": "text",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "参数数组"
+                },
+                {
+                    "Field": "keyword",
+                    "Type": "varchar(255)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "关键字"
+                },
+                {
+                    "Field": "contentid",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "字段改成了结果数量值"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "搜索时间"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_time": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "auto_increment",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "content",
+                    "Type": "mediumtext",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "具体内容"
+                },
+                {
+                    "Field": "result",
+                    "Type": "text",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "处理结果"
+                },
+                {
+                    "Field": "posttime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "定时发布时间"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入时间"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        },
+        "dr_1_news_verify": {
+            "columns": [
+                {
+                    "Field": "id",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": ""
+                },
+                {
+                    "Field": "uid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者uid"
+                },
+                {
+                    "Field": "vid",
+                    "Type": "tinyint(2)",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "审核id号"
+                },
+                {
+                    "Field": "isnew",
+                    "Type": "tinyint(1) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "是否新增"
+                },
+                {
+                    "Field": "islock",
+                    "Type": "tinyint(1) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "是否锁定"
+                },
+                {
+                    "Field": "author",
+                    "Type": "varchar(50)",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "作者"
+                },
+                {
+                    "Field": "catid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "栏目id"
+                },
+                {
+                    "Field": "status",
+                    "Type": "tinyint(2)",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "审核状态"
+                },
+                {
+                    "Field": "content",
+                    "Type": "mediumtext",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "具体内容"
+                },
+                {
+                    "Field": "backuid",
+                    "Type": "mediumint(8) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "操作人uid"
+                },
+                {
+                    "Field": "backinfo",
+                    "Type": "text",
+                    "Collation": "utf8mb4_unicode_ci",
+                    "Null": "NO",
+                    "Key": "",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "操作退回信息"
+                },
+                {
+                    "Field": "inputtime",
+                    "Type": "int(10) unsigned",
+                    "Collation": null,
+                    "Null": "NO",
+                    "Key": "MUL",
+                    "Default": null,
+                    "Extra": "",
+                    "Privileges": "select,insert,update,references",
+                    "Comment": "录入时间"
+                }
+            ],
+            "has_id_column": true,
+            "article_row": null
+        }
+    }
+}
