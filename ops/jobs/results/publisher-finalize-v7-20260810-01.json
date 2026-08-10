@@ -1,0 +1,26 @@
+{
+  "exit_code": 126,
+  "finished_at": "2026-08-10T14:33:33Z",
+  "job_id": "publisher-finalize-v7-20260810-01",
+  "payload": {
+    "blocking_item": "exact_deploy",
+    "category_source": "dr_1_share_category",
+    "exit_code": 126,
+    "local_recovery_commit": "348498943d6dd6fbe359c92d3054a175b3070f03",
+    "main_source_commit": "d92fe5080ca4af37a629d7dca056b56c5251bb76",
+    "phase": "exact_deploy",
+    "publisher_finalization": "BLOCKED",
+    "secrets_disclosed": false,
+    "server_deployed_ref": "",
+    "smoke_cms_id": null,
+    "task": "publisher_finalize_v7"
+  },
+  "raw_log_published": false,
+  "required_commit": "d53e681d6e0a889c399229eec886fe0787c840a9",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_finalize_v7.sh",
+  "script_sha256": "54f70c3cc1464424086e9a4a7be9c62ffceccc241416e2d44a64cb58f22d716c",
+  "started_at": "2026-08-10T14:33:31Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
