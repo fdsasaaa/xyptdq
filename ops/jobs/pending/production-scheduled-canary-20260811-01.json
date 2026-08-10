@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "production-scheduled-canary-20260811-01",
+  "required_commit": "4e2b30a6631ee636cbf08eb77e861fd5e06f4ad8",
+  "script": "scripts/ops/agent_tasks/production_scheduled_canary.sh",
+  "script_sha256": "42c6b82d9905d1bf6fc310ff59dd0320e5910de36e061a7f66003dd388e082d9",
+  "timeout_seconds": 900
+}
