@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "publisher-finalize-v6-20260810-01",
+  "required_commit": "07d08d6f644ea70f685505a4a33387b9201a0a8f",
+  "script": "scripts/ops/agent_tasks/finalize_publisher_v6.sh",
+  "script_sha256": "9bbe1a2c38e162c675c2fc7da4c2baec80bbd2393b7423515661b58060308af4",
+  "timeout_seconds": 1800
+}
