@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "native-adapter-idempotency-smoke-20260811-01",
+  "required_commit": "be45d896eacf22b116d855cee95eb6bbf25fea51",
+  "script": "scripts/ops/agent_tasks/native_adapter_idempotency_smoke.sh",
+  "script_sha256": "d67da378cda4d700bbc85a3a9c27569e9b3f29b67c59ab92a7a2e7d015c512d7",
+  "timeout_seconds": 1800
+}
