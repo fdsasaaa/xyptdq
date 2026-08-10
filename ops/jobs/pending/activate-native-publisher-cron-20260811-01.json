@@ -3,6 +3,6 @@
   "job_id": "activate-native-publisher-cron-20260811-01",
   "required_commit": "4c587f4aafb5194c558529a288392e54ebbc7a0c",
   "script": "scripts/ops/agent_tasks/activate_native_publisher_cron.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "be95a0d4ee02b297152add99703b443cd76b59c5c91692779c402727651f3e97",
   "timeout_seconds": 600
 }
