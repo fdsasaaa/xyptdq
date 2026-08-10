@@ -1,0 +1,47 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T22:06:30Z",
+  "job_id": "article-cache-visibility-diagnose-20260811-02",
+  "payload": {
+    "articles": [
+      {
+        "id": 47,
+        "inputtime": 1770347665,
+        "title": "混合组选单式-中三",
+        "updatetime": 1770347762
+      },
+      {
+        "id": 88,
+        "inputtime": 1786372908,
+        "title": "分分彩投注技巧：先看命中率、奖金与资金风险",
+        "updatetime": 1786372908
+      },
+      {
+        "id": 89,
+        "inputtime": 1786374837,
+        "title": "分分彩挂机方案验证：自动执行前先检查这四项",
+        "updatetime": 1786374837
+      }
+    ],
+    "diagnostic": "PASS",
+    "runtime_cache": {
+      "exists": true,
+      "file_count": 113,
+      "title_mention_files": {
+        "47": 0,
+        "88": 0,
+        "89": 0
+      }
+    },
+    "secrets_disclosed": false,
+    "task": "article_cache_visibility_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "2e0cb13f891ecc7db8696542d988181e88e90631",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/article_cache_visibility_diagnose.sh",
+  "script_sha256": "c52028a3d354dc6c8f9de332b63d17cdd0d98dcc84a3b1cfd3dda1363298f033",
+  "started_at": "2026-08-10T22:06:29Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
