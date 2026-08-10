@@ -90,7 +90,9 @@ jobs:
           done
           if [ "$bad" -ne 0 ]; then exit 1; fi
 
-          if git grep -I -n -E 'BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY' -- .; then
+          # Match an actual PEM/OpenSSH private-key header rather than prose or
+          # defensive code that merely mentions the words "private key".
+          if git grep -I -n -E -- '-----BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY-----' -- .; then
             echo 'ERROR: private key material detected in tracked content.' >&2
             exit 1
           fi
