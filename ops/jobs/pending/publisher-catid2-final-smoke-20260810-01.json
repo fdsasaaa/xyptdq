@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "publisher-catid2-final-smoke-20260810-01",
+  "required_commit": "995c2ce9368ab60c150750c9859f9e1117e537f9",
+  "script": "scripts/ops/agent_tasks/publisher_catid2_final_smoke.sh",
+  "script_sha256": "ec6111e76e3abe81cd31ff2a23866463564f8b1b7872ec5d8720284ff144f93b",
+  "timeout_seconds": 900
+}
