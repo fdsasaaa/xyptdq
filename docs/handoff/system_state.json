@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-08-10T14:00:00+08:00",
+  "site": {
+    "domain": "https://www.laocaimi.org",
+    "redirect_domain": "laocaimi.org → www.laocaimi.org",
+    "http_to_https": true,
+    "title": "信誉平台大全（彩研导航站）",
+    "meta_description": "空（未设置）",
+    "meta_keywords": "空（未设置）"
+  },
+  "server": {
+    "ip": "94.103.5.248",
+    "os": "Ubuntu 20.04.6 LTS",
+    "kernel": "5.4.0-216-generic",
+    "hostname": "green-clusters-1.localdomain",
+    "uptime_days": 259,
+    "memory": "2.0Gi total, 391Mi used",
+    "disk": "39G total, 11G used, 27G free (29%)"
+  },
+  "cms": {
+    "name": "迅睿CMS (Xunrui CMS)",
+    "framework": "CodeIgniter72",
+    "php_version": "7.4.3-4ubuntu2.29",
+    "web_root": "/www/wwwroot/59.110.217.6",
+    "template_pc": "template/pc/default/",
+    "template_mobile": "template/mobile/default/",
+    "cache_dir": "cache/",
+    "install_lock": true,
+    "frame_lock": "CodeIgniter72",
+    "system_config": {"SYS_HTTPS": 1, "SYS_301": 0},
+    "admin_entry": "admin879acdb00a10.php",
+    "admin_user": "admin"
+  },
+  "database": {
+    "type": "MariaDB",
+    "version": "10.3.39",
+    "name": "dayrui",
+    "user": "dayruiuser",
+    "host": "127.0.0.1:3306",
+    "prefix": "dr_",
+    "password_configured": true,
+    "main_news_table": "dr_1_news",
+    "content_table": "dr_1_news_data_0",
+    "category_table": "dr_1_share_category"
+  },
+  "git": {
+    "repo": "fdsasaaa/xyptdq",
+    "platform": "GitHub",
+    "default_branch": "main",
+    "current_branch": "docs/chatgpt-handoff-20260810",
+    "main_head_sha": "07ece20",
+    "tags": ["v1.0.0-seo-article"],
+    "work_tree_clean": true,
+    "remote_configured": true,
+    "auth_method": "PAT (fine-grained)",
+    "pat_has_workflow_scope": false,
+    "deploy_key": false,
+    "github_app": false,
+    "github_secrets": [],
+    "github_actions_enabled": false,
+    "server_has_git_repo": false,
+    "server_git_installed": true
+  },
+  "deployment": {
+    "mode": "manual_ssh_sftp",
+    "automated_deploy": false,
+    "deploy_script": {"exists": true, "tested": false, "production_verified": false, "path": "/root/xyptdq/scripts/deploy.sh"},
+    "rollback_script": {"exists": true, "tested": false, "production_verified": false, "path": "/root/xyptdq/scripts/rollback.sh"},
+    "backup_script": {"exists": true, "tested": true, "production_verified": true, "path": "/root/xyptdq/scripts/backup.sh"},
+    "restore_script": {"exists": true, "tested": false, "production_verified": false, "path": "/root/xyptdq/scripts/restore.sh"},
+    "health_check_script": {"exists": true, "tested": true, "production_verified": true, "path": "/root/xyptdq/scripts/health-check.sh"}
+  },
+  "backup": {
+    "file_backup_location": "/root/backups/disaster_recovery_20260810_031958/",
+    "database_backup_location": "/root/backups/disaster_recovery_20260810_031958/database_dayrui.sql",
+    "database_backup_size": "344KB",
+    "total_backup_size": "271M",
+    "last_backup_date": "2026-08-10",
+    "auto_backup_enabled": false,
+    "retention_policy": "none",
+    "disk_remaining": "27G"
+  },
+  "rollback": {
+    "code_rollback": {"method": "git checkout tag", "verified": false},
+    "database_rollback": {"method": "mysql restore from sql", "verified": false},
+    "file_rollback": {"method": "tar extract from backup", "verified": false},
+    "nginx_rollback": {"method": "restore from backup", "verified": false},
+    "full_disaster_recovery": {"verified": false}
+  },
+  "ssl": {
+    "provider": "Let's Encrypt",
+    "tool": "certbot",
+    "domain": "laocaimi.org",
+    "expiry": "2026-11-08",
+    "auto_renew": true,
+    "timer_active": true,
+    "hsts": true,
+    "mixed_content": "unknown"
+  },
+  "seo": {
+    "robots_txt": false,
+    "sitemap_xml": false,
+    "canonical_tags": false,
+    "schema_org": false,
+    "open_graph": false,
+    "homepage_title": "信誉平台大全（彩研导航站）",
+    "homepage_h1": "unknown",
+    "homepage_meta_description": "empty",
+    "homepage_meta_keywords": "empty",
+    "total_articles": 34,
+    "indexed_pages_estimated": "unknown",
+    "tag_pages": false,
+    "category_pages": true,
+    "search_console": "unknown",
+    "google_analytics": "unknown",
+    "bing_webmaster": "unknown",
+    "baidu_search": "unknown"
+  },
+  "content": {
+    "total_news_articles": 34,
+    "total_xm_items": "unknown",
+    "categories": [
+      {"id": 1, "name": "软件项目", "dirname": "rjxm", "mid": "xm"},
+      {"id": 2, "name": "挂机方案", "dirname": "gjfa", "mid": "news"},
+      {"id": 3, "name": "投注机巧", "dirname": "tzjq", "mid": "news"},
+      {"id": 4, "name": "福利资源", "dirname": "zyyy", "mid": "news"},
+      {"id": 5, "name": "跟单日志", "dirname": "gdrz", "mid": "news"},
+      {"id": 7, "name": "SEO文章", "dirname": "seo-articles", "mid": "news"}
+    ],
+    "seo_articles_count": 3,
+    "article_url_format": "/index.php?c=show&id={id}",
+    "upload_dir": "/www/wwwroot/59.110.217.6/uploadfile/",
+    "upload_size": "11M"
+  },
+  "scheduler": {
+    "cron_jobs": [],
+    "systemd_timers": ["certbot.timer", "phpsessionclean.timer", "apt-daily.timer", "apt-daily-upgrade.timer", "logrotate.timer"],
+    "cms_internal_scheduler": "unknown",
+    "article_auto_publish": false
+  },
+  "secrets_status": {
+    "ssh_password": true,
+    "db_password": true,
+    "github_token": true,
+    "ssl_private_key": true,
+    "deploy_ssh_key": false,
+    "github_actions_secret": false
+  },
+  "pending": [
+    "GitHub PAT with workflow scope",
+    "Server-side git authentication (Deploy Key or SSH key)",
+    "GitHub Actions CI/CD pipeline",
+    "Automated deployment from GitHub to server",
+    "Article auto-publish system",
+    "robots.txt creation",
+    "sitemap.xml creation and auto-update",
+    "Meta description and keywords optimization",
+    "Content style guide for 100+ articles",
+    "Scheduled backup cron job",
+    "Server security hardening",
+    "End-to-end deployment verification",
+    "Rollback verification"
+  ]
+}
