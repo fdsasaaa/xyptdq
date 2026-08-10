@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-08-11T07:05:00+08:00",
+  "read_only_evidence_sources": [
+    "agent/results/share-index-diagnose-20260811-01",
+    "agent/results/native-cms-smoke-identity-verify-20260811-01",
+    "agent/results/cms-id-allocator-diagnose-20260811-01"
+  ],
+  "controlled_write_evidence_sources": [
+    "agent/results/share-index-smoke-repair-20260811-01",
+    "agent/results/native-adapter-idempotency-smoke-20260811-01"
+  ],
+  "root_cause": {
+    "status": "PROVEN",
+    "summary": "Shared-module detail routing requires dr_1_share_index. The former direct-SQL publisher created module main/data/hits/index rows but omitted the shared routing index.",
+    "share_index_columns": ["id", "mid"],
+    "before_repair_auto_increment": 85,
+    "known_good_ids_present_before_repair": [47, 84],
+    "broken_news_ids_missing_before_repair": [85, 86, 88, 89]
+  },
+  "reviewed_smoke_repair": {
+    "ids": [88, 89],
+    "backup_verification": "PASS",
+    "http_before": {"88": 404, "89": 404},
+    "http_after": {"88": 200, "89": 200},
+    "share_index_auto_increment_after": 90,
+    "sitemap_regenerated": "PASS",
+    "unreviewed_ids_85_86_changed": false
+  },
+  "native_adapter_smoke": {
+    "article_key": "native-cms-lifecycle-v2",
+    "cms_id": 90,
+    "dry_run_preflight": "PASS",
+    "backup_verification": "PASS",
+    "native_save_content": "PASS",
+    "second_publish_idempotent": true,
+    "article_http": 200,
+    "registry_verification": "PASS",
+    "share_index_verification": "PASS",
+    "sitemap_contains_article": true,
+    "temporary_cli_shims_removed": true,
+    "blocking_item": "NONE"
+  },
+  "production_decision": {
+    "direct_sql_content_writer": "RETIRED",
+    "production_adapter": "scripts/content/cms_publish_native_adapter.php",
+    "cms_creation_path": "Xunrui native save_content lifecycle",
+    "durable_registry": "dr_xyptdq_publish_registry",
+    "shared_allocator_guard": true,
+    "safe_to_unlock_filequeue_after_merge": true
+  },
+  "secrets_disclosed": false
+}
