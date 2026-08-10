@@ -57,6 +57,26 @@ jobs:
             | tee /tmp/publisher-smoke-offline.txt
           grep -Fq 'OFFLINE FIXTURE PASS' /tmp/publisher-smoke-offline.txt
 
+      - name: Reject duplicate native PDO placeholders
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, sys
+          path = pathlib.Path('scripts/content/cms_publish_adapter.php')
+          src = path.read_text(encoding='utf-8')
+          blocks = re.findall(r'->prepare\((.*?)\)\s*(?:->|;)', src, flags=re.S)
+          failed = False
+          for index, block in enumerate(blocks, 1):
+              names = re.findall(r':([A-Za-z_][A-Za-z0-9_]*)', block)
+              duplicates = sorted({name for name in names if names.count(name) > 1})
+              if duplicates:
+                  print(f'ERROR: prepare block {index} reuses named placeholders with native prepares: {duplicates}', file=sys.stderr)
+                  failed = True
+          if failed:
+              sys.exit(1)
+          print(f'validated {len(blocks)} prepared-statement blocks: no duplicate named placeholders')
+          PY
+
       - name: Reject tracked secret files
         shell: bash
         run: |

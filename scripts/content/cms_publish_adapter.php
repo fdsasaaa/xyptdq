@@ -12,7 +12,7 @@
  * Xunrui installations may keep module categories in either a dedicated
  * <site>_<module>_category table or the site-wide <site>_share_category table.
  * The production site currently exposes SEO category 7 through the shared
- * category model, so validation must resolve both layouts safely.
+ * category model, so validation resolves both layouts safely.
  *
  * Durable idempotency:
  * A dedicated dr_xyptdq_publish_registry table stores article_key -> cms_id in
@@ -87,6 +87,7 @@ function xyptdq_article_hash(array $article): string
     if (!empty($article['_content_hash']) && preg_match('/^[a-f0-9]{64}$/', (string) $article['_content_hash'])) {
         return (string) $article['_content_hash'];
     }
+
     $copy = $article;
     foreach (['_source_file', '_publish_at_iso', '_publish_at_ts', '_content_hash'] as $internal) {
         unset($copy[$internal]);
@@ -105,6 +106,7 @@ function xyptdq_load_db_config(): array
     if (!is_file($configPath)) {
         xyptdq_adapter_fail('database config not found');
     }
+
     $db = [];
     require $configPath;
     $config = $db['default'] ?? null;
@@ -206,6 +208,7 @@ function xyptdq_resolve_category(
                     $select[] = $column;
                 }
             }
+
             $where = '`id`=:id';
             $params = [':id' => $catid];
             $moduleColumn = null;
@@ -219,6 +222,7 @@ function xyptdq_resolve_category(
                 $where .= ' AND `' . $moduleColumn . '`=:module_name';
                 $params[':module_name'] = $moduleName;
             }
+
             $sql = 'SELECT ' . implode(',', array_map(static function (string $column): string {
                 return '`' . $column . '`';
             }, $select)) . ' FROM `' . $shared . '` WHERE ' . $where . ' LIMIT 1';
@@ -234,9 +238,6 @@ function xyptdq_resolve_category(
         }
     }
 
-    // Compatibility fallback: existing published content using catid is strong
-    // evidence that the live CMS accepts this category even if its category
-    // metadata is stored by a custom/legacy module layout.
     $fallback = $pdo->prepare(
         'SELECT `id`,`catid`,`status` FROM `' . $newsTable . '` '
         . 'WHERE `catid`=:catid AND `status`=9 ORDER BY `id` DESC LIMIT 1'
@@ -265,14 +266,17 @@ function xyptdq_publish_article(array $article): array
     if (!preg_match('/^[a-z0-9][a-z0-9_-]{2,79}$/', $articleKey)) {
         xyptdq_adapter_fail('invalid article_key');
     }
+
     $title = trim((string) $article['title']);
     if (mb_strlen($title, 'UTF-8') < 8 || mb_strlen($title, 'UTF-8') > 255) {
         xyptdq_adapter_fail('title length is outside CMS safety bounds');
     }
+
     $content = (string) $article['content'];
     if (mb_strlen(strip_tags($content), 'UTF-8') < 180) {
         xyptdq_adapter_fail('article content is too thin');
     }
+
     $catid = (int) $article['catid'];
     if ($catid <= 0) {
         xyptdq_adapter_fail('invalid catid');
@@ -325,6 +329,7 @@ function xyptdq_publish_article(array $article): array
     if ($tableId < 0 || $tableId > 9999) {
         xyptdq_adapter_fail('unsafe CMS data table partition');
     }
+
     $dataTable = xyptdq_identifier($prefix . $module . '_data_' . $tableId, 'data table');
     xyptdq_require_columns($pdo, $database, $dataTable, ['id', 'uid', 'catid', 'content']);
 
@@ -334,6 +339,7 @@ function xyptdq_publish_article(array $article): array
         $author = trim((string) (getenv('XYPTDQ_CMS_AUTHOR') ?: (is_array($known) ? ($known['author'] ?? '老彩迷编辑') : '老彩迷编辑')));
     }
     $author = mb_substr($author !== '' ? $author : '老彩迷编辑', 0, 50, 'UTF-8');
+
     $thumb = mb_substr(trim((string) ($article['thumbnail'] ?? '')), 0, 255, 'UTF-8');
     $keywords = xyptdq_keywords($article);
     $description = trim((string) ($article['meta_description'] ?? $article['excerpt'] ?? ''));
@@ -348,6 +354,7 @@ function xyptdq_publish_article(array $article): array
         );
         $existingStmt->execute([':key' => $articleKey]);
         $existing = $existingStmt->fetch();
+
         if (is_array($existing)) {
             if (!hash_equals((string) $existing['content_hash'], $contentHash)) {
                 throw new RuntimeException('published article_key exists with a different content hash: ' . $articleKey);
@@ -385,10 +392,12 @@ function xyptdq_publish_article(array $article): array
             ':inputtime' => $now,
             ':updatetime' => $now,
         ]);
+
         $cmsId = (int) $pdo->lastInsertId();
         if ($cmsId <= 0) {
             throw new RuntimeException('CMS main table did not return a new id');
         }
+
         $url = '/index.php?c=show&id=' . $cmsId;
         $pdo->prepare('UPDATE `' . $newsTable . '` SET url=:url WHERE id=:id')
             ->execute([':url' => $url, ':id' => $cmsId]);
@@ -402,11 +411,21 @@ function xyptdq_publish_article(array $article): array
             ':content' => $content,
         ]);
 
+        // Native PDO/MySQL prepared statements do not permit reusing one named
+        // placeholder multiple times in the same statement. The previous
+        // :now,:now,:now,:now form therefore raised SQLSTATE[HY093] when
+        // ATTR_EMULATE_PREPARES=false. Bind each timestamp placeholder once.
         $pdo->prepare(
             'INSERT INTO `' . $hitsTable . '` '
             . '(id,hits,day_hits,week_hits,month_hits,year_hits,day_time,week_time,month_time,year_time) '
-            . 'VALUES (:id,0,0,0,0,0,:now,:now,:now,:now)'
-        )->execute([':id' => $cmsId, ':now' => $now]);
+            . 'VALUES (:id,0,0,0,0,0,:day_time,:week_time,:month_time,:year_time)'
+        )->execute([
+            ':id' => $cmsId,
+            ':day_time' => $now,
+            ':week_time' => $now,
+            ':month_time' => $now,
+            ':year_time' => $now,
+        ]);
 
         $pdo->prepare(
             'INSERT INTO `' . $indexTable . '` (id,uid,catid,status,inputtime) '
