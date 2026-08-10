@@ -1,0 +1,24 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T23:23:50Z",
+  "job_id": "bridge-healthcheck-20260811-08",
+  "payload": {
+    "bridge_healthcheck": "PASS",
+    "checked_at": "2026-08-10T23:23:50Z",
+    "home_http": 200,
+    "production_origin_main_sha": "5c70de9af94707ab3f8a637e4ec9f8adb883c58e",
+    "production_repo_sha": "5c70de9af94707ab3f8a637e4ec9f8adb883c58e",
+    "robots_http": 200,
+    "secrets_disclosed": false,
+    "sitemap_http": 200,
+    "task": "bridge_healthcheck"
+  },
+  "raw_log_published": false,
+  "required_commit": "5c70de9af94707ab3f8a637e4ec9f8adb883c58e",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/bridge_healthcheck.sh",
+  "script_sha256": "7e464b3f71429536daefaf7548cb22f0ebb4bfc2a79ae1952253fa2b6fb7e68b",
+  "started_at": "2026-08-10T23:23:50Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
