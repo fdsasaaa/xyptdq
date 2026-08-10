@@ -28,12 +28,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf /tmp/xyptdq-agent-collected
+          mkdir -p /tmp/xyptdq-agent-collected
           python3 - <<'PY'
-          import json, pathlib, re, subprocess, sys, urllib.request
+          import json, pathlib, re, urllib.request
 
           pending_dir = pathlib.Path('ops/jobs/pending')
-          results_dir = pathlib.Path('ops/jobs/results')
-          results_dir.mkdir(parents=True, exist_ok=True)
+          out_dir = pathlib.Path('/tmp/xyptdq-agent-collected')
           blocked_keys = {
               'password', 'passwd', 'token', 'cookie', 'secret', 'private_key',
               'dsn', 'database_password', 'authorization', 'credential',
@@ -68,12 +69,9 @@ jobs:
                   job_id = str(job.get('job_id', ''))
                   if not re.fullmatch(r'[a-z0-9][a-z0-9._-]{2,80}', job_id):
                       continue
-                  out_path = results_dir / f'{job_id}.json'
-                  if out_path.exists():
-                      continue
                   url = f'https://www.laocaimi.org/uploadfile/xyptdq-agent-results/{job_id}.json'
                   try:
-                      req = urllib.request.Request(url, headers={'User-Agent': 'xyptdq-agent-result-collector/1'})
+                      req = urllib.request.Request(url, headers={'User-Agent': 'xyptdq-agent-result-collector/2'})
                       with urllib.request.urlopen(req, timeout=15) as resp:
                           if getattr(resp, 'status', 200) != 200:
                               continue
@@ -108,23 +106,41 @@ jobs:
                       inspect(result)
                   except Exception:
                       continue
-                  out_path.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+                  (out_dir / f'{job_id}.json').write_text(
+                      json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + '\n',
+                      encoding='utf-8'
+                  )
                   collected += 1
 
           print(f'collected={collected}')
           PY
 
-      - name: Commit collected results
+      - name: Publish result branches
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- ops/jobs/results; then
+          shopt -s nullglob
+          files=(/tmp/xyptdq-agent-collected/*.json)
+          if [ "${#files[@]}" -eq 0 ]; then
             echo 'No new server results.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add ops/jobs/results
-          git diff --cached --check
-          git commit -m 'Collect sanitized server bridge results'
-          git push origin HEAD:main
+          for file in "${files[@]}"; do
+            job_id=$(basename "$file" .json)
+            branch="agent/results/$job_id"
+            if git ls-remote --exit-code --heads origin "refs/heads/$branch" >/dev/null 2>&1; then
+              echo "Result branch already exists: $branch"
+              continue
+            fi
+            git reset --hard origin/main >/dev/null
+            git clean -fd >/dev/null
+            git checkout -B "$branch" origin/main >/dev/null
+            mkdir -p ops/jobs/results
+            cp "$file" "ops/jobs/results/$job_id.json"
+            git add "ops/jobs/results/$job_id.json"
+            git diff --cached --check
+            git commit -m "Agent result: $job_id"
+            git push origin "HEAD:refs/heads/$branch"
+          done
