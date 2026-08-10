@@ -1,0 +1,65 @@
+name: repository-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: PHP syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find scripts -type f -name '*.php' -print)
+          for f in "${files[@]}"; do php -l "$f"; done
+
+      - name: Validate JSON
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          paths = list(pathlib.Path('content').rglob('*.json')) + list(pathlib.Path('config').glob('*.json'))
+          for path in paths:
+              try:
+                  json.loads(path.read_text(encoding='utf-8'))
+              except Exception as exc:
+                  print(f'{path}: {exc}', file=sys.stderr)
+                  raise
+          print(f'validated {len(paths)} json files')
+          PY
+
+      - name: Reject known secret file types
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -f site/config/database.php
+          test ! -f config/database.php
+          if git grep -I -n -E 'BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY' -- .; then
+            echo 'Private key material detected in tracked content.' >&2
+            exit 1
+          fi
+
+      - name: SEO foundation checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '^User-agent:' site/robots.txt
+          grep -q '^Sitemap: https://www.laocaimi.org/sitemap.xml$' site/robots.txt
+          if grep -q '<meta name="robots" content="none">' site/template/pc/default/home/index.html; then
+            echo 'WARNING: legacy homepage still contains robots=none; production deployment must remain blocked until repaired.'
+          fi
