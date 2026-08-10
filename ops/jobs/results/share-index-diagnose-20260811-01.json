@@ -1,0 +1,67 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T22:45:41Z",
+  "job_id": "share-index-diagnose-20260811-01",
+  "payload": {
+    "database": {
+      "auto_increment": 85,
+      "columns": [
+        "id",
+        "mid"
+      ],
+      "exists": true,
+      "max_id": 84,
+      "news_ids_missing_share_index": [
+        85,
+        86,
+        88,
+        89
+      ],
+      "rows": [
+        {
+          "id": "47",
+          "mid": "news"
+        },
+        {
+          "id": "80",
+          "mid": "xm"
+        },
+        {
+          "id": "81",
+          "mid": "news"
+        },
+        {
+          "id": "82",
+          "mid": "news"
+        },
+        {
+          "id": "83",
+          "mid": "news"
+        },
+        {
+          "id": "84",
+          "mid": "news"
+        }
+      ]
+    },
+    "diagnostic": "PASS",
+    "http": {
+      "47": 200,
+      "84": 200,
+      "85": 404,
+      "86": 404,
+      "88": 404,
+      "89": 404
+    },
+    "secrets_disclosed": false,
+    "task": "share_index_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "da67c6b0221cc8777e9bea61ee2605b726bc82e2",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/share_index_diagnose.sh",
+  "script_sha256": "c15de9623abae062066d34642c11249a245befccc2d23a8cf4ed97696dd24be2",
+  "started_at": "2026-08-10T22:45:40Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
