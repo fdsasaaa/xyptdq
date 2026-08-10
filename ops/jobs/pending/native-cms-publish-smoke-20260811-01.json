@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "native-cms-publish-smoke-20260811-01",
+  "required_commit": "414fd1bca4c4dd7f7b9981b7a493472e97229478",
+  "script": "scripts/ops/agent_tasks/native_cms_publish_smoke.sh",
+  "script_sha256": "7e5f8b2aadf4bc4ca3acacb30c89392c447bcbb03d5f0c981d54c3b1780fda52",
+  "timeout_seconds": 1800
+}
