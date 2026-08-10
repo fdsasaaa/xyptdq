@@ -46,16 +46,19 @@ jobs:
           print(f'validated {len(paths)} json files')
           PY
 
-      - name: Validate production smoke fixture
+      - name: Validate all production smoke fixtures
         shell: bash
         run: |
           set -euo pipefail
-          test -s content/smoke/ffc-betting-basics-risk-v1.json
-          php scripts/content/publisher_smoke.php \
-            --article=content/smoke/ffc-betting-basics-risk-v1.json \
-            --offline \
-            | tee /tmp/publisher-smoke-offline.txt
-          grep -Fq 'OFFLINE FIXTURE PASS' /tmp/publisher-smoke-offline.txt
+          mapfile -t fixtures < <(find content/smoke -maxdepth 1 -type f -name '*.json' -print | sort)
+          [ "${#fixtures[@]}" -gt 0 ]
+          for fixture in "${fixtures[@]}"; do
+            out=$(mktemp)
+            php scripts/content/publisher_smoke.php --article="$fixture" --offline | tee "$out"
+            grep -Fq 'OFFLINE FIXTURE PASS' "$out"
+            rm -f "$out"
+          done
+          echo "validated ${#fixtures[@]} smoke fixtures offline"
 
       - name: Reject duplicate native PDO placeholders
         shell: bash
