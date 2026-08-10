@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "production-scheduled-canary-verify-20260811-01",
+  "required_commit": "5a7ac3fd95e47861d7fc6273fcde80fcd053b0f6",
+  "script": "scripts/ops/agent_tasks/production_scheduled_canary_verify.sh",
+  "script_sha256": "f8d3bd7b6a9b65ca617b4015b1e5fa0ae51a520f7d16a22864a5eee3c98a9dbe",
+  "timeout_seconds": 180
+}
