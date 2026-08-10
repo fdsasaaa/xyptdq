@@ -1,0 +1,19 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-10T14:12:18Z",
+  "job_id": "publisher-finalize-v6-20260810-02",
+  "payload": {
+    "exit_code": 1,
+    "publisher_finalization": "BLOCKED",
+    "secrets_disclosed": false,
+    "task": "finalize_publisher_v6"
+  },
+  "raw_log_published": false,
+  "required_commit": "2a78ccf172cb87ba9fce3686c517dff47fd7887c",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/finalize_publisher_v6.sh",
+  "script_sha256": "9b1b4bc201a83347cdafbb3de294ae9b8c07e4eebd19ea7dc707d88365d5831a",
+  "started_at": "2026-08-10T14:12:16Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
