@@ -32,25 +32,28 @@ jobs:
         shell: bash
         run: |
           python3 - <<'PY'
-          import json, pathlib, sys
+          import json, pathlib
           paths = list(pathlib.Path('content').rglob('*.json')) + list(pathlib.Path('config').glob('*.json'))
           for path in paths:
-              try:
-                  json.loads(path.read_text(encoding='utf-8'))
-              except Exception as exc:
-                  print(f'{path}: {exc}', file=sys.stderr)
-                  raise
+              json.loads(path.read_text(encoding='utf-8'))
           print(f'validated {len(paths)} json files')
           PY
 
-      - name: Reject known secret file types
+      - name: Reject tracked secret files
         shell: bash
         run: |
           set -euo pipefail
-          test ! -f site/config/database.php
-          test ! -f config/database.php
+          bad=0
+          for path in site/config/database.php config/database.php .env; do
+            if git ls-files --error-unmatch "$path" >/dev/null 2>&1; then
+              echo "ERROR: sensitive runtime file is tracked: $path" >&2
+              bad=1
+            fi
+          done
+          if [ "$bad" -ne 0 ]; then exit 1; fi
+
           if git grep -I -n -E 'BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY' -- .; then
-            echo 'Private key material detected in tracked content.' >&2
+            echo 'ERROR: private key material detected in tracked content.' >&2
             exit 1
           fi
 
