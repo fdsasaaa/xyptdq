@@ -14,14 +14,17 @@ REQUIRED_COMMIT="${XYPTDQ_AGENT_REQUIRED_COMMIT:-}"
 
 write_blocked() {
   local rc="$1"
-  python3 - "$RESULT_FILE" "$rc" <<'PY'
-import json, sys
-out, rc = sys.argv[1:]
+  local reason="${2:-FINALIZER_BLOCKED}"
+  python3 - "$RESULT_FILE" "$rc" "$reason" <<'PY'
+import json, re, sys
+out, rc, reason = sys.argv[1:]
+reason = re.sub(r'[^\x20-\x7E\u4e00-\u9fff_./:= -]', '', reason)[:300]
 with open(out, 'w', encoding='utf-8') as fh:
     json.dump({
         'task': 'finalize_publisher_v6',
         'publisher_finalization': 'BLOCKED',
         'exit_code': int(rc),
+        'blocking_item': reason or 'FINALIZER_BLOCKED',
         'secrets_disclosed': False,
     }, fh, ensure_ascii=False, indent=2, sort_keys=True)
     fh.write('\n')
@@ -30,7 +33,7 @@ PY
 
 cd "$REPO"
 if [ -n "$(git status --porcelain)" ]; then
-  write_blocked 20
+  write_blocked 20 "PRODUCTION_REPO_DIRTY"
   echo "production repo dirty" >&2
   exit 20
 fi
@@ -40,15 +43,15 @@ git checkout main >/dev/null 2>&1
 git reset --hard origin/main >/dev/null
 if [ -n "$REQUIRED_COMMIT" ]; then
   git merge-base --is-ancestor "$REQUIRED_COMMIT" origin/main || {
-    write_blocked 21
+    write_blocked 21 "REQUIRED_COMMIT_NOT_IN_MAIN"
     echo "required agent commit not in origin/main" >&2
     exit 21
   }
 fi
 
 FINALIZER="$REPO/scripts/ops/chatgpt_finalize_publisher_v6.sh"
-[ -f "$FINALIZER" ] || { write_blocked 22; exit 22; }
-bash -n "$FINALIZER" || { write_blocked 23; exit 23; }
+[ -f "$FINALIZER" ] || { write_blocked 22 "V6_FINALIZER_MISSING"; exit 22; }
+bash -n "$FINALIZER" || { write_blocked 23 "V6_FINALIZER_SYNTAX_INVALID"; exit 23; }
 
 TMP_OUT=$(mktemp /tmp/xyptdq-finalizer-v6-agent.XXXXXX.log)
 cleanup() { rm -f "$TMP_OUT"; }
@@ -60,7 +63,9 @@ RC=$?
 set -e
 
 if [ "$RC" -ne 0 ]; then
-  write_blocked "$RC"
+  REASON=$(sed -n 's/^\[publisher-v6\] BLOCKED: //p' "$TMP_OUT" | tail -1)
+  [ -n "$REASON" ] || REASON="FINALIZER_EXIT_$RC"
+  write_blocked "$RC" "$REASON"
   echo "publisher v6 finalizer blocked rc=$RC" >&2
   exit "$RC"
 fi
