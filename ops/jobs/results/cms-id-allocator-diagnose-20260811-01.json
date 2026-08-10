@@ -1,0 +1,191 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T22:39:40Z",
+  "job_id": "cms-id-allocator-diagnose-20260811-01",
+  "payload": {
+    "diagnostic": "PASS",
+    "index_rows": [
+      {
+        "catid": "2",
+        "id": "81",
+        "inputtime": "1783655998",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "2",
+        "id": "82",
+        "inputtime": "1786151400",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "2",
+        "id": "83",
+        "inputtime": "1786151168",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "2",
+        "id": "84",
+        "inputtime": "1786400682",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "7",
+        "id": "85",
+        "inputtime": "1786336676",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "7",
+        "id": "86",
+        "inputtime": "1786336676",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "7",
+        "id": "88",
+        "inputtime": "1786372908",
+        "status": "9",
+        "uid": "1"
+      },
+      {
+        "catid": "2",
+        "id": "89",
+        "inputtime": "1786374837",
+        "status": "9",
+        "uid": "1"
+      }
+    ],
+    "index_without_main": [
+      18,
+      17,
+      16,
+      15,
+      14,
+      13
+    ],
+    "main_rows": [
+      {
+        "catid": "2",
+        "id": "81",
+        "inputtime": "1783655998",
+        "status": "9",
+        "tableid": "0",
+        "title": "从未爆仓爆仓挂机方案，1500本金，请先模拟挂机",
+        "updatetime": "1783655998"
+      },
+      {
+        "catid": "2",
+        "id": "82",
+        "inputtime": "1785632215",
+        "status": "9",
+        "tableid": "0",
+        "title": "隔三杀号法",
+        "updatetime": "1786151400"
+      },
+      {
+        "catid": "2",
+        "id": "83",
+        "inputtime": "1786151168",
+        "status": "9",
+        "tableid": "0",
+        "title": "60期倍投，24小时翻倍？",
+        "updatetime": "1786151168"
+      },
+      {
+        "catid": "2",
+        "id": "84",
+        "inputtime": "1786400682",
+        "status": "9",
+        "tableid": "0",
+        "title": "分分彩挂机方案上线前：命中、成本、止损与执行检查",
+        "updatetime": "1786400682"
+      },
+      {
+        "catid": "7",
+        "id": "85",
+        "inputtime": "1786336676",
+        "status": "9",
+        "tableid": "0",
+        "title": "2026年最新信誉平台排行榜与评测",
+        "updatetime": "1786336676"
+      },
+      {
+        "catid": "7",
+        "id": "86",
+        "inputtime": "1786336676",
+        "status": "9",
+        "tableid": "0",
+        "title": "平台安全防护措施详解：从注册到使用",
+        "updatetime": "1786336676"
+      },
+      {
+        "catid": "7",
+        "id": "88",
+        "inputtime": "1786372908",
+        "status": "9",
+        "tableid": "0",
+        "title": "分分彩投注技巧：先看命中率、奖金与资金风险",
+        "updatetime": "1786372908"
+      },
+      {
+        "catid": "2",
+        "id": "89",
+        "inputtime": "1786374837",
+        "status": "9",
+        "tableid": "0",
+        "title": "分分彩挂机方案验证：自动执行前先检查这四项",
+        "updatetime": "1786374837"
+      }
+    ],
+    "main_without_index": [],
+    "registry": [
+      {
+        "article_key": "native-cms-lifecycle-v1",
+        "cms_id": "84"
+      },
+      {
+        "article_key": "ffc-betting-basics-risk-v1",
+        "cms_id": "88"
+      },
+      {
+        "article_key": "ffc-hangup-validation-v1",
+        "cms_id": "89"
+      }
+    ],
+    "secrets_disclosed": false,
+    "tables": {
+      "dr_1_news": {
+        "auto_increment": 90,
+        "max_id": 89
+      },
+      "dr_1_news_data_0": {
+        "auto_increment": 0,
+        "max_id": 89
+      },
+      "dr_1_news_hits": {
+        "auto_increment": 0,
+        "max_id": 89
+      },
+      "dr_1_news_index": {
+        "auto_increment": 90,
+        "max_id": 89
+      }
+    },
+    "task": "cms_id_allocator_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "39d61c28ca0b6ef1b770acda0fd914988f9ad1df",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/cms_id_allocator_diagnose.sh",
+  "script_sha256": "c7803bb0168f42b6707bc91f8057f3071c742ce330c880b7af8141565888b947",
+  "started_at": "2026-08-10T22:39:39Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
