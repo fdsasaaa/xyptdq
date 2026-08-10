@@ -1,0 +1,25 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T23:31:12Z",
+  "job_id": "production-scheduled-canary-verify-20260811-01",
+  "payload": {
+    "article_http": 200,
+    "catid": 7,
+    "cms_id": 91,
+    "publisher_cron": "PASS",
+    "secrets_disclosed": false,
+    "share_mid": "news",
+    "sitemap_contains_article": "YES",
+    "status": 9,
+    "task": "production_scheduled_canary_verify",
+    "verification": "PASS"
+  },
+  "raw_log_published": false,
+  "required_commit": "5a7ac3fd95e47861d7fc6273fcde80fcd053b0f6",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/production_scheduled_canary_verify.sh",
+  "script_sha256": "f8d3bd7b6a9b65ca617b4015b1e5fa0ae51a520f7d16a22864a5eee3c98a9dbe",
+  "started_at": "2026-08-10T23:31:10Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
