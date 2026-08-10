@@ -1,0 +1,1 @@
+Trigger result collection after Publisher V8 job.
