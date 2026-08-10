@@ -1,0 +1,30 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T23:00:53Z",
+  "job_id": "native-adapter-idempotency-smoke-20260811-01",
+  "payload": {
+    "article_http": 200,
+    "backup_verification": "PASS",
+    "blocking_item": "NONE",
+    "cms_id": 90,
+    "dry_run_preflight": "PASS",
+    "native_adapter_smoke": "PASS",
+    "phase": "final",
+    "registry_verification": "PASS",
+    "second_publish_idempotent": "YES",
+    "secrets_disclosed": false,
+    "share_index_verification": "PASS",
+    "sitemap_contains_article": "YES",
+    "smoke_publish": "PASS",
+    "task": "native_adapter_idempotency_smoke",
+    "temporary_cli_shims_removed": "YES"
+  },
+  "raw_log_published": false,
+  "required_commit": "be45d896eacf22b116d855cee95eb6bbf25fea51",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/native_adapter_idempotency_smoke.sh",
+  "script_sha256": "d67da378cda4d700bbc85a3a9c27569e9b3f29b67c59ab92a7a2e7d015c512d7",
+  "started_at": "2026-08-10T23:00:49Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
