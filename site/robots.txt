@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Backend/runtime paths are not intended for search indexing.
+Disallow: /admin879acdb00a10.php
+Disallow: /cache/
+Disallow: /config/
+Disallow: /dayrui/
+
+Sitemap: https://www.laocaimi.org/sitemap.xml
