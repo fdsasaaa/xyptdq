@@ -1,0 +1,190 @@
+{template "header.html"}
+<div class="note note-danger">
+    {template "top.html"}
+</div>
+
+<script>
+    function to_tag(name) {
+        $.ajax({type: "POST",dataType:"json", url: '{dr_now_url()}', data: $('#myform').serialize(),
+            success: function(json) {
+                if (json.code == 1) {
+                    $("#ok").html(json.msg);
+                    $("#ok2").html(json.data.field);
+                    $("#return").val(json.data.return);
+                    $("#mid").val(json.data.mid);
+                } else {
+                    dr_cmf_tips(0, json.msg);
+                }
+                return false;
+            },
+            error: function(HttpRequest, ajaxOptions, thrownError) {
+                dr_ajax_alert_error(HttpRequest, this, thrownError);
+            }
+        });
+    }
+    function to_field() {
+        var name = '{php echo \Phpcmf\Service::M()->dbprefix(SITE_ID)}_form_'+$("#dr_module").val();
+        dr_iframe_show('可用字段', '{dr_url('mbdy/db/show_index')}&id='+name);
+    }
+    function to_field_tag(name) {
+        var mid = $("#mid").val();
+        if (!mid) {
+            dr_tips(0, '模块未选择');
+            return;
+        }
+        $.ajax({type: "POST",dataType:"json", url: '{dr_url("mbdy/form/tag")}&mid='+mid+'&id='+name, data: $('#myform_'+name).serialize(),
+            success: function(json) {
+                if (json.code == 1) {
+                    layer.open({
+                        type: 1,
+                        title: "调用标签",
+                        fix:true,
+                        //scrollbar: false,
+                        shadeClose: true,
+                        shade: 0,
+                        area: ['400px', '500px'],
+                        content: "<div style='padding: 10px'>"+json.msg+"</div>"
+                    });
+                } else {
+                    dr_cmf_tips(0, json.msg);
+                }
+                return false;
+            },
+            error: function(HttpRequest, ajaxOptions, thrownError) {
+                dr_ajax_alert_error(HttpRequest, this, thrownError);
+            }
+        });
+    }
+</script>
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-green-sharp">网站表单内容循环标签</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal" id="myform">
+            {dr_form_hidden()}
+            <div class="form-body">
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">选择网站表单</label>
+                    <div class="col-md-9">
+                        <label>
+                            <select class="form-control" name="data[module]" id="dr_module">
+                                {cache name=form}
+                                <option value="{$t.table}">{$t.name}（{$t.table}）</option>
+                                {/cache}
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">指定ID</label>
+                    <div class="col-md-9">
+                        <label><input type="text" class="form-control" name="data[id]" value=""></label>
+                        <span class="help-block"> 可以填写单个id；多个id时以,分隔开 </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">最大数量</label>
+                    <div class="col-md-9">
+                        <label><input type="text" class="form-control" name="data[num]" value=""></label>
+                        <span class="help-block"> 本次循环的最大数量限制 </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">排序字段方式</label>
+                    <div class="col-md-9">
+                        <label><input type="text" class="form-control " name="data[order]" id="dr_order" value=""></label>
+                        <label><div class="mt-radio-inline">
+                            <label class="mt-radio"><input type="radio" name="data[order_by]" value="1"  /> 从小到大 <span></span></label>
+                            <label class="mt-radio"><input type="radio" name="data[order_by]" value="0" checked /> 从大到小 <span></span></label>
+                        </div></label>
+                        <label><button type="button" onclick="to_field()" class="btn red">可用字段</button></label>
+                        <span class="help-block"> 按什么字段排序 </span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">标签return值</label>
+                    <div class="col-md-9">
+                        <label><input type="text" class="form-control" name="data[return]" value="t"></label>
+                        <span class="help-block"> 循环标签的return默认返回变量为t，调用方式就是<?php echo '{'?>$t.字段值}（多级查询必须设置return=其他字母） </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-9">
+                        <button type="button" onclick="to_tag()" class="btn green">生成循环标签</button>
+                        <button type="button" onclick="dr_help(56)" class="btn red">直接看手册</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green-sharp">生成代码</span>
+                </div>
+            </div>
+            <div class="portlet-body form" id="ok">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green-sharp">生成字段标签</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class="form-horizontal" id="myform_2">
+                    {dr_form_hidden()}
+                    <input id="mid" type="hidden" value="">
+                    <input type="hidden" id="return" name="return" value="t">
+                    <div class="form-body">
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">选择字段</label>
+                            <div class="col-md-9">
+                                <label id="ok2"></label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-9">
+                                <button type="button" onclick="to_field_tag(2)" class="btn green">生成标签</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{template "footer.html"}

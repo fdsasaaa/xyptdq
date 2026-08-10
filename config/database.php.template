@@ -1,0 +1,14 @@
+<?php
+/**
+ * 数据库配置模板（脱敏）
+ * 实际配置文件位于服务器: /www/wwwroot/59.110.217.6/config/database.php
+ * 真实密码不提交到Git
+ */
+
+$db['default'] = [
+    'hostname'   => '127.0.0.1',
+    'username'   => '{{DB_USER}}',
+    'password'   => '{{DB_PASSWORD}}',
+    'database'   => '{{DB_NAME}}',
+    'DBPrefix'   => 'dr_',
+];

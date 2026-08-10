@@ -1,0 +1,20 @@
+{if is_file(APPPATH.'Views/xb.html')}
+{template "xb.html"}
+{else}
+<p style="color: red; font-weight: bold">本插件由【小波工作室】无偿提供大家使用，迅睿模板交流QQ群：1044101015 （<a href="javascript:qqun();">扫码入群</a>）</p>
+{/if}
+
+<script>
+    function qqun() {
+        layer.open({
+            type: 1,
+            title: "迅睿模板交流QQ群",
+            fix:true,
+            //scrollbar: false,
+            shadeClose: true,
+            shade: 0,
+            area: ['400px', '500px'],
+            content: "<div style='padding: 10px; text-align: center'><img src='{dr_url('mbdy/home/qqun')}'></div>"
+        });
+    }
+</script>

@@ -1,0 +1,143 @@
+{template "header.html"}
+<div class="note note-danger">
+    {template "top.html"}
+    <p>本教程仅能调用在定义的栏目字段：设置-模块管理-选择某一个模块，点左边的"栏目模型字段"</p>
+</div>
+
+<script>
+    function to_tag(name) {
+        $.ajax({type: "POST",dataType:"json", url: '{dr_url("mbdy/categorydata/tag")}&mid={$mid}&id='+name, data: $('#myform_'+name).serialize(),
+            success: function(json) {
+                if (json.code == 1) {
+                    layer.open({
+                        type: 1,
+                        title: "调用标签",
+                        fix:true,
+                        //scrollbar: false,
+                        shadeClose: true,
+                        shade: 0,
+                        area: ['400px', '500px'],
+                        content: "<div style='padding: 10px'>"+json.msg+"</div>"
+                    });
+                } else {
+                    dr_cmf_tips(0, json.msg);
+                }
+                return false;
+            },
+            error: function(HttpRequest, ajaxOptions, thrownError) {
+                dr_ajax_alert_error(HttpRequest, this, thrownError);
+            }
+        });
+    }
+</script>
+<div class="tabbable-line">
+    <ul class="nav nav-tabs" style="float:left;">
+        {loop $module $dir $m}
+        <li class="{if $dir==$mid}active{/if}">
+            <a href="{dr_url("mbdy/categorydata/index")}&mid={$dir}" > <i class="{dr_icon($m.icon)}"></i> {$m.name} </a>
+        </li>
+        {/module}
+    </ul>
+</div>
+<div class="clearfix margin-bottom-20"></div>
+<div class="row">
+    <div class="col-md-6">
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-green-sharp">
+                【 {$my.name}（{$my.dirname}）】 内容页字段
+            </span>
+            <span class="caption-helper">
+                用于把show.html页面的字段输出
+            </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal" id="myform_1">
+            {dr_form_hidden()}
+            <div class="form-body">
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">选择字段</label>
+                    <div class="col-md-9">
+                        <label>
+
+                            <select class="form-control" name="field">
+                                {loop $field $f $v}
+                                <option value="{$v.id}">{$v.name}（{$v.fieldname}）</option>
+                                {/loop}
+                            </select></label>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-9">
+                        <button type="button" onclick="to_tag(1)" class="btn green">生成标签</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+        <div class="col-md-6">
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-green-sharp">
+                 【 {$my.name}（{$my.dirname}）】 循环时的字段
+            </span>
+            <span class="caption-helper">
+               用于<?php echo '{'?>module ***}、<?php echo '{'?>search ****} 标签内部的字段输出
+            </span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal" id="myform_2">
+            {dr_form_hidden()}
+            <div class="form-body">
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">选择字段</label>
+                    <div class="col-md-9">
+                        <label>
+
+                            <select class="form-control" name="field">
+                                {loop $field $f $v}
+                                <option value="{$v.id}">{$v.name}（{$v.fieldname}）</option>
+                                {/loop}
+                            </select></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">标签return值</label>
+                    <div class="col-md-9">
+                        <label><input type="text" class="form-control" name="return" value="t"></label>
+                        <span class="help-block"> 循环标签的return默认返回变量为t，调用方式就是<?php echo '{'?>$t.字段值}（多级查询必须设置return=其他字母） </span>
+                        <span class="help-block"> 栏目模型字段非常特殊，必须加标签more=1标签，否则是调用不出来的 </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-9">
+                        <button type="button" onclick="to_tag(2)" class="btn green">生成标签</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+        </div></div>
+
+{template "footer.html"}

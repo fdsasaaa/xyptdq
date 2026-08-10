@@ -1,0 +1,26 @@
+{template "theader.html"}
+
+
+<div class="portlet bordered light ">
+    <div class="portlet-title tabbable-line">
+        <div class="caption">
+            <span class="caption-subject">
+            第一步、导出当前站点数据库
+            </span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <form role="form" id="myform">
+            <div class="form-body">
+                <p>导出当前站点数据库</p>
+            </div>
+            <div class="form-actions right">
+                <button type="button" onclick="dr_ajax_submit('/xdb/index.php?c=home&m=old&st=9', 'myform', 2000)" class="btn green"> 下一步 </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+{template "tfooter.html"}

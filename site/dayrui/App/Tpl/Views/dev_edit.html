@@ -1,0 +1,19 @@
+{template "header.html"}
+
+
+<form action="" class="form-horizontal" method="post" name="myform" id="myform">
+    {$form}
+    <div class="portlet-body">
+        <div class="form-body">
+    {$myfield}
+        </div>
+    </div>
+    <div class="portlet-body form myfooter">
+        <div class="form-actions text-center">
+            <label><button type="button" onclick="dr_ajax_submit('{dr_now_url()}', 'myform', '2000')" class="btn blue"> <i class="fa fa-save"></i> {dr_lang('保存')}</button></label>
+
+        </div>
+    </div>
+</form>
+
+{template "footer.html"}

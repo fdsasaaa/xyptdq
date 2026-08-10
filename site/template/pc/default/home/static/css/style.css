@@ -1,0 +1,83 @@
+﻿/*
+Theme Name: 柚子皮
+Theme URI: /www.yzipi.com
+
+Author: "韵"
+Author URI: /www.yzipi.com
+
+Description:柚子皮主题用了自适应网页设计的理念进行设计，在任何设备上都显示得完美无缺．有需要做设计网站，设计LOGO的同学可以联系我．QQ:1875522872 .
+Version: 3.0
+
+-------------------------------------------------------------- */
+
+
+/* Email 320310310@.com ,定义了大小，缩小都不会变，最多一起缩小;不定义大小或１００％，会跟着一起缩*/
+/*　文章标题字体大小：１８，文章字体１４，右侧标题：１５加粗，右侧列表：１３默认　*/
+/*　深彩： #ce5b16　*/
+html {
+-webkit-text-size-adjust: none;
+}
+*{
+	margin: 0;
+	padding: 0;
+}
+ol, ul {
+	list-style: none;
+}
+img {
+	border: 0;
+	height: auto;
+	width: auto;
+}
+
+body {
+	font-family: "Microsoft Yahei", "冬青黑体简体中文 w3";
+	font-size: 13px;
+	background: #f8f8f8;
+	color: #656565;
+	letter-spacing: 0.5px;
+}
+a {
+	color: #666;
+	font-size: 13px;
+	text-decoration: none;
+	transition: color 0.3s;
+}
+a:hover {
+	color: #d6623d;
+}
+::selection{background:#d6623d;color:#fff;}
+
+.clear {
+	clear: both;
+}
+
+
+#mainlist {
+    width: 1260px;
+    margin: 0px auto;
+    overflow: hidden;
+}
+#container {
+    width: 1260px;
+    margin: 0px auto;
+    overflow: hidden;
+}
+#container-page {
+    width: 1125px;
+    margin: 0px auto;
+    overflow: hidden;
+    margin-bottom:30px;
+}
+#containere {
+    width: 1280px;
+    margin-left: -20px;
+}
+.containee {
+    width: 890px;
+    float: left;
+}
+.pages {padding: 30px 0 30px;text-align: center}
+.pages li {display: inline; margin:0 2px; font-size:12px}
+.pages li.thisclass, .pages a:hover{padding: 3px 8px; border: 1px solid #d6623d;	background: #d6623d;color: #fff;text-decoration: none}
+.pages a{padding: 3px 8px;border: 1px solid #CCC;background: #fff;color: #A4A4A4;line-height: 18px; font-size:12px}

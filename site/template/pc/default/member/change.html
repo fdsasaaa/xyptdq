@@ -1,0 +1,45 @@
+{template "header.html"}
+
+
+<form class="login-form"  id="myform" action="" method="post">
+    {dr_form_hidden()}
+    <div class="logo">
+        <a href="/"><img src="{SITE_LOGO}" /> </a>
+    </div>
+
+
+    <div class="form-group" id="dr_row_username">
+        <label class="control-label visible-ie8 visible-ie9">新{if $verify_type =='email'}邮箱地址{else}手机号码{/if}</label>
+        <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off"   id="dr_value" name="value" placeholder="新{if $verify_type =='email'}邮箱地址{else}手机号码{/if}" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">{dr_lang('图片验证码')}</label>
+        <div class="input-group">
+            <div class="input-icon">
+                <input style="padding-left: 15px" type="text" class="form-control placeholder-no-fix" autocomplete="off" placeholder="{dr_lang('验证码')}"  id="dr_code" name="code">
+            </div>
+            <div class="input-group-btn fc-code" style="padding-left: 10px;">
+                {dr_code(120, 35)}
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-actions text-right">
+        <label>
+            <button type="button" onclick="dr_ajax_submit('{dr_now_url()}', 'myform', '2000', '{dr_member_url('member/api/verify')}')" class="btn green pull-right"> 提交并发送验证码 </button>
+        </label>
+    </div>
+
+
+    <div class="create-account">
+        <p>
+            <a href="{dr_member_url('login/index')}" class="uppercase">登录账号</a>
+        </p>
+    </div>
+</form>
+
+{template "footer.html"}

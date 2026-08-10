@@ -1,0 +1,70 @@
+{template "header.html"}
+
+<script>
+    function dr_update_category_cache() {
+        var index = layer.load(2, {
+            shade: [0.3,'#fff'], //0.1透明度的白色背景
+            time: 10000000
+        });
+        $.ajax({type: "GET",dataType:"json", url: admin_file+"?s=module&c=api&m=update_category_cache&mid={$mid}",
+            success: function(json) {
+                layer.close(index);
+                dr_cmf_tips(json.code, json.msg);
+            },
+            error: function(HttpRequest, ajaxOptions, thrownError) {
+                layer.closeAll('loading');
+                dr_tips(0, "{dr_lang('更新失败，请检查错误日志')}");
+            }
+        });
+    }
+</script>
+
+<div class="note note-danger">
+    <p>{dr_lang('栏目模型字段需要划分到具体的某一个栏目上')}</p>
+</div>
+
+<div class="right-card-box">
+    <form class="form-horizontal" role="form" id="myform">
+        {dr_form_hidden()}
+        <div class="portlet bordered light myfbody">
+            <div class="portlet-body form">
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">{dr_lang('分配勾选权限')}</label>
+                        <div class="col-md-9">
+                            <div class="mt-radio-inline">
+                                <label class="mt-radio mt-radio-outline"><input type="radio" name="hide" value="1" {if $hide}checked{/if} /> {dr_lang('勾选时隐藏以下字段，没有选择时都显示')} <span></span></label>
+                                <label class="mt-radio mt-radio-outline"><input type="radio" name="hide" value="0" {if empty($hide)}checked{/if} /> {dr_lang('勾选时显示以下字段，没有选择时不显示')} <span></span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {loop $list $t}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">{$t.name} / {$t.fieldname}</label>
+                        <div class="col-md-9" id="multi-select" >
+                            {$t.select}
+                        </div>
+                    </div>
+                    {/loop}
+
+                </div>
+
+                {if !$list}
+                <div class="alert"> {dr_lang('你没有创建自定义栏目模型字段')} </div>
+                {/if}
+            </div>
+        </div>
+        <div class="portlet-body form myfooter">
+            <div class="form-actions text-center">
+                <label><button type="button" onclick="dr_ajax_submit('{dr_now_url()}', 'myform', '2000')" class="btn green"> <i class="fa save"></i> {dr_lang('保存')} </button></label>
+                <label><a class="btn blue" href="javascript:dr_update_category_cache();">{dr_lang('一键更新栏目缓存')}</a></label>
+            </div>
+        </div>
+    </form>
+</div>
+
+{php echo \Phpcmf\Service::L('Field')->get('select')->get_select_search_code();}
+
+{template "footer.html"}

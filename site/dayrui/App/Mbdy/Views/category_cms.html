@@ -1,0 +1,107 @@
+{template "header.html"}
+
+<script>
+    function to_tag(name) {
+        $('#res').html('');
+        $.ajax({type: "POST",dataType:"json", url: '{dr_url("mbdy/category/tag")}&mid={$mid}&id='+name, data: $('#myform_'+name).serialize(),
+            success: function(json) {
+                if (json.code == 1) {
+                    $('#res').html(json.msg);
+                } else {
+                    dr_cmf_tips(0, json.msg);
+                }
+                return false;
+            },
+            error: function(HttpRequest, ajaxOptions, thrownError) {
+                dr_ajax_alert_error(HttpRequest, this, thrownError);
+            }
+        });
+    }
+</script>
+<form class="form-horizontal" id="myform_3">
+    {dr_form_hidden(['id'=>$id])}
+    <div class="form-body"><label>
+        全局调用本栏目的信息：
+    </label>
+        <label>
+            <select class="form-control" name="field">
+                <option>选择字段</option>
+                {loop $field $f $v}
+                <option value="{$f}">{$v.name}（{$v.fieldname}）</option>
+                {/loop}
+            </select>
+        </label>
+        <label><button class="btn blue" onclick="to_tag(3)" type="button">生成标签</button></label>
+
+    </div>
+
+</form>
+<div class="clearfix margin-bottom-20"></div>
+
+<form class="form-horizontal" id="myform_1">
+    {dr_form_hidden()}
+    <div class="form-body">
+
+                <label>
+                    栏目列表页、单页、内容页调用当前栏目的信息：
+                </label>
+                <label>
+
+                    <select class="form-control" name="field">
+                        <option value=""> 选择字段</option>
+                        {loop $field $f $v}
+                        <option value="{$f}">{$v.name}（{$v.fieldname}）</option>
+                        {/loop}
+                    </select>
+                </label>
+                <label> <button type="button" onclick="to_tag(1)" class="btn green">生成标签</button></label>
+
+        </div>
+
+
+
+
+</form>
+<div class="clearfix margin-bottom-20"></div>
+
+    <div class="form-body">
+
+        <label>
+            循环调用本栏目下的内容列表：
+        </label>
+        <label> <button type="button" onclick="dr_iframe_show2('{SELF}?s=mbdy&c=loop&m=module&mid={$cat.mid}&catid={$id}');" class="btn green">生成标签</button></label>
+    </div>
+    <div class="form-body">
+
+        <label>
+            循环调用本栏目下的子栏目：
+        </label>
+        <label> <button type="button" onclick="dr_iframe_show2('{SELF}?s=mbdy&c=categoryshow&m=cms&mid={$cat.mid}&catid={$id}');" class="btn green">生成标签</button></label>
+    </div>
+<div class="clearfix margin-bottom-20"></div>
+<script>
+    function dr_iframe_show2(url) {
+        top.layer.open({
+            type: 2,
+            title: "调用代码生成",
+            fix:true,
+            scrollbar: false,
+            shadeClose: true,
+            shade: 0,
+            area: ["80%", "80%"],
+            success: function(layero, index){
+                // 主要用于后台权限验证
+                var body = layer.getChildFrame('body', index);
+                var json = $(body).html();
+                if (json.indexOf('"code":0') > 0 && json.length < 500){
+                    var obj = JSON.parse(json);
+                    layer.close(index);
+                    dr_cmf_tips(0, obj.msg);
+                }
+            },
+            content: url
+        });
+    }
+</script>
+<pre id="res">  </pre>
+{template "footer.html"}

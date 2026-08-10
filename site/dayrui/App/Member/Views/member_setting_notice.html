@@ -1,0 +1,81 @@
+{template "header.html"}
+
+
+<form action="" class="form-horizontal" method="post" name="myform" id="myform">
+    {dr_form_hidden()}
+    <div class="row myfbody ">
+        <div class="col-md-12">
+
+            {loop $notice_config $t}
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject font-green sbold ">{$t.name}</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="form-body">
+                        <div class="form-group hide">
+                            <label class="col-md-3 control-label">
+
+                            </label>
+                            <div class="col-md-8 ">
+
+                                <div class="mt-checkbox-inline">
+                                    {loop $notice_type $tt}
+                                    <label class="mt-checkbox mt-checkbox-outline">
+                                        <input type="checkbox"  class="checkboxes group{md5($tt.name)}" data-set=".group{md5($tt.name)}"  /> {dr_lang('批量')}  <span></span>
+                                    </label>
+                                    {/loop}
+                                </div>
+
+                            </div>
+                        </div>
+                        {loop $t.value $name $v}
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                {dr_lang($v.name)}
+                            </label>
+                            <div class="col-md-8 ">
+
+                                <div class="mt-checkbox-inline">
+                                    {loop $notice_type $nkey $tt}
+                                    <label class="mt-checkbox mt-checkbox-outline">
+                                        <input type="checkbox" class="checkboxes group{md5($tt.name)}" name="data[{$name}][{$nkey}]" value="1"  {if $value[$name][$nkey]}checked{/if}  /> {dr_lang($tt.name)} <span></span>
+                                    </label>
+                                    {/loop}
+                                    <label class="mt-checkbox mt-checkbox-outline">
+                                        <a class="btn btn-sm blue" href="javascript:dr_iframe_show('{dr_lang($v.name)}', '{dr_url('member/setting_notice/edit')}&file={$name}', '90%','90%', 'nogo');">{dr_lang('内容设置')}</a>
+                                    </label>
+                                    <label class="mt-checkbox mt-checkbox-outline">
+                                        {loop $notice_type $nkey $tt}
+                                        {if $value[$name][$nkey] && !$v['file'][$nkey]}
+                                        <a href="javascript:dr_iframe_show('{dr_lang($v.name)}', '{dr_url('member/setting_notice/edit')}&file={$name}', '90%','90%', 'nogo');" class="btn btn-xs red">{dr_lang('%s内容未设置', $tt.name)}</a>
+                                        {/if}
+                                        {/loop}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        {/loop}
+
+                    </div>
+                </div>
+            </div>
+            {/loop}
+
+
+        </div>
+
+
+    </div>
+
+    <div class="portlet-body form myfooter">
+        <div class="form-actions text-center">
+            <button type="button" onclick="dr_ajax_submit('{dr_url('member/setting_notice/add')}&page='+$('#dr_page').val(), 'myform', '2000', '{FC_NOW_URL}')" class="btn green"> <i class="fa fa-save"></i> {dr_lang('保存')}</button>
+        </div>
+    </div>
+</form>
+
+{template "footer.html"}
