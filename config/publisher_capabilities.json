@@ -1,20 +1,33 @@
 {
-  "version": 2,
+  "version": 3,
   "verified": true,
-  "verified_at": "2026-08-10T10:11:45Z",
-  "verified_article_id": 47,
-  "evidence": "docs/probes/publisher_probe_full_47.json",
-  "durable_idempotency_verified": false,
+  "verified_at": "2026-08-10T23:00:53Z",
+  "verified_article_id": 90,
+  "evidence": "docs/probes/native_publisher_v2_20260811.json",
+  "adapter": "scripts/content/cms_publish_native_adapter.php",
+  "durable_idempotency_verified": true,
   "durable_idempotency": {
     "design": "dr_xyptdq_publish_registry",
-    "smoke_test_required": true
+    "smoke_test_required": false,
+    "verified_article_key": "native-cms-lifecycle-v2",
+    "verified_cms_id": 90,
+    "second_publish_same_cms_id": true
   },
-  "notes": "Production probe confirms the normal immediate-publish article has rows in the main, data, hits and index tables. The time and search tables exist but article 47 has no row in either. File-queue production commits remain locked until the new adapter is smoke-tested twice against the same article_key and returns the same cms_id.",
+  "cms_creation_path": "Xunrui native save_content lifecycle",
+  "shared_module_routing": {
+    "required_table": "dr_1_share_index",
+    "allocator_guard": true,
+    "reviewed_repair_ids": [88, 89],
+    "allocator_after_repair": 90
+  },
+  "notes": "Production proof established that direct SQL content creation omitted the shared-module routing index. The direct SQL writer is retired. Native Xunrui save_content publishing produced cms_id 90, public HTTP 200, matching registry/share-index state, sitemap inclusion, and durable second-submit idempotency. Scheduled publishing may use only the native adapter.",
   "required_tables": [
+    "dr_1_share_index",
     "dr_1_news",
     "dr_1_news_data_0",
     "dr_1_news_hits",
-    "dr_1_news_index"
+    "dr_1_news_index",
+    "dr_xyptdq_publish_registry"
   ],
   "present_but_not_required_for_immediate_publish": [
     "dr_1_news_time",
