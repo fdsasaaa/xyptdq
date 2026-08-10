@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.laocaimi.org/schemas/scheduled-article-v1.json",
+  "title": "xyptdq Scheduled Article",
+  "type": "object",
+  "required": ["schema_version", "article_key", "title", "content", "catid", "publish_at"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "article_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{2,79}$"},
+    "title": {"type": "string", "minLength": 8, "maxLength": 120},
+    "slug": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,119}$"},
+    "content": {"type": "string", "minLength": 300},
+    "excerpt": {"type": "string", "maxLength": 500},
+    "seo_title": {"type": "string", "maxLength": 120},
+    "meta_description": {"type": "string", "maxLength": 320},
+    "primary_keyword": {"type": "string", "maxLength": 100},
+    "secondary_keywords": {"type": "array", "maxItems": 12, "items": {"type": "string", "maxLength": 100}},
+    "catid": {"type": "integer", "minimum": 1},
+    "thumbnail": {"type": "string", "maxLength": 255},
+    "internal_links": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["anchor", "url"],
+        "additionalProperties": false,
+        "properties": {
+          "anchor": {"type": "string", "maxLength": 120},
+          "url": {"type": "string", "maxLength": 500}
+        }
+      }
+    },
+    "publish_at": {"type": "string", "format": "date-time"},
+    "author": {"type": "string", "maxLength": 50},
+    "content_type": {"type": "string", "enum": ["guide", "experiment", "scheme", "platform_review", "faq", "data_analysis"]},
+    "source_notes": {"type": "string", "maxLength": 2000},
+    "commercial_disclosure": {"type": "boolean"}
+  }
+}
