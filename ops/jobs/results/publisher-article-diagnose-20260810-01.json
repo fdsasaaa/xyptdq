@@ -1,0 +1,34 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T14:51:47Z",
+  "job_id": "publisher-article-diagnose-20260810-01",
+  "payload": {
+    "cms_id": 88,
+    "data_exists": true,
+    "diagnostic": "PASS",
+    "hits_exists": true,
+    "http_db_url": 404,
+    "http_direct": 404,
+    "http_existing_47": 200,
+    "http_existing_84": 404,
+    "http_module_route": 301,
+    "index_exists": true,
+    "main_row": {
+      "catid": 7,
+      "id": 88,
+      "status": 9,
+      "tableid": 0,
+      "url": "/index.php?c=show&id=88"
+    },
+    "secrets_disclosed": false,
+    "task": "publisher_article_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "9f98e67890f2c866bfb014370f47d2cbea1fe42a",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_article_diagnose.sh",
+  "script_sha256": "51ff2eaa89a8e298695c9469f3ec1d1acfbd4c5427adcb27646956658bdb5e45",
+  "started_at": "2026-08-10T14:51:46Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
