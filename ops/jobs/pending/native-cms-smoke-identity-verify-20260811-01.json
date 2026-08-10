@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "native-cms-smoke-identity-verify-20260811-01",
+  "required_commit": "e91cdb71d69f04928b0f3fc1c2ef7a9faf73f524",
+  "script": "scripts/ops/agent_tasks/native_cms_smoke_identity_verify.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 180
+}
