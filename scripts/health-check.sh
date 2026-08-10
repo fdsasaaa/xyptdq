@@ -1,87 +1,97 @@
 #!/bin/bash
 # ============================================================
-# health-check.sh - 网站健康检查
-# 使用: ./health-check.sh
+# health-check.sh - 生产网站基础健康检查
 # ============================================================
-echo "=== 网站健康检查 ==="
-echo "时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-echo ""
+set -u
 
 PASS=0
 FAIL=0
 
-check() {
-    local name="$1"
-    local result="$2"
-    if [ "$result" = "OK" ]; then
-        echo "[✅] $name"
-        PASS=$((PASS + 1))
+ok() {
+    echo "[OK] $1"
+    PASS=$((PASS + 1))
+}
+
+fail() {
+    echo "[FAIL] $1${2:+: $2}"
+    FAIL=$((FAIL + 1))
+}
+
+check_service() {
+    local label="$1"
+    local unit="$2"
+    local state
+    state=$(systemctl is-active "$unit" 2>/dev/null || true)
+    if [ "$state" = "active" ]; then
+        ok "$label"
     else
-        echo "[❌] $name: $result"
-        FAIL=$((FAIL + 1))
+        fail "$label" "state=${state:-unknown}"
     fi
 }
 
-# 1. Nginx
-NGINX_STATUS=$(systemctl is-active nginx 2>/dev/null)
-check "Nginx服务" "$NGINX_STATUS" "active"
+echo "=== 网站健康检查 ==="
+echo "时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+echo
 
-# 2. PHP-FPM
-PHPFPM_STATUS=$(systemctl is-active php7.4-fpm 2>/dev/null)
-check "PHP-FPM服务" "$PHPFPM_STATUS" "active"
+check_service "Nginx服务" nginx
+check_service "PHP-FPM服务" php7.4-fpm
+check_service "MariaDB服务" mariadb
 
-# 3. MariaDB
-MYSQL_STATUS=$(systemctl is-active mariadb 2>/dev/null)
-check "MariaDB服务" "$MYSQL_STATUS" "active"
-
-# 4. HTTPS首页
-HTTP_CODE=$(curl -sk -o /dev/null -w '%{http_code}' https://www.laocaimi.org 2>/dev/null)
+HTTP_CODE=$(curl -sS -k -o /dev/null -w '%{http_code}' --max-time 15 https://www.laocaimi.org/ 2>/dev/null || true)
 if [ "$HTTP_CODE" = "200" ]; then
-    check "HTTPS首页" "OK"
+    ok "HTTPS首页"
 else
-    check "HTTPS首页" "HTTP $HTTP_CODE"
+    fail "HTTPS首页" "HTTP ${HTTP_CODE:-no-response}"
 fi
 
-# 5. HTTP重定向
-REDIRECT=$(curl -sk -o /dev/null -w '%{http_code}' http://www.laocaimi.org 2>/dev/null)
-if [ "$REDIRECT" = "301" ]; then
-    check "HTTP→HTTPS重定向" "OK"
+HTTP_REDIRECT=$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 15 http://www.laocaimi.org/ 2>/dev/null || true)
+case "$HTTP_REDIRECT" in
+    301\ https://www.laocaimi.org/*|302\ https://www.laocaimi.org/*|308\ https://www.laocaimi.org/*)
+        ok "HTTP→HTTPS重定向"
+        ;;
+    *)
+        fail "HTTP→HTTPS重定向" "${HTTP_REDIRECT:-no-response}"
+        ;;
+esac
+
+CERT_END=$(echo | openssl s_client -connect 127.0.0.1:443 -servername www.laocaimi.org 2>/dev/null | openssl x509 -noout -enddate 2>/dev/null | cut -d= -f2- || true)
+if [ -n "$CERT_END" ]; then
+    CERT_TS=$(date -d "$CERT_END" +%s 2>/dev/null || echo 0)
+    NOW_TS=$(date +%s)
+    if [ "$CERT_TS" -gt 0 ] 2>/dev/null; then
+        DAYS_LEFT=$(( (CERT_TS - NOW_TS) / 86400 ))
+        if [ "$DAYS_LEFT" -gt 14 ]; then
+            ok "SSL证书 (${DAYS_LEFT}天剩余)"
+        else
+            fail "SSL证书" "仅剩${DAYS_LEFT}天"
+        fi
+    else
+        fail "SSL证书" "无法解析到期时间"
+    fi
 else
-    check "HTTP→HTTPS重定向" "HTTP $REDIRECT"
+    fail "SSL证书" "无法读取证书"
 fi
 
-# 6. SSL证书有效期
-CERT_DAYS=$(echo | openssl s_client -connect 127.0.0.1:443 -servername www.laocaimi.org 2>/dev/null | openssl x509 -noout -enddate 2>/dev/null | cut -d= -f2 | xargs -I{} date -d "{}" +%s 2>/dev/null)
-NOW=$(date +%s)
-DAYS_LEFT=$(( (CERT_DAYS - NOW) / 86400 2>/dev/null || echo 0 ))
-if [ "$DAYS_LEFT" -gt 7 ]; then
-    check "SSL证书 (${DAYS_LEFT}天剩余)" "OK"
+DISK_PCT=$(df -P / | awk 'NR==2 {gsub(/%/,"",$5); print $5}')
+if [ -n "$DISK_PCT" ] && [ "$DISK_PCT" -lt 90 ] 2>/dev/null; then
+    ok "磁盘空间 (${DISK_PCT}%使用)"
 else
-    check "SSL证书 (${DAYS_LEFT}天剩余)" "WARNING"
+    fail "磁盘空间" "${DISK_PCT:-unknown}%使用"
 fi
 
-# 7. 磁盘空间
-DISK_PCT=$(df / | tail -1 | awk '{print $5}' | tr -d '%')
-if [ "$DISK_PCT" -lt 90 ]; then
-    check "磁盘空间 (${DISK_PCT}%使用)" "OK"
+if mysql -Nse 'SELECT 1' >/dev/null 2>&1; then
+    ok "数据库连接"
 else
-    check "磁盘空间 (${DISK_PCT}%使用)" "WARNING"
+    fail "数据库连接" "mysql local socket test failed"
 fi
 
-# 8. 数据库连接
-DB_CHECK=$(mysql -e "SELECT 1;" 2>/dev/null && echo "OK" || echo "FAIL")
-check "数据库连接" "$DB_CHECK"
-
-# 9. Nginx配置测试
-NGINX_TEST=$(nginx -t 2>&1 | grep -c "successful")
-if [ "$NGINX_TEST" -gt 0 ]; then
-    check "Nginx配置" "OK"
+if nginx -t >/tmp/xyptdq_nginx_test.log 2>&1; then
+    ok "Nginx配置语法"
 else
-    check "Nginx配置" "FAIL"
+    fail "Nginx配置语法" "$(tail -n 2 /tmp/xyptdq_nginx_test.log | tr '\n' ' ')"
 fi
+rm -f /tmp/xyptdq_nginx_test.log
 
-echo ""
+echo
 echo "=== 结果: $PASS 通过, $FAIL 失败 ==="
-if [ "$FAIL" -gt 0 ]; then
-    exit 1
-fi
+[ "$FAIL" -eq 0 ]

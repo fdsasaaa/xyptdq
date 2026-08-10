@@ -1,0 +1,68 @@
+name: repository-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: PHP syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find scripts -type f -name '*.php' -print)
+          for f in "${files[@]}"; do php -l "$f"; done
+
+      - name: Validate JSON
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          paths = list(pathlib.Path('content').rglob('*.json')) + list(pathlib.Path('config').glob('*.json'))
+          for path in paths:
+              json.loads(path.read_text(encoding='utf-8'))
+          print(f'validated {len(paths)} json files')
+          PY
+
+      - name: Reject tracked secret files
+        shell: bash
+        run: |
+          set -euo pipefail
+          bad=0
+          for path in site/config/database.php config/database.php .env; do
+            if git ls-files --error-unmatch "$path" >/dev/null 2>&1; then
+              echo "ERROR: sensitive runtime file is tracked: $path" >&2
+              bad=1
+            fi
+          done
+          if [ "$bad" -ne 0 ]; then exit 1; fi
+
+          if git grep -I -n -E 'BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY' -- .; then
+            echo 'ERROR: private key material detected in tracked content.' >&2
+            exit 1
+          fi
+
+      - name: SEO foundation checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '^User-agent:' site/robots.txt
+          grep -q '^Sitemap: https://www.laocaimi.org/sitemap.xml$' site/robots.txt
+          if grep -q '<meta name="robots" content="none">' site/template/pc/default/home/index.html; then
+            echo 'WARNING: legacy homepage still contains robots=none; production deployment must remain blocked until repaired.'
+          fi

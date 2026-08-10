@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "verified": false,
+  "verified_at": null,
+  "verified_article_id": null,
+  "notes": "Auto-publishing remains write-locked until a known-good manually published Xunrui CMS article is probed and all required auxiliary tables are confirmed.",
+  "required_tables": [
+    "dr_1_news",
+    "dr_1_news_data_0"
+  ],
+  "auxiliary_tables": [
+    "dr_1_news_hits",
+    "dr_1_news_index",
+    "dr_1_news_time",
+    "dr_1_news_search"
+  ]
+}

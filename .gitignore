@@ -17,6 +17,7 @@ secrets/
 credentials/
 wp-config.php
 config/database.php
+site/config/database.php
 
 # === Database dumps ===
 *.sql
@@ -84,4 +85,5 @@ venv/
 
 # === WorkBuddy internal ===
 .workbuddy/
-.github/workflows/
+
+# GitHub Actions workflows are intentionally version-controlled.

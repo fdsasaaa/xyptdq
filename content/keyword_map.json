@@ -1,0 +1,146 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-08-10",
+  "canonical_domain": "https://www.laocaimi.org",
+  "rules": {
+    "one_primary_keyword_one_primary_page": true,
+    "no_keyword_stuffing": true,
+    "no_thin_variation_pages": true,
+    "no_unverifiable_profit_claims": true,
+    "preserve_existing_article_urls": true
+  },
+  "existing_targets": {
+    "home": "/",
+    "挂机方案": "/index.php?c=category&dir=gjfa",
+    "投注技巧": "/index.php?c=category&dir=tzjq",
+    "SEO文章": "/index.php?c=category&dir=seo-articles"
+  },
+  "clusters": [
+    {
+      "id": "ffc",
+      "name": "分分彩研究中心",
+      "priority": "S",
+      "status": "planned_hub",
+      "primary_keyword": "分分彩",
+      "keywords": [
+        {"keyword": "分分彩", "intent": "informational", "priority": "S", "target": "ffc_hub"},
+        {"keyword": "分分彩技巧", "intent": "informational", "priority": "S", "target": "ffc_skills"},
+        {"keyword": "分分彩技术", "intent": "informational", "priority": "S", "target": "ffc_technology"},
+        {"keyword": "分分彩投注技巧", "intent": "informational", "priority": "S", "target": "ffc_betting_skills"},
+        {"keyword": "分分彩投注方法", "intent": "informational", "priority": "S", "target": "ffc_betting_methods"},
+        {"keyword": "分分彩挂机", "intent": "informational_commercial", "priority": "S", "target": "ffc_automation"},
+        {"keyword": "分分彩挂机方案", "intent": "commercial", "priority": "S", "target": "/index.php?c=category&dir=gjfa"},
+        {"keyword": "分分彩倍投", "intent": "informational", "priority": "S", "target": "ffc_progression"},
+        {"keyword": "分分彩高级倍投", "intent": "informational", "priority": "S", "target": "ffc_advanced_progression"},
+        {"keyword": "分分彩数据分析", "intent": "informational", "priority": "S", "target": "ffc_data"},
+        {"keyword": "分分彩方案验证", "intent": "informational", "priority": "S", "target": "ffc_validation"},
+        {"keyword": "分分彩历史数据", "intent": "informational", "priority": "A", "target": "ffc_history"},
+        {"keyword": "分分彩冷热号", "intent": "informational", "priority": "A", "target": "ffc_hot_cold"},
+        {"keyword": "分分彩遗漏", "intent": "informational", "priority": "A", "target": "ffc_omission"},
+        {"keyword": "分分彩资金管理", "intent": "informational", "priority": "A", "target": "ffc_bankroll"}
+      ]
+    },
+    {
+      "id": "hash_ffc",
+      "name": "哈希分分彩专题",
+      "priority": "S",
+      "status": "planned_hub",
+      "primary_keyword": "哈希分分彩",
+      "keywords": [
+        {"keyword": "哈希分分彩", "intent": "informational", "priority": "S", "target": "hash_ffc_hub"},
+        {"keyword": "哈希分分彩技巧", "intent": "informational", "priority": "S", "target": "hash_ffc_skills"},
+        {"keyword": "哈希分分彩技术", "intent": "informational", "priority": "S", "target": "hash_ffc_technology"},
+        {"keyword": "哈希分分彩玩法", "intent": "informational", "priority": "A", "target": "hash_ffc_play"},
+        {"keyword": "哈希分分彩挂机", "intent": "commercial", "priority": "A", "target": "hash_ffc_automation"},
+        {"keyword": "哈希分分彩倍投", "intent": "informational", "priority": "A", "target": "hash_ffc_progression"},
+        {"keyword": "哈希分分彩数据分析", "intent": "informational", "priority": "A", "target": "hash_ffc_data"}
+      ]
+    },
+    {
+      "id": "qiqu_ffc",
+      "name": "奇趣分分彩专题",
+      "priority": "S",
+      "status": "planned_hub",
+      "primary_keyword": "奇趣分分彩",
+      "keywords": [
+        {"keyword": "奇趣分分彩", "intent": "informational", "priority": "S", "target": "qiqu_ffc_hub"},
+        {"keyword": "奇趣分分彩技巧", "intent": "informational", "priority": "S", "target": "qiqu_ffc_skills"},
+        {"keyword": "奇趣分分彩技术", "intent": "informational", "priority": "A", "target": "qiqu_ffc_technology"},
+        {"keyword": "奇趣分分彩玩法", "intent": "informational", "priority": "A", "target": "qiqu_ffc_play"},
+        {"keyword": "奇趣分分彩挂机", "intent": "commercial", "priority": "A", "target": "qiqu_ffc_automation"}
+      ]
+    },
+    {
+      "id": "ssc",
+      "name": "时时彩技术中心",
+      "priority": "A",
+      "status": "planned_hub",
+      "primary_keyword": "时时彩",
+      "keywords": [
+        {"keyword": "时时彩", "intent": "informational", "priority": "A", "target": "ssc_hub"},
+        {"keyword": "时时彩技巧", "intent": "informational", "priority": "A", "target": "ssc_skills"},
+        {"keyword": "时时彩技术", "intent": "informational", "priority": "A", "target": "ssc_technology"},
+        {"keyword": "时时彩计划", "intent": "informational", "priority": "A", "target": "ssc_strategy"},
+        {"keyword": "时时彩挂机方案", "intent": "commercial", "priority": "A", "target": "ssc_automation"}
+      ]
+    },
+    {
+      "id": "racing",
+      "name": "赛车与飞艇专题",
+      "priority": "A",
+      "status": "planned_hub",
+      "primary_keyword": "赛车飞艇技巧",
+      "keywords": [
+        {"keyword": "幸运飞艇", "intent": "informational", "priority": "A", "target": "xyft_hub"},
+        {"keyword": "幸运飞艇技巧", "intent": "informational", "priority": "A", "target": "xyft_skills"},
+        {"keyword": "幸运赛车", "intent": "informational", "priority": "A", "target": "xysc_hub"},
+        {"keyword": "幸运赛车技巧", "intent": "informational", "priority": "A", "target": "xysc_skills"},
+        {"keyword": "极速赛车", "intent": "informational", "priority": "A", "target": "jssc_hub"},
+        {"keyword": "极速赛车技巧", "intent": "informational", "priority": "A", "target": "jssc_skills"},
+        {"keyword": "极速飞艇", "intent": "informational", "priority": "A", "target": "jsft_hub"},
+        {"keyword": "极速飞艇技巧", "intent": "informational", "priority": "A", "target": "jsft_skills"}
+      ]
+    },
+    {
+      "id": "platforms",
+      "name": "平台评测与信誉平台大全",
+      "priority": "S",
+      "status": "existing_home_plus_planned_reviews",
+      "primary_keyword": "信誉平台大全",
+      "keywords": [
+        {"keyword": "信誉平台大全", "intent": "commercial", "priority": "S", "target": "/"},
+        {"keyword": "彩票平台评测", "intent": "commercial", "priority": "S", "target": "platform_review_hub"},
+        {"keyword": "彩票下载平台对比", "intent": "commercial", "priority": "A", "target": "platform_comparison"},
+        {"keyword": "分分彩计划平台", "intent": "commercial", "priority": "A", "target": "ffc_platforms"},
+        {"keyword": "哈希分分彩计划平台", "intent": "commercial", "priority": "A", "target": "hash_ffc_platforms"}
+      ]
+    },
+    {
+      "id": "research",
+      "name": "数据实验室",
+      "priority": "S",
+      "status": "planned_hub",
+      "primary_keyword": "彩票方案验证",
+      "keywords": [
+        {"keyword": "彩票实验", "intent": "informational", "priority": "A", "target": "lottery_lab"},
+        {"keyword": "彩票方案验证", "intent": "informational", "priority": "S", "target": "scheme_validation"},
+        {"keyword": "历史数据回测", "intent": "informational", "priority": "A", "target": "historical_backtest"},
+        {"keyword": "倍投实验", "intent": "informational", "priority": "A", "target": "progression_experiment"},
+        {"keyword": "连续不中风险", "intent": "informational", "priority": "A", "target": "losing_streak_risk"},
+        {"keyword": "彩票资金管理", "intent": "informational", "priority": "A", "target": "bankroll_management"}
+      ]
+    }
+  ],
+  "sensitive_intent_keywords": [
+    {
+      "keyword": "彩票赚钱方法",
+      "policy": "cover_as_risk_and_economics_analysis",
+      "prohibited_claims": ["稳赚", "必中", "保证盈利", "无风险"]
+    },
+    {
+      "keyword": "分分彩盈利方法",
+      "policy": "cover_as_probability_cost_and_risk_analysis",
+      "prohibited_claims": ["稳定盈利", "100%盈利", "必赚"]
+    }
+  ]
+}
