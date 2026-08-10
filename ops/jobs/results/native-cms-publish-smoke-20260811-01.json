@@ -1,0 +1,26 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T22:24:43Z",
+  "job_id": "native-cms-publish-smoke-20260811-01",
+  "payload": {
+    "article_http": 200,
+    "backup_verification": "PASS",
+    "blocking_item": "NONE",
+    "cms_id": 84,
+    "native_cms_publish": "PASS",
+    "native_save_content": "PASS",
+    "phase": "final",
+    "registry_idempotency": "PASS",
+    "secrets_disclosed": false,
+    "sitemap_contains_article": "PASS",
+    "task": "native_cms_publish_smoke"
+  },
+  "raw_log_published": false,
+  "required_commit": "414fd1bca4c4dd7f7b9981b7a493472e97229478",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/native_cms_publish_smoke.sh",
+  "script_sha256": "7e5f8b2aadf4bc4ca3acacb30c89392c447bcbb03d5f0c981d54c3b1780fda52",
+  "started_at": "2026-08-10T22:24:39Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
