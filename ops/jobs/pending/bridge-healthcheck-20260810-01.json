@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "bridge-healthcheck-20260810-01",
+  "required_commit": "0ee6fba301aeb88d7c456060eb0ad642bf95ac45",
+  "script": "scripts/ops/agent_tasks/bridge_healthcheck.sh",
+  "script_sha256": "7e464b3f71429536daefaf7548cb22f0ebb4bfc2a79ae1952253fa2b6fb7e68b",
+  "timeout_seconds": 120
+}
