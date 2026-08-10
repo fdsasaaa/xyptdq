@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up PHP 7.4
         uses: shivammathur/setup-php@v2
@@ -44,6 +46,52 @@ jobs:
           for path in paths:
               json.loads(path.read_text(encoding='utf-8'))
           print(f'validated {len(paths)} json files')
+          PY
+
+      - name: Validate pending agent job pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, pathlib, re, subprocess, sys
+
+          pending = pathlib.Path('ops/jobs/pending')
+          jobs = sorted(pending.glob('*.json')) if pending.is_dir() else []
+          allowed_task = re.compile(r'^scripts/ops/agent_tasks/[A-Za-z0-9._/-]+\.sh$')
+          job_id_re = re.compile(r'^[a-z0-9][a-z0-9._-]{2,80}$')
+          commit_re = re.compile(r'^[0-9a-f]{40}$')
+          sha_re = re.compile(r'^[0-9a-f]{64}$')
+
+          for path in jobs:
+              job = json.loads(path.read_text(encoding='utf-8'))
+              job_id = str(job.get('job_id', ''))
+              commit = str(job.get('required_commit', ''))
+              script = str(job.get('script', ''))
+              expected = str(job.get('script_sha256', ''))
+              timeout = job.get('timeout_seconds', 900)
+
+              if job.get('schema_version') != 1:
+                  raise SystemExit(f'{path}: invalid schema_version')
+              if not job_id_re.fullmatch(job_id) or path.name != f'{job_id}.json':
+                  raise SystemExit(f'{path}: invalid job_id/path')
+              if not commit_re.fullmatch(commit):
+                  raise SystemExit(f'{path}: invalid required_commit')
+              if not (script == 'scripts/ops/chatgpt_finalize_publisher_v5.sh' or allowed_task.fullmatch(script)):
+                  raise SystemExit(f'{path}: disallowed script')
+              if '..' in script or script.startswith('/'):
+                  raise SystemExit(f'{path}: unsafe script path')
+              if not sha_re.fullmatch(expected):
+                  raise SystemExit(f'{path}: invalid script_sha256')
+              if not isinstance(timeout, int) or not (10 <= timeout <= 1800):
+                  raise SystemExit(f'{path}: invalid timeout')
+
+              subprocess.run(['git', 'cat-file', '-e', f'{commit}^{{commit}}'], check=True)
+              proc = subprocess.run(['git', 'show', f'{commit}:{script}'], check=True, stdout=subprocess.PIPE)
+              actual = hashlib.sha256(proc.stdout).hexdigest()
+              if actual != expected:
+                  raise SystemExit(f'{path}: script hash mismatch expected={expected} actual={actual}')
+
+          print(f'validated {len(jobs)} pending agent job pins')
           PY
 
       - name: Validate all production smoke fixtures
