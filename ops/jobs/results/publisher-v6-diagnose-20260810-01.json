@@ -1,0 +1,20 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-10T14:27:27Z",
+  "job_id": "publisher-v6-diagnose-20260810-01",
+  "payload": {
+    "diagnostic": "FAIL",
+    "exit_code": 1,
+    "phase": "git_add_cache",
+    "secrets_disclosed": false,
+    "task": "publisher_v6_diagnose"
+  },
+  "raw_log_published": false,
+  "required_commit": "8e4f98c419cc23af4203a5bee176053bb3930241",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_v6_diagnose.sh",
+  "script_sha256": "53c474ca1a61457c6877684442368c011943405d581480f655979c82230ba06b",
+  "started_at": "2026-08-10T14:27:26Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
