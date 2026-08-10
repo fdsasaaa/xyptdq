@@ -1,0 +1,11 @@
+{
+  "probe_date": "2026-08-10",
+  "probe_mode": "read_only",
+  "status": "PASS",
+  "sample_article_id": 47,
+  "tables_checked": ["dr_1_news", "dr_1_news_data_0", "dr_1_share_category"],
+  "sensitive_fields_found": ["password", "token", "secret"],
+  "sensitive_data_exposed": false,
+  "content_handling": "only_length_recorded_not_full_text",
+  "notes": "Article ID 47 selected as known_good sample. Probe confirms CMS write path exists and can be analyzed by ChatGPT for adapter development. This probe does NOT enable auto-publish; WRITE LOCK remains."
+}
