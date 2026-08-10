@@ -7,6 +7,7 @@ umask 077
 
 RESULT_FILE="${XYPTDQ_AGENT_RESULT_FILE:-}"
 REPO="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
+REQUIRED_COMMIT="${XYPTDQ_AGENT_REQUIRED_COMMIT:-}"
 
 [ -n "$RESULT_FILE" ] || { echo "missing agent result file" >&2; exit 2; }
 [ -d "$REPO/.git" ] || { echo "production repo missing" >&2; exit 3; }
@@ -28,6 +29,23 @@ PY
 }
 
 cd "$REPO"
+if [ -n "$(git status --porcelain)" ]; then
+  write_blocked 20
+  echo "production repo dirty" >&2
+  exit 20
+fi
+
+git fetch --prune origin
+git checkout main >/dev/null 2>&1
+git reset --hard origin/main >/dev/null
+if [ -n "$REQUIRED_COMMIT" ]; then
+  git merge-base --is-ancestor "$REQUIRED_COMMIT" origin/main || {
+    write_blocked 21
+    echo "required agent commit not in origin/main" >&2
+    exit 21
+  }
+fi
+
 FINALIZER="$REPO/scripts/ops/chatgpt_finalize_publisher_v6.sh"
 [ -f "$FINALIZER" ] || { write_blocked 22; exit 22; }
 bash -n "$FINALIZER" || { write_blocked 23; exit 23; }
