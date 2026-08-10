@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "article-cache-visibility-diagnose-20260811-02",
+  "required_commit": "2e0cb13f891ecc7db8696542d988181e88e90631",
+  "script": "scripts/ops/agent_tasks/article_cache_visibility_diagnose.sh",
+  "script_sha256": "c52028a3d354dc6c8f9de332b63d17cdd0d98dcc84a3b1cfd3dda1363298f033",
+  "timeout_seconds": 120
+}
