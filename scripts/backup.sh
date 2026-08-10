@@ -1,46 +1,86 @@
 #!/bin/bash
 # ============================================================
-# backup.sh - 网站完整备份脚本
-# 使用: ./backup.sh
+# backup.sh - full production backup
+# Usage: ./backup.sh
 # ============================================================
-set -e
+set -euo pipefail
 
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="/root/backups/deploy_${TIMESTAMP}"
+BACKUP_ROOT="${XYPTDQ_BACKUP_ROOT:-/root/backups}"
+BACKUP_DIR="$BACKUP_ROOT/deploy_${TIMESTAMP}"
+WEBROOT="${XYPTDQ_WEBROOT:-/www/wwwroot/59.110.217.6}"
+REPO_DIR="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
+
+if [ ! -d "$REPO_DIR/.git" ] && [ -d /root/xyptdq/.git ]; then
+    REPO_DIR=/root/xyptdq
+fi
+if [ ! -d "$WEBROOT" ]; then
+    echo "ERROR: webroot not found: $WEBROOT" >&2
+    exit 1
+fi
+if [ ! -f "$WEBROOT/config/database.php" ]; then
+    echo "ERROR: CMS database config not found" >&2
+    exit 1
+fi
+
 mkdir -p "$BACKUP_DIR"
+chmod 700 "$BACKUP_DIR"
 
-echo "=== 创建备份: $BACKUP_DIR ==="
+echo "=== Create backup: $BACKUP_DIR ==="
 
-# A. 网站文件
-echo "--- 网站文件 ---"
+# A. Website files. Cache is intentionally excluded; uploads and runtime config
+# are included because this is a recovery backup, not a Git source snapshot.
+echo "--- Website files ---"
 tar czf "$BACKUP_DIR/website_files.tar.gz" \
-    -C /www/wwwroot/59.110.217.6 \
+    -C "$WEBROOT" \
     --exclude='cache' \
     . 2>/dev/null
+chmod 600 "$BACKUP_DIR/website_files.tar.gz"
 echo "OK"
 
-# B. 数据库
-echo "--- 数据库 ---"
-mysqldump --single-transaction --routines --triggers dayrui > "$BACKUP_DIR/database_dayrui.sql" 2>/dev/null
+# B. Resolve database name without printing credentials.
+DB_NAME=$(php -r '$db=[]; require $argv[1]; $c=$db["default"]??[]; echo $c["database"]??"";' "$WEBROOT/config/database.php")
+if [ -z "$DB_NAME" ] || ! [[ "$DB_NAME" =~ ^[A-Za-z0-9_]+$ ]]; then
+    echo "ERROR: invalid database name resolved from CMS config" >&2
+    exit 1
+fi
+
+# C. Database dump using the server's local administrative authentication.
+echo "--- Database ---"
+mysqldump --single-transaction --routines --triggers "$DB_NAME" > "$BACKUP_DIR/database_${DB_NAME}.sql"
+chmod 600 "$BACKUP_DIR/database_${DB_NAME}.sql"
 echo "OK"
 
-# C. Nginx配置
-echo "--- Nginx配置 ---"
+# D. Nginx configuration.
+echo "--- Nginx config ---"
 cp /etc/nginx/sites-enabled/site.conf "$BACKUP_DIR/nginx_site.conf"
+chmod 600 "$BACKUP_DIR/nginx_site.conf"
 echo "OK"
 
-# D. 部署信息
-echo "--- 部署信息 ---"
-echo "BACKUP_ID: $TIMESTAMP" > "$BACKUP_DIR/MANIFEST.txt"
-echo "DATE: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$BACKUP_DIR/MANIFEST.txt"
-echo "GIT_SHA: $(cd /root/xyptdq 2>/dev/null && git rev-parse HEAD 2>/dev/null || echo 'N/A')" >> "$BACKUP_DIR/MANIFEST.txt"
+# E. Deployment metadata. Never write secrets into the manifest.
+GIT_SHA="N/A"
+if [ -d "$REPO_DIR/.git" ]; then
+    GIT_SHA=$(git -C "$REPO_DIR" rev-parse HEAD 2>/dev/null || echo 'N/A')
+fi
+{
+    echo "BACKUP_ID: $TIMESTAMP"
+    echo "DATE: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    echo "GIT_SHA: $GIT_SHA"
+    echo "WEBROOT: $WEBROOT"
+    echo "DB_NAME: $DB_NAME"
+} > "$BACKUP_DIR/MANIFEST.txt"
+chmod 600 "$BACKUP_DIR/MANIFEST.txt"
 
-# E. 校验值
-echo "--- 校验值 ---"
-cd "$BACKUP_DIR"
-sha256sum * > checksums.sha256
-cat checksums.sha256
+# F. Integrity hashes.
+echo "--- Checksums ---"
+(
+    cd "$BACKUP_DIR"
+    sha256sum website_files.tar.gz "database_${DB_NAME}.sql" nginx_site.conf MANIFEST.txt > checksums.sha256
+)
+chmod 600 "$BACKUP_DIR/checksums.sha256"
+cat "$BACKUP_DIR/checksums.sha256"
 
 echo ""
-echo "=== 备份完成: $BACKUP_DIR ==="
+echo "=== Backup complete ==="
 echo "BACKUP_ID=$TIMESTAMP"
+echo "BACKUP_DIR=$BACKUP_DIR"
