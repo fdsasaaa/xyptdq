@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "share-index-smoke-repair-20260811-01",
+  "required_commit": "434c0dd8d721ae09719e478eb6989f9da4ee3fda",
+  "script": "scripts/ops/agent_tasks/repair_share_index_smoke_rows.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 1800
+}
