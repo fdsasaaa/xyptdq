@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "publisher-route-follow-diagnose-20260810-01",
+  "required_commit": "b15b123317951e4067f01f5106722c0573fdf4e9",
+  "script": "scripts/ops/agent_tasks/publisher_route_follow_diagnose.sh",
+  "script_sha256": "23b94c3732c5a4091db65541b203e6db15718768b7783e5915f8d82cde9a638e",
+  "timeout_seconds": 300
+}
