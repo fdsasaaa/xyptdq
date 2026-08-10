@@ -33,9 +33,16 @@ $pdo = new PDO(
     (string) $config['password'],
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
 );
-$rows = $pdo->query(
-    'SELECT id,pid,pids,name,dirname,pdirname,child,disabled,ismain,show,displayorder FROM `' . $table . '` ORDER BY displayorder ASC,id ASC'
-)->fetchAll();
+
+// `show` is a MariaDB keyword. Quote every selected identifier so the probe is
+// stable across MariaDB/MySQL versions instead of relying on parser leniency.
+$columns = ['id','pid','pids','name','dirname','pdirname','child','disabled','ismain','show','displayorder'];
+$select = implode(',', array_map(static function (string $column): string {
+    return '`' . str_replace('`', '', $column) . '`';
+}, $columns));
+$sql = 'SELECT ' . $select . ' FROM `' . $table . '` ORDER BY `displayorder` ASC,`id` ASC';
+$rows = $pdo->query($sql)->fetchAll();
+
 $result = [
     'generated_at' => gmdate('c'),
     'read_only' => true,
