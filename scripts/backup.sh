@@ -2,10 +2,12 @@
 # ============================================================
 # backup.sh - full production backup
 # Usage: ./backup.sh
+# Optional: XYPTDQ_BACKUP_ID=YYYYMMDD_HHMMSS to pin the backup directory.
 # ============================================================
 set -euo pipefail
 
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+TIMESTAMP="${XYPTDQ_BACKUP_ID:-$(date +%Y%m%d_%H%M%S)}"
+[[ "$TIMESTAMP" =~ ^[0-9]{8}_[0-9]{6}$ ]] || { echo "ERROR: invalid XYPTDQ_BACKUP_ID" >&2; exit 2; }
 BACKUP_ROOT="${XYPTDQ_BACKUP_ROOT:-/root/backups}"
 BACKUP_DIR="$BACKUP_ROOT/deploy_${TIMESTAMP}"
 WEBROOT="${XYPTDQ_WEBROOT:-/www/wwwroot/59.110.217.6}"
@@ -20,6 +22,10 @@ if [ ! -d "$WEBROOT" ]; then
 fi
 if [ ! -f "$WEBROOT/config/database.php" ]; then
     echo "ERROR: CMS database config not found" >&2
+    exit 1
+fi
+if [ -e "$BACKUP_DIR" ]; then
+    echo "ERROR: backup directory already exists: $BACKUP_DIR" >&2
     exit 1
 fi
 
