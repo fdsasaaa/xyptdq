@@ -1,7 +1,8 @@
 #!/bin/bash
 # xyptdq Server Bridge worker.
 # Polls versioned jobs from origin/main and executes only approved, exact-commit
-# scripts. Raw task logs stay local; only sanitized JSON payloads are pushed.
+# scripts. Raw task logs stay local. Sanitized structured results are published
+# as static JSON under uploadfile so ChatGPT can read them without Git credentials.
 set -euo pipefail
 umask 077
 
@@ -10,6 +11,8 @@ STATE_ROOT="${XYPTDQ_AGENT_STATE_ROOT:-/var/lib/xyptdq-agent/state}"
 LOG_ROOT="${XYPTDQ_AGENT_LOG_ROOT:-/var/log/xyptdq-agent}"
 LOCK_FILE="${XYPTDQ_AGENT_LOCK_FILE:-/run/lock/xyptdq-agent.lock}"
 PRODUCTION_REPO="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
+WEBROOT="${XYPTDQ_WEBROOT:-/www/wwwroot/59.110.217.6}"
+PUBLIC_RESULT_ROOT="${XYPTDQ_AGENT_PUBLIC_RESULT_ROOT:-$WEBROOT/uploadfile/xyptdq-agent-results}"
 MAIN_REF="refs/remotes/origin/main"
 
 log() {
@@ -23,8 +26,10 @@ fail() {
 
 [ "$(id -u)" -eq 0 ] || fail "worker must run as root"
 [ -d "$CONTROL_REPO" ] || fail "control bare repository missing"
-mkdir -p "$STATE_ROOT" "$LOG_ROOT" "$(dirname "$LOCK_FILE")"
+[ -d "$WEBROOT" ] || fail "production webroot missing"
+mkdir -p "$STATE_ROOT" "$LOG_ROOT" "$PUBLIC_RESULT_ROOT" "$(dirname "$LOCK_FILE")"
 chmod 700 "$STATE_ROOT" "$LOG_ROOT"
+chmod 755 "$PUBLIC_RESULT_ROOT"
 
 exec 9>"$LOCK_FILE"
 if ! flock -n 9; then
@@ -32,7 +37,8 @@ if ! flock -n 9; then
   exit 0
 fi
 
-# Fetch only the canonical control branch. Jobs never execute from unmerged PRs.
+# Fetch only canonical main. The repository is public, so fetch requires no
+# interactive credential even when the worker runs under systemd.
 git --git-dir="$CONTROL_REPO" fetch --quiet --prune origin \
   '+refs/heads/main:refs/remotes/origin/main' || fail "cannot fetch origin/main"
 git --git-dir="$CONTROL_REPO" cat-file -e "$MAIN_REF^{commit}" || fail "origin/main missing"
@@ -41,63 +47,17 @@ publish_result() {
   local job_id="$1"
   local state_dir="$2"
   local result_json="$state_dir/result.json"
-  local result_branch="agent/results/$job_id"
-  local remote_line
+  local public_file="$PUBLIC_RESULT_ROOT/$job_id.json"
+  local tmp_file
 
   [ -s "$result_json" ] || return 1
-
-  remote_line=$(git --git-dir="$CONTROL_REPO" ls-remote --heads origin "$result_branch" 2>/dev/null || true)
-  if [ -n "$remote_line" ]; then
-    touch "$state_dir/pushed"
-    log "result already remote for $job_id"
-    return 0
-  fi
-
-  # If a previous push failed after the local result commit was created, retry it
-  # without ever rerunning the task.
-  if git --git-dir="$CONTROL_REPO" show-ref --verify --quiet "refs/heads/$result_branch"; then
-    if git --git-dir="$CONTROL_REPO" push --quiet origin \
-      "refs/heads/$result_branch:refs/heads/$result_branch"; then
-      touch "$state_dir/pushed"
-      log "retried result push for $job_id"
-      return 0
-    fi
-    return 1
-  fi
-
-  local worktree
-  worktree=$(mktemp -d /tmp/xyptdq-agent-result.XXXXXX)
-  if ! git --git-dir="$CONTROL_REPO" worktree add --quiet --detach "$worktree" "$MAIN_REF"; then
-    rm -rf "$worktree"
-    return 1
-  fi
-
-  git -C "$worktree" config user.name 'xyptdq-server-agent'
-  git -C "$worktree" config user.email 'xyptdq-agent@localhost'
-  git -C "$worktree" checkout --quiet -b "$result_branch"
-  mkdir -p "$worktree/ops/jobs/results"
-  cp "$result_json" "$worktree/ops/jobs/results/$job_id.json"
-  git -C "$worktree" add "ops/jobs/results/$job_id.json"
-  git -C "$worktree" commit --quiet -m "Agent result: $job_id"
-
-  local result_commit
-  result_commit=$(git -C "$worktree" rev-parse HEAD)
-  printf '%s\n' "$result_commit" > "$state_dir/result_commit"
-
-  local push_ok=0
-  if git -C "$worktree" push --quiet origin "$result_branch"; then
-    push_ok=1
-  fi
-
-  git --git-dir="$CONTROL_REPO" worktree remove --force "$worktree" >/dev/null 2>&1 || true
-  rm -rf "$worktree" >/dev/null 2>&1 || true
-
-  if [ "$push_ok" -eq 1 ]; then
-    touch "$state_dir/pushed"
-    log "published result branch $result_branch"
-    return 0
-  fi
-  return 1
+  tmp_file=$(mktemp "$PUBLIC_RESULT_ROOT/.${job_id}.XXXXXX")
+  cp "$result_json" "$tmp_file"
+  chown root:root "$tmp_file"
+  chmod 0644 "$tmp_file"
+  mv -f "$tmp_file" "$public_file"
+  touch "$state_dir/published"
+  log "published sanitized result /uploadfile/xyptdq-agent-results/$job_id.json"
 }
 
 write_result() {
@@ -115,7 +75,7 @@ write_result() {
   python3 - "$state_dir/result.json" "$job_id" "$status" "$exit_code" \
     "$started_at" "$finished_at" "$required_commit" "$script_path" "$script_sha" \
     "$payload_file" <<'PY'
-import json, os, sys
+import json, os, re, sys
 (out, job_id, status, exit_code, started, finished, commit, script, script_sha, payload_path) = sys.argv[1:]
 payload = {}
 if payload_path and os.path.isfile(payload_path) and os.path.getsize(payload_path) > 0:
@@ -126,7 +86,10 @@ if payload_path and os.path.isfile(payload_path) and os.path.getsize(payload_pat
     if not isinstance(payload, dict):
         raise SystemExit('payload must be a JSON object')
 
-blocked_keys = {'password', 'passwd', 'token', 'cookie', 'secret', 'private_key', 'dsn', 'database_password'}
+blocked_keys = {
+    'password', 'passwd', 'token', 'cookie', 'secret', 'private_key', 'dsn',
+    'database_password', 'authorization', 'credential', 'credentials', 'api_key'
+}
 
 def inspect(value):
     if isinstance(value, dict):
@@ -139,8 +102,15 @@ def inspect(value):
             inspect(child)
     elif isinstance(value, str):
         upper = value.upper()
-        if 'BEGIN PRIVATE KEY' in upper or 'BEGIN RSA PRIVATE KEY' in upper or 'BEGIN OPENSSH PRIVATE KEY' in upper:
+        forbidden = [
+            'BEGIN ' + 'PRIVATE KEY',
+            'BEGIN RSA ' + 'PRIVATE KEY',
+            'BEGIN OPENSSH ' + 'PRIVATE KEY',
+        ]
+        if any(marker in upper for marker in forbidden):
             raise SystemExit('private key material rejected')
+        if re.search(r'https?://[^/\s:@]+:[^/\s@]+@', value):
+            raise SystemExit('credential-bearing URL rejected')
 inspect(payload)
 
 result = {
@@ -155,6 +125,7 @@ result = {
     'script_sha256': script_sha,
     'payload': payload,
     'raw_log_published': False,
+    'transport': 'static_https',
 }
 with open(out, 'w', encoding='utf-8') as fh:
     json.dump(result, fh, ensure_ascii=False, indent=2, sort_keys=True)
@@ -230,11 +201,11 @@ PY
   mkdir -p "$state_dir"
   chmod 700 "$state_dir"
 
-  if [ -e "$state_dir/pushed" ]; then
+  if [ -e "$state_dir/published" ]; then
     continue
   fi
   if [ -s "$state_dir/result.json" ]; then
-    publish_result "$job_id" "$state_dir" || log "result push still pending for $job_id"
+    publish_result "$job_id" "$state_dir" || log "result publication pending for $job_id"
     exit 0
   fi
 
@@ -245,7 +216,7 @@ PY
     write_result "$state_dir" "$job_id" "INTERRUPTED" 125 "$now" "$now" \
       "$required_commit" "$script_path" "$expected_sha" "$state_dir/payload.json"
     rm -f "$state_dir/running"
-    publish_result "$job_id" "$state_dir" || log "interrupted result push pending for $job_id"
+    publish_result "$job_id" "$state_dir" || log "interrupted result publication pending for $job_id"
     exit 0
   fi
 
@@ -275,6 +246,7 @@ PY
   XYPTDQ_AGENT_REQUIRED_COMMIT="$required_commit" \
   XYPTDQ_AGENT_RESULT_FILE="$payload_file" \
   XYPTDQ_REPO_DIR="$PRODUCTION_REPO" \
+  XYPTDQ_WEBROOT="$WEBROOT" \
     timeout --signal=TERM --kill-after=10s "${timeout_seconds}s" bash "$task_file" \
       >"$log_file" 2>&1
   task_rc=$?
@@ -302,7 +274,7 @@ PY
   if publish_result "$job_id" "$state_dir"; then
     log "job $job_id finished status=$status rc=$task_rc"
   else
-    log "job $job_id finished, but result push is pending"
+    log "job $job_id finished, but result publication is pending"
   fi
   exit 0
 done
