@@ -17,6 +17,7 @@ secrets/
 credentials/
 wp-config.php
 config/database.php
+site/config/database.php
 
 # === Database dumps ===
 *.sql
