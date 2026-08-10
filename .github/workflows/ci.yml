@@ -53,8 +53,9 @@ jobs:
           test -s content/smoke/ffc-betting-basics-risk-v1.json
           php scripts/content/publisher_smoke.php \
             --article=content/smoke/ffc-betting-basics-risk-v1.json \
-            | tee /tmp/publisher-smoke-dryrun.txt
-          grep -Fq 'DRY-RUN ONLY' /tmp/publisher-smoke-dryrun.txt
+            --offline \
+            | tee /tmp/publisher-smoke-offline.txt
+          grep -Fq 'OFFLINE FIXTURE PASS' /tmp/publisher-smoke-offline.txt
 
       - name: Reject tracked secret files
         shell: bash

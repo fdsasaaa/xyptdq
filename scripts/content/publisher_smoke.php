@@ -2,11 +2,17 @@
 /**
  * Explicit one-article production smoke test for the Xunrui adapter.
  *
- * Dry run:
+ * Offline fixture validation (CI only):
+ *   php scripts/content/publisher_smoke.php --article=... --offline
+ *
+ * Live dry run:
  *   php scripts/content/publisher_smoke.php --article=content/smoke/ffc-betting-basics-risk-v1.json
  *
  * Commit (must be deliberate):
  *   php scripts/content/publisher_smoke.php --article=content/smoke/ffc-betting-basics-risk-v1.json --commit
+ *
+ * Live dry-run is read-only but validates the target category against the live
+ * CMS database, so a category-model mismatch cannot hide until commit mode.
  *
  * In commit mode the same article is submitted twice. The second call MUST
  * return the same cms_id with idempotent=true, proving durable duplicate
@@ -15,9 +21,10 @@
 
 declare(strict_types=1);
 
-$options = getopt('', ['article:', 'commit']);
+$options = getopt('', ['article:', 'commit', 'offline']);
 $articlePath = $options['article'] ?? '';
 $commit = array_key_exists('commit', $options);
+$offline = array_key_exists('offline', $options);
 
 function smokeFail(string $message, int $code = 1): void
 {
@@ -25,6 +32,9 @@ function smokeFail(string $message, int $code = 1): void
     exit($code);
 }
 
+if ($commit && $offline) {
+    smokeFail('--offline cannot be combined with --commit');
+}
 if ($articlePath === '' || !is_file($articlePath)) {
     smokeFail('--article must point to an existing JSON article');
 }
@@ -57,16 +67,17 @@ if ($encoded === false) {
 }
 $article['_content_hash'] = hash('sha256', $encoded);
 
+$mode = $commit ? 'COMMIT' : ($offline ? 'OFFLINE' : 'DRY-RUN');
 fwrite(STDOUT, sprintf(
     "[publisher-smoke] key=%s catid=%d title=%s mode=%s\n",
     (string) $article['article_key'],
     (int) $article['catid'],
     (string) $article['title'],
-    $commit ? 'COMMIT' : 'DRY-RUN'
+    $mode
 ));
 
-if (!$commit) {
-    fwrite(STDOUT, "[publisher-smoke] DRY-RUN ONLY; no database write attempted.\n");
+if ($offline) {
+    fwrite(STDOUT, "[publisher-smoke] OFFLINE FIXTURE PASS; no database connection or write attempted.\n");
     exit(0);
 }
 
@@ -75,8 +86,41 @@ if (!is_file($adapter)) {
     smokeFail('adapter missing');
 }
 require_once $adapter;
-if (!function_exists('xyptdq_publish_article')) {
+if (!function_exists('xyptdq_publish_article') || !function_exists('xyptdq_resolve_category')) {
     smokeFail('adapter function missing');
+}
+
+// Read-only live target preflight. This deliberately performs no DDL or DML.
+try {
+    $config = xyptdq_load_db_config();
+    $database = xyptdq_identifier((string) $config['database'], 'database');
+    $prefix = (string) ($config['DBPrefix'] ?? 'dr_');
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $prefix)) {
+        smokeFail('unsafe database table prefix');
+    }
+    $module = xyptdq_identifier(getenv('XYPTDQ_CMS_MODULE') ?: '1_news', 'module');
+    $newsTable = xyptdq_identifier($prefix . $module, 'news table');
+    $pdo = xyptdq_open_pdo($config);
+    $resolved = xyptdq_resolve_category(
+        $pdo,
+        $database,
+        $prefix,
+        $module,
+        $newsTable,
+        (int) $article['catid']
+    );
+    $categorySource = (string) ($resolved['source'] ?? '');
+    if ($categorySource === '') {
+        smokeFail('category preflight returned no source');
+    }
+    fwrite(STDOUT, '[publisher-smoke] TARGET_PREFLIGHT PASS category_source=' . $categorySource . PHP_EOL);
+} catch (Throwable $e) {
+    smokeFail('target preflight failed: ' . $e->getMessage());
+}
+
+if (!$commit) {
+    fwrite(STDOUT, "[publisher-smoke] DRY-RUN ONLY; no database write attempted.\n");
+    exit(0);
 }
 
 try {

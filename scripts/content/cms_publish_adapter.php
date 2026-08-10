@@ -8,6 +8,12 @@
  *   dr_1_news, dr_1_news_data_0, dr_1_news_hits, dr_1_news_index
  * - dr_1_news_time and dr_1_news_search exist but have no row for article 47.
  *
+ * Category model:
+ * Xunrui installations may keep module categories in either a dedicated
+ * <site>_<module>_category table or the site-wide <site>_share_category table.
+ * The production site currently exposes SEO category 7 through the shared
+ * category model, so validation must resolve both layouts safely.
+ *
  * Durable idempotency:
  * A dedicated dr_xyptdq_publish_registry table stores article_key -> cms_id in
  * the same database. Re-running an already committed article returns the same
@@ -115,7 +121,7 @@ function xyptdq_load_db_config(): array
 
 function xyptdq_open_pdo(array $config): PDO
 {
-    $pdo = new PDO(
+    return new PDO(
         'mysql:host=' . (string) $config['hostname'] . ';dbname=' . (string) $config['database'] . ';charset=utf8mb4',
         (string) $config['username'],
         (string) $config['password'],
@@ -125,13 +131,10 @@ function xyptdq_open_pdo(array $config): PDO
             PDO::ATTR_EMULATE_PREPARES => false,
         ]
     );
-    return $pdo;
 }
 
 function xyptdq_ensure_registry(PDO $pdo, string $registry): void
 {
-    // DDL intentionally occurs before the article transaction. The table is
-    // isolated from CMS core tables and contains no credentials or article body.
     $sql = 'CREATE TABLE IF NOT EXISTS `' . $registry . '` (
         `article_key` varchar(80) NOT NULL,
         `cms_id` int(10) unsigned NOT NULL,
@@ -142,6 +145,109 @@ function xyptdq_ensure_registry(PDO $pdo, string $registry): void
         UNIQUE KEY `uniq_cms_id` (`cms_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci';
     $pdo->exec($sql);
+}
+
+/**
+ * Resolve one Xunrui category without assuming a single installation layout.
+ *
+ * Resolution order:
+ * 1. dedicated dr_<site>_<module>_category
+ * 2. shared dr_<site>_share_category filtered by module marker when present
+ * 3. an already published article using that catid (compatibility fallback)
+ *
+ * @return array{source:string,row:array}
+ */
+function xyptdq_resolve_category(
+    PDO $pdo,
+    string $database,
+    string $prefix,
+    string $module,
+    string $newsTable,
+    int $catid
+): array {
+    if (!preg_match('/^([0-9]+)_([A-Za-z0-9_]+)$/', $module, $match)) {
+        xyptdq_adapter_fail('unexpected CMS module identifier: ' . $module);
+    }
+    $siteId = $match[1];
+    $moduleName = $match[2];
+
+    $dedicated = xyptdq_identifier($prefix . $module . '_category', 'dedicated category table');
+    if (xyptdq_table_exists($pdo, $database, $dedicated)) {
+        $columns = xyptdq_columns($pdo, $database, $dedicated);
+        if (in_array('id', $columns, true)) {
+            $select = ['id'];
+            foreach (['disabled', 'name', 'dirname'] as $column) {
+                if (in_array($column, $columns, true)) {
+                    $select[] = $column;
+                }
+            }
+            $sql = 'SELECT ' . implode(',', array_map(static function (string $column): string {
+                return '`' . $column . '`';
+            }, $select)) . ' FROM `' . $dedicated . '` WHERE `id`=:id LIMIT 1';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':id' => $catid]);
+            $row = $stmt->fetch();
+            if (is_array($row)) {
+                if (array_key_exists('disabled', $row) && (int) $row['disabled'] !== 0) {
+                    xyptdq_adapter_fail('target category is disabled: ' . $catid);
+                }
+                return ['source' => $dedicated, 'row' => $row];
+            }
+        }
+    }
+
+    $shared = xyptdq_identifier($prefix . $siteId . '_share_category', 'shared category table');
+    if (xyptdq_table_exists($pdo, $database, $shared)) {
+        $columns = xyptdq_columns($pdo, $database, $shared);
+        if (in_array('id', $columns, true)) {
+            $select = ['id'];
+            foreach (['disabled', 'name', 'dirname', 'mid', 'module', 'module_name'] as $column) {
+                if (in_array($column, $columns, true)) {
+                    $select[] = $column;
+                }
+            }
+            $where = '`id`=:id';
+            $params = [':id' => $catid];
+            $moduleColumn = null;
+            foreach (['mid', 'module', 'module_name'] as $candidate) {
+                if (in_array($candidate, $columns, true)) {
+                    $moduleColumn = $candidate;
+                    break;
+                }
+            }
+            if ($moduleColumn !== null) {
+                $where .= ' AND `' . $moduleColumn . '`=:module_name';
+                $params[':module_name'] = $moduleName;
+            }
+            $sql = 'SELECT ' . implode(',', array_map(static function (string $column): string {
+                return '`' . $column . '`';
+            }, $select)) . ' FROM `' . $shared . '` WHERE ' . $where . ' LIMIT 1';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+            $row = $stmt->fetch();
+            if (is_array($row)) {
+                if (array_key_exists('disabled', $row) && (int) $row['disabled'] !== 0) {
+                    xyptdq_adapter_fail('target category is disabled: ' . $catid);
+                }
+                return ['source' => $shared, 'row' => $row];
+            }
+        }
+    }
+
+    // Compatibility fallback: existing published content using catid is strong
+    // evidence that the live CMS accepts this category even if its category
+    // metadata is stored by a custom/legacy module layout.
+    $fallback = $pdo->prepare(
+        'SELECT `id`,`catid`,`status` FROM `' . $newsTable . '` '
+        . 'WHERE `catid`=:catid AND `status`=9 ORDER BY `id` DESC LIMIT 1'
+    );
+    $fallback->execute([':catid' => $catid]);
+    $row = $fallback->fetch();
+    if (is_array($row)) {
+        return ['source' => 'existing_published_content', 'row' => $row];
+    }
+
+    xyptdq_adapter_fail('target category does not exist: ' . $catid);
 }
 
 /**
@@ -184,7 +290,6 @@ function xyptdq_publish_article(array $article): array
     $newsTable = xyptdq_identifier($prefix . $module, 'news table');
     $hitsTable = xyptdq_identifier($prefix . $module . '_hits', 'hits table');
     $indexTable = xyptdq_identifier($prefix . $module . '_index', 'index table');
-    $categoryTable = xyptdq_identifier($prefix . $module . '_category', 'category table');
     $registryTable = xyptdq_identifier($prefix . 'xyptdq_publish_registry', 'registry table');
 
     $pdo = xyptdq_open_pdo($config);
@@ -197,22 +302,20 @@ function xyptdq_publish_article(array $article): array
         'day_time', 'week_time', 'month_time', 'year_time'
     ]);
     xyptdq_require_columns($pdo, $database, $indexTable, ['id', 'uid', 'catid', 'status', 'inputtime']);
-    xyptdq_require_columns($pdo, $database, $categoryTable, ['id', 'disabled']);
     xyptdq_ensure_registry($pdo, $registryTable);
 
-    $categoryStmt = $pdo->prepare('SELECT id,disabled FROM `' . $categoryTable . '` WHERE id=:id LIMIT 1');
-    $categoryStmt->execute([':id' => $catid]);
-    $category = $categoryStmt->fetch();
-    if (!is_array($category)) {
-        xyptdq_adapter_fail('target category does not exist: ' . $catid);
-    }
-    if ((int) ($category['disabled'] ?? 0) !== 0) {
-        xyptdq_adapter_fail('target category is disabled: ' . $catid);
+    $resolvedCategory = xyptdq_resolve_category(
+        $pdo,
+        $database,
+        $prefix,
+        $module,
+        $newsTable,
+        $catid
+    );
+    if (empty($resolvedCategory['source'])) {
+        xyptdq_adapter_fail('category resolution returned no source');
     }
 
-    // Infer the category's current data partition from a known article. If a
-    // category has no content yet, fall back to table 0 only when that table
-    // exists and matches the probed schema.
     $partitionStmt = $pdo->prepare(
         'SELECT tableid,uid,author FROM `' . $newsTable . '` WHERE catid=:catid ORDER BY id DESC LIMIT 1'
     );
