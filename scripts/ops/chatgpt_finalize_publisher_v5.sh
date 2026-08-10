@@ -64,7 +64,9 @@ echo "MAIN_SHA=$MAIN_SHA"
 [ -f docs/ops/WORKBUDDY_PUBLISHER_SMOKE_V5.md ] || fail "V5 runbook missing from main"
 grep -Fq ':day_time,:week_time,:month_time,:year_time' scripts/content/cms_publish_adapter.php || fail "PDO placeholder fix missing"
 grep -Fq 'PDO::ATTR_EMULATE_PREPARES => false' scripts/content/cms_publish_adapter.php || fail "native PDO mode missing"
-! grep -Fq ':now,:now,:now,:now' scripts/content/cms_publish_adapter.php || fail "duplicate :now placeholders still present"
+# Check executable SQL rather than comments/documentation. The adapter intentionally
+# documents the historical duplicate-placeholder form, so a broad grep was a false positive.
+! grep -Fq 'VALUES (:id,0,0,0,0,0,:now,:now,:now,:now)' scripts/content/cms_publish_adapter.php || fail "duplicate :now placeholders still present in SQL"
 
 # 3. Fresh full backup and checksum verification.
 XYPTDQ_BACKUP_ID="$BACKUP_ID" XYPTDQ_REPO_DIR="$REPO" XYPTDQ_WEBROOT="$WEBROOT" ./scripts/backup.sh >/tmp/xyptdq-backup-${RUN_ID}.log
