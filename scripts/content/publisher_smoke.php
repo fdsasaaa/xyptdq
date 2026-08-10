@@ -8,6 +8,9 @@
  * Commit (must be deliberate):
  *   php scripts/content/publisher_smoke.php --article=content/smoke/ffc-betting-basics-risk-v1.json --commit
  *
+ * Dry-run is read-only but now validates the target category against the live
+ * CMS database, so a category-model mismatch cannot hide until commit mode.
+ *
  * In commit mode the same article is submitted twice. The second call MUST
  * return the same cms_id with idempotent=true, proving durable duplicate
  * protection in the production database.
@@ -65,18 +68,46 @@ fwrite(STDOUT, sprintf(
     $commit ? 'COMMIT' : 'DRY-RUN'
 ));
 
-if (!$commit) {
-    fwrite(STDOUT, "[publisher-smoke] DRY-RUN ONLY; no database write attempted.\n");
-    exit(0);
-}
-
 $adapter = __DIR__ . '/cms_publish_adapter.php';
 if (!is_file($adapter)) {
     smokeFail('adapter missing');
 }
 require_once $adapter;
-if (!function_exists('xyptdq_publish_article')) {
+if (!function_exists('xyptdq_publish_article') || !function_exists('xyptdq_resolve_category')) {
     smokeFail('adapter function missing');
+}
+
+// Read-only live target preflight. This deliberately performs no DDL or DML.
+try {
+    $config = xyptdq_load_db_config();
+    $database = xyptdq_identifier((string) $config['database'], 'database');
+    $prefix = (string) ($config['DBPrefix'] ?? 'dr_');
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $prefix)) {
+        smokeFail('unsafe database table prefix');
+    }
+    $module = xyptdq_identifier(getenv('XYPTDQ_CMS_MODULE') ?: '1_news', 'module');
+    $newsTable = xyptdq_identifier($prefix . $module, 'news table');
+    $pdo = xyptdq_open_pdo($config);
+    $resolved = xyptdq_resolve_category(
+        $pdo,
+        $database,
+        $prefix,
+        $module,
+        $newsTable,
+        (int) $article['catid']
+    );
+    $categorySource = (string) ($resolved['source'] ?? '');
+    if ($categorySource === '') {
+        smokeFail('category preflight returned no source');
+    }
+    fwrite(STDOUT, '[publisher-smoke] TARGET_PREFLIGHT PASS category_source=' . $categorySource . PHP_EOL);
+} catch (Throwable $e) {
+    smokeFail('target preflight failed: ' . $e->getMessage());
+}
+
+if (!$commit) {
+    fwrite(STDOUT, "[publisher-smoke] DRY-RUN ONLY; no database write attempted.\n");
+    exit(0);
 }
 
 try {
