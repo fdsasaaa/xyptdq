@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "activate-native-publisher-cron-20260811-01",
+  "required_commit": "4c587f4aafb5194c558529a288392e54ebbc7a0c",
+  "script": "scripts/ops/agent_tasks/activate_native_publisher_cron.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 600
+}
