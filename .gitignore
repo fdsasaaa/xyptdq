@@ -84,4 +84,5 @@ venv/
 
 # === WorkBuddy internal ===
 .workbuddy/
-.github/workflows/
+
+# GitHub Actions workflows are intentionally version-controlled.
