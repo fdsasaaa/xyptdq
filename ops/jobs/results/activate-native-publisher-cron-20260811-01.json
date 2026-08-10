@@ -1,0 +1,26 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-10T23:11:00Z",
+  "job_id": "activate-native-publisher-cron-20260811-01",
+  "payload": {
+    "activation_status": "PASS",
+    "blocking_item": "NONE",
+    "capability_unlock": "PASS",
+    "cron_daemon": "cron:active",
+    "native_adapter": "PASS",
+    "phase": "final",
+    "publisher_cron": "PASS",
+    "scheduled_queue_json_count": 0,
+    "scheduler_dry_run": "PASS",
+    "secrets_disclosed": false,
+    "task": "activate_native_publisher_cron"
+  },
+  "raw_log_published": false,
+  "required_commit": "4c587f4aafb5194c558529a288392e54ebbc7a0c",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/activate_native_publisher_cron.sh",
+  "script_sha256": "be95a0d4ee02b297152add99703b443cd76b59c5c91692779c402727651f3e97",
+  "started_at": "2026-08-10T23:10:59Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
