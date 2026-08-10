@@ -1,0 +1,14 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-10T21:59:30Z",
+  "job_id": "article-cache-visibility-diagnose-20260811-01",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "30b0fdac7fa21290a82a2c4df9d00f2ac6544e3b",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/article_cache_visibility_diagnose.sh",
+  "script_sha256": "e2d784aa67ec280da368d69db7b40ae6003a9bff234186f11fb4f9397a284a6c",
+  "started_at": "2026-08-10T21:59:29Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
