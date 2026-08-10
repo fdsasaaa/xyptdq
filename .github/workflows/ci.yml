@@ -28,6 +28,13 @@ jobs:
           mapfile -t files < <(find scripts -type f -name '*.php' -print)
           for f in "${files[@]}"; do php -l "$f"; done
 
+      - name: Shell syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find scripts -type f -name '*.sh' -print)
+          for f in "${files[@]}"; do bash -n "$f"; done
+
       - name: Validate JSON
         shell: bash
         run: |
@@ -64,5 +71,5 @@ jobs:
           grep -q '^User-agent:' site/robots.txt
           grep -q '^Sitemap: https://www.laocaimi.org/sitemap.xml$' site/robots.txt
           if grep -q '<meta name="robots" content="none">' site/template/pc/default/home/index.html; then
-            echo 'WARNING: legacy homepage still contains robots=none; production deployment must remain blocked until repaired.'
+            echo 'WARNING: legacy homepage still contains robots=none; production deployment must remain blocked unless deploy-time guard repairs it.'
           fi
