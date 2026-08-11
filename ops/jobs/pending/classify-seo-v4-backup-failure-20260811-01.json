@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "classify-seo-v4-backup-failure-20260811-01",
+  "required_commit": "18d03dd141a4c8ca06a76c201525e71aa6221256",
+  "script": "scripts/ops/agent_tasks/classify_seo_v4_backup_failure.sh",
+  "script_sha256": "f58d1738b0bf84f5697d496f6018d45667b11435fa98eaae00fba147829ccd80",
+  "timeout_seconds": 180
+}
