@@ -1,171 +1,173 @@
 # SEO Project Handoff — Canonical Current State
 
-> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, and `content/seo_target_registry.json`, then inspect commits/PRs after the recorded checkpoint before changing anything.
+> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, and inspect newer commits/PRs/results before changing anything.
 
-## 1. Project identity and scope
+## 1. Project identity and current phase
 
 - Repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
-- Current SEO phase: **keyword ownership and future content-carrier architecture**.
-- Existing technical/content-architecture cleanup is closed unless a regression appears.
-- The user is still collecting lottery-technique source material. Do not start bulk article publishing.
-- `config/content_publication_policy.json` remains authoritative with `publishing_enabled=false`.
-- Do not reinstall Publisher cron or consume the preserved scheduled queue unless the user explicitly approves the later publishing phase.
+- Current SEO phase: **keyword ownership and substantive content-carrier architecture**.
+- The earlier technical/content-architecture cleanup is closed unless a regression is proven.
+- The user is still collecting lottery-technique source material; do not start bulk article publishing.
+- Future ordinary SEO articles use the single CMS article carrier `tzjq` / catid 3 / CMS label `投注机巧`.
+- The retired `seo-articles` category must not be recreated.
 
 ## 2. Non-negotiable operating rules
 
 1. `main` is the only canonical source.
 2. Source changes use isolated branch -> PR -> CI.
-3. Production changes use independent rollback-gated Server Bridge jobs.
-4. Never equate PR merge/job queueing with production success; read `agent/results/<job_id>`.
-5. Keep article publishing frozen.
-6. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without proving compatibility.
-7. Follow Keyword Map same-intent consolidation; do not create synonym doorway/thin pages.
-8. Do not make unverifiable profit/safety promises.
-9. Update this handoff, changelog and state after meaningful milestones.
+3. Production changes use rollback-gated Server Bridge jobs.
+4. Never equate merge/job queueing with production success; read `agent/results/<job_id>`.
+5. Keep article publishing frozen until the user explicitly approves the publishing phase.
+6. Do not create synonym doorway/thin pages or duplicate article categories for SEO wording variants.
+7. Same-intent synonyms should share carriers unless SERP/corpus evidence justifies a split.
+8. Do not make unverifiable profit, safety, or guaranteed-result claims.
+9. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without compatibility proof.
+10. Update this handoff, changelog and `config/seo_project_state.json` after meaningful SEO milestones.
 
-## 3. Technical SEO baseline — closed
+## 3. Publishing freeze — ACTIVE
 
-Previously completed and not to be restarted without evidence of regression:
-
-- Whole-site technical SEO major cleanup.
-- SEO Growth Audit reached 0 opportunity.
-- Missing image width/height reached 0 on audited page classes.
-- Homepage 33/34 non-critical images lazy-load/async-decode; logo remains priority-loaded.
-- Homepage links to all 30 published platform detail pages.
-- Homepage single H1 contains `信誉平台大全`.
-- Request-aware canonical metadata deployed.
-- Sitemap routing cleanup reduced sitemap to 71 verified HTTP-200 URLs.
-- Empty/duplicate/unroutable routes were removed from sitemap as appropriate.
-
-## 4. Publishing freeze — ACTIVE
-
-- Scheduled Publisher cron was paused and independently verified.
-- 11 scheduled JSON files remain preserved inventory only.
-- `config/content_publication_policy.json`: `publishing_enabled=false`, mode `content_preparation_freeze`.
+- `config/content_publication_policy.json`: `publishing_enabled=false`.
+- Scheduled Publisher cron is absent and previously verified paused.
+- 11 historical scheduled JSON files remain preserved inventory only.
 - Publisher remains fail-closed while frozen.
-- Draft/Approved-package infrastructure may exist in parallel, but Approved/Draft/Scheduled/Published states must remain distinct and must not bypass this freeze.
+- Approved/Draft/Scheduled/Published states must remain distinct and must not bypass the freeze.
+- No SEO category-consolidation job published an article, changed the publisher cron, or consumed the scheduled queue.
 
-## 5. Phase 5 post-fix audit — CURRENT PRODUCTION TRUTH
+## 4. Technical SEO baseline — closed unless regression
 
-Latest authoritative audit:
+The earlier whole-site technical remediation is complete for the audited page classes:
 
-- Job: `seo-content-architecture-audit-20260811-05`
-- Result branch: `agent/results/seo-content-architecture-audit-20260811-05`
-- Status: PASS / COMPLETE
-- Sitemap HTTP: 200
-- Sitemap URLs: 71
-- Crawled pages: 71
-- Published news: 38
-- Published platforms: 30
-- Homepage platform-link coverage: 30/30
-- Keyword-owner conflicts: 0
-- Existing mapped path targets missing: 0
-- Canonical mismatch: 0
-- Duplicate title groups: 0
-- Duplicate H1 groups: 0
-- Duplicate Description groups: 0
-- HTTP errors: 0
-- Orphan pages: 0
-- Active empty news categories: 0
-- Remaining opportunity classes: **1**
-  - `planned_primary_target_mapping_incomplete`
+- canonical mismatch: 0
+- duplicate title groups: 0
+- duplicate H1 groups: 0
+- duplicate Description groups: 0
+- orphan pages: 0
+- active empty news categories: 0
+- HTTP errors in the Phase 5 crawl: 0
+- missing audited intrinsic image dimensions: 0
+- homepage links to all 30 published platform detail pages
+- homepage H1 contains `信誉平台大全`
+- request-aware canonical metadata deployed
+- canonical `dir=` category navigation deployed and independently verified
 
-This means the previous structural opportunity set is closed. Do not re-open orphan/H1/Description/empty-category work unless a later audit shows regression.
+Latest full Phase 5 baseline audit remains:
 
-## 6. Important production fixes after the earlier handoff
+- job `seo-content-architecture-audit-20260811-05`
+- result `agent/results/seo-content-architecture-audit-20260811-05`
+- PASS / COMPLETE
+- 71 sitemap URLs / 71 crawled pages **at that audit checkpoint**
+- 38 published news / 30 published platform pages at that checkpoint
+- only remaining opportunity class: `planned_primary_target_mapping_incomplete`
 
-### Canonical category internal links
+The sitemap was regenerated again during the later `seo-articles` consolidation, so do not treat the old total of 71 as a guaranteed current total without a fresh audit.
 
-The first deploy job `deploy-canonical-category-nav-v1-20260811-01` returned FAIL with an empty payload, so it was not accepted as proof. A separate read-only production diagnostic `seo-orphan-link-diagnostic-20260811-02` then proved that the intended canonical `dir=` links were actually live on shared navigation. The final Phase 5 audit independently confirmed orphan count = 0.
+## 5. Category architecture — CURRENT PRODUCTION TRUTH
 
-### Duplicate Description closure
+### Retained
 
-A first database-field hypothesis failed closed before writes. A later v2 template deploy used an incorrect `xm` module assumption, detected no effective fix, and rolled back successfully.
+- `gjfa` / catid 2 / 挂机方案: retain as the automation/挂机 carrier.
+- `tzjq` / catid 3 / CMS label `投注机巧`: retain as the **single ordinary SEO article + betting-guide carrier**.
+- `zyyy` / catid 4 / 福利资源: retain as a distinct resources/download carrier.
 
-Read-only mapping `seo-show-module-mapping-diagnostic-20260811-01` proved all 20 duplicate-Description show pages are `news`.
+### Retired / consolidated
 
-Final production job:
+- `gdrz` / 跟单日志: retired because it contained zero content.
+- `rjxm`: duplicate category route remains consolidated/excluded; do not restore as an indexable duplicate.
+- `seo-articles` / former catid 7: **retired in production**. It has zero remaining articles and both its `dir=seo-articles` and legacy `id=7` routes 301 to `tzjq`.
 
-- `deploy-news-duplicate-description-hash-fallback-v3-20260811-01`
-- PASS
-- deploy PASS / rollback NO
-- 20/20 affected descriptions matched the pre-deploy duplicate hash
-- post-deploy PC unique descriptions: 20/20
-- post-deploy Mobile unique descriptions: 20/20
-- all descriptions contain their page title
-- article91 and unaffected platform19 descriptions unchanged
-- canonical navigation preserved
-- framework integrity PASS
+### Naming rule
 
-### Duplicate H1 closure
+The CMS/public category label may remain `投注机巧`. Keyword targeting can naturally use the user-facing SEO intent wording `投注技巧` in titles, copy, metadata and Hub architecture. Do not repeat the failed DB-only rename attempt merely to force the synonym into the CMS category name.
 
-Read-only module mapping proved:
+## 6. `SEO文章` -> `投注机巧` production closure — COMPLETE
 
-- show 74 = `xm`, software-project page
-- show 75 = `news`, category 4 福利资源 page
-- they were distinct cross-module pages sharing the same visible H1, not duplicate records
+Authoritative production job:
 
-Production job `deploy-show-74-75-h1-v1-20260811-01`: PASS.
+- job: `consolidate-seo-articles-into-tzjq-v7-20260812-01`
+- result branch: `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`
+- status: **PASS**
+- deploy: PASS
+- DB migration: PASS
+- rollback: NO
+- blocking item: NONE
 
-Public H1s are now factually distinguished:
+Migrated historical article IDs:
 
-- show 74: `长征（送首冲）｜软件项目`
-- show 75: `长征（送首冲）｜福利资源`
+- 85 `2026年最新信誉平台排行榜与评测`
+- 86 `平台安全防护措施详解：从注册到使用`
+- 88 `分分彩投注技巧：先看命中率、奖金与资金风险`
+- 91 `分分彩投注技巧：先算命中率、单期成本还是返奖？`
 
-PC/Mobile verified; canonical and Description unchanged; rollback NO.
+Verified production result:
 
-### Empty `gdrz` category closure
+- main rows migrated: 4
+- data rows migrated: 4
+- missing `share_index` rows repaired for 85/86: 2
+- missing `news_hits` rows repaired for 85/86: 2
+- category 7 remaining articles: 0
+- category 7 retired: PASS
+- old `dir=seo-articles` route -> 301 `tzjq`: PASS
+- old `id=7` route -> 301 `tzjq`: PASS
+- old-nav link count PC/Mobile: 0 / 0
+- article HTTP 200: 4/4
+- article self-canonical: 4/4
+- migrated articles present in regenerated sitemap: 4/4
+- old category present in sitemap: 0
+- `tzjq` category present in sitemap: 1
+- article 91 Description unchanged: PASS
+- H1 controls for show 74/75: PASS
+- framework integrity: PASS
+- article publishing attempted: false
+- publisher cron changed: false
+- scheduled queue consumed: false
 
-Category id 5 `跟单日志` / `gdrz` was proven to contain 0 published and 0 nonpublished articles.
+Earlier V1-V6 attempts are diagnostic history only. They failed closed or rolled back; V7 is the authoritative final state.
 
-Production job `retire-empty-gdrz-category-v1-20260811-01`: PASS.
+## 7. Content category policy for all future SEO articles
 
-It was retired with exact identity/zero-content gates. No article publishing occurred.
+`config/content_category_map.json` is the machine contract:
 
-## 7. Current category decisions
+- `seo_article_category_key = tzjq`
+- `seo-articles` is listed as retired
+- unknown category keys fail closed
+- packages must explicitly supply a valid site category key
 
-Evidence-based current decisions:
+Therefore:
 
-- `gjfa` / 挂机方案: **retain**. It has substantial published content and remains the real automation/挂机 carrier.
-- `tzjq`: **retain**. It has real betting-technique content. SEO/public target label should be `投注技巧`; CMS legacy label is still `投注机巧`.
-- `zyyy` / 福利资源: **retain** as a distinct resources/downloads carrier.
-- `gdrz` / 跟单日志: **retired** because it was empty.
-- `rjxm`: duplicate category route remains excluded/consolidated; do not restore it as an indexable duplicate.
-- `seo-articles`: **transition-only**. It currently mixes betting-technique and platform-review articles and should not remain the long-term user-facing architecture.
+**Future SEO articles -> `tzjq` / 投注机巧.**
 
-A direct DB rename attempt for `tzjq` (`rename-tzjq-category-v1-20260811-01`) changed the DB but the rendered page stayed stale, so the job correctly rolled back. Do not repeat the DB-only rename. If this label is corrected next, use a presentation/cache-aware approach with live-render verification.
+Do not recreate an `SEO文章` category and do not make separate categories for `技巧`, `技术`, `方法`, `投注技巧` or other same-intent synonyms merely for keyword targeting.
 
-## 8. Keyword architecture — current version 1.1.1
+## 8. Keyword architecture — current version 1.1.2
 
-`content/keyword_map.json` is now version **1.1.1**.
+`content/keyword_map.json` is version **1.1.2**.
 
-V1.1 rules remain intact: same-intent synonyms share targets; split only with SERP/corpus evidence; no thin variations.
+Core rules remain:
 
-PR #211 mapped only symbolic intents that already have justified live carriers:
+- one primary keyword / one primary owner page
+- no keyword stuffing
+- no thin variation pages
+- preserve existing article URLs
+- consolidate same-intent synonyms
+- require SERP/corpus evidence before splitting same-intent targets
+
+Verified live carrier examples:
 
 - `分分彩投注技巧` + `分分彩投注方法` -> `/index.php?c=category&dir=tzjq`
 - `分分彩挂机` -> `/index.php?c=category&dir=gjfa`
 - `哈希分分彩挂机` -> `/index.php?c=category&dir=gjfa`
 - `奇趣分分彩挂机` -> `/index.php?c=category&dir=gjfa`
 - `时时彩挂机方案` -> `/index.php?c=category&dir=gjfa`
+- `信誉平台大全` -> homepage `/`
 
-Do not map the remaining planned intents to unrelated existing pages merely to reduce an audit count.
+Do not map remaining planned intents to weak/unrelated pages simply to make an audit counter reach zero.
 
-## 9. Symbolic target registry — current architecture contract
+## 9. Hub architecture — planning layer, not extra article categories
 
-`content/seo_target_registry.json` version 1.0.1 is the planning layer for targets that do not yet have real URLs.
+`content/seo_target_registry.json` remains the planning contract for targets without justified live URLs. It does not publish pages.
 
-It deliberately does **not** publish pages and does **not** replace Keyword Map targets with nonexistent URLs.
-
-The 43 unique symbolic targets were consolidated into:
-
-### Existing carriers
-
-- automation intents -> `gjfa`
-- FFC betting-guide intent -> `tzjq`
-
-### Seven planned Hub groups
+Seven planned Hub groups remain:
 
 1. `ffc_research_hub` — 分分时时彩研究中心
 2. `hash_ffc_hub` — 哈希分分彩专题
@@ -175,71 +177,64 @@ The 43 unique symbolic targets were consolidated into:
 6. `platform_review_hub` — 平台评测与对比
 7. `research_lab_hub` — 数据实验室
 
-Hard rule: **do not create empty Hub pages**. A Hub becomes a real URL only when it has a distinct primary intent plus substantive supporting content/internal links, then it must pass HTTP-200/self-canonical/internal-link checks before sitemap inclusion.
+Architectural rule after the category consolidation:
 
-## 10. First unresolved SEO breakpoint — DO THIS NEXT
+- underlying ordinary SEO articles remain in `tzjq`
+- a Hub is a substantive topic aggregation/landing page, **not another synonym article category**
+- do not create an empty Hub
+- a Hub becomes a real keyword owner only after it has substantive copy/supporting content/internal links and passes HTTP-200/self-canonical/internal-link checks
 
-The technical Phase 5 set is closed. The first unresolved work is now **real content-carrier implementation**.
+## 10. First unresolved SEO work — DO THIS NEXT
 
-Recommended sequence:
+The `SEO文章` consolidation is closed. The next work is **content-carrier + internal-link architecture**.
 
-1. Correct the public `tzjq` display label to `投注技巧` using a presentation/cache-aware solution; do not repeat the failed DB-only rename.
-2. Reclassify/reframe the four articles currently under `seo-articles` so the transition category no longer mixes betting-technique and platform-review intent.
-3. Implement the first real Hub only when existing/supporting content can make it substantive; do not create seven empty shells.
-4. Highest-value first Hub candidates:
+Recommended order:
+
+1. Define the single-category article taxonomy/metadata rules for `tzjq` so future harvested articles can be clustered without creating more CMS article categories.
+2. Define internal-link rules between articles and future Hubs, including primary-owner and cannibalization gates.
+3. Prepare the first substantive Hub only when enough existing/supporting content exists.
+4. Highest-value first Hub candidates remain:
    - 分分时时彩研究中心
    - 数据实验室
    - 平台评测与对比
-5. Once a Hub is actually live and verified, replace the corresponding symbolic Keyword Map targets with that real URL.
-6. Hash/Qiqu/SSC/racing Hubs should wait until their supporting corpus is sufficient or SERP evidence justifies separation.
+5. After a Hub is live and verified, replace only its corresponding symbolic Keyword Map targets with the real URL.
+6. Hash/Qiqu/SSC/racing Hubs should wait until the supporting corpus or SERP evidence justifies them.
 
-The remaining `planned_primary_target_mapping_incomplete` opportunity is expected until these real carriers exist. Do not chase a zero by assigning keywords to semantically weak pages.
+Do not restart the already-closed orphan/H1/Description/canonical/empty-category work unless a new audit proves regression.
 
 ## 11. Future harvested-article workflow — still frozen
 
 Only after the user finishes collecting material and explicitly approves the publishing phase:
 
-`source collection -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> Primary Target/Supporting Keywords -> cluster -> internal links -> cannibalization gate -> CMS draft -> quality gate -> controlled scheduled publication`
+`source collection -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> primary keyword/supporting keywords -> cluster -> internal links -> cannibalization gate -> CMS draft -> quality gate -> controlled scheduled publication`
 
 Until explicit approval, drafts/scheduled inventory must not be auto-published.
 
-## 12. Key evidence / recent PRs
+## 12. Key current evidence
 
-Important recent PRs:
-
-- #177 post-routing Phase 5 audit queue
-- #179 residual anomaly diagnostic
-- #184 canonical category-navigation source fix
-- #186 canonical-nav production queue (job result itself failed empty-payload; separate diagnostic proved production state)
-- #198 verified `news` Description source correction
-- #199 v3 Description deploy wrapper
-- #200 H1 74/75 factual-role source fix
-- #201 Description v3 production queue
-- #202 H1 guarded deploy script
-- #204 guarded empty-`gdrz` retirement script
-- #206 H1 production queue
-- #207 `gdrz` retirement production queue
-- #208 `tzjq` DB rename attempt; production rolled back
-- #209 final post-fix Phase 5 re-audit
-- #210 symbolic target registry
-- #211 existing-carrier Keyword Map bindings
-- #212 registry sync to Keyword Map 1.1.1
-
-Important result branches:
+Most important production results:
 
 - `agent/results/seo-content-architecture-audit-20260811-05`
-- `agent/results/seo-orphan-link-diagnostic-20260811-02`
-- `agent/results/seo-show-module-mapping-diagnostic-20260811-01`
 - `agent/results/deploy-news-duplicate-description-hash-fallback-v3-20260811-01`
 - `agent/results/deploy-show-74-75-h1-v1-20260811-01`
 - `agent/results/retire-empty-gdrz-category-v1-20260811-01`
-- `agent/results/rename-tzjq-category-v1-20260811-01` (BLOCKED + rollback; not a successful rename)
+- `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01` — authoritative category-consolidation closure
+- `agent/results/bridge-healthcheck-20260812-11` — PASS; production origin/main sync and site endpoints healthy during closure
+
+Important closure PRs:
+
+- #215 source-side single-category consolidation policy
+- #237/#238 V4 migration design/queue
+- #239/#240 V5 exact SQL hotfix/queue
+- #242/#243 V6 verifier hotfix/queue
+- #244/#245 V7 strict redirect retry/production queue
 
 ## 13. New-session takeover protocol
 
 1. Read this file from `main`.
-2. Read the latest changelog and `config/seo_project_state.json`.
-3. Read `content/keyword_map.json` and `content/seo_target_registry.json`.
-4. Inspect commits/PRs after the recorded checkpoint.
+2. Read `docs/seo/SEO_CHANGELOG.md` and `config/seo_project_state.json`.
+3. Read `content/keyword_map.json`, `content/seo_target_registry.json`, and `config/content_category_map.json`.
+4. Inspect commits/PRs/results newer than this checkpoint.
 5. Verify publishing freeze remains enabled.
-6. Continue from section 10; do not restart technical SEO or old Phase 5 fixes.
+6. Treat `seo-articles` as retired and `tzjq` as the single future SEO article carrier.
+7. Continue from section 10; do not restart closed technical SEO phases without regression evidence.
