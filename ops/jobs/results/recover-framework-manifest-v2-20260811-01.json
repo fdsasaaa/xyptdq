@@ -1,0 +1,80 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T01:11:31Z",
+  "job_id": "recover-framework-manifest-v2-20260811-01",
+  "payload": {
+    "blocking_item": "NONE",
+    "cache_file_count": 11,
+    "cache_total_bytes": 50429,
+    "files": [
+      {
+        "bytes": 2402,
+        "path": "dayrui/CodeIgniter72/System/Cache/CacheFactory.php",
+        "sha256": "92cd7366693fe6ce4edbceb41b449e0cfba8d6ec3f735c0d1196bd8ce9da4354"
+      },
+      {
+        "bytes": 2910,
+        "path": "dayrui/CodeIgniter72/System/Cache/CacheInterface.php",
+        "sha256": "9e02e679777e3f0499b5cabdd003b470ce61e1731166e36980240f3a87c83dda"
+      },
+      {
+        "bytes": 1321,
+        "path": "dayrui/CodeIgniter72/System/Cache/Exceptions/CacheException.php",
+        "sha256": "af6bcb6a493da2096d827ee8723c51819b50e5e5a0d1c97587f1f22bd9c55bdc"
+      },
+      {
+        "bytes": 504,
+        "path": "dayrui/CodeIgniter72/System/Cache/Exceptions/ExceptionInterface.php",
+        "sha256": "9f3ee3311ea8c416ff89b074a73f68f5e7772e8faef581010c4689590e3cc864"
+      },
+      {
+        "bytes": 925,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/BaseHandler.php",
+        "sha256": "c5bc5391f5d6e5f8e6fb42978cf240a97ce19748f39eacbafc3ff7f915cd48b6"
+      },
+      {
+        "bytes": 3588,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/DummyHandler.php",
+        "sha256": "6bbfe857c038474b5cf5c54445d3135f9adae2d8efb7596d1821c8cc954369bc"
+      },
+      {
+        "bytes": 12148,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/FileHandler.php",
+        "sha256": "8c5e649d1cf62045fc61f28ae373425a6c1cca7f5c29a49f7efbceace6957dc6"
+      },
+      {
+        "bytes": 8045,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/MemcachedHandler.php",
+        "sha256": "e68e5294cf9e08f02912e6e9caa0657f17ac044ebdc98072557960f6199dbd39"
+      },
+      {
+        "bytes": 6048,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/PredisHandler.php",
+        "sha256": "2c6aaafd54d3e6e7e9f5f94eceddae05026b4b58f9806f4df2bf0551e45aadab"
+      },
+      {
+        "bytes": 7455,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/RedisHandler.php",
+        "sha256": "6b7dd9cc12fe8d4d96f1662809c804678d54c13cc6b0b7bc71433be564aa77a8"
+      },
+      {
+        "bytes": 5083,
+        "path": "dayrui/CodeIgniter72/System/Cache/Handlers/WincacheHandler.php",
+        "sha256": "b0a7cccee51319eee921de81f482a06d3c2bb80506693990e8638a7dff08bd3a"
+      }
+    ],
+    "frame_lock_count": 0,
+    "frame_locks": [],
+    "manifest_status": "PASS",
+    "secrets_disclosed": false,
+    "task": "recover_framework_manifest_v2"
+  },
+  "raw_log_published": false,
+  "required_commit": "5695588486cd3eab1601b7fd88fb2811be741379",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/recover_framework_manifest_v2.sh",
+  "script_sha256": "1793b43c2772e25fac07b1e4ac09eff1f630e10c941b01a3e7a651c70dc787f7",
+  "started_at": "2026-08-11T01:11:31Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
