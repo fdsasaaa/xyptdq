@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "recover-framework-manifest-v2-20260811-01",
+  "required_commit": "5695588486cd3eab1601b7fd88fb2811be741379",
+  "script": "scripts/ops/agent_tasks/recover_framework_manifest_v2.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 180
+}
