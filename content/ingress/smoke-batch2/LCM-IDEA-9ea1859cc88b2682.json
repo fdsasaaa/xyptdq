@@ -12,12 +12,12 @@
   "lottery": "时时彩",
   "meta_description": "用可复算案例说明分分彩后三组选3技巧：先判断后三是否为一对加一个不同数字的组三结构，再计算三个数字和值。",
   "play": "后三组选3",
-  "primary_keyword": "分分彩后三组选3技巧",
+  "primary_keyword": "分分彩后三组选3和值技巧",
   "provider_id": null,
   "rule_refs": ["SSC-HIST-MECH-3STAR-GROUP3-V1"],
   "search_intent": "学习具体投注技巧并看懂可复算案例",
   "secondary_keywords": ["分分彩组三", "后三组选3", "后三和值", "分分彩投注技巧"],
-  "seo_title": "分分彩后三组选3技巧：组三结构与和值筛选怎么计算",
+  "seo_title": "分分彩后三组选3和值技巧：组三结构与和值筛选怎么计算",
   "site_category_key": "tzjq",
   "slug": "ffc-last3-group3-sum",
   "source_refs": ["BRBCW-001458"],
@@ -27,5 +27,5 @@
   "summary": "把组三结构判断和和值计算分成两步，先筛出一对加一个不同数字，再计算后三三个数字之和，避免把结构与和值混成一个条件。",
   "tags": ["分分彩后三组选3", "组三", "后三和值", "和值筛选"],
   "technique_atoms": ["sum_range"],
-  "title": "分分彩后三组选3技巧：先认组三结构，再算后三和值"
+  "title": "分分彩后三组选3和值技巧：先认组三结构，再算后三和值"
 }

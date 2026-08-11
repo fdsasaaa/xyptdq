@@ -59,10 +59,36 @@ function atomicWriteJson(string $target, array $payload): void
     }
 }
 
-$options = getopt('', ['input:', 'output::', 'category-map::']);
+function assertMetadataRefreshSafe(array $existing, array $draft): void
+{
+    if ((string) ($existing['publication_state'] ?? '') !== 'draft') {
+        draftFail('metadata refresh requires existing publication_state=draft', 9);
+    }
+    if (array_key_exists('publish_at', $existing) && trim((string) ($existing['publish_at'] ?? '')) !== '') {
+        draftFail('metadata refresh refuses a draft with publish_at', 10);
+    }
+    if ((string) ($existing['source_article_id'] ?? '') !== (string) $draft['source_article_id']) {
+        draftFail('metadata refresh source_article_id mismatch', 11);
+    }
+    if ((string) ($existing['source_fingerprint'] ?? '') !== (string) $draft['source_fingerprint']) {
+        draftFail('metadata refresh source_fingerprint mismatch', 12);
+    }
+    if (!hash_equals((string) ($existing['source_content_hash'] ?? ''), (string) $draft['source_content_hash'])) {
+        draftFail('metadata refresh source_content_hash mismatch', 13);
+    }
+    if ((string) ($existing['content'] ?? '') !== (string) $draft['content']) {
+        draftFail('metadata refresh content bytes differ; explicit revision workflow required', 14);
+    }
+    if ((string) ($existing['article_key'] ?? '') !== (string) $draft['article_key']) {
+        draftFail('metadata refresh article_key mismatch', 15);
+    }
+}
+
+$options = getopt('', ['input:', 'output::', 'category-map::', 'refresh-metadata']);
 $input = $options['input'] ?? ($argv[1] ?? '');
+$refreshMetadata = array_key_exists('refresh-metadata', $options);
 if ($input === '') {
-    draftFail('Usage: php convert_approved_to_draft.php --input=approved.json [--output=draft.json]');
+    draftFail('Usage: php convert_approved_to_draft.php --input=approved.json [--output=draft.json] [--refresh-metadata]');
 }
 $repoRoot = dirname(__DIR__, 2);
 $categoryMapPath = $options['category-map'] ?? ($repoRoot . '/config/content_category_map.json');
@@ -132,9 +158,22 @@ try {
         }
         $oldHash = (string) ($existing['source_content_hash'] ?? '');
         if ($oldHash === $draft['source_content_hash']) {
+            if (!$refreshMetadata) {
+                fwrite(STDOUT, json_encode([
+                    'status' => 'unchanged',
+                    'article_key' => $articleKey,
+                    'catid' => $draft['catid'],
+                    'output' => $target,
+                    'warnings' => $validation['warnings'],
+                ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . PHP_EOL);
+                exit(0);
+            }
+            assertMetadataRefreshSafe($existing, $draft);
+            atomicWriteJson($target, $draft);
             fwrite(STDOUT, json_encode([
-                'status' => 'unchanged',
+                'status' => 'draft_metadata_refreshed',
                 'article_key' => $articleKey,
+                'site_category_key' => $siteCategoryKey,
                 'catid' => $draft['catid'],
                 'output' => $target,
                 'warnings' => $validation['warnings'],
