@@ -37,3 +37,5 @@ jobs:
         run: php scripts/content/self_test.php
       - name: Smoke batch 1 converter verification
         run: php scripts/content/smoke_batch1_test.php
+      - name: Smoke batch 2 converter verification
+        run: php scripts/content/smoke_batch2_test.php
