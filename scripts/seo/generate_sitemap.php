@@ -5,17 +5,9 @@
  * Safe properties:
  * - Reads the existing server-side CMS database config; no credentials in Git.
  * - Emits only URLs on the configured canonical host.
+ * - Includes only visible shared categories and content that has a valid shared routing index.
  * - Writes atomically through a temporary file.
  * - Can run from cron after an article is published.
- *
- * Usage:
- *   php scripts/seo/generate_sitemap.php
- *
- * Optional environment variables:
- *   XYPTDQ_WEBROOT=/www/wwwroot/59.110.217.6
- *   XYPTDQ_DB_CONFIG=/www/wwwroot/59.110.217.6/config/database.php
- *   XYPTDQ_CANONICAL=https://www.laocaimi.org
- *   XYPTDQ_SITEMAP=/www/wwwroot/59.110.217.6/sitemap.xml
  */
 
 declare(strict_types=1);
@@ -128,11 +120,13 @@ try {
 $urls = [];
 addUrl($urls, $canonical . '/', time(), '1.0');
 
-// Shared category pages.
+// Shared category pages. Only publicly visible categories belong in the sitemap.
 $categoryTable = $prefix . '1_share_category';
 if (tableExists($pdo, $database, $categoryTable)) {
     try {
-        $sql = 'SELECT id, dirname FROM `' . str_replace('`', '', $categoryTable) . '` WHERE dirname IS NOT NULL AND dirname <> \'\'';
+        $safeCategoryTable = str_replace('`', '', $categoryTable);
+        $sql = 'SELECT id, dirname FROM `' . $safeCategoryTable . '` '
+            . 'WHERE dirname IS NOT NULL AND dirname <> \'\' AND disabled = 0 AND `show` = 1';
         foreach ($pdo->query($sql) as $row) {
             $dirname = trim((string) ($row['dirname'] ?? ''));
             if ($dirname === '') {
@@ -148,7 +142,14 @@ if (tableExists($pdo, $database, $categoryTable)) {
     }
 }
 
-// Published news and platform/module content. Tables are probed at runtime so a missing module does not fail generation.
+// Public content must exist in Xunrui's shared routing index. A status=9 row alone
+// is not sufficient: historical smoke records can otherwise leak 404 URLs into sitemap.xml.
+$shareIndexTable = $prefix . '1_share_index';
+if (!tableExists($pdo, $database, $shareIndexTable)) {
+    fail('Shared routing index is missing; refusing to generate a partial content sitemap.');
+}
+$safeShareIndexTable = str_replace('`', '', $shareIndexTable);
+
 foreach (['news', 'xm'] as $module) {
     $table = $prefix . '1_' . $module;
     if (!tableExists($pdo, $database, $table)) {
@@ -157,7 +158,11 @@ foreach (['news', 'xm'] as $module) {
 
     try {
         $safeTable = str_replace('`', '', $table);
-        $stmt = $pdo->query('SELECT id, url, updatetime FROM `' . $safeTable . '` WHERE status = 9 ORDER BY id ASC');
+        $sql = 'SELECT m.id, m.url, m.updatetime FROM `' . $safeTable . '` m '
+            . 'INNER JOIN `' . $safeShareIndexTable . '` s ON s.id = m.id AND s.mid = :mid '
+            . 'WHERE m.status = 9 ORDER BY m.id ASC';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':mid' => $module]);
         foreach ($stmt as $row) {
             $id = (int) ($row['id'] ?? 0);
             if ($id <= 0) {
@@ -165,7 +170,6 @@ foreach (['news', 'xm'] as $module) {
             }
             $candidate = trim((string) ($row['url'] ?? ''));
             if ($candidate === '' || isAbsoluteUrl($candidate)) {
-                // Use the site's own canonical content route. External module links never belong in our sitemap.
                 $candidate = '/index.php?c=show&id=' . $id;
             }
             $url = canonicalUrl($canonical, $candidate);
