@@ -1,0 +1,63 @@
+name: seo-home-guard
+
+on:
+  pull_request:
+    paths:
+      - 'site/template/pc/default/home/index.html'
+      - '.github/workflows/seo-home-guard.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'site/template/pc/default/home/index.html'
+      - '.github/workflows/seo-home-guard.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate semantic SEO structure and preserved site functions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib,re
+          p=pathlib.Path('site/template/pc/default/home/index.html')
+          text=p.read_text(encoding='utf-8')
+          low=text.lower()
+          checks={
+              'doctype_exactly_one': len(re.findall(r'<!doctype\b',low)) == 1,
+              'html_exactly_one': len(re.findall(r'<html\b',low)) == 1,
+              'head_exactly_one': len(re.findall(r'<head\b',low)) == 1,
+              'body_exactly_one': len(re.findall(r'<body\b',low)) == 1,
+              'title_exactly_one': len(re.findall(r'<title\b',low)) == 1,
+              'description_exactly_one': len(re.findall(r'<meta\b[^>]*name=["\']description["\']',low)) == 1,
+              'canonical_exactly_one': len(re.findall(r'<link\b[^>]*rel=["\']canonical["\']',low)) == 1,
+              'h1_exactly_one': len(re.findall(r'<h1\b',low)) == 1,
+              'jsonld_present': 'application/ld+json' in low,
+              'robots_indexable': 'index,follow,max-image-preview:large' in low and 'content="none"' not in low,
+              'og_title': 'property="og:title"' in low,
+              'og_description': 'property="og:description"' in low,
+              'og_url': 'property="og:url"' in low,
+          }
+          required=[
+              "dr_site_value('wzsm')", "dr_site_value('bywz')", "dr_site_value('yddlogo')",
+              "dr_site_value('pcsyxwyd')", "dr_site_value('banquanxinxi')",
+              "dr_site_value('zuoduilian')", "dr_site_value('youduilian')", "dr_site_value('zxgg')",
+              "module=xm catid=1", "where('catid', 7)", "config/popup.php", '{SITE_TONGJI}',
+              'rel="nofollow sponsored noopener"', '平台资料导航', '最新研究文章'
+          ]
+          missing=[x for x in required if x not in text]
+          legacy=['站长素材','copy="lyy"','jQuery仿Discuz','u3s1.com','demo.5moban.com','pblu.mobanqi.com','<? php']
+          legacy_found=[x for x in legacy if x.lower() in low]
+          failed=[k for k,v in checks.items() if not v]
+          if failed or missing or legacy_found:
+              print('failed structural checks:',failed)
+              print('missing preserved markers:',missing)
+              print('legacy fragments found:',legacy_found)
+              raise SystemExit(1)
+          print('homepage semantic SEO/functionality guard: PASS')
+          PY
