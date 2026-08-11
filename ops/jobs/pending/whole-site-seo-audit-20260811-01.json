@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "whole-site-seo-audit-20260811-01",
+  "required_commit": "30b01ac02d5525795394022f1dbda65eafe3ebab",
+  "script": "scripts/ops/agent_tasks/whole_site_seo_audit.sh",
+  "script_sha256": "75b5e7a2d51738208d920b3889078fd6f0ea8497f619e855b605d476a8d10bdd",
+  "timeout_seconds": 300
+}
