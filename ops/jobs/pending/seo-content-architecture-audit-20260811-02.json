@@ -3,6 +3,6 @@
   "job_id": "seo-content-architecture-audit-20260811-02",
   "required_commit": "94668cb8425372fc5214ca924334003f2248887f",
   "script": "scripts/ops/agent_tasks/seo_content_architecture_audit_v2.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "a7becbcb7fed0328335a593f4ac34a24f25302e7ac798e604247775fdaf1d5da",
   "timeout_seconds": 1200
 }
