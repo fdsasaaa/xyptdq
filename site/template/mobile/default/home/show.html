@@ -1,4 +1,5 @@
 {template "seo_header.html"}
+{if MOD_DIR=='news'}
 <?php
 $xyptdq_article_schema = [
     '@context' => 'https://schema.org',
@@ -10,6 +11,7 @@ $xyptdq_article_schema = [
 ];
 ?>
 <script type="application/ld+json"><?php echo json_encode($xyptdq_article_schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES); ?></script>
+{/if}
 <header class="hui-header">
     <div id="hui-back"></div>
     <h1>{$title}</h1>
@@ -22,11 +24,21 @@ $xyptdq_article_schema = [
         <div class="portlet light">
             <div class="search-post-foot fc-content-tool">
                 <div class="search-post-meta"><i class="fa fa-calendar font-blue"></i> <span>{$updatetime}</span></div>
-                <div class="search-post-meta"><i class="fa fa-fire font-blue"></i> <span>{dr_show_hits($id)}次</span></div>
+                {if MOD_DIR=='news'}<div class="search-post-meta"><i class="fa fa-fire font-blue"></i> <span>{dr_show_hits($id)}次</span></div>{/if}
             </div>
             <div class="portlet-body" style="height:auto;overflow:hidden;">
                 <div class="row">
                     <div class="col-md-12 xrcontent">{dr_text_full($content)}</div>
+                    {if MOD_DIR=='xm'}
+                    <section class="col-md-12" aria-labelledby="mobile-platform-reading-guide" style="margin-top:20px;padding-top:15px;border-top:1px solid #eee;">
+                        <h2 id="mobile-platform-reading-guide" style="font-size:20px;line-height:1.5;margin-bottom:12px;">平台资料阅读与核验说明</h2>
+                        <div class="xrcontent">
+                            <p>本页用于整理平台名称、公开资料和站内导航信息，方便查阅与比较；页面展示本身不代表对平台信誉、资金安全、活动真实性或收益能力作出保证。访问注册、登录、客服等外部入口前，应自行核对当前域名、账户规则、充值提现条件、活动条款、限额及客服渠道，并结合所在地适用规则判断是否适合使用。</p>
+                            <p>平台的奖金、返点、活动和服务规则可能随时间调整，涉及金额或账户权益时，应以平台当时实际展示的规则为准。不要仅依据单一广告、短期记录、个别评价或历史宣传材料作判断；应把平台资料核验与投注技巧、数据研究分开评估，分别检查信息来源、成本、风险和可验证性。</p>
+                            <p>需要了解本站的数据研究、方案验证和风险分析方法，可查看<a href="/index.php?c=category&id=7">数据研究与风险说明文章</a>。相关内容用于方法研究和信息整理，不承诺投注结果或收益。</p>
+                        </div>
+                    </section>
+                    {/if}
                     <div class="col-md-12">
                         <div class="blog-single-foot fc-news-tag-list">
                             <ul class="blog-post-tags">
