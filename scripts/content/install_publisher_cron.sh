@@ -6,6 +6,7 @@ REPO_DIR="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
 CRON_FILE="/etc/cron.d/xyptdq-publisher"
 CAPABILITIES="$REPO_DIR/config/publisher_capabilities.json"
 RUNNER="$REPO_DIR/scripts/content/run_scheduled_publish.sh"
+POLICY="$REPO_DIR/config/content_publication_policy.json"
 
 fail() {
     echo "[publisher-cron] ERROR: $*" >&2
@@ -15,9 +16,17 @@ fail() {
 [ "$(id -u)" -eq 0 ] || fail "must run as root"
 [ -f "$CAPABILITIES" ] || fail "capability manifest missing"
 [ -f "$RUNNER" ] || fail "publisher runner missing"
+[ -f "$POLICY" ] || fail "publication policy missing; fail-closed"
 
 VERIFIED=$(php -r '$x=json_decode(file_get_contents($argv[1]),true); echo (($x["verified"]??false)===true && ($x["durable_idempotency_verified"]??false)===true) ? "yes" : "no";' "$CAPABILITIES")
 [ "$VERIFIED" = "yes" ] || fail "publisher is still write-locked; smoke verification must be merged first"
+
+POLICY_ENABLED=$(php -r '
+$x=json_decode(file_get_contents($argv[1]),true);
+if(!is_array($x) || (int)($x["schema_version"]??0)!==1){exit(2);}
+echo (($x["publishing_enabled"]??null)===true)?"yes":"no";
+' "$POLICY") || fail "publication policy invalid; fail-closed"
+[ "$POLICY_ENABLED" = "yes" ] || fail "scheduled publishing is frozen by content publication policy"
 
 cat > "$CRON_FILE.tmp" <<'EOF'
 SHELL=/bin/bash
