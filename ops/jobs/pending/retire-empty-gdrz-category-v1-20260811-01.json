@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "retire-empty-gdrz-category-v1-20260811-01",
+  "required_commit": "a52507ebd46fa3bb3509ea0ec3d4aa8888723b41",
+  "script": "scripts/ops/agent_tasks/retire_empty_gdrz_category_v1.sh",
+  "script_sha256": "e7f13ae060c685f6e0f01918a733c1f2cf0db93df24dcb554ea1f66d150a5da7",
+  "timeout_seconds": 900
+}
