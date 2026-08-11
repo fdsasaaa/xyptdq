@@ -7,7 +7,6 @@ umask 077
 RESULT_FILE="${XYPTDQ_AGENT_RESULT_FILE:-}"
 REPO="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
 CRON_FILE="/etc/cron.d/xyptdq-publisher"
-EXPECTED='7 * * * * root XYPTDQ_REPO_DIR=/opt/xyptdq-repo /opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh'
 
 PHASE="init"
 STATUS="UNKNOWN"
@@ -25,7 +24,7 @@ write_payload() {
 import json,sys
 (out,result_status,blocker,phase,pause_status,queue_count,before,after,other_refs)=sys.argv[1:]
 payload={
-  "task":"pause_native_publisher_cron",
+  "task":"pause_native_publisher_cron_v2",
   "pause_status":pause_status,
   "phase":phase,
   "blocking_item":blocker,
@@ -43,7 +42,7 @@ with open(out,"w",encoding="utf-8") as f:
     f.write("\n")
 PY
 }
-block(){ STATUS="BLOCKED"; write_payload FAIL "$1"; echo "[publisher-pause] BLOCKED: $1" >&2; exit 1; }
+block(){ STATUS="BLOCKED"; write_payload FAIL "$1"; echo "[publisher-pause-v2] BLOCKED: $1" >&2; exit 1; }
 
 cd "$REPO"
 PHASE="repo_sync"
@@ -60,17 +59,24 @@ else
 fi
 
 PHASE="cron_preflight"
+EXPECTED_FILE=$(mktemp /tmp/xyptdq-publisher-cron-expected.XXXXXX)
+cleanup(){ rm -f "$EXPECTED_FILE"; }
+trap cleanup EXIT
+cat > "$EXPECTED_FILE" <<'EOF'
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Run hourly. publish_at inside each versioned article controls the actual release time.
+# The publisher is idempotent and publishes at most XYPTDQ_PUBLISH_LIMIT (default 2) due items per run.
+7 * * * * root XYPTDQ_REPO_DIR=/opt/xyptdq-repo /opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh >/dev/null 2>&1
+EOF
+
 if [ -e "$CRON_FILE" ]; then
   CRON_BEFORE="PRESENT"
   [ -f "$CRON_FILE" ] || block publisher_cron_not_regular_file
-  # Only remove the exact cron entry installed by this repository.
-  ACTIVE_LINES=$(grep -Ev '^[[:space:]]*(#|$)' "$CRON_FILE" || true)
-  [ "$ACTIVE_LINES" = "$EXPECTED" ] || block publisher_cron_content_unexpected
   OWNER_MODE=$(stat -c '%U:%G:%a' "$CRON_FILE")
-  case "$OWNER_MODE" in
-    root:root:644|root:root:640|root:root:600) ;;
-    *) block publisher_cron_owner_mode_unexpected ;;
-  esac
+  [ "$OWNER_MODE" = 'root:root:644' ] || block publisher_cron_owner_mode_unexpected
+  # The installed file must match exactly what install_publisher_cron.sh generates.
+  cmp -s "$EXPECTED_FILE" "$CRON_FILE" || block publisher_cron_content_unexpected
 else
   CRON_BEFORE="ABSENT"
 fi
@@ -91,6 +97,9 @@ while IFS= read -r f; do
   fi
 done < <(find /etc/cron.d -maxdepth 1 -type f -print 2>/dev/null || true)
 
+if [ -f /etc/crontab ] && grep -Fq '/opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh' /etc/crontab 2>/dev/null; then
+  OTHER_REFS=$((OTHER_REFS+1))
+fi
 ROOT_CRON=$(crontab -u root -l 2>/dev/null || true)
 if printf '%s\n' "$ROOT_CRON" | grep -Fq '/opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh'; then
   OTHER_REFS=$((OTHER_REFS+1))
@@ -100,4 +109,4 @@ fi
 PHASE="final"
 STATUS="PASS"
 write_payload PASS NONE
-echo "PUBLISHER_NATIVE_CRON_PAUSE=PASS queue_json_count=$QUEUE_COUNT"
+echo "PUBLISHER_NATIVE_CRON_PAUSE_V2=PASS queue_json_count=$QUEUE_COUNT"
