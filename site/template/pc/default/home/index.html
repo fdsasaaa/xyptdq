@@ -176,7 +176,7 @@ if (!is_array($popup_cfg)) {
             </div>
             <div class="plat-item-content">
                 <div class="plat-logo">
-                    <img src="{if $t['thumb']}{dr_get_file($t['thumb'])}{else}{SITE_LOGO}{/if}" width="216" height="60" alt="{$t['title']}" style="height:60px;width:216px;max-width:100%;">
+                    <img src="{if $t['thumb']}{dr_get_file($t['thumb'])}{else}{SITE_LOGO}{/if}" width="216" height="60" loading="lazy" decoding="async" alt="{$t['title']}" style="height:60px;width:216px;max-width:100%;">
                 </div>
                 <div><h3 class="text-center" style="font-size:16px;">{if $t['jianjie']}{$t['jianjie']}{else}{$t['title']}{/if}</h3></div>
                 <div class="link-box">
@@ -201,7 +201,7 @@ if (!is_array($popup_cfg)) {
         {php $mval = $mysite;}
         {loop $mval $v}
         {if $v[1]}
-        <div class="col-md-4 col-xs-6 plat-item-1"><img class="ad_pic" src="{dr_get_file($v[1])}" width="227" height="71" alt="站点展示位" style="margin-top:20px;max-width:100%;height:auto;"></div>
+        <div class="col-md-4 col-xs-6 plat-item-1"><img class="ad_pic" src="{dr_get_file($v[1])}" width="227" height="71" loading="lazy" decoding="async" alt="站点展示位" style="margin-top:20px;max-width:100%;height:auto;"></div>
         {/if}
         {/loop}
     </div>
