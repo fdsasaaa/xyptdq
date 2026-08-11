@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "locate-frame-lock-backups-20260811-01",
+  "required_commit": "581f6fc73d7de132c63d822755111f66087582b8",
+  "script": "scripts/ops/agent_tasks/locate_frame_lock_backups.sh",
+  "script_sha256": "3caf5f035750b8170c81aba32a8546281b3fa64e664442ca7637eac94ecbdc6f",
+  "timeout_seconds": 300
+}
