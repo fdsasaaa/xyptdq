@@ -1,0 +1,131 @@
+name: recover-framework-cache-source
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/recover-framework-cache-source.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct exact production Cache source from sanitized bridge results
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e site/dayrui/CodeIgniter72/System/Cache/CacheFactory.php || {
+            echo 'Framework Cache source is already versioned; refusing duplicate recovery.' >&2
+            exit 1
+          }
+          mkdir -p /tmp/xyptdq-framework-recovery
+          curl -fsSL --retry 3 --max-time 30 \
+            'https://www.laocaimi.org/uploadfile/xyptdq-agent-results/export-framework-cache-part-a-20260811-01.json' \
+            -o /tmp/xyptdq-framework-recovery/part-a.json
+          curl -fsSL --retry 3 --max-time 30 \
+            'https://www.laocaimi.org/uploadfile/xyptdq-agent-results/export-framework-cache-part-b-20260811-01.json' \
+            -o /tmp/xyptdq-framework-recovery/part-b.json
+
+          python3 - <<'PY'
+          import base64, hashlib, json, pathlib
+
+          expected = {
+            'dayrui/CodeIgniter72/System/Cache/CacheFactory.php': (2402, '92cd7366693fe6ce4edbceb41b449e0cfba8d6ec3f735c0d1196bd8ce9da4354'),
+            'dayrui/CodeIgniter72/System/Cache/CacheInterface.php': (2910, '9e02e679777e3f0499b5cabdd003b470ce61e1731166e36980240f3a87c83dda'),
+            'dayrui/CodeIgniter72/System/Cache/Exceptions/CacheException.php': (1321, 'af6bcb6a493da2096d827ee8723c51819b50e5e5a0d1c97587f1f22bd9c55bdc'),
+            'dayrui/CodeIgniter72/System/Cache/Exceptions/ExceptionInterface.php': (504, '9f3ee3311ea8c416ff89b074a73f68f5e7772e8faef581010c4689590e3cc864'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/BaseHandler.php': (925, 'c5bc5391f5d6e5f8e6fb42978cf240a97ce19748f39eacbafc3ff7f915cd48b6'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/DummyHandler.php': (3588, '6bbfe857c038474b5cf5c54445d3135f9adae2d8efb7596d1821c8cc954369bc'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/FileHandler.php': (12148, '8c5e649d1cf62045fc61f28ae373425a6c1cca7f5c29a49f7efbceace6957dc6'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/MemcachedHandler.php': (8045, 'e68e5294cf9e08f02912e6e9caa0657f17ac044ebdc98072557960f6199dbd39'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/PredisHandler.php': (6048, '2c6aaafd54d3e6e7e9f5f94eceddae05026b4b58f9806f4df2bf0551e45aadab'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/RedisHandler.php': (7455, '6b7dd9cc12fe8d4d96f1662809c804678d54c13cc6b0b7bc71433be564aa77a8'),
+            'dayrui/CodeIgniter72/System/Cache/Handlers/WincacheHandler.php': (5083, 'b0a7cccee51319eee921de81f482a06d3c2bb80506693990e8638a7dff08bd3a'),
+          }
+
+          recovered = {}
+          evidence = []
+          for filename, part in [
+              ('/tmp/xyptdq-framework-recovery/part-a.json', 'A'),
+              ('/tmp/xyptdq-framework-recovery/part-b.json', 'B'),
+          ]:
+              wrapper = json.loads(pathlib.Path(filename).read_text(encoding='utf-8'))
+              if wrapper.get('status') != 'PASS' or int(wrapper.get('exit_code', 1)) != 0:
+                  raise SystemExit(f'bridge result {part} is not PASS')
+              payload = wrapper.get('payload') or {}
+              if payload.get('export_status') != 'PASS' or payload.get('part') != part:
+                  raise SystemExit(f'bridge payload {part} invalid')
+              if payload.get('secrets_disclosed') is not False:
+                  raise SystemExit(f'bridge payload {part} secret flag invalid')
+              for item in payload.get('files') or []:
+                  path = str(item.get('path', ''))
+                  if path not in expected:
+                      raise SystemExit(f'unexpected recovered path: {path}')
+                  if path in recovered:
+                      raise SystemExit(f'duplicate recovered path: {path}')
+                  data = base64.b64decode(str(item.get('content_base64', '')), validate=True)
+                  size, sha = expected[path]
+                  if len(data) != size or hashlib.sha256(data).hexdigest() != sha:
+                      raise SystemExit(f'hash/size mismatch: {path}')
+                  if not data.startswith(b'<?php'):
+                      raise SystemExit(f'not PHP source: {path}')
+                  recovered[path] = data
+                  evidence.append({'path': path, 'bytes': size, 'sha256': sha, 'source_part': part})
+
+          if set(recovered) != set(expected):
+              missing = sorted(set(expected) - set(recovered))
+              raise SystemExit(f'missing recovered paths: {missing}')
+
+          for rel, data in recovered.items():
+              target = pathlib.Path('site') / rel
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(data)
+
+          pathlib.Path('docs/probes').mkdir(parents=True, exist_ok=True)
+          pathlib.Path('docs/probes/framework_cache_recovery_20260811.json').write_text(
+              json.dumps({
+                  'status': 'PASS',
+                  'source': [
+                      'export-framework-cache-part-a-20260811-01',
+                      'export-framework-cache-part-b-20260811-01'
+                  ],
+                  'file_count': len(evidence),
+                  'files': sorted(evidence, key=lambda x: x['path']),
+                  'secrets_disclosed': False
+              }, ensure_ascii=False, indent=2, sort_keys=True) + '\n',
+              encoding='utf-8'
+          )
+          print(f'recovered {len(recovered)} exact Cache source files')
+          PY
+
+          git diff --check
+          test "$(find site/dayrui/CodeIgniter72/System/Cache -type f | wc -l | tr -d ' ')" = 11
+          if git status --short | grep -E 'site/config/database\.php|(^|/)(\.env|.*\.pem|.*\.key)$'; then
+            echo 'Sensitive path appeared during recovery.' >&2
+            exit 1
+          fi
+
+      - name: Push isolated recovery branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='fix/recover-production-framework-source-v5'
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            echo "Remote recovery branch already exists: $branch" >&2
+            exit 1
+          fi
+          git config user.name 'xyptdq-recovery-bot'
+          git config user.email 'xyptdq-recovery-bot@users.noreply.github.com'
+          git switch -c "$branch"
+          git add site/dayrui/CodeIgniter72/System/Cache docs/probes/framework_cache_recovery_20260811.json
+          git diff --cached --check
+          git commit -m 'Recover exact production CodeIgniter Cache source'
+          git push origin "HEAD:refs/heads/$branch"
