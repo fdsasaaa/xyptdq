@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "rename-tzjq-category-v1-20260811-01",
+  "required_commit": "1d93d4a9015f713a8267f49bb9aa2e9069072f89",
+  "script": "scripts/ops/agent_tasks/rename_tzjq_category_v1.sh",
+  "script_sha256": "fdf42d5f4478968097b19efffe4e69351f2b230f1fef3024686f8d6060df4cc7",
+  "timeout_seconds": 900
+}
