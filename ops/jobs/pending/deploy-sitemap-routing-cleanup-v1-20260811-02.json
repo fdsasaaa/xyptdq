@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-sitemap-routing-cleanup-v1-20260811-02",
+  "required_commit": "6ee2cfb3fa03a4acdfc267b4affcd790b931288c",
+  "script": "scripts/ops/agent_tasks/deploy_sitemap_routing_cleanup_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 900
+}
