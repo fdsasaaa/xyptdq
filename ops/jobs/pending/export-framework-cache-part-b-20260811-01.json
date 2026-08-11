@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "export-framework-cache-part-b-20260811-01",
+  "required_commit": "0c5c594dd5b6c0e3a7488ddac410e35003cff3d4",
+  "script": "scripts/ops/agent_tasks/export_framework_cache_source.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 180
+}
