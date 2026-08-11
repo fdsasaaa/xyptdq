@@ -3,6 +3,6 @@
   "job_id": "deploy-homepage-primary-h1-v1-20260811-01",
   "required_commit": "be6f2acd58c9bb942dce930997a6d176ebb1361b",
   "script": "scripts/ops/agent_tasks/deploy_homepage_primary_h1_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "f891f39d0a9cf095e26401cde9f038fc028be08ff27477faf2f828c4a14f870c",
   "timeout_seconds": 900
 }
