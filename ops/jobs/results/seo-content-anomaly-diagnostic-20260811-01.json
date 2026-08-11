@@ -1,0 +1,282 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T06:30:23Z",
+  "job_id": "seo-content-anomaly-diagnostic-20260811-01",
+  "payload": {
+    "active_empty_news_categories": [
+      {
+        "dirname": "gdrz",
+        "id": 5,
+        "mid": "news",
+        "name": "跟单日志"
+      }
+    ],
+    "article_publishing": false,
+    "blocking_item": "NONE",
+    "canonical_mismatches": [
+      {
+        "canonical": {
+          "id": 2,
+          "type": "show"
+        },
+        "page": {
+          "dir": "gjfa",
+          "type": "category"
+        }
+      },
+      {
+        "canonical": {
+          "type": "home"
+        },
+        "page": {
+          "dir": "rjxm",
+          "type": "category"
+        }
+      },
+      {
+        "canonical": {
+          "id": 7,
+          "type": "show"
+        },
+        "page": {
+          "dir": "seo-articles",
+          "type": "category"
+        }
+      },
+      {
+        "canonical": {
+          "id": 3,
+          "type": "show"
+        },
+        "page": {
+          "dir": "tzjq",
+          "type": "category"
+        }
+      },
+      {
+        "canonical": {
+          "id": 4,
+          "type": "show"
+        },
+        "page": {
+          "dir": "zyyy",
+          "type": "category"
+        }
+      }
+    ],
+    "crawled_page_count": 75,
+    "diagnostic_status": "COMPLETE",
+    "duplicate_description_groups": [
+      {
+        "pages": [
+          {
+            "type": "home"
+          },
+          {
+            "dir": "rjxm",
+            "type": "category"
+          }
+        ],
+        "value_chars": 51,
+        "value_sha256": "4cb8bb93e792a440eca30b49787b8f77d6468a6f8185a5bbf25c8a08fb329421"
+      },
+      {
+        "pages": [
+          {
+            "id": 50,
+            "type": "show"
+          },
+          {
+            "id": 51,
+            "type": "show"
+          },
+          {
+            "id": 52,
+            "type": "show"
+          },
+          {
+            "id": 53,
+            "type": "show"
+          },
+          {
+            "id": 54,
+            "type": "show"
+          },
+          {
+            "id": 55,
+            "type": "show"
+          },
+          {
+            "id": 56,
+            "type": "show"
+          },
+          {
+            "id": 57,
+            "type": "show"
+          },
+          {
+            "id": 58,
+            "type": "show"
+          },
+          {
+            "id": 59,
+            "type": "show"
+          },
+          {
+            "id": 60,
+            "type": "show"
+          },
+          {
+            "id": 61,
+            "type": "show"
+          },
+          {
+            "id": 62,
+            "type": "show"
+          },
+          {
+            "id": 63,
+            "type": "show"
+          },
+          {
+            "id": 64,
+            "type": "show"
+          },
+          {
+            "id": 65,
+            "type": "show"
+          },
+          {
+            "id": 66,
+            "type": "show"
+          },
+          {
+            "id": 67,
+            "type": "show"
+          },
+          {
+            "id": 82,
+            "type": "show"
+          },
+          {
+            "id": 83,
+            "type": "show"
+          }
+        ],
+        "value_chars": 8,
+        "value_sha256": "dbb8e77773b4bf902811040fe65903fa87692b3345a3ba0ab966518b539eb716"
+      }
+    ],
+    "duplicate_h1_groups": [
+      {
+        "pages": [
+          {
+            "type": "home"
+          },
+          {
+            "dir": "rjxm",
+            "type": "category"
+          }
+        ],
+        "value": "彩票数据研究、方案验证与平台资料导航",
+        "value_chars": 18,
+        "value_sha256": "b378e9e43cb7efd721b283109274c5391ec1d972adf7232da0510de53692fc3c"
+      },
+      {
+        "pages": [
+          {
+            "id": 74,
+            "type": "show"
+          },
+          {
+            "id": 75,
+            "type": "show"
+          }
+        ],
+        "value": "长征（送首冲）",
+        "value_chars": 7,
+        "value_sha256": "78271db4a2703dc24451ac134bd7b0093b1ed8b546397065c8f936cbc9af8023"
+      }
+    ],
+    "duplicate_title_groups": [
+      {
+        "pages": [
+          {
+            "id": 85,
+            "type": "show"
+          },
+          {
+            "id": 86,
+            "type": "show"
+          }
+        ],
+        "value": "你访问的页面不存在",
+        "value_chars": 9,
+        "value_sha256": "d0ad7617741bdd474437d06238172210304a27e1857492e949bf6afbbed71320"
+      }
+    ],
+    "http_errors": [
+      {
+        "effective": {
+          "id": 85,
+          "type": "show"
+        },
+        "http": 404,
+        "page": {
+          "id": 85,
+          "type": "show"
+        }
+      },
+      {
+        "effective": {
+          "id": 86,
+          "type": "show"
+        },
+        "http": 404,
+        "page": {
+          "id": 86,
+          "type": "show"
+        }
+      }
+    ],
+    "orphan_pages": [
+      {
+        "dir": "gdrz",
+        "type": "category"
+      },
+      {
+        "dir": "gjfa",
+        "type": "category"
+      },
+      {
+        "dir": "rjxm",
+        "type": "category"
+      },
+      {
+        "dir": "seo-articles",
+        "type": "category"
+      },
+      {
+        "dir": "tzjq",
+        "type": "category"
+      },
+      {
+        "dir": "zyyy",
+        "type": "category"
+      }
+    ],
+    "phase": "final",
+    "production_writes": false,
+    "secrets_disclosed": false,
+    "sitemap_http": 200,
+    "task": "seo_content_anomaly_diagnostic_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "bee2c18ca6dea3ea2687bff5cf560fbb26e5b63b",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/seo_content_anomaly_diagnostic_v1.sh",
+  "script_sha256": "8433d05ec6526ddc57840f36ca409dede1bbfe8c7f3df844685800d139462c8a",
+  "started_at": "2026-08-11T06:30:14Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
