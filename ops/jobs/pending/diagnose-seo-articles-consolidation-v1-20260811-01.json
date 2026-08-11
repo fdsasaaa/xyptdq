@@ -3,6 +3,6 @@
   "job_id": "diagnose-seo-articles-consolidation-v1-20260811-01",
   "required_commit": "a55ffa1840fdf1302f0fc141fda0fc3b940cc7a6",
   "script": "scripts/ops/agent_tasks/diagnose_seo_articles_consolidation_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "b6e16d3ceef35d8e82d37d3c034b4607543896ed6186192d340257872a1ec92f",
   "timeout_seconds": 180
 }
