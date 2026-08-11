@@ -1,0 +1,14 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-11T05:45:45Z",
+  "job_id": "seo-content-architecture-audit-20260811-01",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "b4684bca56c491eba0f7728c02effae156d30c36",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/seo_content_architecture_audit_v1.sh",
+  "script_sha256": "0cdd9fbd3be072e8a72d33da4b3b3228a2dc0eaa40de8e18756db85fc091a41f",
+  "started_at": "2026-08-11T05:45:44Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
