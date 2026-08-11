@@ -1,0 +1,28 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T01:02:32Z",
+  "job_id": "diagnose-seo-phase1-deploy-20260811-01",
+  "payload": {
+    "blocking_item": "NONE",
+    "diagnosis_status": "PASS",
+    "error_class": "no_error_marker_found",
+    "failed_deploy_log_exists": "YES",
+    "git_main_seo_header_present": "YES",
+    "last_deploy_stage": "unknown",
+    "production_article91_http": 200,
+    "production_category7_http": 200,
+    "production_home_http": 200,
+    "production_legacy_article_restored": "YES",
+    "production_seo_header_present": "NO",
+    "secrets_disclosed": false,
+    "task": "diagnose_seo_phase1_deploy"
+  },
+  "raw_log_published": false,
+  "required_commit": "e90dc4fc6acf2c55fec03ba9fae45468d9a17e71",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/diagnose_seo_phase1_deploy.sh",
+  "script_sha256": "e58f1658bdea1b4388b6ac238977d91c8a2a3fca2d69f6158360d75bbcc6ced0",
+  "started_at": "2026-08-11T01:02:31Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
