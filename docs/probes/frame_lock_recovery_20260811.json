@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "source_job": "locate-frame-lock-backups-20260811-01",
+  "source_archive": "disaster_recovery_20260810_031958/website_files_var_www_releases.tar.gz",
+  "source_member": "./xyptdq_20260203_012719/cache/frame.lock",
+  "restored_path": "site/cache/frame.lock",
+  "bytes": 13,
+  "sha256": "6354efe8231ee48215668bdac2cf196b92841a9b06c1fd4279668fe84e830c44",
+  "exact_codeigniter72": true,
+  "secrets_disclosed": false
+}
