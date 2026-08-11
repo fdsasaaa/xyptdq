@@ -15,14 +15,28 @@ $xyptdq_request_dir = trim((string)($_GET['dir'] ?? ''));
 $xyptdq_request_page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
 $xyptdq_is_show = $xyptdq_route === 'show';
 $xyptdq_is_category = $xyptdq_route === 'category';
+$xyptdq_category_display_name = '';
+$xyptdq_effective_category_dir = $xyptdq_request_dir;
+if ($xyptdq_is_category && $xyptdq_effective_category_dir === '' && isset($cat) && is_array($cat)) {
+    $xyptdq_effective_category_dir = trim((string)($cat['dirname'] ?? ''));
+}
+if ($xyptdq_is_category && $xyptdq_effective_category_dir === 'tzjq') {
+    $xyptdq_category_display_name = '投注技巧';
+    $xyptdq_title = str_replace('投注机巧', '投注技巧', $xyptdq_title);
+}
 $xyptdq_module = defined('MOD_DIR') ? (string)MOD_DIR : '';
 $xyptdq_desc = trim((string)($meta_description ?? ''));
+if ($xyptdq_category_display_name !== '' && $xyptdq_desc !== '') {
+    $xyptdq_desc = str_replace('投注机巧', '投注技巧', $xyptdq_desc);
+}
 if ($xyptdq_is_show && $xyptdq_module === 'news' && $xyptdq_desc !== '' && hash('sha256', $xyptdq_desc) === 'dbb8e77773b4bf902811040fe65903fa87692b3345a3ba0ab966518b539eb716') {
     $xyptdq_desc = '';
 }
 if ($xyptdq_desc === '') {
     $xyptdq_label = '';
-    if ($xyptdq_is_category && isset($cat) && is_array($cat)) {
+    if ($xyptdq_category_display_name !== '') {
+        $xyptdq_label = $xyptdq_category_display_name;
+    } elseif ($xyptdq_is_category && isset($cat) && is_array($cat)) {
         $xyptdq_label = trim(strip_tags((string)($cat['name'] ?? '')));
     }
     if ($xyptdq_label === '') {
@@ -111,7 +125,7 @@ $xyptdq_schema = [
     <ul>
         <li><a href="{SITE_MURL}" title="首页">首页</a></li>
         {category module=share id=2}<li class="{if IS_SHARE && $catid && dr_in_array($catid, $t.catids)} active{/if}"><a href="/index.php?c=category&dir=gjfa" title="{$t.name}">{$t.name}</a></li>{/category}
-        {category module=share id=3}<li class="{if IS_SHARE && $catid && dr_in_array($catid, $t.catids)} active{/if}"><a href="/index.php?c=category&dir=tzjq" title="{$t.name}">{$t.name}</a></li>{/category}
+        {category module=share id=3}<li class="{if IS_SHARE && $catid && dr_in_array($catid, $t.catids)} active{/if}"><a href="/index.php?c=category&dir=tzjq" title="投注技巧">投注技巧</a></li>{/category}
         {category module=share id=4}<li class="{if IS_SHARE && $catid && dr_in_array($catid, $t.catids)} active{/if}"><a href="/index.php?c=category&dir=zyyy" title="{$t.name}">{$t.name}</a></li>{/category}
         {category module=share id=7}<li class="{if IS_SHARE && $catid && dr_in_array($catid, $t.catids)} active{/if}"><a href="/index.php?c=category&dir=seo-articles" title="{$t.name}">{$t.name}</a></li>{/category}
     </ul>
