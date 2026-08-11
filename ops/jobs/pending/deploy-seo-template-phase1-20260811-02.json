@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-seo-template-phase1-20260811-02",
+  "required_commit": "14dd44d6c8d7ff113d1cf53ef0f723ac7ba4f66d",
+  "script": "scripts/ops/agent_tasks/deploy_seo_template_phase1.sh",
+  "script_sha256": "2953efa4f8d3d98daabc306c1f609a2fcef7949c7472d6d64e42b20886e35a7d",
+  "timeout_seconds": 900
+}
