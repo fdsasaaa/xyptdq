@@ -1,0 +1,27 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-11T05:05:14Z",
+  "job_id": "pause-native-publisher-cron-20260811-01",
+  "payload": {
+    "article_publishing_attempted": false,
+    "blocking_item": "publisher_cron_content_unexpected",
+    "cron_after": "UNKNOWN",
+    "cron_before": "PRESENT",
+    "other_active_publisher_cron_refs": -1,
+    "pause_status": "BLOCKED",
+    "phase": "cron_preflight",
+    "publisher_code_changed": false,
+    "queued_articles_deleted": false,
+    "scheduled_queue_json_count": 11,
+    "secrets_disclosed": false,
+    "task": "pause_native_publisher_cron"
+  },
+  "raw_log_published": false,
+  "required_commit": "c07f444958a7171b827379f887611b1f5c55e0fa",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/pause_native_publisher_cron.sh",
+  "script_sha256": "b590b678ac3fd07cfd9c942cb61b6bae4b749997f83e3fbd25e4e2d4ee98e534",
+  "started_at": "2026-08-11T05:05:13Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
