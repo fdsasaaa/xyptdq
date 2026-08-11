@@ -39,3 +39,5 @@ jobs:
         run: php scripts/content/smoke_batch1_test.php
       - name: Smoke batch 2 converter verification
         run: php scripts/content/smoke_batch2_test.php
+      - name: Draft metadata refresh safety verification
+        run: php scripts/content/metadata_refresh_test.php
