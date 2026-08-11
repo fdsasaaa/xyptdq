@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-platform-duplicate-entity-diagnostic-20260811-01",
+  "required_commit": "a4b97ef49c0da10587f62f9fbdb068be5f55c387",
+  "script": "scripts/ops/agent_tasks/seo_platform_duplicate_entity_diagnostic_v1.sh",
+  "script_sha256": "976c8f979bb88114baa50deec528ff6e0292d95a49a73aae6730e067c42ddd83",
+  "timeout_seconds": 600
+}
