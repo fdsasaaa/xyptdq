@@ -8,6 +8,7 @@ WEBROOT="${XYPTDQ_WEBROOT:-/www/wwwroot/59.110.217.6}"
 LIMIT="${XYPTDQ_PUBLISH_LIMIT:-2}"
 LOG_DIR="${XYPTDQ_PUBLISH_LOG_DIR:-/var/log/xyptdq-publisher}"
 NATIVE_ADAPTER="$REPO_DIR/scripts/content/cms_publish_native_adapter.php"
+POLICY="$REPO_DIR/config/content_publication_policy.json"
 
 fail() {
     echo "[scheduled-publish] ERROR: $*" >&2
@@ -28,6 +29,17 @@ git -C "$REPO_DIR" fetch --prune origin main >/dev/null 2>&1
 git -C "$REPO_DIR" checkout -q main
 git -C "$REPO_DIR" reset --hard origin/main >/dev/null
 [ -s "$NATIVE_ADAPTER" ] || fail "native Xunrui adapter missing after sync"
+[ -s "$POLICY" ] || fail "publication policy missing after sync; fail-closed"
+
+POLICY_ENABLED=$(php -r '
+$x=json_decode(file_get_contents($argv[1]),true);
+if(!is_array($x) || (int)($x["schema_version"]??0)!==1){exit(2);}
+echo (($x["publishing_enabled"]??null)===true)?"yes":"no";
+' "$POLICY") || fail "publication policy invalid; fail-closed"
+if [ "$POLICY_ENABLED" != "yes" ]; then
+    echo "[scheduled-publish] PAUSED by content publication policy; no article publishing attempted"
+    exit 0
+fi
 
 RUN_SHA=$(git -C "$REPO_DIR" rev-parse HEAD)
 RUN_ID=$(date -u +%Y%m%dT%H%M%SZ)
