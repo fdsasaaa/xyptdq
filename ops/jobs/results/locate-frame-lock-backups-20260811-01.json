@@ -1,0 +1,30 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T01:26:47Z",
+  "job_id": "locate-frame-lock-backups-20260811-01",
+  "payload": {
+    "blocking_item": "NONE",
+    "candidate_count": 1,
+    "candidates": [
+      {
+        "bytes": 13,
+        "exact_codeigniter72": true,
+        "path": "./xyptdq_20260203_012719/cache/frame.lock",
+        "sha256": "6354efe8231ee48215668bdac2cf196b92841a9b06c1fd4279668fe84e830c44",
+        "source": "disaster_recovery_20260810_031958/website_files_var_www_releases.tar.gz"
+      }
+    ],
+    "exact_candidate_count": 1,
+    "locator_status": "PASS",
+    "secrets_disclosed": false,
+    "task": "locate_frame_lock_backups"
+  },
+  "raw_log_published": false,
+  "required_commit": "581f6fc73d7de132c63d822755111f66087582b8",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/locate_frame_lock_backups.sh",
+  "script_sha256": "3caf5f035750b8170c81aba32a8546281b3fa64e664442ca7637eac94ecbdc6f",
+  "started_at": "2026-08-11T01:26:41Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
