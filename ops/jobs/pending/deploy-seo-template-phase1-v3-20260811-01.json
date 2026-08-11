@@ -3,6 +3,6 @@
   "job_id": "deploy-seo-template-phase1-v3-20260811-01",
   "required_commit": "6acbd1bff09f87d1c24985216f4ac9e1ed2bedc6",
   "script": "scripts/ops/agent_tasks/deploy_seo_template_phase1_v3.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "c4d565e8faec507a4f654f0cf362a04e3672cce7ef52d752727e8274f54603d3",
   "timeout_seconds": 900
 }
