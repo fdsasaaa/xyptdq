@@ -92,15 +92,15 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - Category was retired with no publishing attempt.
 
 ### tzjq rename attempt safely rolled back
-- Evidence supports retaining `tzjq` as the betting-technique carrier and using public label `投注技巧` instead of legacy `投注机巧`.
+- Evidence supports retaining `tzjq` as the betting-technique carrier and using SEO intent wording `投注技巧` while the CMS legacy label is `投注机巧`.
 - A DB-only rename attempt was deliberately live-render gated.
 - Result `rename-tzjq-category-v1-20260811-01`: BLOCKED because the rendered page did not update after the DB change; rollback YES.
-- Do not repeat the DB-only approach. A presentation/cache-aware correction is the next safe route.
+- Do not repeat the DB-only approach merely to force a synonym into the CMS category name.
 
 ### Final post-fix Phase 5 audit: structural issues closed
 - PR #209 queued `seo-content-architecture-audit-20260811-05` using the already verified read-only V2 audit.
 - PASS evidence: `agent/results/seo-content-architecture-audit-20260811-05`.
-- 71 sitemap URLs / 71 crawled pages / HTTP errors 0.
+- 71 sitemap URLs / 71 crawled pages / HTTP errors 0 at that checkpoint.
 - Canonical mismatch 0; duplicate titles 0; duplicate H1 0; duplicate Descriptions 0; orphan pages 0; active empty news categories 0.
 - Keyword owner conflicts 0; mapped path targets missing 0; homepage platform-link coverage 30/30.
 - Only remaining opportunity class: `planned_primary_target_mapping_incomplete`.
@@ -111,17 +111,51 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - Planned Hubs: 分分时时彩研究中心, 哈希分分彩专题, 奇趣分分彩专题, 时时彩技术中心, 赛车与飞艇专题, 平台评测与对比, 数据实验室.
 - Registry prohibits empty/thin Hub creation and requires real content/internal links before a Hub can become an indexable sitemap URL.
 
-### Keyword Map 1.1.1 live-carrier bindings
-- PR #211 upgraded `content/keyword_map.json` to 1.1.1.
-- Only five symbolic intents with justified current carriers were resolved to live paths: FFC betting guide -> `tzjq`; FFC/hash/qiqu/ssc automation -> `gjfa`.
+### Keyword Map live-carrier bindings
+- PR #211 upgraded `content/keyword_map.json` and bound only symbolic intents with justified current carriers.
+- FFC betting guide -> `tzjq`; FFC/hash/qiqu/ssc automation -> `gjfa`.
 - Remaining planned intents were intentionally not assigned to semantically weak pages.
-- PR #212 synchronized `content/seo_target_registry.json` to Keyword Map 1.1.1.
+- Keyword Map later reached version **1.1.2**; continuity files must use that current version.
 
-### Current checkpoint
-- Technical/content-architecture Phase 5 is closed except the expected future-Hub mapping class.
-- Current work moves to content-carrier architecture, not bulk article publishing.
-- First unresolved items: public `tzjq` label correction via a cache/presentation-aware method; cleanup/reclassification of the mixed `seo-articles` transition category; then substantive Hub implementation as supporting content becomes available.
-- Publishing freeze remains active.
+### Current checkpoint before category consolidation
+- Technical/content-architecture Phase 5 was closed except the expected future-Hub mapping class.
+- Work moved to content-carrier architecture, not bulk article publishing.
+- `seo-articles` remained a temporary mixed-intent category pending a safe consolidation.
+- Publishing freeze remained active.
+
+## 2026-08-12
+
+### `SEO文章` -> `投注机巧` production consolidation complete
+- User decision: retire `SEO文章`; future ordinary SEO articles use `tzjq` / catid 3 / CMS label `投注机巧`.
+- Source policy was changed so `config/content_category_map.json` uses `seo_article_category_key=tzjq` and treats `seo-articles` as retired; navigation no longer exposes the old category.
+- Read-only production diagnostics proved IDs 85/86/88/91 were the only four catid-7 articles. IDs 85/86 were valid published `news` content missing `share_index` and `news_hits`; IDs 88/91 were already fully routed.
+- Multiple guarded iterations failed closed while refining exact production assumptions:
+  - V1/V2/V3 stopped before writes on over-strict preconditions.
+  - V4 hit a transaction placeholder bug and committed zero writes.
+  - V5 proved the full migration could succeed, then a `pipefail` zero-count verifier bug caused rollback.
+  - V6 passed that point but exposed a transient immediate 301 verification race and rolled back.
+- PR #244 added V7 strict bounded redirect retries without weakening the required 301 destination; PR #245 queued the exact hash-pinned production job.
+- Authoritative PASS evidence: `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`.
+- V7 production result:
+  - deploy PASS / DB migration PASS / rollback NO / blocker NONE
+  - migrated main rows 4 / data rows 4
+  - repaired `share_index` rows 2 and `news_hits` rows 2 for IDs 85/86
+  - retired category 7; remaining category-7 articles 0
+  - old `dir=seo-articles` and `id=7` routes both 301 to `tzjq`
+  - PC/Mobile old-nav link count 0/0
+  - article HTTP 200 4/4 and self-canonical 4/4
+  - regenerated sitemap contains all four migrated articles, contains `tzjq`, and contains zero old-category entries
+  - article91 Description unchanged; show74/75 H1 controls PASS; framework integrity PASS
+  - no article publishing, cron change, or scheduled queue consumption
+- Independent Bridge healthcheck `agent/results/bridge-healthcheck-20260812-11` also returned PASS during closure and confirmed production had synchronized the V7 queue commit.
+- The former `SEO文章` category is now closed production history, not a future content carrier.
+- Future SEO articles -> `tzjq` / 投注机巧. Same-intent wording such as 技巧/技术/方法/投注技巧 should be handled through article metadata, keyword ownership, content clusters and Hubs rather than new synonym categories.
+
+### Next SEO stage
+- Do not restart closed canonical/H1/Description/orphan/empty-category remediation without regression evidence.
+- Build the single-category `tzjq` article taxonomy/metadata rules and internal-link architecture.
+- Build substantive Hubs only when supporting content exists; preferred first candidates remain 分分时时彩研究中心, 数据实验室, 平台评测与对比.
+- Automatic article publishing remains frozen until explicit user approval.
 
 ### Continuity protocol
 - `docs/seo/SEO_PROJECT_HANDOFF.md`, this changelog and `config/seo_project_state.json` are the required continuity files.
