@@ -1,5 +1,24 @@
 {template "seo_header.html"}
 
+{if MOD_DIR=='news'}
+<?php
+$xyptdq_article_schema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'Article',
+    'headline' => trim(strip_tags((string)$title)),
+    'description' => $xyptdq_desc,
+    'url' => $xyptdq_canonical,
+    'mainEntityOfPage' => $xyptdq_canonical,
+    'isPartOf' => [
+        '@type' => 'WebSite',
+        'name' => '信誉平台大全（彩研导航站）',
+        'url' => 'https://www.laocaimi.org/'
+    ]
+];
+?>
+<script type="application/ld+json"><?php echo json_encode($xyptdq_article_schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES); ?></script>
+{/if}
+
 <nav class="xyptdq-breadcrumb" aria-label="面包屑">
     <a href="/">首页</a> &gt; {dr_catpos($catid, '', true, '<a href="[url]">[name]</a> &gt; ')} <span>正文</span>
 </nav>
@@ -14,6 +33,17 @@
                 {if MOD_DIR=='news'}&nbsp;&nbsp;<span>阅读：{dr_show_hits($id)}</span>{/if}
             </div>
             <div class="xyptdq-content">{$content}</div>
+
+            {if MOD_DIR=='xm'}
+            <section class="mt-5 pt-4 border-top" aria-labelledby="platform-reading-guide">
+                <h2 id="platform-reading-guide" class="fs-4 fw-bold mb-3">平台资料阅读与核验说明</h2>
+                <div class="xyptdq-content">
+                    <p>本页用于整理平台名称、公开资料和站内导航信息，方便对不同平台页面进行查阅与比较；页面展示本身不代表对平台信誉、资金安全、活动真实性或收益能力作出保证。访问注册、登录、客服等外部入口前，应自行核对当前域名、账户规则、充值提现条件、活动条款、限额及客服渠道，并结合所在地适用规则判断是否适合使用。</p>
+                    <p>平台的奖金、返点、活动和服务规则可能随时间调整，涉及金额或账户权益时，应以平台当时实际展示的规则为准。不要仅依据单一广告、短期记录、个别评价或历史宣传材料作判断；更稳妥的做法是把“平台资料核验”和“投注技巧或数据研究”分开评估，分别检查信息来源、成本、风险和可验证性。</p>
+                    <p>需要了解本站的数据研究、方案验证和风险分析方法，可继续查看<a href="/index.php?c=category&id=7">数据研究与风险说明文章</a>。这些内容用于方法研究和信息整理，不承诺投注结果或收益。</p>
+                </div>
+            </section>
+            {/if}
 
             {if $kws}
             <div class="mt-5">
