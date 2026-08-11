@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "source": "canonical website navigation verified on main",
+  "categories": {
+    "gjfa": {"catid": 2, "canonical_dir": "gjfa"},
+    "tzjq": {"catid": 3, "canonical_dir": "tzjq"},
+    "zyyy": {"catid": 4, "canonical_dir": "zyyy"},
+    "seo-articles": {"catid": 7, "canonical_dir": "seo-articles"}
+  },
+  "policy": {
+    "approved_package_must_supply_site_category_key": true,
+    "no_default_category_guess": true,
+    "unknown_category_key_fails_closed": true
+  }
+}
