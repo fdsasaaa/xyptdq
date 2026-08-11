@@ -12,12 +12,12 @@
   "lottery": "时时彩",
   "meta_description": "用近12期演示数据解释分分彩定位胆遗漏值：先固定个位，再从最新一期向前计算每个数字连续未出现多少期，并说明遗漏大不等于更该出。",
   "play": "定位胆",
-  "primary_keyword": "分分彩定位胆技巧",
+  "primary_keyword": "分分彩定位胆遗漏技巧",
   "provider_id": null,
   "rule_refs": ["SSC-MECH-LOCATED-1D-V1"],
   "search_intent": "学习具体投注技巧并看懂可复算案例",
   "secondary_keywords": ["分分彩遗漏", "个位遗漏", "定位胆遗漏", "分分彩投注技巧"],
-  "seo_title": "分分彩定位胆技巧：个位遗漏值怎么计算与设置阈值",
+  "seo_title": "分分彩定位胆遗漏技巧：个位遗漏值怎么计算与设置阈值",
   "site_category_key": "tzjq",
   "slug": "ffc-dingweidan-omission-position",
   "source_refs": ["BRBCW-003939"],
@@ -27,5 +27,5 @@
   "summary": "把遗漏定义成固定位置上的等待距离，用个位近12期演示序列逐个计算0-9当前遗漏，并用预设阈值说明筛选过程。",
   "tags": ["分分彩定位胆", "遗漏", "个位遗漏", "位置筛选"],
   "technique_atoms": ["omission_threshold", "position_filter"],
-  "title": "分分彩定位胆技巧：以个位为例，遗漏到底是连续没出多少期"
+  "title": "分分彩定位胆遗漏技巧：以个位为例，遗漏到底是连续没出多少期"
 }
