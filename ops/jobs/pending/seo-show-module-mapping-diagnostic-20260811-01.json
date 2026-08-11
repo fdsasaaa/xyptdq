@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-show-module-mapping-diagnostic-20260811-01",
+  "required_commit": "c2e65ae0b713e529701ffb74b931fae99d1a79a2",
+  "script": "scripts/ops/agent_tasks/seo_show_module_mapping_diagnostic_v1.sh",
+  "script_sha256": "8432701fb57266bcb85d141b6ea5fb7855d1999ef4244e5577153004f377a1a1",
+  "timeout_seconds": 900
+}
