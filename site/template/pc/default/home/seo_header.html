@@ -17,7 +17,7 @@ $xyptdq_is_show = $xyptdq_route === 'show';
 $xyptdq_is_category = $xyptdq_route === 'category';
 $xyptdq_module = defined('MOD_DIR') ? (string)MOD_DIR : '';
 $xyptdq_desc = trim((string)($meta_description ?? ''));
-if ($xyptdq_is_show && $xyptdq_module === 'xm' && $xyptdq_desc !== '' && hash('sha256', $xyptdq_desc) === 'dbb8e77773b4bf902811040fe65903fa87692b3345a3ba0ab966518b539eb716') {
+if ($xyptdq_is_show && $xyptdq_module === 'news' && $xyptdq_desc !== '' && hash('sha256', $xyptdq_desc) === 'dbb8e77773b4bf902811040fe65903fa87692b3345a3ba0ab966518b539eb716') {
     $xyptdq_desc = '';
 }
 if ($xyptdq_desc === '') {
