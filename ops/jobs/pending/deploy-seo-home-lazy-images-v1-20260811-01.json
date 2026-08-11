@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-seo-home-lazy-images-v1-20260811-01",
+  "required_commit": "4526bd04bd02921c8dcee426b0182b08bf4de263",
+  "script": "scripts/ops/agent_tasks/deploy_seo_home_lazy_images_v1.sh",
+  "script_sha256": "c08a2018318837c58471bb2f41668e4ce5f62f4a5cd74c4c68452ea5f4730165",
+  "timeout_seconds": 900
+}
