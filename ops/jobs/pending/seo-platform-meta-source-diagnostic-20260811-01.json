@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-platform-meta-source-diagnostic-20260811-01",
+  "required_commit": "daacbb2c59f6e39359c396d6f95d2a5b1303a0c9",
+  "script": "scripts/ops/agent_tasks/seo_platform_meta_source_diagnostic_v1.sh",
+  "script_sha256": "3d7f3fd97d35dfa962ff0a1ca5e9eb48ebfdebd9ddc6e5d50ec986a55020a0d5",
+  "timeout_seconds": 600
+}
