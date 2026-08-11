@@ -1,0 +1,205 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T21:26:10Z",
+  "job_id": "diagnose-v3-db-precondition-20260812-01",
+  "payload": {
+    "article_publishing": false,
+    "articles": [
+      {
+        "data_catid": 7,
+        "hits_count": 0,
+        "id": 85,
+        "main": {
+          "catid": "7",
+          "id": "85",
+          "status": "9",
+          "tableid": "0",
+          "title": "2026年最新信誉平台排行榜与评测"
+        },
+        "news_index_status": 9,
+        "share_index_mid": null
+      },
+      {
+        "data_catid": 7,
+        "hits_count": 0,
+        "id": 86,
+        "main": {
+          "catid": "7",
+          "id": "86",
+          "status": "9",
+          "tableid": "0",
+          "title": "平台安全防护措施详解：从注册到使用"
+        },
+        "news_index_status": 9,
+        "share_index_mid": null
+      },
+      {
+        "data_catid": 7,
+        "hits_count": 1,
+        "id": 88,
+        "main": {
+          "catid": "7",
+          "id": "88",
+          "status": "9",
+          "tableid": "0",
+          "title": "分分彩投注技巧：先看命中率、奖金与资金风险"
+        },
+        "news_index_status": 9,
+        "share_index_mid": "news"
+      },
+      {
+        "data_catid": 7,
+        "hits_count": 1,
+        "id": 91,
+        "main": {
+          "catid": "7",
+          "id": "91",
+          "status": "9",
+          "tableid": "0",
+          "title": "分分彩投注技巧：先算命中率、单期成本还是返奖？"
+        },
+        "news_index_status": 9,
+        "share_index_mid": "news"
+      }
+    ],
+    "categories": [
+      {
+        "dirname": "tzjq",
+        "disabled": "0",
+        "id": "3",
+        "mid": "news",
+        "name": "投注机巧",
+        "show_flag": "1"
+      },
+      {
+        "dirname": "seo-articles",
+        "disabled": "0",
+        "id": "7",
+        "mid": "news",
+        "name": "SEO文章",
+        "show_flag": "1"
+      }
+    ],
+    "catid7_total": 4,
+    "cross_module_collisions_85_86": [],
+    "hits_id_only_insert_unsafe_columns": [
+      "hits",
+      "day_hits",
+      "week_hits",
+      "month_hits",
+      "year_hits",
+      "day_time",
+      "week_time",
+      "month_time",
+      "year_time"
+    ],
+    "hits_schema": [
+      {
+        "column_default": null,
+        "column_name": "id",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "hits",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "day_hits",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "week_hits",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "month_hits",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "year_hits",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "day_time",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "week_time",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "month_time",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      },
+      {
+        "column_default": null,
+        "column_name": "year_time",
+        "column_type": "int(10) unsigned",
+        "extra": "",
+        "is_nullable": "NO"
+      }
+    ],
+    "production_writes": false,
+    "sample_hits_rows": {
+      "88": {
+        "day_hits": "1",
+        "day_time": "1786449720",
+        "hits": "1",
+        "id": "88",
+        "month_hits": "1",
+        "month_time": "1786372908",
+        "week_hits": "1",
+        "week_time": "1786372908",
+        "year_hits": "1",
+        "year_time": "1786372908"
+      },
+      "91": {
+        "day_hits": "3",
+        "day_time": "1786409042",
+        "hits": "3",
+        "id": "91",
+        "month_hits": "3",
+        "month_time": "1786409042",
+        "week_hits": "3",
+        "week_time": "1786409042",
+        "year_hits": "3",
+        "year_time": "1786409042"
+      }
+    },
+    "task": "diagnose_v3_db_precondition"
+  },
+  "raw_log_published": false,
+  "required_commit": "6b1fe4fe349c4c65c431dfc06fda1d7e08f0d22f",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/diagnose_v3_db_precondition.sh",
+  "script_sha256": "a76a2386eacf4ee8b40726e981549fc0a11b6df9bfaf4d74f6452459648dadd1",
+  "started_at": "2026-08-11T21:26:10Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
