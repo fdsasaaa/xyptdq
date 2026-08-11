@@ -1,263 +1,245 @@
 # SEO Project Handoff — Canonical Current State
 
-> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file first, then check recent PRs/commits and referenced Server Bridge results before changing anything. This file is intentionally updated after meaningful milestones so conversation-length limits do not break continuity.
+> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, and `content/seo_target_registry.json`, then inspect commits/PRs after the recorded checkpoint before changing anything.
 
-## 1. Project identity and current scope
+## 1. Project identity and scope
 
 - Repository: `fdsasaaa/xyptdq`
-- Production site: `https://www.laocaimi.org`
-- Current focus: continue SEO optimization and existing-site architecture cleanup.
-- Article collection/rewrite/publishing is a later phase.
-- Do **not** resume automatic article publishing until the user explicitly approves the draft-first workflow.
+- Production: `https://www.laocaimi.org`
+- Current SEO phase: **keyword ownership and future content-carrier architecture**.
+- Existing technical/content-architecture cleanup is closed unless a regression appears.
+- The user is still collecting lottery-technique source material. Do not start bulk article publishing.
+- `config/content_publication_policy.json` remains authoritative with `publishing_enabled=false`.
+- Do not reinstall Publisher cron or consume the preserved scheduled queue unless the user explicitly approves the later publishing phase.
 
 ## 2. Non-negotiable operating rules
 
-1. `main` is the canonical source.
-2. Use isolated branches + PRs for source changes.
-3. Production-impacting changes must use the existing Server Bridge / rollback-gated deployment pattern where applicable.
-4. Never report a queued/merged Server Bridge task as successful until its `agent/results/<job_id>` evidence is read.
-5. Keep article publishing frozen during the current SEO architecture phase.
-6. Do not chase technical scores by blindly adding `defer/async` to legacy head scripts; old jQuery/Bootstrap + inline `$()` dependencies are a known regression risk.
-7. Future article SEO follows `content/keyword_map.json`; avoid thin near-duplicate pages and keyword cannibalization.
-8. At each meaningful SEO milestone, update this handoff and append `docs/seo/SEO_CHANGELOG.md`.
-9. Before trusting this document in a new session, inspect recent PRs after the last recorded checkpoint because work may have continued concurrently.
+1. `main` is the only canonical source.
+2. Source changes use isolated branch -> PR -> CI.
+3. Production changes use independent rollback-gated Server Bridge jobs.
+4. Never equate PR merge/job queueing with production success; read `agent/results/<job_id>`.
+5. Keep article publishing frozen.
+6. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without proving compatibility.
+7. Follow Keyword Map same-intent consolidation; do not create synonym doorway/thin pages.
+8. Do not make unverifiable profit/safety promises.
+9. Update this handoff, changelog and state after meaningful milestones.
 
-## 3. Technical SEO baseline — closed unless regression occurs
+## 3. Technical SEO baseline — closed
 
-Earlier technical/growth cleanup is considered complete:
+Previously completed and not to be restarted without evidence of regression:
 
-- Whole-site technical SEO: 104 identified issues -> 0 in the post-remediation state.
-- SEO Growth Audit: 5 opportunities -> 0.
-- Missing image intrinsic dimensions: 0 on audited page classes.
-- Homepage: 34 images; 33 non-critical images use native lazy loading + async decoding; logo remains priority-loaded.
-- Last known post-lazy timing: homepage TTFB about 0.104 s; mobile homepage about 0.0855 s.
-- Representative home/category/article/platform routes remained HTTP 200.
+- Whole-site technical SEO major cleanup.
+- SEO Growth Audit reached 0 opportunity.
+- Missing image width/height reached 0 on audited page classes.
+- Homepage 33/34 non-critical images lazy-load/async-decode; logo remains priority-loaded.
+- Homepage links to all 30 published platform detail pages.
+- Homepage single H1 contains `信誉平台大全`.
+- Request-aware canonical metadata deployed.
+- Sitemap routing cleanup reduced sitemap to 71 verified HTTP-200 URLs.
+- Empty/duplicate/unroutable routes were removed from sitemap as appropriate.
 
-Do not restart this phase from scratch unless a real regression or material template change justifies re-audit.
+## 4. Publishing freeze — ACTIVE
 
-## 4. Article publishing freeze — ACTIVE and verified
+- Scheduled Publisher cron was paused and independently verified.
+- 11 scheduled JSON files remain preserved inventory only.
+- `config/content_publication_policy.json`: `publishing_enabled=false`, mode `content_preparation_freeze`.
+- Publisher remains fail-closed while frozen.
+- Draft/Approved-package infrastructure may exist in parallel, but Approved/Draft/Scheduled/Published states must remain distinct and must not bypass this freeze.
 
-Scheduled Publisher cron was discovered active despite the current requirement to pause content publication.
+## 5. Phase 5 post-fix audit — CURRENT PRODUCTION TRUTH
 
-Verified state from `pause-native-publisher-cron-20260811-02`:
+Latest authoritative audit:
 
-- Result: PASS
-- `cron_before`: PRESENT
-- `cron_after`: ABSENT
-- `other_active_publisher_cron_refs`: 0
-- `scheduled_queue_json_count`: 11
-- queued JSON deleted: false
-- article publishing attempted: false
-
-PR #145 added a second fail-closed layer:
-
-- `config/content_publication_policy.json`
-- `publishing_enabled=false`
-- scheduled runner exits without CMS writes while frozen
-- cron installer refuses to reinstall while frozen
-
-The 11 scheduled JSON files are preserved inventory only. Do not publish them automatically in the current phase.
-
-## 5. Keyword architecture — current version
-
-`content/keyword_map.json` = version 1.1.0 (PR #147).
-
-Current rule:
-
-- Same-intent synonyms share one primary target unless SERP/corpus evidence proves separate intent.
-- Examples already consolidated:
-  - `分分彩技巧` + `分分彩技术` -> `ffc_skills_technology`
-  - `分分彩投注技巧` + `分分彩投注方法` -> `ffc_betting_guide`
-  - `哈希分分彩技巧` + `哈希分分彩技术` -> `hash_ffc_skills_technology`
-  - `奇趣分分彩技巧` + `奇趣分分彩技术` -> `qiqu_ffc_skills_technology`
-  - `时时彩技巧` + `时时彩技术` -> `ssc_skills_technology`
-  - `彩票下载平台评测` + `彩票下载平台对比` -> `platform_review_hub`
-
-Purpose: prevent the future harvested-article pipeline from generating thin synonym pages or keyword cannibalization.
-
-## 6. Phase 5 content architecture audit — V2 PASSED, fixes underway/completed
-
-Historical V1 (`seo-content-architecture-audit-20260811-01`) failed with exit code 1 and empty payload. Do not use V1 as the current audit truth.
-
-A self-reporting V2 was added/fixed through PRs #152-#157. The successful production audit is:
-
-- Job: `seo-content-architecture-audit-20260811-03`
-- Status: PASS
-- Audit status: COMPLETE
+- Job: `seo-content-architecture-audit-20260811-05`
+- Result branch: `agent/results/seo-content-architecture-audit-20260811-05`
+- Status: PASS / COMPLETE
 - Sitemap HTTP: 200
-- Sitemap URLs at that time: 75
-- Crawled pages: 75
+- Sitemap URLs: 71
+- Crawled pages: 71
 - Published news: 38
-- Published platform pages: 30
-- Keyword Map keywords: 51
-- Keyword owner conflicts: 0
+- Published platforms: 30
+- Homepage platform-link coverage: 30/30
+- Keyword-owner conflicts: 0
 - Existing mapped path targets missing: 0
-- Homepage platform internal-link coverage: 30/30
-- Opportunity classes at that checkpoint: 9
-  - active empty news category
-  - canonical mismatch
-  - duplicate H1
-  - duplicate meta descriptions
-  - duplicate titles
-  - homepage primary-keyword H1 gap
-  - orphan pages
-  - planned primary target mapping incomplete
-  - sitemap page HTTP errors
+- Canonical mismatch: 0
+- Duplicate title groups: 0
+- Duplicate H1 groups: 0
+- Duplicate Description groups: 0
+- HTTP errors: 0
+- Orphan pages: 0
+- Active empty news categories: 0
+- Remaining opportunity classes: **1**
+  - `planned_primary_target_mapping_incomplete`
 
-Important: several of these nine opportunities have since been fixed in production. The next re-audit must establish the new residual set.
+This means the previous structural opportunity set is closed. Do not re-open orphan/H1/Description/empty-category work unless a later audit shows regression.
 
-## 7. Confirmed Phase 5 anomaly details
+## 6. Important production fixes after the earlier handoff
 
-Targeted diagnostic job `seo-content-anomaly-diagnostic-20260811-01` PASS identified the concrete pre-fix anomalies:
+### Canonical category internal links
 
-- Active empty news category: `跟单日志` (`dir=gdrz`, category id 5).
-- Five category canonical mismatches at that time: `gjfa`, `rjxm`, `seo-articles`, `tzjq`, `zyyy`.
-- Two sitemap/public HTTP 404 rows: show IDs 85 and 86.
-- Orphan category routes at that time: `gdrz`, `gjfa`, `rjxm`, `seo-articles`, `tzjq`, `zyyy`.
-- Duplicate description groups included a large platform-page fallback group.
-- Duplicate title group came from the two 404 show routes 85/86.
-- Duplicate H1 groups included homepage vs `rjxm`, and duplicate platform names for show IDs 74/75.
+The first deploy job `deploy-canonical-category-nav-v1-20260811-01` returned FAIL with an empty payload, so it was not accepted as proof. A separate read-only production diagnostic `seo-orphan-link-diagnostic-20260811-02` then proved that the intended canonical `dir=` links were actually live on shared navigation. The final Phase 5 audit independently confirmed orphan count = 0.
 
-Do not assume every item above is still present: several were addressed by later deployments below.
+### Duplicate Description closure
 
-## 8. SEO fixes already deployed and independently verified
+A first database-field hypothesis failed closed before writes. A later v2 template deploy used an incorrect `xm` module assumption, detected no effective fix, and rolled back successfully.
 
-### A. Homepage -> local platform detail links — RESOLVED
+Read-only mapping `seo-show-module-mapping-diagnostic-20260811-01` proved all 20 duplicate-Description show pages are `news`.
 
-PRs #148/#149.
+Final production job:
 
-Server Bridge job `deploy-home-platform-detail-links-v1-20260811-01`: PASS.
-
-- 30 rendered platform detail internal links
-- 30 unique platform detail links
-- external commercial links without nofollow/sponsored: 0
-- representative routes HTTP 200
+- `deploy-news-duplicate-description-hash-fallback-v3-20260811-01`
+- PASS
+- deploy PASS / rollback NO
+- 20/20 affected descriptions matched the pre-deploy duplicate hash
+- post-deploy PC unique descriptions: 20/20
+- post-deploy Mobile unique descriptions: 20/20
+- all descriptions contain their page title
+- article91 and unaffected platform19 descriptions unchanged
+- canonical navigation preserved
 - framework integrity PASS
-- rollback NO
 
-This closes the earlier homepage platform internal-link gap.
+### Duplicate H1 closure
 
-### B. Duplicate generic fallback meta descriptions — FIX DEPLOYED
+Read-only module mapping proved:
 
-PRs #160-#162.
+- show 74 = `xm`, software-project page
+- show 75 = `news`, category 4 福利资源 page
+- they were distinct cross-module pages sharing the same visible H1, not duplicate records
 
-Server Bridge job `deploy-dynamic-meta-description-v1-20260811-01`: PASS.
+Production job `deploy-show-74-75-h1-v1-20260811-01`: PASS.
 
-- 5 sampled PC platform descriptions all unique and all contain platform title
-- 5 sampled mobile descriptions all unique and all contain platform title
-- explicit article91 description unchanged
-- framework integrity PASS
-- rollback NO
+Public H1s are now factually distinguished:
 
-### C. Homepage mapped primary keyword in single H1 — RESOLVED
+- show 74: `长征（送首冲）｜软件项目`
+- show 75: `长征（送首冲）｜福利资源`
 
-PRs #165-#167.
+PC/Mobile verified; canonical and Description unchanged; rollback NO.
 
-Server Bridge job `deploy-homepage-primary-h1-v1-20260811-01`: PASS.
+### Empty `gdrz` category closure
 
-- homepage H1 count = 1
-- homepage H1 contains `信誉平台大全`
-- homepage canonical PASS
-- platform detail links still count 30
-- representative routes HTTP 200
-- framework integrity PASS
-- rollback NO
+Category id 5 `跟单日志` / `gdrz` was proven to contain 0 published and 0 nonpublished articles.
 
-### D. Request-aware canonical metadata — DEPLOYED
+Production job `retire-empty-gdrz-category-v1-20260811-01`: PASS.
 
-PRs #169/#171/#173.
+It was retired with exact identity/zero-content gates. No article publishing occurred.
 
-Server Bridge job `deploy-request-aware-canonical-v1-20260811-01`: PASS.
+## 7. Current category decisions
 
-- four substantive news categories self-canonicalize
-- `rjxm` duplicate category remains consolidated to homepage canonical
-- article91 canonical PASS
-- platform19 canonical PASS
-- Article/website OG semantics verified
-- framework integrity PASS
-- rollback NO
+Evidence-based current decisions:
 
-### E. Sitemap routing cleanup — DEPLOYED
+- `gjfa` / 挂机方案: **retain**. It has substantial published content and remains the real automation/挂机 carrier.
+- `tzjq`: **retain**. It has real betting-technique content. SEO/public target label should be `投注技巧`; CMS legacy label is still `投注机巧`.
+- `zyyy` / 福利资源: **retain** as a distinct resources/downloads carrier.
+- `gdrz` / 跟单日志: **retired** because it was empty.
+- `rjxm`: duplicate category route remains excluded/consolidated; do not restore it as an indexable duplicate.
+- `seo-articles`: **transition-only**. It currently mixes betting-technique and platform-review articles and should not remain the long-term user-facing architecture.
 
-PRs #168/#170/#172/#175/#176.
+A direct DB rename attempt for `tzjq` (`rename-tzjq-category-v1-20260811-01`) changed the DB but the rendered page stayed stale, so the job correctly rolled back. Do not repeat the DB-only rename. If this label is corrected next, use a presentation/cache-aware approach with live-render verification.
 
-Server Bridge job `deploy-sitemap-routing-cleanup-v1-20260811-02`: PASS.
+## 8. Keyword architecture — current version 1.1.1
 
-- candidate sitemap URL count = 71 (down from prior 75)
-- all 71 candidate URLs returned HTTP 200
-- required substantive news categories present = 4
-- empty `gdrz` category excluded
-- duplicate `rjxm` category excluded
-- unroutable show85 excluded
-- unroutable show86 excluded
-- rollback NO
+`content/keyword_map.json` is now version **1.1.1**.
 
-## 9. Current unresolved checkpoint — DO THIS NEXT
+V1.1 rules remain intact: same-intent synonyms share targets; split only with SERP/corpus evidence; no thin variations.
 
-PR #177 is currently OPEN and mergeable:
+PR #211 mapped only symbolic intents that already have justified live carriers:
 
-- Title: `Ops: queue post-routing Phase 5 production re-audit`
-- Pending job file: `ops/jobs/pending/seo-content-architecture-audit-20260811-04.json`
-- Purpose: run the fixed read-only V2 audit after canonical + sitemap cleanup.
-- No production writes or article publishing.
+- `分分彩投注技巧` + `分分彩投注方法` -> `/index.php?c=category&dir=tzjq`
+- `分分彩挂机` -> `/index.php?c=category&dir=gjfa`
+- `哈希分分彩挂机` -> `/index.php?c=category&dir=gjfa`
+- `奇趣分分彩挂机` -> `/index.php?c=category&dir=gjfa`
+- `时时彩挂机方案` -> `/index.php?c=category&dir=gjfa`
 
-**Immediate next action in a new session:**
+Do not map the remaining planned intents to unrelated existing pages merely to reduce an audit count.
 
-1. Re-check PR #177 against current `main`.
-2. If still clean/appropriate, merge it.
-3. Wait for/read `agent/results/seo-content-architecture-audit-20260811-04`.
-4. Record the new residual opportunity classes/count.
-5. Only then choose the next SEO fix. Do not assume the old nine-opportunity list is still current.
+## 9. Symbolic target registry — current architecture contract
 
-Expected likely residual work after re-audit may include true content-architecture items such as:
+`content/seo_target_registry.json` version 1.0.1 is the planning layer for targets that do not yet have real URLs.
 
-- active empty/obsolete category decisions
-- remaining real orphan/internal-link issues
-- duplicate content that is not already removed by routing cleanup
-- planned symbolic Keyword Map targets that do not yet map to existing content
-- category keep/merge/rename decisions
+It deliberately does **not** publish pages and does **not** replace Keyword Map targets with nonexistent URLs.
 
-But the re-audit is the source of truth.
+The 43 unique symbolic targets were consolidated into:
 
-## 10. Future article workflow — intentionally not active yet
+### Existing carriers
 
-After existing architecture is cleaned and the user's harvested technique corpus is ready, build this separately:
+- automation intents -> `gjfa`
+- FFC betting-guide intent -> `tzjq`
 
-`harvested source -> rewrite/fact/rule validation -> primary SEO target -> internal-link plan -> duplicate/cannibalization check -> CMS draft -> controlled later daily publication`
+### Seven planned Hub groups
 
-The current site must remain publication-frozen until the user explicitly transitions to this phase.
+1. `ffc_research_hub` — 分分时时彩研究中心
+2. `hash_ffc_hub` — 哈希分分彩专题
+3. `qiqu_ffc_hub` — 奇趣分分彩专题
+4. `ssc_hub` — 时时彩技术中心
+5. `racing_hub` — 赛车与飞艇专题
+6. `platform_review_hub` — 平台评测与对比
+7. `research_lab_hub` — 数据实验室
 
-## 11. Key reference PRs/evidence
+Hard rule: **do not create empty Hub pages**. A Hub becomes a real URL only when it has a distinct primary intent plus substantive supporting content/internal links, then it must pass HTTP-200/self-canonical/internal-link checks before sitemap inclusion.
 
-- #145 publication fail-closed freeze
-- #147 Keyword Map V1.1
-- #148/#149 homepage platform internal links
-- #152-#157 Phase 5 V2 + embedded-Python CI hardening
-- #160-#162 dynamic meta-description fallback fix/deploy
-- #163/#164 targeted anomaly diagnostic
-- #165-#167 homepage primary H1 fix/deploy
-- #168/#170/#172/#175/#176 sitemap public-routing cleanup/deploy
-- #169/#171/#173 request-aware canonical fix/deploy
-- #177 OPEN: post-routing Phase 5 re-audit queue
+## 10. First unresolved SEO breakpoint — DO THIS NEXT
+
+The technical Phase 5 set is closed. The first unresolved work is now **real content-carrier implementation**.
+
+Recommended sequence:
+
+1. Correct the public `tzjq` display label to `投注技巧` using a presentation/cache-aware solution; do not repeat the failed DB-only rename.
+2. Reclassify/reframe the four articles currently under `seo-articles` so the transition category no longer mixes betting-technique and platform-review intent.
+3. Implement the first real Hub only when existing/supporting content can make it substantive; do not create seven empty shells.
+4. Highest-value first Hub candidates:
+   - 分分时时彩研究中心
+   - 数据实验室
+   - 平台评测与对比
+5. Once a Hub is actually live and verified, replace the corresponding symbolic Keyword Map targets with that real URL.
+6. Hash/Qiqu/SSC/racing Hubs should wait until their supporting corpus is sufficient or SERP evidence justifies separation.
+
+The remaining `planned_primary_target_mapping_incomplete` opportunity is expected until these real carriers exist. Do not chase a zero by assigning keywords to semantically weak pages.
+
+## 11. Future harvested-article workflow — still frozen
+
+Only after the user finishes collecting material and explicitly approves the publishing phase:
+
+`source collection -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> Primary Target/Supporting Keywords -> cluster -> internal links -> cannibalization gate -> CMS draft -> quality gate -> controlled scheduled publication`
+
+Until explicit approval, drafts/scheduled inventory must not be auto-published.
+
+## 12. Key evidence / recent PRs
+
+Important recent PRs:
+
+- #177 post-routing Phase 5 audit queue
+- #179 residual anomaly diagnostic
+- #184 canonical category-navigation source fix
+- #186 canonical-nav production queue (job result itself failed empty-payload; separate diagnostic proved production state)
+- #198 verified `news` Description source correction
+- #199 v3 Description deploy wrapper
+- #200 H1 74/75 factual-role source fix
+- #201 Description v3 production queue
+- #202 H1 guarded deploy script
+- #204 guarded empty-`gdrz` retirement script
+- #206 H1 production queue
+- #207 `gdrz` retirement production queue
+- #208 `tzjq` DB rename attempt; production rolled back
+- #209 final post-fix Phase 5 re-audit
+- #210 symbolic target registry
+- #211 existing-carrier Keyword Map bindings
+- #212 registry sync to Keyword Map 1.1.1
 
 Important result branches:
 
-- `agent/results/pause-native-publisher-cron-20260811-02`
-- `agent/results/seo-content-architecture-audit-20260811-03`
-- `agent/results/seo-content-anomaly-diagnostic-20260811-01`
-- `agent/results/deploy-home-platform-detail-links-v1-20260811-01`
-- `agent/results/deploy-dynamic-meta-description-v1-20260811-01`
-- `agent/results/deploy-homepage-primary-h1-v1-20260811-01`
-- `agent/results/deploy-request-aware-canonical-v1-20260811-01`
-- `agent/results/deploy-sitemap-routing-cleanup-v1-20260811-02`
+- `agent/results/seo-content-architecture-audit-20260811-05`
+- `agent/results/seo-orphan-link-diagnostic-20260811-02`
+- `agent/results/seo-show-module-mapping-diagnostic-20260811-01`
+- `agent/results/deploy-news-duplicate-description-hash-fallback-v3-20260811-01`
+- `agent/results/deploy-show-74-75-h1-v1-20260811-01`
+- `agent/results/retire-empty-gdrz-category-v1-20260811-01`
+- `agent/results/rename-tzjq-category-v1-20260811-01` (BLOCKED + rollback; not a successful rename)
 
-## 12. New-session takeover protocol
-
-When a conversation hits its limit and a new one starts:
+## 13. New-session takeover protocol
 
 1. Read this file from `main`.
-2. Read the latest entries in `docs/seo/SEO_CHANGELOG.md`.
-3. Read `config/seo_project_state.json`.
-4. Inspect recent PRs/commits after the handoff update.
-5. Inspect any open PR named in section 9 and referenced Server Bridge result branches.
-6. Continue from the first unresolved checkpoint; do **not** restart technical SEO, publishing setup or earlier solved fixes from scratch.
+2. Read the latest changelog and `config/seo_project_state.json`.
+3. Read `content/keyword_map.json` and `content/seo_target_registry.json`.
+4. Inspect commits/PRs after the recorded checkpoint.
+5. Verify publishing freeze remains enabled.
+6. Continue from section 10; do not restart technical SEO or old Phase 5 fixes.
