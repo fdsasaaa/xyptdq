@@ -1,0 +1,161 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T10:36:48Z",
+  "job_id": "seo-orphan-link-diagnostic-20260811-01",
+  "payload": {
+    "article_publishing": false,
+    "blocking_item": "NONE",
+    "diagnostic_status": "COMPLETE",
+    "phase": "final",
+    "production_writes": false,
+    "secrets_disclosed": false,
+    "target_count": 4,
+    "targets": [
+      {
+        "article91_direct_canonical_link_count": 0,
+        "article91_label_link_routes": [
+          {
+            "id": 2,
+            "type": "category"
+          },
+          {
+            "id": 2,
+            "type": "category"
+          }
+        ],
+        "canonical_route": {
+          "dir": "gjfa",
+          "type": "category"
+        },
+        "dirname": "gjfa",
+        "disabled": 0,
+        "home_direct_canonical_link_count": 0,
+        "home_label_link_routes": [
+          {
+            "id": 2,
+            "type": "category"
+          },
+          {
+            "id": 2,
+            "type": "category"
+          }
+        ],
+        "id": 2,
+        "mid": "news",
+        "name": "挂机方案",
+        "show_flag": 1
+      },
+      {
+        "article91_direct_canonical_link_count": 0,
+        "article91_label_link_routes": [
+          {
+            "id": 3,
+            "type": "category"
+          },
+          {
+            "id": 3,
+            "type": "category"
+          }
+        ],
+        "canonical_route": {
+          "dir": "tzjq",
+          "type": "category"
+        },
+        "dirname": "tzjq",
+        "disabled": 0,
+        "home_direct_canonical_link_count": 0,
+        "home_label_link_routes": [
+          {
+            "id": 3,
+            "type": "category"
+          },
+          {
+            "id": 3,
+            "type": "category"
+          }
+        ],
+        "id": 3,
+        "mid": "news",
+        "name": "投注机巧",
+        "show_flag": 1
+      },
+      {
+        "article91_direct_canonical_link_count": 0,
+        "article91_label_link_routes": [
+          {
+            "id": 4,
+            "type": "category"
+          },
+          {
+            "id": 4,
+            "type": "category"
+          }
+        ],
+        "canonical_route": {
+          "dir": "zyyy",
+          "type": "category"
+        },
+        "dirname": "zyyy",
+        "disabled": 0,
+        "home_direct_canonical_link_count": 0,
+        "home_label_link_routes": [
+          {
+            "id": 4,
+            "type": "category"
+          },
+          {
+            "id": 4,
+            "type": "category"
+          }
+        ],
+        "id": 4,
+        "mid": "news",
+        "name": "福利资源",
+        "show_flag": 1
+      },
+      {
+        "article91_direct_canonical_link_count": 0,
+        "article91_label_link_routes": [
+          {
+            "id": 7,
+            "type": "category"
+          },
+          {
+            "id": 7,
+            "type": "category"
+          },
+          {
+            "id": 7,
+            "type": "category"
+          }
+        ],
+        "canonical_route": {
+          "dir": "seo-articles",
+          "type": "category"
+        },
+        "dirname": "seo-articles",
+        "disabled": 0,
+        "home_direct_canonical_link_count": 0,
+        "home_label_link_routes": [
+          {
+            "id": 7,
+            "type": "category"
+          }
+        ],
+        "id": 7,
+        "mid": "news",
+        "name": "SEO文章",
+        "show_flag": 1
+      }
+    ],
+    "task": "seo_orphan_link_diagnostic_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "8f59ea297bff716bc899791b60a896e6994561bb",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/seo_orphan_link_diagnostic_v1.sh",
+  "script_sha256": "4e916873d6c9d6cc0e15e717c841eff0f0051225f1d9551996976f15854ce4a8",
+  "started_at": "2026-08-11T10:36:47Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
