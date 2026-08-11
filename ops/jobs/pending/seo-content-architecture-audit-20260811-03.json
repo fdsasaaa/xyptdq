@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-content-architecture-audit-20260811-03",
+  "required_commit": "f87bbdbdcd41463dfa78b4f44a168a7dcd5cd547",
+  "script": "scripts/ops/agent_tasks/seo_content_architecture_audit_v2.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 1200
+}
