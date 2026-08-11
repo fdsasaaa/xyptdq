@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "publishing_enabled": false,
+  "mode": "content_preparation_freeze",
+  "reason": "Pause scheduled article publishing while collected technique content is prepared, rewritten and SEO-optimized before a later draft-first publishing workflow.",
+  "resume_requires": "explicit_approval_and_reviewed_policy_change"
+}
