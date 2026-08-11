@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "recover-framework-cache-manifest-20260811-01",
+  "required_commit": "ce49307ece79dfd954d9e478235806b04b07deb3",
+  "script": "scripts/ops/agent_tasks/recover_framework_cache_manifest.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 180
+}
