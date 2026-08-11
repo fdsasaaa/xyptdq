@@ -12,12 +12,12 @@
   "lottery": "时时彩",
   "meta_description": "解释分分彩后三直选跨度的计算方法：先固定后三窗口，再用三个数字最大值减最小值得到跨度，并用演示数据说明区间筛选。",
   "play": "后三直选",
-  "primary_keyword": "分分彩后三直选技巧",
+  "primary_keyword": "分分彩后三直选跨度技巧",
   "provider_id": null,
   "rule_refs": ["SSC-HIST-MECH-3STAR-LAST-V1"],
   "search_intent": "学习具体投注技巧并看懂可复算案例",
   "secondary_keywords": ["分分彩跨度", "后三跨度", "后三直选", "分分彩投注技巧"],
-  "seo_title": "分分彩后三直选技巧：后三跨度怎么计算与筛选",
+  "seo_title": "分分彩后三直选跨度技巧：后三跨度怎么计算与筛选",
   "site_category_key": "tzjq",
   "slug": "ffc-last3-direct-span",
   "source_refs": ["BRBCW-002590"],
@@ -27,5 +27,5 @@
   "summary": "位置筛选只负责把分析限定在后三，随后对每个后三号码计算最大数字减最小数字，用预先设定的跨度区间做候选过滤。",
   "tags": ["分分彩后三直选", "跨度", "后三跨度", "位置筛选"],
   "technique_atoms": ["position_filter", "span_range"],
-  "title": "分分彩后三直选技巧：先固定后三，再用最大值减最小值算跨度"
+  "title": "分分彩后三直选跨度技巧：先固定后三，再用最大值减最小值算跨度"
 }
