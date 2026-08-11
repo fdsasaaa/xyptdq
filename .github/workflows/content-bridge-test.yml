@@ -6,6 +6,7 @@ on:
       - 'scripts/content/**'
       - 'config/content_category_map.json'
       - 'content/drafts/**'
+      - 'content/ingress/**'
       - 'docs/CONTENT_PACKAGE_BRIDGE.md'
       - '.github/workflows/content-bridge-test.yml'
   push:
@@ -15,6 +16,7 @@ on:
       - 'scripts/content/**'
       - 'config/content_category_map.json'
       - 'content/drafts/**'
+      - 'content/ingress/**'
       - 'docs/CONTENT_PACKAGE_BRIDGE.md'
       - '.github/workflows/content-bridge-test.yml'
 
@@ -33,3 +35,5 @@ jobs:
           find scripts/content -type f -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Offline bridge self-test
         run: php scripts/content/self_test.php
+      - name: Smoke batch 1 converter verification
+        run: php scripts/content/smoke_batch1_test.php
