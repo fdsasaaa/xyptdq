@@ -5,7 +5,7 @@
  * Safe properties:
  * - Reads the existing server-side CMS database config; no credentials in Git.
  * - Emits only URLs on the configured canonical host.
- * - Includes only visible shared categories and content that has a valid shared routing index.
+ * - Includes only visible non-empty news categories and content that has a valid shared routing index.
  * - Writes atomically through a temporary file.
  * - Can run from cron after an article is published.
  */
@@ -120,13 +120,16 @@ try {
 $urls = [];
 addUrl($urls, $canonical . '/', time(), '1.0');
 
-// Shared category pages. Only publicly visible categories belong in the sitemap.
+$newsTable = $prefix . '1_news';
 $categoryTable = $prefix . '1_share_category';
-if (tableExists($pdo, $database, $categoryTable)) {
+if (tableExists($pdo, $database, $categoryTable) && tableExists($pdo, $database, $newsTable)) {
     try {
         $safeCategoryTable = str_replace('`', '', $categoryTable);
-        $sql = 'SELECT id, dirname FROM `' . $safeCategoryTable . '` '
-            . 'WHERE dirname IS NOT NULL AND dirname <> \'\' AND disabled = 0 AND `show` = 1';
+        $safeNewsTable = str_replace('`', '', $newsTable);
+        $sql = 'SELECT c.id, c.dirname FROM `' . $safeCategoryTable . '` c '
+            . 'WHERE c.dirname IS NOT NULL AND c.dirname <> \'\' '
+            . 'AND c.disabled = 0 AND c.`show` = 1 AND c.mid = \'news\' '
+            . 'AND EXISTS (SELECT 1 FROM `' . $safeNewsTable . '` n WHERE n.catid = c.id AND n.status = 9)';
         foreach ($pdo->query($sql) as $row) {
             $dirname = trim((string) ($row['dirname'] ?? ''));
             if ($dirname === '') {
