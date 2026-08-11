@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-seo-platform-depth-v1-20260811-01",
+  "required_commit": "40f5df27a39ec04b43413a4366d2c23261dda737",
+  "script": "scripts/ops/agent_tasks/deploy_seo_platform_depth_v1.sh",
+  "script_sha256": "39117a0977c42b6f171d0bc426eb86188f9e704487fce0d6a1c0345e3cab236f",
+  "timeout_seconds": 900
+}
