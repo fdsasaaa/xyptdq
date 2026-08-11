@@ -67,7 +67,8 @@ git merge-base --is-ancestor "$TARGET_SHA" origin/main || { ERROR_CLASS="target_
 PHASE="source_verify"
 git show "$TARGET_SHA:scripts/seo/generate_sitemap.php" > "$TMP/generate_sitemap.php" || { ERROR_CLASS="generator_missing"; block generator_missing; }
 php -l "$TMP/generate_sitemap.php" >/dev/null || { ERROR_CLASS="generator_php_invalid"; block generator_php_invalid; }
-grep -Fq "c.mid = 'news'" "$TMP/generate_sitemap.php" || { ERROR_CLASS="news_category_filter_missing"; block news_category_filter_missing; }
+grep -Fq 'c.mid =' "$TMP/generate_sitemap.php" || { ERROR_CLASS="news_category_module_filter_missing"; block news_category_module_filter_missing; }
+grep -Fq 'AND EXISTS (SELECT 1 FROM' "$TMP/generate_sitemap.php" || { ERROR_CLASS="nonempty_news_category_filter_missing"; block nonempty_news_category_filter_missing; }
 grep -Fq 'INNER JOIN' "$TMP/generate_sitemap.php" || { ERROR_CLASS="shared_index_filter_missing"; block shared_index_filter_missing; }
 
 PHASE="canonical_prerequisite"
