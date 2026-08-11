@@ -3,6 +3,6 @@
   "job_id": "recover-framework-cache-manifest-20260811-01",
   "required_commit": "ce49307ece79dfd954d9e478235806b04b07deb3",
   "script": "scripts/ops/agent_tasks/recover_framework_cache_manifest.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "9031462c489ae945dd0e5265c1be82a3d2ed8ae148227063483cd9e554bfc0cf",
   "timeout_seconds": 180
 }
