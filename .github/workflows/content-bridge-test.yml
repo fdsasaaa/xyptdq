@@ -45,3 +45,5 @@ jobs:
         run: php scripts/content/seo_portfolio_audit.php
       - name: Website SEO portfolio audit regression
         run: php scripts/content/seo_portfolio_audit_test.php
+      - name: Publication receipt export regression
+        run: php scripts/content/publication_receipt_test.php
