@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-show-74-75-h1-v1-20260811-01",
+  "required_commit": "319a58af647ffb6fab42a248ae0e7765553c756e",
+  "script": "scripts/ops/agent_tasks/deploy_show_74_75_h1_v1.sh",
+  "script_sha256": "2a4f3e2d23d79e7cf67484568210fe0c36c2b3aab17eca90ab6071e3b20b3aed",
+  "timeout_seconds": 1800
+}
