@@ -24,12 +24,54 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - Consolidated same-intent synonym targets to reduce future thin pages and cannibalization.
 - Added explicit rule: require SERP or corpus evidence before splitting same-intent synonyms into separate primary pages.
 
-### Phase 5 content architecture audit
-- PR #141 introduced a read-only live CMS/sitemap/internal-link reconciliation audit.
-- Server Bridge result `seo-content-architecture-audit-20260811-01` returned FAIL with exit code 1 and empty payload.
-- Phase 5 is therefore unresolved. Next action is a self-reporting V2/diagnostic that returns the exact failing phase/blocker safely.
+### Homepage platform internal-link closure
+- PR #148 added one local platform-detail link per PC homepage platform card without changing the external register/login/contact buttons.
+- PR #149 deployed through rollback-gated Server Bridge.
+- PASS evidence: `deploy-home-platform-detail-links-v1-20260811-01`.
+- Production verified 30 platform-detail links / 30 unique platform-detail links; representative routes HTTP 200; no commercial-link rel regression; rollback NO.
+
+### Phase 5 V1 failure -> self-reporting V2
+- V1 architecture audit failed with an empty payload; its original job pin also required correction.
+- PR #152 introduced a self-reporting read-only V2 audit.
+- PR #155 added CI compilation for embedded Python heredocs after `bash -n` proved insufficient.
+- PR #156 fixed the exact embedded-Python syntax error caught by the new CI gate.
+- PR #157 queued the fixed V2 retry.
+- PASS evidence: `seo-content-architecture-audit-20260811-03`.
+- V2 checkpoint inventory: 75 sitemap/crawled pages, 38 published news, 30 platform pages, 51 mapped keywords, 30/30 homepage platform-link coverage.
+- V2 reported 9 opportunity classes: active empty news category, canonical mismatch, duplicate H1, duplicate meta descriptions, duplicate titles, homepage primary-keyword H1 gap, orphan pages, planned primary target mapping incomplete, sitemap HTTP errors.
+
+### Targeted anomaly diagnosis
+- PRs #163/#164 added and ran a read-only anomaly diagnostic.
+- PASS evidence: `seo-content-anomaly-diagnostic-20260811-01`.
+- It identified: empty `gdrz` news category, five category canonical mismatches, sitemap 404 show IDs 85/86, six orphan category routes, duplicate fallback-description groups, duplicate H1 groups, and a duplicate 404 title group.
+
+### Dynamic fallback meta descriptions deployed
+- PRs #160-#162 rebuilt and deployed page-specific fallback descriptions.
+- PASS evidence: `deploy-dynamic-meta-description-v1-20260811-01`.
+- Five sampled PC platform descriptions and five mobile descriptions were unique and included the platform title; explicit article description remained unchanged; rollback NO.
+
+### Homepage primary keyword H1 deployed
+- PRs #165-#167 changed the single homepage H1 to include `信誉平台大全` and deployed it through rollback gates.
+- PASS evidence: `deploy-homepage-primary-h1-v1-20260811-01`.
+- Production H1 count = 1; primary keyword present; homepage canonical PASS; 30 platform-detail links preserved; rollback NO.
+
+### Request-aware canonical metadata deployed
+- PR #169 fixed shared canonical/OG route logic; PRs #171/#173 deployed it.
+- PASS evidence: `deploy-request-aware-canonical-v1-20260811-01`.
+- Four substantive news categories self-canonicalize; `rjxm` remains intentionally consolidated to homepage; article/platform canonicals and OG semantics PASS; rollback NO.
+
+### Sitemap public-routing cleanup deployed
+- PRs #168/#170 tightened sitemap generation to visible/indexable news categories and shared-index-routable content.
+- PRs #172/#175/#176 delivered the guarded production regeneration after verifier hardening.
+- PASS evidence: `deploy-sitemap-routing-cleanup-v1-20260811-02`.
+- Sitemap candidate count reduced from 75 to 71; all 71 returned HTTP 200; empty `gdrz`, duplicate `rjxm`, and unroutable show85/show86 were excluded; rollback NO.
+
+### Current open checkpoint
+- PR #177 is OPEN and mergeable: `Ops: queue post-routing Phase 5 production re-audit`.
+- It adds pending job `seo-content-architecture-audit-20260811-04` using the fixed read-only V2 audit after canonical/sitemap cleanup.
+- Next action: re-check PR #177 against current main, merge if still clean, read the resulting `agent/results/seo-content-architecture-audit-20260811-04`, then choose the next SEO fix from the new residual opportunity set.
 
 ### Continuity protocol
-- Added `docs/seo/SEO_PROJECT_HANDOFF.md` as the mandatory first-read takeover document for future ChatGPT/Codex/agent sessions.
-- Added this append-only changelog.
-- Future meaningful SEO milestones must update the handoff and append a short changelog entry before the session is considered complete.
+- Added `docs/seo/SEO_PROJECT_HANDOFF.md` as the mandatory first-read takeover document.
+- Added this append-only changelog and `config/seo_project_state.json` machine-readable state.
+- Future meaningful SEO milestones must update the handoff/state and append a short changelog entry before the session is considered complete.
