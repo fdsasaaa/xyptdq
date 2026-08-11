@@ -169,6 +169,45 @@ jobs:
             exit 1
           fi
 
+      - name: Public content template SEO guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          pc='site/template/pc/default/home'
+          mobile='site/template/mobile/default/home'
+
+          for f in article.html list.html show.html category.html; do
+            grep -Fq '{template "seo_header.html"}' "$pc/$f"
+            grep -Fq '{template "seo_footer.html"}' "$pc/$f"
+            if grep -Eiq '<meta[^>]+name=["'"']robots["'"'][^>]+content=["'"'][^"'"']*none' "$pc/$f"; then
+              echo "ERROR: indexable PC template contains robots=none: $f" >&2
+              exit 1
+            fi
+          done
+
+          grep -Fq 'rel="canonical"' "$pc/seo_header.html"
+          grep -Fq 'index,follow,max-image-preview:large' "$pc/seo_header.html"
+          grep -Fq 'application/ld+json' "$pc/seo_header.html"
+          grep -Fq '<h1' "$pc/article.html"
+          grep -Fq '<h1' "$pc/list.html"
+          grep -Fq '<h1' "$pc/show.html"
+          grep -Fq '<h1' "$pc/category.html"
+
+          for bad in 'u3s1.com' 'demo.5moban.com' 'pblu.mobanqi.com'; do
+            if grep -RFiq "$bad" "$pc/article.html" "$pc/list.html" "$pc/show.html" "$pc/category.html"; then
+              echo "ERROR: legacy external template dependency remains: $bad" >&2
+              exit 1
+            fi
+          done
+
+          grep -Fq 'rel="canonical"' "$mobile/seo_header.html"
+          grep -Fq 'index,follow,max-image-preview:large' "$mobile/seo_header.html"
+          grep -Fq 'application/ld+json' "$mobile/seo_header.html"
+          for f in index.html list.html show.html category.html; do
+            grep -Fq '{template "seo_header.html"}' "$mobile/$f"
+            grep -Fq '<h1' "$mobile/$f"
+          done
+
       - name: SEO foundation checks
         shell: bash
         run: |
