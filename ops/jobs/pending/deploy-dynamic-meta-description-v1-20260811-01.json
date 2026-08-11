@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-dynamic-meta-description-v1-20260811-01",
+  "required_commit": "cfa23033500e2c4a37c525a17f8b0fc46b5af91f",
+  "script": "scripts/ops/agent_tasks/deploy_dynamic_meta_description_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 900
+}
