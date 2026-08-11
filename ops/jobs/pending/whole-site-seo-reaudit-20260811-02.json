@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "whole-site-seo-reaudit-20260811-02",
+  "required_commit": "02a82a72ff94808ebc87623cf238d8f493c6d042",
+  "script": "scripts/ops/agent_tasks/whole_site_seo_reaudit_v2.sh",
+  "script_sha256": "b2fc02155738dcd94f8ddf691d67a3a384cd6256ee37047d03c0358db854474f",
+  "timeout_seconds": 600
+}
