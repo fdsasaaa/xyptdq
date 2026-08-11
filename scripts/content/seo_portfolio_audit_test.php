@@ -55,6 +55,18 @@ function portfolioRow(
     return $row;
 }
 
+function legacyScheduledRow(string $articleKey): array
+{
+    return [
+        'schema_version' => 1,
+        'article_key' => $articleKey,
+        'title' => '桥梁建立前的历史排期内容',
+        'content' => '<p>legacy scheduled fixture</p>',
+        'primary_keyword' => '分分彩投注技巧',
+        'publish_at' => '2026-08-11T07:15:00+08:00',
+    ];
+}
+
 function portfolioWrite(string $root, string $bucket, string $name, array $row): void
 {
     $path = $root . '/' . $bucket . '/' . $name . '.json';
@@ -81,6 +93,22 @@ try {
     $run = portfolioRun($audit, $tmpBase);
     if ($run['code'] !== 0 || strpos($run['output'], '"keyword_conflicts": 0') === false) {
         portfolioTestFail('unique draft owners should pass: ' . $run['output']);
+    }
+
+    // The exact historical pre-bridge canary may remain unmanaged; this is a named grandfather, not a generic bypass.
+    portfolioReset($tmpBase);
+    portfolioWrite($tmpBase, 'scheduled', 'seo-ffc-betting-economics-v1', legacyScheduledRow('seo-ffc-betting-economics-v1'));
+    $run = portfolioRun($audit, $tmpBase);
+    if ($run['code'] !== 0 || strpos($run['output'], '"legacy_exempt": 1') === false) {
+        portfolioTestFail('known legacy scheduled canary should be explicitly grandfathered: ' . $run['output']);
+    }
+
+    // Any other unmanaged scheduled file is rejected; omitting bridge identity cannot bypass the audit.
+    portfolioReset($tmpBase);
+    portfolioWrite($tmpBase, 'scheduled', 'unknown-legacy', legacyScheduledRow('unknown-legacy'));
+    $run = portfolioRun($audit, $tmpBase);
+    if ($run['code'] === 0 || strpos($run['output'], 'publication_state/path mismatch') === false) {
+        portfolioTestFail('unknown unmanaged scheduled file escaped the audit');
     }
 
     // The same article may legitimately exist as both draft and scheduled if identity/SEO is identical.
@@ -140,4 +168,4 @@ try {
     @rmdir($tmpBase);
 }
 
-fwrite(STDOUT, "[seo-portfolio-test] PASS unique=1 same-article-cross-state=1 keyword-conflict=blocked keyword-drift=blocked fingerprint-drift=blocked hash-tamper=blocked\n");
+fwrite(STDOUT, "[seo-portfolio-test] PASS unique=1 named-legacy-exempt=1 unknown-legacy=blocked same-article-cross-state=1 keyword-conflict=blocked keyword-drift=blocked fingerprint-drift=blocked hash-tamper=blocked\n");
