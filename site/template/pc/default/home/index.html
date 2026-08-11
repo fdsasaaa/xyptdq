@@ -103,7 +103,7 @@ if (!is_array($popup_cfg)) {
 <header class="site-header">
     <div class="container">
         <div class="site-brand">
-            <a href="/" aria-label="信誉平台大全首页"><img src="{SITE_LOGO}" alt="信誉平台大全（彩研导航站）"></a>
+            <a href="/" aria-label="信誉平台大全首页"><img src="{SITE_LOGO}" width="114" height="114" alt="信誉平台大全（彩研导航站）"></a>
             <div class="site-brand-copy">
                 <h1>彩票数据研究、方案验证与平台资料导航</h1>
                 <p>以数据、成本、规则和风险为核心整理研究内容，不提供收益保证。</p>
@@ -176,7 +176,7 @@ if (!is_array($popup_cfg)) {
             </div>
             <div class="plat-item-content">
                 <div class="plat-logo">
-                    <img src="{if $t['thumb']}{dr_get_file($t['thumb'])}{else}{SITE_LOGO}{/if}" alt="{$t['title']}" style="height:60px;width:216px;max-width:100%;">
+                    <img src="{if $t['thumb']}{dr_get_file($t['thumb'])}{else}{SITE_LOGO}{/if}" width="216" height="60" alt="{$t['title']}" style="height:60px;width:216px;max-width:100%;">
                 </div>
                 <div><h3 class="text-center" style="font-size:16px;">{if $t['jianjie']}{$t['jianjie']}{else}{$t['title']}{/if}</h3></div>
                 <div class="link-box">
@@ -201,7 +201,7 @@ if (!is_array($popup_cfg)) {
         {php $mval = $mysite;}
         {loop $mval $v}
         {if $v[1]}
-        <div class="col-md-4 col-xs-6 plat-item-1"><img class="ad_pic" src="{dr_get_file($v[1])}" alt="站点展示位" style="margin-top:20px;max-width:100%;height:auto;"></div>
+        <div class="col-md-4 col-xs-6 plat-item-1"><img class="ad_pic" src="{dr_get_file($v[1])}" width="227" height="71" alt="站点展示位" style="margin-top:20px;max-width:100%;height:auto;"></div>
         {/if}
         {/loop}
     </div>
