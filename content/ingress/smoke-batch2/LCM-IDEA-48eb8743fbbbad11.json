@@ -12,12 +12,12 @@
   "lottery": "时时彩",
   "meta_description": "讲清分分彩定位胆冷热频率的统计方法：先固定个位和近12期窗口，再统计0-9出现次数，并明确冷热阈值只是研究参数。",
   "play": "定位胆",
-  "primary_keyword": "分分彩定位胆技巧",
+  "primary_keyword": "分分彩定位胆冷热技巧",
   "provider_id": null,
   "rule_refs": ["SSC-MECH-LOCATED-1D-V1"],
   "search_intent": "学习具体投注技巧并看懂可复算案例",
   "secondary_keywords": ["分分彩冷热号", "定位胆冷热", "个位频率", "分分彩投注技巧"],
-  "seo_title": "分分彩定位胆技巧：个位冷热频率怎么统计，近12期案例",
+  "seo_title": "分分彩定位胆冷热技巧：个位冷热频率怎么统计，近12期案例",
   "site_category_key": "tzjq",
   "slug": "ffc-dingweidan-cold-hot-frequency",
   "source_refs": ["BRBCW-008754"],
@@ -27,5 +27,5 @@
   "summary": "以个位为演示位置，固定近12期样本后统计0-9频率，再用公开阈值划分冷热，强调热号不代表下一期更容易出现。",
   "tags": ["分分彩定位胆", "冷热号", "个位频率", "数据分析"],
   "technique_atoms": ["cold_hot_split"],
-  "title": "分分彩定位胆技巧：冷热不是感觉，先固定个位再数近12期"
+  "title": "分分彩定位胆冷热技巧：冷热不是感觉，先固定个位再数近12期"
 }
