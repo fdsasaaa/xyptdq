@@ -66,14 +66,20 @@ php scripts/content/convert_approved_to_draft.php --input=approved.json
 
 ## 4. 分类映射
 
-网站 canonical 导航当前确认：
+网站 canonical 导航当前正式分类：
 
 - `gjfa` → catid 2
 - `tzjq` → catid 3
 - `zyyy` → catid 4
-- `seo-articles` → catid 7
 
-Approved Package 必须提供 `site_category_key`；桥梁不根据标题或关键词猜 catid。
+`seo-articles` 已退出正式分类映射，不再接受新的 Approved Package。当前阶段，所有准备作为 SEO 内容使用的普通文章统一使用：
+
+- `site_category_key=tzjq`
+- `catid=3`
+
+Approved Package 仍必须显式提供 `site_category_key`；桥梁不根据标题或关键词猜 catid。若继续传入已退役的 `seo-articles`，转换器按 unknown category fail-closed，不会自动改写或发布。
+
+后续如果平台评测、数据实验等内容积累到足以形成独立且有实质内容的 Hub，再通过新的架构变更显式分流；在此之前不创建空栏目。
 
 ## 5. Draft → Scheduled
 
@@ -124,5 +130,6 @@ php scripts/content/self_test.php
 - Approved → Draft conversion：**READY**
 - Draft → Scheduled promotion：**READY**
 - Native CMS publisher：**EXISTING / VERIFIED / REUSED**
+- SEO文章正式分类：**RETIRED; NEW SEO ARTICLES USE tzjq/catid=3**
 - Direct SQL content writer：**PROHIBITED**
 - 自动把Approved直接发布：**PROHIBITED**
