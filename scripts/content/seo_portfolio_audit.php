@@ -2,6 +2,8 @@
 <?php
 declare(strict_types=1);
 
+const SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT = 'seo-ffc-betting-economics-v1';
+
 function seoAuditFail(string $message, int $code = 1): void
 {
     fwrite(STDERR, '[seo-portfolio] FAIL: ' . $message . PHP_EOL);
@@ -26,6 +28,8 @@ $keywordOwners = [];
 $articleKeywords = [];
 $articleFingerprints = [];
 $fileCount = 0;
+$managedFileCount = 0;
+$legacyExemptCount = 0;
 $stateCounts = ['draft' => 0, 'scheduled' => 0];
 
 foreach ($locations as $dirName => $expectedState) {
@@ -40,13 +44,38 @@ foreach ($locations as $dirName => $expectedState) {
         if (!is_array($row) || json_last_error() !== JSON_ERROR_NONE) {
             seoAuditFail('invalid JSON: ' . $path, 2);
         }
-        $state = (string) ($row['publication_state'] ?? '');
+
+        $articleKey = trim((string) ($row['article_key'] ?? ''));
+        $state = trim((string) ($row['publication_state'] ?? ''));
+        $articleId = trim((string) ($row['source_article_id'] ?? ''));
+
+        // One explicit production canary predates the Approved-Package bridge.
+        // It has no source_article_id/fingerprint/hash/publication_state, so those
+        // fields cannot be reconstructed without inventing provenance. Grandfather
+        // only this exact historical article_key, only in scheduled, only while it
+        // remains fully unmanaged by the new bridge contract.
+        if (
+            $expectedState === 'scheduled'
+            && $articleKey === SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT
+            && $state === ''
+            && $articleId === ''
+        ) {
+            if (basename($path, '.json') !== SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT) {
+                seoAuditFail('legacy exempt article_key/path mismatch: ' . $path, 13);
+            }
+            if (trim((string) ($row['publish_at'] ?? '')) === '') {
+                seoAuditFail('legacy scheduled exempt missing publish_at: ' . $path, 14);
+            }
+            $legacyExemptCount++;
+            continue;
+        }
+
+        $managedFileCount++;
         if ($state !== $expectedState) {
             seoAuditFail('publication_state/path mismatch: ' . $path, 3);
         }
         $stateCounts[$expectedState]++;
 
-        $articleId = trim((string) ($row['source_article_id'] ?? ''));
         $keywordRaw = trim((string) ($row['primary_keyword'] ?? ''));
         $fingerprint = trim((string) ($row['source_fingerprint'] ?? ''));
         $content = (string) ($row['content'] ?? '');
@@ -96,6 +125,8 @@ foreach ($keywordOwners as $keyword => $owners) {
 fwrite(STDOUT, json_encode([
     'status' => 'pass',
     'files' => $fileCount,
+    'managed_files' => $managedFileCount,
+    'legacy_exempt' => $legacyExemptCount,
     'drafts' => $stateCounts['draft'],
     'scheduled' => $stateCounts['scheduled'],
     'article_owners' => count($articleKeywords),
