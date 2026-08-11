@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "diagnose-seo-articles-consolidation-v2-20260811-01",
+  "required_commit": "e96f8435364c01760bb0af27887f2a503c440386",
+  "script": "scripts/ops/agent_tasks/diagnose_seo_articles_consolidation_v2.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 180
+}
