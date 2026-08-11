@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-content-anomaly-diagnostic-20260811-01",
+  "required_commit": "bee2c18ca6dea3ea2687bff5cf560fbb26e5b63b",
+  "script": "scripts/ops/agent_tasks/seo_content_anomaly_diagnostic_v1.sh",
+  "script_sha256": "8433d05ec6526ddc57840f36ca409dede1bbfe8c7f3df844685800d139462c8a",
+  "timeout_seconds": 1200
+}
