@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-home-platform-detail-links-v1-20260811-01",
+  "required_commit": "823306f665c053abc7eeb2d26f0d3a6eecfe4319",
+  "script": "scripts/ops/agent_tasks/deploy_home_platform_detail_links_v1.sh",
+  "script_sha256": "b7e8f7ace2bb5be379cd694644c3e5bb18f0ee06b47ed361881ea401f80383bf",
+  "timeout_seconds": 900
+}
