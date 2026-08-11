@@ -11,7 +11,17 @@ if ($xyptdq_title === '') {
 }
 $xyptdq_desc = trim((string)($meta_description ?? ''));
 if ($xyptdq_desc === '') {
-    $xyptdq_desc = '提供彩票数据研究、方案验证、投注成本与风险分析、平台资料导航。内容用于信息与方法研究，不承诺任何收益。';
+    $xyptdq_label = trim(strip_tags((string)($title ?? '')));
+    if ($xyptdq_label === '') {
+        $xyptdq_label = trim((string)preg_replace('/[_|｜].*$/u', '', $xyptdq_title));
+    }
+    if (!empty($id) && $xyptdq_label !== '') {
+        $xyptdq_desc = $xyptdq_label . '：整理相关资料、规则说明、数据或使用信息，并补充验证方法与风险提示。内容用于信息研究，不构成收益、安全或信誉保证。';
+    } elseif (!empty($catid) && $xyptdq_label !== '') {
+        $xyptdq_desc = $xyptdq_label . '栏目：汇总相关资料、方法、规则、验证记录与风险说明，方便按主题查阅站内内容。内容用于信息与研究，不构成收益保证。';
+    } else {
+        $xyptdq_desc = '提供彩票数据研究、方案验证、投注成本与风险分析、平台资料导航。内容用于信息与方法研究，不承诺任何收益。';
+    }
 }
 $xyptdq_canonical = 'https://www.laocaimi.org/';
 if (!empty($id)) {
