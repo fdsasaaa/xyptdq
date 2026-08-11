@@ -1,5 +1,5 @@
 #!/bin/bash
-# Rollback-gated deployment for request-aware canonical / schema metadata.
+# Rollback-gated deployment for request-aware canonical metadata.
 set -euo pipefail
 umask 077
 
@@ -13,56 +13,32 @@ EXPECTED_FRAME_LOCK_HEX="436f646549676e697465723732"
 PHASE="init"
 DEPLOY="NO"
 ROLLBACK="NO"
-CATEGORY_SELF_CANONICAL=0
-R JXM_HOME_CANONICAL="NO"
-ARTICLE_CANONICAL="NO"
-PLATFORM_CANONICAL="NO"
-ARTICLE_OG_TYPE="NO"
-CATEGORY_OG_TYPE="NO"
-FRAMEWORK_OK="NO"
 ERROR_CLASS="NONE"
 BLOCKING_ITEM="NONE"
-
-# shellcheck disable=SC2034
-RJXM_HOME_CANONICAL="NO"
-unset R
+TMP="$(mktemp -d /tmp/xyptdq-canonical-deploy.XXXXXX)"
+trap 'rm -rf "$TMP"' EXIT
 
 [ -n "$RESULT_FILE" ] || exit 2
 [ -d "$REPO/.git" ] || exit 3
 [ -d "$WEBROOT" ] || exit 4
 
-TMP="$(mktemp -d /tmp/xyptdq-canonical-deploy.XXXXXX)"
-trap 'rm -rf "$TMP"' EXIT
-
 write_payload(){
-  local status="$1"
-  python3 - "$RESULT_FILE" "$status" "$PHASE" "$TARGET_SHA" "$DEPLOY" "$ROLLBACK" \
-    "$CATEGORY_SELF_CANONICAL" "$RJXM_HOME_CANONICAL" "$ARTICLE_CANONICAL" "$PLATFORM_CANONICAL" \
-    "$ARTICLE_OG_TYPE" "$CATEGORY_OG_TYPE" "$FRAMEWORK_OK" "$ERROR_CLASS" "$BLOCKING_ITEM" <<'PY'
-import json,sys
-(out,status,phase,target,deploy,rollback,cat_self,rjxm,article_canon,platform_canon,
- article_og,category_og,framework,error_class,blocker)=sys.argv[1:]
+  local status="$1" metrics="${2:-$TMP/metrics.json}"
+  python3 - "$RESULT_FILE" "$status" "$PHASE" "$TARGET_SHA" "$DEPLOY" "$ROLLBACK" "$ERROR_CLASS" "$BLOCKING_ITEM" "$metrics" <<'PY'
+import json,os,sys
+out,status,phase,target,deploy,rollback,error_class,blocker,metrics_path=sys.argv[1:]
+metrics={}
+if os.path.isfile(metrics_path):
+    try: metrics=json.load(open(metrics_path,encoding='utf-8'))
+    except Exception: metrics={}
 payload={
-  "task":"deploy_request_aware_canonical_v1",
-  "deployment_status":status,
-  "phase":phase,
-  "target_sha":target,
-  "deploy":deploy,
-  "rollback":rollback,
-  "news_category_self_canonical_count":int(cat_self),
-  "rjxm_canonical_home":rjxm,
-  "article91_canonical":article_canon,
-  "platform19_canonical":platform_canon,
-  "article91_og_type_article":article_og,
-  "category_og_type_website":category_og,
-  "framework_integrity":framework,
-  "deploy_error_class":error_class,
-  "blocking_item":blocker,
-  "article_publishing_attempted":False,
-  "secrets_disclosed":False
+  'task':'deploy_request_aware_canonical_v1','deployment_status':status,'phase':phase,
+  'target_sha':target,'deploy':deploy,'rollback':rollback,'deploy_error_class':error_class,
+  'blocking_item':blocker,'article_publishing_attempted':False,'secrets_disclosed':False,
+  **metrics
 }
-with open(out,"w",encoding="utf-8") as f:
-    json.dump(payload,f,ensure_ascii=False,indent=2,sort_keys=True); f.write("\n")
+with open(out,'w',encoding='utf-8') as f:
+    json.dump(payload,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
 PY
 }
 
@@ -77,7 +53,6 @@ rollback_templates(){
   fi
   set -e
 }
-
 block(){
   BLOCKING_ITEM="$1"
   if [ "$DEPLOY" = "PASS" ]; then rollback_templates; fi
@@ -94,7 +69,7 @@ git merge-base --is-ancestor "$TARGET_SHA" origin/main || { ERROR_CLASS="target_
 PHASE="source_verify"
 for p in site/template/pc/default/home/seo_header.html site/template/mobile/default/home/seo_header.html; do
   git show "$TARGET_SHA:$p" | grep -Fq '$xyptdq_route = strtolower' || { ERROR_CLASS="request_route_logic_missing"; block request_route_logic_missing; }
-  git show "$TARGET_SHA:$p" | grep -Fq "c=category&dir=" || { ERROR_CLASS="category_dir_canonical_missing"; block category_dir_canonical_missing; }
+  git show "$TARGET_SHA:$p" | grep -Fq 'c=category&dir=' || { ERROR_CLASS="category_dir_canonical_missing"; block category_dir_canonical_missing; }
 done
 
 PHASE="rollback_snapshot"
@@ -109,77 +84,73 @@ fi
 DEPLOY="PASS"
 
 PHASE="render_verify"
-python3 - "$TMP" "$CANONICAL" <<'PY' > "$TMP/status.tsv"
-import html,re,subprocess,sys
-from urllib.parse import urljoin
+python3 - "$TMP" "$CANONICAL" <<'PY' > "$TMP/metrics.json"
+import html,json,re,subprocess,sys
 
 tmp,base=sys.argv[1:]
-
 def fetch(name,url):
     p=subprocess.run(['curl','-skL','--max-time','30','-o',f'{tmp}/{name}.html','-w','%{http_code}',url],stdout=subprocess.PIPE,text=True)
     code=int(p.stdout.strip() or 0)
-    s=open(f'{tmp}/{name}.html',encoding='utf-8',errors='ignore').read()
-    return code,s
-
+    if code!=200: raise SystemExit(f'{name}_http_{code}')
+    return open(f'{tmp}/{name}.html',encoding='utf-8',errors='ignore').read()
 def attr(tag,name):
     m=re.search(r'\b'+re.escape(name)+r'\s*=\s*["\']([^"\']*)["\']',tag,re.I|re.S)
     return html.unescape(m.group(1)).strip() if m else ''
-
 def canonical(s):
-    for t in re.findall(r'<link\b[^>]*>',s,re.I|re.S):
-        if 'canonical' in attr(t,'rel').lower().split(): return attr(t,'href')
+    for tag in re.findall(r'<link\b[^>]*>',s,re.I|re.S):
+        if 'canonical' in attr(tag,'rel').lower().split(): return attr(tag,'href')
     return ''
-
 def og_type(s):
-    for t in re.findall(r'<meta\b[^>]*>',s,re.I|re.S):
-        if attr(t,'property').lower()=='og:type': return attr(t,'content').lower()
+    for tag in re.findall(r'<meta\b[^>]*>',s,re.I|re.S):
+        if attr(tag,'property').lower()=='og:type': return attr(tag,'content').lower()
     return ''
 
-dirs=['gjfa','seo-articles','tzjq','zyyy']
+news_dirs=['gjfa','seo-articles','tzjq','zyyy']
 self_count=0
 category_og_ok=True
-for i,d in enumerate(dirs):
+for i,d in enumerate(news_dirs):
     url=f'{base}/index.php?c=category&dir={d}'
-    code,s=fetch(f'cat-{i}',url)
-    if code!=200:
-        raise SystemExit(f'category_http_{d}_{code}')
-    if canonical(s)==url:
-        self_count+=1
-    if og_type(s)!='website':
-        category_og_ok=False
+    s=fetch(f'category-{i}',url)
+    self_count += int(canonical(s)==url)
+    category_og_ok = category_og_ok and og_type(s)=='website'
 
-code,rjxm=fetch('rjxm',f'{base}/index.php?c=category&dir=rjxm')
-if code!=200: raise SystemExit(f'rjxm_http_{code}')
-rjxm_home=canonical(rjxm)==base+'/'
-
-code,article=fetch('article',f'{base}/index.php?c=show&id=91')
-if code!=200: raise SystemExit(f'article_http_{code}')
-article_canon=canonical(article)==f'{base}/index.php?c=show&id=91'
-article_og=og_type(article)=='article'
-
-code,platform=fetch('platform',f'{base}/index.php?c=show&id=19')
-if code!=200: raise SystemExit(f'platform_http_{code}')
-platform_canon=canonical(platform)==f'{base}/index.php?c=show&id=19'
-
-print(self_count,'PASS' if rjxm_home else 'NO','PASS' if article_canon else 'NO','PASS' if platform_canon else 'NO','PASS' if article_og else 'NO','PASS' if category_og_ok else 'NO',sep='\t')
+rjxm=fetch('rjxm',f'{base}/index.php?c=category&dir=rjxm')
+article=fetch('article91',f'{base}/index.php?c=show&id=91')
+platform=fetch('platform19',f'{base}/index.php?c=show&id=19')
+metrics={
+  'news_category_self_canonical_count':self_count,
+  'rjxm_canonical_home':'PASS' if canonical(rjxm)==base+'/' else 'NO',
+  'article91_canonical':'PASS' if canonical(article)==f'{base}/index.php?c=show&id=91' else 'NO',
+  'platform19_canonical':'PASS' if canonical(platform)==f'{base}/index.php?c=show&id=19' else 'NO',
+  'article91_og_type_article':'PASS' if og_type(article)=='article' else 'NO',
+  'category_og_type_website':'PASS' if category_og_ok else 'NO'
+}
+print(json.dumps(metrics,ensure_ascii=False))
 PY
-IFS=$'\t' read -r CATEGORY_SELF_CANONICAL RJXM_HOME_CANONICAL ARTICLE_CANONICAL PLATFORM_CANONICAL ARTICLE_OG_TYPE CATEGORY_OG_TYPE < "$TMP/status.tsv"
-[ "$CATEGORY_SELF_CANONICAL" -eq 4 ] || { ERROR_CLASS="news_category_canonical_mismatch"; block news_category_canonical_mismatch; }
-[ "$RJXM_HOME_CANONICAL" = PASS ] || { ERROR_CLASS="rjxm_duplicate_consolidation_regressed"; block rjxm_duplicate_consolidation_regressed; }
-[ "$ARTICLE_CANONICAL" = PASS ] || { ERROR_CLASS="article_canonical_regressed"; block article_canonical_regressed; }
-[ "$PLATFORM_CANONICAL" = PASS ] || { ERROR_CLASS="platform_canonical_regressed"; block platform_canonical_regressed; }
-[ "$ARTICLE_OG_TYPE" = PASS ] || { ERROR_CLASS="article_og_type_regressed"; block article_og_type_regressed; }
-[ "$CATEGORY_OG_TYPE" = PASS ] || { ERROR_CLASS="category_og_type_regressed"; block category_og_type_regressed; }
+python3 - "$TMP/metrics.json" <<'PY'
+import json,sys
+m=json.load(open(sys.argv[1],encoding='utf-8'))
+assert m['news_category_self_canonical_count']==4
+assert m['rjxm_canonical_home']=='PASS'
+assert m['article91_canonical']=='PASS'
+assert m['platform19_canonical']=='PASS'
+assert m['article91_og_type_article']=='PASS'
+assert m['category_og_type_website']=='PASS'
+PY
 
 PHASE="framework_verify"
 if [ -f "$WEBROOT/dayrui/CodeIgniter72/System/Cache/CacheFactory.php" ] \
    && [ -f "$WEBROOT/cache/frame.lock" ] \
    && [ "$(od -An -tx1 -v "$WEBROOT/cache/frame.lock" | tr -d ' \n')" = "$EXPECTED_FRAME_LOCK_HEX" ]; then
-  FRAMEWORK_OK="PASS"
+  python3 - "$TMP/metrics.json" <<'PY'
+import json,sys
+p=sys.argv[1]; x=json.load(open(p,encoding='utf-8')); x['framework_integrity']='PASS'
+json.dump(x,open(p,'w',encoding='utf-8'),ensure_ascii=False,indent=2,sort_keys=True)
+PY
 else
   ERROR_CLASS="framework_integrity_failed"; block framework_integrity_failed
 fi
 
 PHASE="final"
-ERROR_CLASS="NONE"; BLOCKING_ITEM="NONE"; write_payload PASS
+write_payload PASS
 echo "REQUEST_AWARE_CANONICAL_V1=PASS"
