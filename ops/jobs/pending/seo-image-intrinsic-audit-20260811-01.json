@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-image-intrinsic-audit-20260811-01",
+  "required_commit": "6390fac7d6c10472b080272e12b0e43dde5d47a2",
+  "script": "scripts/ops/agent_tasks/seo_image_intrinsic_audit_v1.sh",
+  "script_sha256": "07f337e4f4c32643103c8d93d4636b67b1c821eb8af7e6c65f733bf7070dd540",
+  "timeout_seconds": 600
+}
