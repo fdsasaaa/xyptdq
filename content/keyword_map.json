@@ -1,5 +1,5 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.2",
   "generated_at": "2026-08-11",
   "canonical_domain": "https://www.laocaimi.org",
   "rules": {
@@ -14,8 +14,7 @@
   "existing_targets": {
     "home": "/",
     "挂机方案": "/index.php?c=category&dir=gjfa",
-    "投注技巧": "/index.php?c=category&dir=tzjq",
-    "SEO文章": "/index.php?c=category&dir=seo-articles"
+    "投注技巧": "/index.php?c=category&dir=tzjq"
   },
   "clusters": [
     {

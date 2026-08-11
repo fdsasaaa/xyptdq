@@ -1,15 +1,16 @@
 {
-  "version": 1,
-  "source": "canonical website navigation verified on main",
+  "version": 2,
+  "source": "canonical website navigation after seo-articles consolidation",
   "categories": {
     "gjfa": {"catid": 2, "canonical_dir": "gjfa"},
     "tzjq": {"catid": 3, "canonical_dir": "tzjq"},
-    "zyyy": {"catid": 4, "canonical_dir": "zyyy"},
-    "seo-articles": {"catid": 7, "canonical_dir": "seo-articles"}
+    "zyyy": {"catid": 4, "canonical_dir": "zyyy"}
   },
   "policy": {
     "approved_package_must_supply_site_category_key": true,
     "no_default_category_guess": true,
-    "unknown_category_key_fails_closed": true
+    "unknown_category_key_fails_closed": true,
+    "seo_article_category_key": "tzjq",
+    "retired_category_keys": ["seo-articles"]
   }
 }
