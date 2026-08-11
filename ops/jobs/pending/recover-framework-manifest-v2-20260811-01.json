@@ -3,6 +3,6 @@
   "job_id": "recover-framework-manifest-v2-20260811-01",
   "required_commit": "5695588486cd3eab1601b7fd88fb2811be741379",
   "script": "scripts/ops/agent_tasks/recover_framework_manifest_v2.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "1793b43c2772e25fac07b1e4ac09eff1f630e10c941b01a3e7a651c70dc787f7",
   "timeout_seconds": 180
 }
