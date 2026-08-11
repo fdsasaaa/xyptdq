@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-canonical-category-nav-v1-20260811-01",
+  "required_commit": "c83bb660e4c2c4b736c66125e4ac54040721ccbd",
+  "script": "scripts/ops/agent_tasks/deploy_canonical_category_nav_v1.sh",
+  "script_sha256": "c7b9202a473947b2d7498bcd39a89927ecf1022895aa0690a012ce130d020f40",
+  "timeout_seconds": 1200
+}
