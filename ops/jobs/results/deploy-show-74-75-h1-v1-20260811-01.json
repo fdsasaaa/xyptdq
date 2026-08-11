@@ -1,0 +1,29 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T11:29:00Z",
+  "job_id": "deploy-show-74-75-h1-v1-20260811-01",
+  "payload": {
+    "article_publishing_attempted": false,
+    "blocking_item": "NONE",
+    "canonical_and_description_unchanged": "PASS",
+    "deploy": "PASS",
+    "deploy_error_class": "NONE",
+    "deployment_status": "PASS",
+    "description_fix_precondition": "PASS",
+    "framework_integrity": "PASS",
+    "mobile_h1_verified": "PASS",
+    "pc_h1_verified": "PASS",
+    "phase": "final",
+    "rollback": "NO",
+    "secrets_disclosed": false,
+    "task": "deploy_show_74_75_h1_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "319a58af647ffb6fab42a248ae0e7765553c756e",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/deploy_show_74_75_h1_v1.sh",
+  "script_sha256": "2a4f3e2d23d79e7cf67484568210fe0c36c2b3aab17eca90ab6071e3b20b3aed",
+  "started_at": "2026-08-11T11:28:46Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
