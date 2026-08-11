@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-growth-audit-20260811-03",
+  "required_commit": "7810a1e450306ec238c060359a5b32c500a0ef88",
+  "script": "scripts/ops/agent_tasks/seo_growth_audit_v1.sh",
+  "script_sha256": "fca3f837de2a181597aee6f7ea0a3876152ca1b7204fcffb42e65336173e3d95",
+  "timeout_seconds": 600
+}
