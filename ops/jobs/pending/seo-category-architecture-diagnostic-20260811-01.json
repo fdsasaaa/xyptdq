@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-category-architecture-diagnostic-20260811-01",
+  "required_commit": "30471f4fb7154b7617e2a297b011f1cc23044023",
+  "script": "scripts/ops/agent_tasks/seo_category_architecture_diagnostic_v1.sh",
+  "script_sha256": "6c8c5cbdb07943c6a8847071b58c32874dedb882706a8cb3d99108fd0fb1bb5b",
+  "timeout_seconds": 900
+}
