@@ -43,7 +43,25 @@ else
 fi
 
 # Execute the deploy script from the exact target ref rather than trusting the
-# mutable working tree copy.
+# mutable working tree copy. Helper scripts are invoked explicitly through bash
+# in the temporary copy so deployment does not depend on Git executable bits.
 git -C "$REPO_DIR" show "$TARGET_SHA:scripts/deploy.sh" > "$TMP/deploy.sh"
+python3 - "$TMP/deploy.sh" <<'PY'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])
+s=p.read_text(encoding='utf-8')
+old='''XYPTDQ_REPO_DIR="$REPO_DIR" \\\nXYPTDQ_WEBROOT="$WEBROOT" \\\n"$BACKUP_SCRIPT"'''
+new='''XYPTDQ_REPO_DIR="$REPO_DIR" \\\nXYPTDQ_WEBROOT="$WEBROOT" \\\nbash "$BACKUP_SCRIPT"'''
+if old not in s:
+    raise SystemExit('ERROR: expected backup helper invocation not found in exact-ref deploy.sh')
+s=s.replace(old,new,1)
+old='XYPTDQ_WEBROOT="$WEBROOT" "$HEALTH_SCRIPT"'
+new='XYPTDQ_WEBROOT="$WEBROOT" bash "$HEALTH_SCRIPT"'
+if old not in s:
+    raise SystemExit('ERROR: expected health helper invocation not found in exact-ref deploy.sh')
+s=s.replace(old,new,1)
+p.write_text(s,encoding='utf-8')
+PY
 chmod 700 "$TMP/deploy.sh"
 XYPTDQ_REPO_DIR="$REPO_DIR" XYPTDQ_WEBROOT="$WEBROOT" bash "$TMP/deploy.sh" "$TARGET_SHA"
