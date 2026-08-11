@@ -14,6 +14,17 @@ declare(strict_types=1);
 header('Content-Type: text/html; charset=utf-8');
 //header('X-Frame-Options: SAMEORIGIN'); // 防止被站外加入iframe中浏览
 
+// Retired SEO文章 category: preserve any old category-link equity by sending
+// both canonical-dir and legacy id routes to the retained tzjq carrier.
+if (strtolower(trim((string)($_GET['c'] ?? ''))) === 'category') {
+    $xyptdqRetiredSeoDir = trim((string)($_GET['dir'] ?? ''));
+    $xyptdqRetiredSeoId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    if ($xyptdqRetiredSeoDir === 'seo-articles' || $xyptdqRetiredSeoId === 7) {
+        header('Location: https://www.laocaimi.org/index.php?c=category&dir=tzjq', true, 301);
+        exit;
+    }
+}
+
 // 是否是开发者模式（1开启、0关闭），上线之后建议关闭此开关
 define('IS_DEV',0);
 
