@@ -272,7 +272,7 @@ for cluster in kw.get("clusters",[]):
         keyword_owners[k].add(t)
         target_keywords[t].append(k)
 
-keyword_owner_conflicts={k:sorted(v) for k,v in keyword_owners.items() if len(v)>1]
+keyword_owner_conflicts={k:sorted(v) for k,v in keyword_owners.items() if len(v)>1}
 path_targets=[x for x in flat if x["target"].startswith("/")]
 symbolic=[x for x in flat if not x["target"].startswith("/")]
 path_target_missing=[]
