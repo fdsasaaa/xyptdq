@@ -14,19 +14,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Compile Python heredocs in shell scripts
+      - name: Select changed shell scripts
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          : > /tmp/changed-shell-scripts.txt
+          if [ "$EVENT_NAME" = "pull_request" ] && [ -n "${PR_BASE_SHA:-}" ]; then
+            git diff --name-only "$PR_BASE_SHA" HEAD -- 'scripts/**/*.sh' \
+              | grep -E '^scripts/.*\.sh$' \
+              | sort -u > /tmp/changed-shell-scripts.txt || true
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
+            git diff --name-only HEAD^ HEAD -- 'scripts/**/*.sh' \
+              | grep -E '^scripts/.*\.sh$' \
+              | sort -u > /tmp/changed-shell-scripts.txt || true
+          else
+            git ls-tree -r --name-only HEAD scripts \
+              | grep -E '^scripts/.*\.sh$' \
+              | sort -u > /tmp/changed-shell-scripts.txt || true
+          fi
+          cat /tmp/changed-shell-scripts.txt
+
+      - name: Compile Python heredocs in changed shell scripts
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import pathlib, re, sys
 
+          manifest = pathlib.Path('/tmp/changed-shell-scripts.txt')
+          paths = [pathlib.Path(x) for x in manifest.read_text(encoding='utf-8').splitlines() if x.strip()]
           heredoc = re.compile(r"<<-?\s*(['\"])([A-Za-z_][A-Za-z0-9_]*)\1")
           checked = 0
           failures = []
 
-          for path in sorted(pathlib.Path('scripts').rglob('*.sh')):
+          for path in paths:
+              if not path.is_file():
+                  continue
               lines = path.read_text(encoding='utf-8', errors='strict').splitlines()
               i = 0
               while i < len(lines):
@@ -45,7 +74,6 @@ jobs:
                       failures.append(f'{path}:{start}: unterminated heredoc {delimiter}')
                       break
                   source = '\n'.join(body) + '\n'
-                  # Only compile heredocs that are actually fed to Python.
                   prefix = lines[start - 2]
                   if 'python' in prefix.lower():
                       try:
@@ -61,5 +89,5 @@ jobs:
           if failures:
               print('\n'.join(failures), file=sys.stderr)
               raise SystemExit(1)
-          print(f'compiled {checked} embedded Python heredoc blocks')
+          print(f'compiled {checked} embedded Python heredoc blocks across {len(paths)} changed shell scripts')
           PY
