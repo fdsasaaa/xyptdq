@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-11T19:51:00+08:00",
+  "updated_at": "2026-08-12T06:40:52+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
   "current_phase": "keyword_ownership_and_content_carrier_architecture",
@@ -26,7 +26,7 @@
   },
   "keyword_map": {
     "path": "content/keyword_map.json",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "keyword_count": 51,
     "same_intent_synonym_consolidation": true,
     "serp_or_corpus_evidence_required_before_split": true,
@@ -39,6 +39,18 @@
       "qiqu_ffc_automation": "/index.php?c=category&dir=gjfa",
       "ssc_automation": "/index.php?c=category&dir=gjfa"
     }
+  },
+  "content_category_policy": {
+    "path": "config/content_category_map.json",
+    "seo_article_category_key": "tzjq",
+    "seo_article_catid": 3,
+    "seo_article_canonical_dir": "tzjq",
+    "cms_display_label": "投注机巧",
+    "seo_intent_label": "投注技巧",
+    "retired_category_keys": [
+      "seo-articles"
+    ],
+    "future_seo_articles_use_tzjq": true
   },
   "target_registry": {
     "path": "content/seo_target_registry.json",
@@ -56,16 +68,16 @@
       "research_lab_hub"
     ]
   },
-  "phase5_current": {
+  "phase5_baseline": {
     "job_id": "seo-content-architecture-audit-20260811-05",
     "result_branch": "agent/results/seo-content-architecture-audit-20260811-05",
     "status": "PASS",
     "audit_status": "COMPLETE",
     "sitemap_http": 200,
-    "sitemap_url_count": 71,
-    "crawled_pages": 71,
-    "published_news_count": 38,
-    "published_platform_count": 30,
+    "sitemap_url_count_at_audit": 71,
+    "crawled_pages_at_audit": 71,
+    "published_news_count_at_audit": 38,
+    "published_platform_count_at_audit": 30,
     "homepage_platform_link_coverage": "30/30",
     "canonical_mismatch_count": 0,
     "duplicate_title_group_count": 0,
@@ -108,31 +120,53 @@
       "status": "PASS",
       "retired": true
     },
-    "tzjq_db_rename_attempt": {
-      "job": "rename-tzjq-category-v1-20260811-01",
-      "status": "BLOCKED",
-      "rollback": "YES",
-      "production_label_changed": false,
-      "next_method": "presentation_or_cache_aware_live_render_verified"
+    "seo_articles_consolidation": {
+      "job": "consolidate-seo-articles-into-tzjq-v7-20260812-01",
+      "result_branch": "agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01",
+      "status": "PASS",
+      "deploy": "PASS",
+      "db_migration": "PASS",
+      "rollback": "NO",
+      "migrated_article_ids": [85, 86, 88, 91],
+      "migrated_main_rows": 4,
+      "migrated_data_rows": 4,
+      "repaired_share_index_rows": 2,
+      "repaired_hits_rows": 2,
+      "repaired_ids": [85, 86],
+      "legacy_category_retired": true,
+      "category7_remaining_articles": 0,
+      "old_dir_route_301_to_tzjq": true,
+      "old_id_route_301_to_tzjq": true,
+      "pc_old_nav_link_count": 0,
+      "mobile_old_nav_link_count": 0,
+      "article_http_200_count": 4,
+      "article_self_canonical_count": 4,
+      "sitemap_old_category_count": 0,
+      "sitemap_tzjq_count": 1,
+      "sitemap_migrated_article_count": 4,
+      "framework_integrity": "PASS",
+      "article_publishing_attempted": false,
+      "publisher_cron_changed": false,
+      "scheduled_queue_consumed": false
     }
   },
   "category_decisions": {
     "gjfa": "retain_automation_and_hanging_scheme_carrier",
-    "tzjq": "retain_betting_guide_carrier_public_label_target_投注技巧",
+    "tzjq": "retain_single_seo_article_and_betting_guide_carrier_cms_label_投注机巧",
     "zyyy": "retain_resource_carrier",
     "gdrz": "retired_empty_category",
     "rjxm": "keep_consolidated_excluded_duplicate_route",
-    "seo-articles": "transition_only_mixed_intent_requires_reclassification_or_reframe"
+    "seo-articles": "retired_redirect_301_to_tzjq_zero_remaining_articles"
   },
   "next_actions": [
-    "Correct the public tzjq label using a presentation/cache-aware method with live-render verification; do not repeat the DB-only rename.",
-    "Reclassify or reframe the mixed seo-articles transition category without creating an empty replacement category.",
-    "Implement the first substantive Hub only when existing/supporting content makes the page genuinely useful; preferred first candidates are ffc_research_hub, research_lab_hub, and platform_review_hub.",
+    "Treat tzjq as the single CMS carrier for future SEO articles; do not recreate seo-articles or add synonym article categories.",
+    "Design the content-carrier and internal-link architecture around substantive topic Hubs while keeping underlying articles in tzjq.",
+    "Implement the first real Hub only when existing/supporting content makes the page genuinely useful; preferred first candidates are ffc_research_hub, research_lab_hub, and platform_review_hub.",
     "After each real Hub is HTTP 200, self-canonical and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified live URL.",
     "Keep automatic article publishing frozen until explicit user approval."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map and target registry; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases."
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map and target registry; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases or recreating seo-articles."
 }
