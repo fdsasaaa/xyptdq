@@ -1,0 +1,33 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T01:54:04Z",
+  "job_id": "diagnose-backup-stage-20260811-01",
+  "payload": {
+    "blocking_component": "NONE",
+    "checksum_verification": "PASS",
+    "database_dump": "PASS",
+    "database_dump_bytes": 359750,
+    "database_error_class": "NONE",
+    "diagnosis_status": "PASS",
+    "diagnostic_artifacts_removed_on_exit": true,
+    "nginx_config_copy": "PASS",
+    "production_article91_http": 200,
+    "production_cache_factory": "YES",
+    "production_category7_http": 200,
+    "production_frame_lock": "YES",
+    "production_home_http": 200,
+    "secrets_disclosed": false,
+    "task": "diagnose_backup_stage",
+    "website_tar": "PASS",
+    "website_tar_bytes": 20700228,
+    "website_tar_error_class": "NONE"
+  },
+  "raw_log_published": false,
+  "required_commit": "01b526a1fe71efd174a9fb360a0f143c5691d63c",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/diagnose_backup_stage.sh",
+  "script_sha256": "74abc85ae057cf4868b57005e90bcd4f638c108f061303e6785aafd9d1455e96",
+  "started_at": "2026-08-11T01:54:01Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
