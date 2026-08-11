@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "pause-native-publisher-cron-20260811-01",
+  "required_commit": "c07f444958a7171b827379f887611b1f5c55e0fa",
+  "script": "scripts/ops/agent_tasks/pause_native_publisher_cron.sh",
+  "script_sha256": "b590b678ac3fd07cfd9c942cb61b6bae4b749997f83e3fbd25e4e2d4ee98e534",
+  "timeout_seconds": 600
+}
