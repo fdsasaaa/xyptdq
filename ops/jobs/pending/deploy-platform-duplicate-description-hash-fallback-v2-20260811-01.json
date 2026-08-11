@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-platform-duplicate-description-hash-fallback-v2-20260811-01",
+  "required_commit": "6a3bb14b7be2dc67f042cf79da17cd94056cfc28",
+  "script": "scripts/ops/agent_tasks/deploy_platform_duplicate_description_hash_fallback_v2.sh",
+  "script_sha256": "6a09be7d805542a0520191e4339cee3163edb67b836f34ab6230bd8f95f4f343",
+  "timeout_seconds": 1800
+}
