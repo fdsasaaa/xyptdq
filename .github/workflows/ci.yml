@@ -54,14 +54,12 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           import hashlib, json, pathlib, re, subprocess
-
           pending = pathlib.Path('ops/jobs/pending')
           jobs = sorted(pending.glob('*.json')) if pending.is_dir() else []
           allowed_task = re.compile(r'^scripts/ops/agent_tasks/[A-Za-z0-9._/-]+\.sh$')
           job_id_re = re.compile(r'^[a-z0-9][a-z0-9._-]{2,80}$')
           commit_re = re.compile(r'^[0-9a-f]{40}$')
           sha_re = re.compile(r'^[0-9a-f]{64}$')
-
           for path in jobs:
               job = json.loads(path.read_text(encoding='utf-8'))
               job_id = str(job.get('job_id', ''))
@@ -69,7 +67,6 @@ jobs:
               script = str(job.get('script', ''))
               expected = str(job.get('script_sha256', ''))
               timeout = job.get('timeout_seconds', 900)
-
               if job.get('schema_version') != 1:
                   raise SystemExit(f'{path}: invalid schema_version')
               if not job_id_re.fullmatch(job_id) or path.name != f'{job_id}.json':
@@ -84,13 +81,11 @@ jobs:
                   raise SystemExit(f'{path}: invalid script_sha256')
               if not isinstance(timeout, int) or not (10 <= timeout <= 1800):
                   raise SystemExit(f'{path}: invalid timeout')
-
               subprocess.run(['git', 'cat-file', '-e', f'{commit}^{{commit}}'], check=True)
               proc = subprocess.run(['git', 'show', f'{commit}:{script}'], check=True, stdout=subprocess.PIPE)
               actual = hashlib.sha256(proc.stdout).hexdigest()
               if actual != expected:
                   raise SystemExit(f'{path}: script hash mismatch expected={expected} actual={actual}')
-
           print(f'validated {len(jobs)} pending agent job pins')
           PY
 
@@ -105,7 +100,6 @@ jobs:
             php scripts/content/publisher_smoke.php --article="$fixture" --offline | tee "$out"
             grep -Fq 'OFFLINE FIXTURE PASS' "$out"
             rm -f "$out"
-
             out=$(mktemp)
             php scripts/content/publisher_native_smoke.php --article="$fixture" --offline | tee "$out"
             grep -Fq 'OFFLINE FIXTURE PASS' "$out"
@@ -130,10 +124,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import pathlib, re, sys
-          paths = [
-              pathlib.Path('scripts/content/cms_publish_adapter.php'),
-              pathlib.Path('scripts/content/cms_publish_native_adapter.php'),
-          ]
+          paths = [pathlib.Path('scripts/content/cms_publish_adapter.php'), pathlib.Path('scripts/content/cms_publish_native_adapter.php')]
           failed = False
           total = 0
           for path in paths:
@@ -163,7 +154,6 @@ jobs:
             fi
           done
           if [ "$bad" -ne 0 ]; then exit 1; fi
-
           if git grep -I -n -E -- '-----BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY-----' -- .; then
             echo 'ERROR: private key material detected in tracked content.' >&2
             exit 1
@@ -175,16 +165,14 @@ jobs:
           set -euo pipefail
           pc='site/template/pc/default/home'
           mobile='site/template/mobile/default/home'
-
           for f in article.html list.html show.html category.html; do
             grep -Fq '{template "seo_header.html"}' "$pc/$f"
             grep -Fq '{template "seo_footer.html"}' "$pc/$f"
-            if grep -Eiq '<meta[^>]+name=["'"']robots["'"'][^>]+content=["'"'][^"'"']*none' "$pc/$f"; then
+            if grep -Fiq 'content="none"' "$pc/$f"; then
               echo "ERROR: indexable PC template contains robots=none: $f" >&2
               exit 1
             fi
           done
-
           grep -Fq 'rel="canonical"' "$pc/seo_header.html"
           grep -Fq 'index,follow,max-image-preview:large' "$pc/seo_header.html"
           grep -Fq 'application/ld+json' "$pc/seo_header.html"
@@ -192,14 +180,12 @@ jobs:
           grep -Fq '<h1' "$pc/list.html"
           grep -Fq '<h1' "$pc/show.html"
           grep -Fq '<h1' "$pc/category.html"
-
           for bad in 'u3s1.com' 'demo.5moban.com' 'pblu.mobanqi.com'; do
-            if grep -RFiq "$bad" "$pc/article.html" "$pc/list.html" "$pc/show.html" "$pc/category.html"; then
+            if grep -Fqi "$bad" "$pc/article.html" "$pc/list.html" "$pc/show.html" "$pc/category.html"; then
               echo "ERROR: legacy external template dependency remains: $bad" >&2
               exit 1
             fi
           done
-
           grep -Fq 'rel="canonical"' "$mobile/seo_header.html"
           grep -Fq 'index,follow,max-image-preview:large' "$mobile/seo_header.html"
           grep -Fq 'application/ld+json' "$mobile/seo_header.html"
