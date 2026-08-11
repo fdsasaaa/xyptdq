@@ -30,7 +30,7 @@ PY
 [ -f "$BASE" ] || write_blocked base_script_missing
 [ "$(sha256sum "$BASE" | awk '{print $1}')" = "$BASE_SHA" ] || write_blocked base_script_sha_mismatch
 
-python3 - "$BASE" "$TMP" "$OLD_TARGET" "$NEW_TARGET" <<'PY'
+if ! python3 - "$BASE" "$TMP" "$OLD_TARGET" "$NEW_TARGET" <<'PY'
 from pathlib import Path
 import sys
 src,out,old_target,new_target=sys.argv[1:]
@@ -47,8 +47,9 @@ s=s.replace(old_target_line,new_target_line,1).replace(old_guard,new_guard,1)
 s=s.replace('deploy_platform_duplicate_description_hash_fallback_v2','deploy_news_duplicate_description_hash_fallback_v3')
 Path(out).write_text(s,encoding='utf-8')
 PY
-rc=$?
-[ "$rc" -eq 0 ] || write_blocked deterministic_transform_failed
+then
+  write_blocked deterministic_transform_failed
+fi
 
 grep -Fq "TARGET_SHA=\"$NEW_TARGET\"" "$TMP" || write_blocked transformed_target_missing
 grep -Fq "\$xyptdq_module === 'news'" "$TMP" || write_blocked transformed_news_guard_missing
