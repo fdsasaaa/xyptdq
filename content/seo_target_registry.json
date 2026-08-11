@@ -1,0 +1,207 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-08-11",
+  "source_keyword_map": {
+    "path": "content/keyword_map.json",
+    "version": "1.1.0"
+  },
+  "purpose": "Consolidation registry for symbolic SEO targets before real hub URLs exist.",
+  "rules": {
+    "registry_is_not_a_publish_queue": true,
+    "registry_does_not_create_pages": true,
+    "do_not_replace_keyword_map_targets_with_nonexistent_urls": true,
+    "no_empty_hub_pages": true,
+    "no_thin_synonym_variation_pages": true,
+    "same_intent_synonyms_share_a_carrier": true,
+    "split_only_with_serp_or_corpus_evidence": true,
+    "new_hub_requires_unique_primary_intent": true,
+    "new_hub_requires_substantive_content_or_existing_supporting_content": true,
+    "new_hub_requires_internal_links_before_sitemap_inclusion": true,
+    "new_hub_requires_http_200_self_canonical_before_sitemap_inclusion": true,
+    "article_publishing_must_remain_frozen_until_explicit_user_approval": true
+  },
+  "existing_carriers": [
+    {
+      "carrier_id": "home",
+      "url": "/",
+      "role": "信誉平台大全主入口与平台导航",
+      "status": "live"
+    },
+    {
+      "carrier_id": "automation_category",
+      "url": "/index.php?c=category&dir=gjfa",
+      "role": "挂机方案与自动执行方案承载",
+      "status": "live"
+    },
+    {
+      "carrier_id": "betting_guide_category",
+      "url": "/index.php?c=category&dir=tzjq",
+      "role": "投注技巧与投注方法承载",
+      "status": "live",
+      "public_label_target": "投注技巧",
+      "cms_legacy_label": "投注机巧"
+    },
+    {
+      "carrier_id": "resource_category",
+      "url": "/index.php?c=category&dir=zyyy",
+      "role": "软件、工具与福利资源承载",
+      "status": "live"
+    },
+    {
+      "carrier_id": "legacy_seo_articles_category",
+      "url": "/index.php?c=category&dir=seo-articles",
+      "role": "过渡承载区；当前混合投注技巧与平台评测，不作为长期终态 Hub",
+      "status": "transition_only"
+    }
+  ],
+  "carrier_groups": [
+    {
+      "carrier_id": "ffc_research_hub",
+      "surface": "planned_hub",
+      "proposed_label": "分分彩研究中心",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "ffc_hub",
+        "ffc_skills_technology",
+        "ffc_progression",
+        "ffc_advanced_progression",
+        "ffc_data",
+        "ffc_validation",
+        "ffc_history",
+        "ffc_hot_cold",
+        "ffc_omission",
+        "ffc_bankroll"
+      ],
+      "primary_intent": "分分彩玩法研究、技术方法、数据验证与风险分析的综合入口",
+      "split_triggers": [
+        "supporting_corpus_becomes_large_enough_for_a_distinct_subtopic",
+        "SERP_evidence_shows_materially_different_search_intent",
+        "a_subtopic_needs_a_distinct_tool_or_data_experience"
+      ]
+    },
+    {
+      "carrier_id": "hash_ffc_hub",
+      "surface": "planned_hub",
+      "proposed_label": "哈希分分彩专题",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "hash_ffc_hub",
+        "hash_ffc_skills_technology",
+        "hash_ffc_play",
+        "hash_ffc_progression",
+        "hash_ffc_data"
+      ],
+      "primary_intent": "哈希分分彩玩法、技巧、数据与风险研究"
+    },
+    {
+      "carrier_id": "qiqu_ffc_hub",
+      "surface": "planned_hub",
+      "proposed_label": "奇趣分分彩专题",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "qiqu_ffc_hub",
+        "qiqu_ffc_skills_technology",
+        "qiqu_ffc_play"
+      ],
+      "primary_intent": "奇趣分分彩玩法、技巧与研究资料"
+    },
+    {
+      "carrier_id": "ssc_hub",
+      "surface": "planned_hub",
+      "proposed_label": "时时彩技术中心",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "ssc_hub",
+        "ssc_skills_technology",
+        "ssc_strategy"
+      ],
+      "primary_intent": "时时彩技术、技巧与策略研究"
+    },
+    {
+      "carrier_id": "racing_hub",
+      "surface": "planned_hub",
+      "proposed_label": "赛车与飞艇专题",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "xyft_hub",
+        "xyft_skills",
+        "xysc_hub",
+        "xysc_skills",
+        "jssc_hub",
+        "jssc_skills",
+        "jsft_hub",
+        "jsft_skills"
+      ],
+      "primary_intent": "幸运飞艇、幸运赛车、极速赛车与极速飞艇的玩法和技巧研究",
+      "split_triggers": [
+        "one_lottery_accumulates_enough_distinct_supporting_content",
+        "SERP_evidence_supports_a_separate_hub"
+      ]
+    },
+    {
+      "carrier_id": "platform_review_hub",
+      "surface": "planned_hub",
+      "proposed_label": "平台评测与对比",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "platform_review_hub",
+        "ffc_platforms",
+        "hash_ffc_platforms"
+      ],
+      "primary_intent": "平台资料核验、评测与对比",
+      "notes": "首页继续拥有信誉平台大全主关键词；评测 Hub 不与首页争夺同一 Primary Keyword。"
+    },
+    {
+      "carrier_id": "research_lab_hub",
+      "surface": "planned_hub",
+      "proposed_label": "数据实验室",
+      "implementation_status": "planned_not_created",
+      "symbolic_targets": [
+        "lottery_lab",
+        "scheme_validation",
+        "historical_backtest",
+        "progression_experiment",
+        "losing_streak_risk",
+        "bankroll_management"
+      ],
+      "primary_intent": "彩票方案验证、历史数据回测、倍投实验与资金风险分析"
+    }
+  ],
+  "existing_carrier_assignments": [
+    {
+      "symbolic_target": "ffc_betting_guide",
+      "carrier_id": "betting_guide_category",
+      "reason": "分分彩投注技巧与分分彩投注方法属于现有投注技巧栏目的同搜索意图。"
+    },
+    {
+      "symbolic_target": "ffc_automation",
+      "carrier_id": "automation_category",
+      "reason": "分分彩挂机与分分彩挂机方案属于同一自动执行/挂机方案意图。"
+    },
+    {
+      "symbolic_target": "hash_ffc_automation",
+      "carrier_id": "automation_category",
+      "reason": "先由挂机方案栏目承载；只有语料或 SERP 证明哈希分分彩挂机形成独立意图时才拆页。"
+    },
+    {
+      "symbolic_target": "qiqu_ffc_automation",
+      "carrier_id": "automation_category",
+      "reason": "先由挂机方案栏目承载；避免按彩种机械复制薄页。"
+    },
+    {
+      "symbolic_target": "ssc_automation",
+      "carrier_id": "automation_category",
+      "reason": "时时彩挂机方案先归入现有挂机方案栏目。"
+    }
+  ],
+  "implementation_order": [
+    "stabilize_existing_category_labels_and_residual_phase5_issues",
+    "reclassify_or_reframe_legacy_seo_articles_without_creating_empty_categories",
+    "implement_ffc_research_hub_with_real_supporting_content",
+    "implement_research_lab_hub_with_real_validation_content",
+    "implement_platform_review_hub_using_existing_review_content",
+    "implement_hash_ffc_and_qiqu_ffc_hubs_when_supporting_corpus_is_ready",
+    "implement_ssc_and_racing_hubs_when_supporting_corpus_is_ready",
+    "only_then_replace_symbolic_keyword_map_targets_with_verified_live_urls"
+  ]
+}
