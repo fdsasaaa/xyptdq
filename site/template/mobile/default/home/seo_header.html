@@ -9,13 +9,29 @@ $xyptdq_title = trim((string)($meta_title ?? ''));
 if ($xyptdq_title === '') {
     $xyptdq_title = '信誉平台大全（彩研导航站）';
 }
+$xyptdq_route = strtolower(trim((string)($_GET['c'] ?? '')));
+$xyptdq_request_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$xyptdq_request_dir = trim((string)($_GET['dir'] ?? ''));
+$xyptdq_request_page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
+$xyptdq_is_show = $xyptdq_route === 'show';
+$xyptdq_is_category = $xyptdq_route === 'category';
 $xyptdq_desc = trim((string)($meta_description ?? ''));
 if ($xyptdq_desc === '') {
-    $xyptdq_label = trim(strip_tags((string)($title ?? '')));
+    $xyptdq_label = '';
+    if ($xyptdq_is_category && isset($cat) && is_array($cat)) {
+        $xyptdq_label = trim(strip_tags((string)($cat['name'] ?? '')));
+    }
+    if ($xyptdq_label === '') {
+        $xyptdq_label = trim(strip_tags((string)($title ?? '')));
+    }
     if ($xyptdq_label === '') {
         $xyptdq_label = trim((string)preg_replace('/[_|｜].*$/u', '', $xyptdq_title));
     }
-    if (!empty($id) && $xyptdq_label !== '') {
+    if ($xyptdq_is_show && $xyptdq_label !== '') {
+        $xyptdq_desc = $xyptdq_label . '：整理相关资料、规则说明、数据或使用信息，并补充验证方法与风险提示。内容用于信息研究，不构成收益、安全或信誉保证。';
+    } elseif ($xyptdq_is_category && $xyptdq_label !== '') {
+        $xyptdq_desc = $xyptdq_label . '栏目：汇总相关资料、方法、规则、验证记录与风险说明，方便按主题查阅站内内容。内容用于信息与研究，不构成收益保证。';
+    } elseif (!empty($id) && $xyptdq_label !== '') {
         $xyptdq_desc = $xyptdq_label . '：整理相关资料、规则说明、数据或使用信息，并补充验证方法与风险提示。内容用于信息研究，不构成收益、安全或信誉保证。';
     } elseif (!empty($catid) && $xyptdq_label !== '') {
         $xyptdq_desc = $xyptdq_label . '栏目：汇总相关资料、方法、规则、验证记录与风险说明，方便按主题查阅站内内容。内容用于信息与研究，不构成收益保证。';
@@ -24,17 +40,38 @@ if ($xyptdq_desc === '') {
     }
 }
 $xyptdq_canonical = 'https://www.laocaimi.org/';
-if (!empty($id)) {
+if ($xyptdq_is_show) {
+    $xyptdq_show_id = $xyptdq_request_id > 0 ? $xyptdq_request_id : (int)($id ?? 0);
+    if ($xyptdq_show_id > 0) {
+        $xyptdq_canonical = 'https://www.laocaimi.org/index.php?c=show&id=' . $xyptdq_show_id;
+    }
+} elseif ($xyptdq_is_category) {
+    $xyptdq_category_dir = $xyptdq_request_dir;
+    if ($xyptdq_category_dir === '' && isset($cat) && is_array($cat)) {
+        $xyptdq_category_dir = trim((string)($cat['dirname'] ?? ''));
+    }
+    if ($xyptdq_category_dir !== '' && preg_match('/^[A-Za-z0-9_-]+$/', $xyptdq_category_dir)) {
+        $xyptdq_canonical = 'https://www.laocaimi.org/index.php?c=category&dir=' . rawurlencode($xyptdq_category_dir);
+    } else {
+        $xyptdq_category_id = $xyptdq_request_id > 0 ? $xyptdq_request_id : (int)($catid ?? 0);
+        if ($xyptdq_category_id > 0) {
+            $xyptdq_canonical = 'https://www.laocaimi.org/index.php?c=category&id=' . $xyptdq_category_id;
+        }
+    }
+    if ($xyptdq_request_page > 1) {
+        $xyptdq_canonical .= '&page=' . $xyptdq_request_page;
+    }
+} elseif (!empty($id)) {
     $xyptdq_canonical = 'https://www.laocaimi.org/index.php?c=show&id=' . (int)$id;
 } elseif (!empty($catid)) {
     $xyptdq_canonical = 'https://www.laocaimi.org/index.php?c=category&id=' . (int)$catid;
-    if (isset($_GET['page']) && (int)$_GET['page'] > 1) {
-        $xyptdq_canonical .= '&page=' . (int)$_GET['page'];
-    }
 }
+$xyptdq_schema_type = $xyptdq_is_show ? 'WebPage' : ($xyptdq_is_category ? 'CollectionPage' : (!empty($id) ? 'WebPage' : (!empty($catid) ? 'CollectionPage' : 'WebSite')));
+$xyptdq_module = defined('MOD_DIR') ? (string)MOD_DIR : '';
+$xyptdq_og_type = $xyptdq_is_show && $xyptdq_module === 'news' ? 'article' : 'website';
 $xyptdq_schema = [
     '@context' => 'https://schema.org',
-    '@type' => !empty($id) ? 'WebPage' : (!empty($catid) ? 'CollectionPage' : 'WebSite'),
+    '@type' => $xyptdq_schema_type,
     'name' => $xyptdq_title,
     'description' => $xyptdq_desc,
     'url' => $xyptdq_canonical
@@ -46,7 +83,7 @@ $xyptdq_schema = [
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="<?php echo htmlspecialchars($xyptdq_canonical, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:locale" content="zh_CN">
-    <meta property="og:type" content="{if $id && MOD_DIR=='news'}article{else}website{/if}">
+    <meta property="og:type" content="<?php echo htmlspecialchars($xyptdq_og_type, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:title" content="<?php echo htmlspecialchars($xyptdq_title, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:description" content="<?php echo htmlspecialchars($xyptdq_desc, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:url" content="<?php echo htmlspecialchars($xyptdq_canonical, ENT_QUOTES, 'UTF-8'); ?>">
