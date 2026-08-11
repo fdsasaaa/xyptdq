@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "seo-image-layout-audit-20260811-01",
+  "required_commit": "458703b724c7b21efbf8105810a5439608edc94f",
+  "script": "scripts/ops/agent_tasks/seo_image_layout_audit_v1.sh",
+  "script_sha256": "2ab8216f271cbd6468049f98b67066827a02a15b9dd1acf12babdd1f1a18c863",
+  "timeout_seconds": 600
+}
