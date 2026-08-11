@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-seo-image-dimensions-v1-20260811-01",
+  "required_commit": "60ffeac96edca711651fe39d1c452330e21299ae",
+  "script": "scripts/ops/agent_tasks/deploy_seo_image_dimensions_v1.sh",
+  "script_sha256": "6cbf99d4ea35e9401b88dede808ae47a29fe52c92f11fc68e7cbb38d7a9acc91",
+  "timeout_seconds": 900
+}
