@@ -2,7 +2,19 @@
 <?php
 declare(strict_types=1);
 
-const SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT = 'seo-ffc-betting-economics-v1';
+const SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT = [
+    'seo-ffc-betting-economics-v1',
+    'seo-ffc-drawdown-vs-losing-streak-v1',
+    'seo-ffc-high-hit-not-profit-v1',
+    'seo-ffc-losing-streak-cumulative-loss-v1',
+    'seo-ffc-method-cost-compare-v1',
+    'seo-ffc-payout-and-cost-v1',
+    'seo-ffc-rebate-accounting-v1',
+    'seo-ffc-risk-budget-before-multiplier-v1',
+    'seo-ffc-six-economic-parameters-v1',
+    'seo-ffc-stop-rules-v1',
+    'seo-ffc-theoretical-hit-rate-v1',
+];
 
 function seoAuditFail(string $message, int $code = 1): void
 {
@@ -49,22 +61,24 @@ foreach ($locations as $dirName => $expectedState) {
         $state = trim((string) ($row['publication_state'] ?? ''));
         $articleId = trim((string) ($row['source_article_id'] ?? ''));
 
-        // One explicit production canary predates the Approved-Package bridge.
-        // It has no source_article_id/fingerprint/hash/publication_state, so those
-        // fields cannot be reconstructed without inventing provenance. Grandfather
-        // only this exact historical article_key, only in scheduled, only while it
-        // remains fully unmanaged by the new bridge contract.
+        // These exact article keys were committed before the Approved-Package
+        // bridge existed. They lack provenance fields that cannot be reconstructed
+        // without inventing history. This is a closed manifest: prefixes, missing
+        // fields, or directory placement alone never grant exemption.
         if (
             $expectedState === 'scheduled'
-            && $articleKey === SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT
+            && in_array($articleKey, SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT, true)
             && $state === ''
             && $articleId === ''
         ) {
-            if (basename($path, '.json') !== SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT) {
+            if (basename($path, '.json') !== $articleKey) {
                 seoAuditFail('legacy exempt article_key/path mismatch: ' . $path, 13);
             }
             if (trim((string) ($row['publish_at'] ?? '')) === '') {
                 seoAuditFail('legacy scheduled exempt missing publish_at: ' . $path, 14);
+            }
+            if (trim((string) ($row['primary_keyword'] ?? '')) === '') {
+                seoAuditFail('legacy scheduled exempt missing primary_keyword: ' . $path, 15);
             }
             $legacyExemptCount++;
             continue;
