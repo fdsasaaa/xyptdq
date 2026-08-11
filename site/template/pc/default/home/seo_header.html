@@ -137,9 +137,10 @@ $xyptdq_schema = [
         <a class="xyptdq-brand" href="/" aria-label="返回首页"><img src="{SITE_LOGO}" width="114" height="114" alt="信誉平台大全（彩研导航站）"></a>
         <nav class="xyptdq-site-nav" aria-label="主要导航">
             <a href="/">首页</a>
-            {category module=share pid=0}
-            <a href="{$t.url}">{$t.name}</a>
-            {/category}
+            {category module=share id=2}<a href="/index.php?c=category&dir=gjfa">{$t.name}</a>{/category}
+            {category module=share id=3}<a href="/index.php?c=category&dir=tzjq">{$t.name}</a>{/category}
+            {category module=share id=4}<a href="/index.php?c=category&dir=zyyy">{$t.name}</a>{/category}
+            {category module=share id=7}<a href="/index.php?c=category&dir=seo-articles">{$t.name}</a>{/category}
         </nav>
     </div>
 </header>
