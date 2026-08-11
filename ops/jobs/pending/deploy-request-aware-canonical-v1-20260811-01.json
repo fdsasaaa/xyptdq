@@ -3,6 +3,6 @@
   "job_id": "deploy-request-aware-canonical-v1-20260811-01",
   "required_commit": "4c2c9a6d5d306635cbd2eca3072dcd16f900144b",
   "script": "scripts/ops/agent_tasks/deploy_request_aware_canonical_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "8224a145d108afb8d32c6e48fccd3414069d89ba82af7475602f1ff399e0ae91",
   "timeout_seconds": 900
 }
