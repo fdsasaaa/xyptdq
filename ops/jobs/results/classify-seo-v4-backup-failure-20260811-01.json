@@ -1,0 +1,33 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T02:00:01Z",
+  "job_id": "classify-seo-v4-backup-failure-20260811-01",
+  "payload": {
+    "backup_complete_marker": "NO",
+    "backup_substage": "UNKNOWN",
+    "backup_verify_marker": "NO",
+    "blocking_item": "NONE",
+    "checksums_started": "NO",
+    "classification_status": "PASS",
+    "database_inferred_ok": "NO",
+    "database_started": "NO",
+    "deploy_rsync_started": "NO",
+    "error_class": "unclassified_before_or_inside_backup",
+    "nginx_inferred_ok": "NO",
+    "nginx_started": "NO",
+    "raw_log_published": false,
+    "secrets_disclosed": false,
+    "source_log_exists": "YES",
+    "task": "classify_seo_v4_backup_failure",
+    "website_tar_inferred_ok": "NO",
+    "website_tar_started": "NO"
+  },
+  "raw_log_published": false,
+  "required_commit": "18d03dd141a4c8ca06a76c201525e71aa6221256",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/classify_seo_v4_backup_failure.sh",
+  "script_sha256": "f58d1738b0bf84f5697d496f6018d45667b11435fa98eaae00fba147829ccd80",
+  "started_at": "2026-08-11T02:00:01Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
