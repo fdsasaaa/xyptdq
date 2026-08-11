@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'scripts/content/**'
+      - 'config/content_category_map.json'
+      - 'content/drafts/**'
       - 'docs/CONTENT_PACKAGE_BRIDGE.md'
       - '.github/workflows/content-bridge-test.yml'
   push:
@@ -11,6 +13,8 @@ on:
       - main
     paths:
       - 'scripts/content/**'
+      - 'config/content_category_map.json'
+      - 'content/drafts/**'
       - 'docs/CONTENT_PACKAGE_BRIDGE.md'
       - '.github/workflows/content-bridge-test.yml'
 
