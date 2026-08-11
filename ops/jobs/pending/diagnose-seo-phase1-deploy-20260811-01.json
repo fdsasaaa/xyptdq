@@ -3,6 +3,6 @@
   "job_id": "diagnose-seo-phase1-deploy-20260811-01",
   "required_commit": "e90dc4fc6acf2c55fec03ba9fae45468d9a17e71",
   "script": "scripts/ops/agent_tasks/diagnose_seo_phase1_deploy.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "e58f1658bdea1b4388b6ac238977d91c8a2a3fca2d69f6158360d75bbcc6ced0",
   "timeout_seconds": 180
 }
