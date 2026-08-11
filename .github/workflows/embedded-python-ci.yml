@@ -1,0 +1,65 @@
+name: embedded-python-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile Python heredocs in shell scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib, re, sys
+
+          heredoc = re.compile(r"<<-?\s*(['\"])([A-Za-z_][A-Za-z0-9_]*)\1")
+          checked = 0
+          failures = []
+
+          for path in sorted(pathlib.Path('scripts').rglob('*.sh')):
+              lines = path.read_text(encoding='utf-8', errors='strict').splitlines()
+              i = 0
+              while i < len(lines):
+                  match = heredoc.search(lines[i])
+                  if not match:
+                      i += 1
+                      continue
+                  delimiter = match.group(2)
+                  start = i + 2
+                  body = []
+                  i += 1
+                  while i < len(lines) and lines[i].strip() != delimiter:
+                      body.append(lines[i])
+                      i += 1
+                  if i >= len(lines):
+                      failures.append(f'{path}:{start}: unterminated heredoc {delimiter}')
+                      break
+                  source = '\n'.join(body) + '\n'
+                  # Only compile heredocs that are actually fed to Python.
+                  prefix = lines[start - 2]
+                  if 'python' in prefix.lower():
+                      try:
+                          compile(source, f'{path}:{start}', 'exec')
+                          checked += 1
+                      except SyntaxError as exc:
+                          failures.append(
+                              f'{path}:{start + (exc.lineno or 1) - 1}: '
+                              f'{exc.__class__.__name__}: {exc.msg}'
+                          )
+                  i += 1
+
+          if failures:
+              print('\n'.join(failures), file=sys.stderr)
+              raise SystemExit(1)
+          print(f'compiled {checked} embedded Python heredoc blocks')
+          PY
