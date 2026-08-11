@@ -3,6 +3,6 @@
   "job_id": "diagnose-backup-stage-20260811-01",
   "required_commit": "01b526a1fe71efd174a9fb360a0f143c5691d63c",
   "script": "scripts/ops/agent_tasks/diagnose_backup_stage.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "74abc85ae057cf4868b57005e90bcd4f638c108f061303e6785aafd9d1455e96",
   "timeout_seconds": 600
 }
