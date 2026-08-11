@@ -1,0 +1,127 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-11T13:41:28Z",
+  "job_id": "diagnose-seo-articles-consolidation-v1-20260811-01",
+  "payload": {
+    "article_publishing": false,
+    "blocking_item": "NONE",
+    "db": {
+      "articles": [
+        {
+          "catid": 7,
+          "data_catid": 7,
+          "data_table": "dr_1_news_data_0",
+          "data_table_exists": true,
+          "id": 85,
+          "share_index": null,
+          "status": 9,
+          "tableid": 0,
+          "title": "2026年最新信誉平台排行榜与评测",
+          "updatetime": 1786336676
+        },
+        {
+          "catid": 7,
+          "data_catid": 7,
+          "data_table": "dr_1_news_data_0",
+          "data_table_exists": true,
+          "id": 86,
+          "share_index": null,
+          "status": 9,
+          "tableid": 0,
+          "title": "平台安全防护措施详解：从注册到使用",
+          "updatetime": 1786336676
+        },
+        {
+          "catid": 7,
+          "data_catid": 7,
+          "data_table": "dr_1_news_data_0",
+          "data_table_exists": true,
+          "id": 88,
+          "share_index": {
+            "id": 88,
+            "mid": "news"
+          },
+          "status": 9,
+          "tableid": 0,
+          "title": "分分彩投注技巧：先看命中率、奖金与资金风险",
+          "updatetime": 1786372908
+        },
+        {
+          "catid": 7,
+          "data_catid": 7,
+          "data_table": "dr_1_news_data_0",
+          "data_table_exists": true,
+          "id": 91,
+          "share_index": {
+            "id": 91,
+            "mid": "news"
+          },
+          "status": 9,
+          "tableid": 0,
+          "title": "分分彩投注技巧：先算命中率、单期成本还是返奖？",
+          "updatetime": 1786404170
+        }
+      ],
+      "categories": {
+        "3": {
+          "dirname": "tzjq",
+          "disabled": "0",
+          "id": "3",
+          "mid": "news",
+          "name": "投注机巧",
+          "show_flag": "1"
+        },
+        "7": {
+          "dirname": "seo-articles",
+          "disabled": "0",
+          "id": "7",
+          "mid": "news",
+          "name": "SEO文章",
+          "show_flag": "1"
+        }
+      },
+      "catid7_total": 4
+    },
+    "diagnostic_status": "COMPLETE",
+    "http": {
+      "articles": {
+        "85": {
+          "canonical": "",
+          "http_status": 404,
+          "location": ""
+        },
+        "86": {
+          "canonical": "",
+          "http_status": 404,
+          "location": ""
+        },
+        "88": {
+          "canonical": "https://www.laocaimi.org/index.php?c=show&id=88",
+          "http_status": 200,
+          "location": ""
+        },
+        "91": {
+          "canonical": "https://www.laocaimi.org/index.php?c=show&id=91",
+          "http_status": 200,
+          "location": ""
+        }
+      }
+    },
+    "phase": "final",
+    "production_writes": false,
+    "secrets_disclosed": false,
+    "task": "diagnose_seo_articles_consolidation_v1",
+    "v1_precondition_mismatches": [
+      "article85_share_index_missing",
+      "article86_share_index_missing"
+    ]
+  },
+  "raw_log_published": false,
+  "required_commit": "a55ffa1840fdf1302f0fc141fda0fc3b940cc7a6",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/diagnose_seo_articles_consolidation_v1.sh",
+  "script_sha256": "b6e16d3ceef35d8e82d37d3c034b4607543896ed6186192d340257872a1ec92f",
+  "started_at": "2026-08-11T13:41:27Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
