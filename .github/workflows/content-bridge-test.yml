@@ -1,0 +1,31 @@
+name: content-bridge-test
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/content/**'
+      - 'docs/CONTENT_PACKAGE_BRIDGE.md'
+      - '.github/workflows/content-bridge-test.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/content/**'
+      - 'docs/CONTENT_PACKAGE_BRIDGE.md'
+      - '.github/workflows/content-bridge-test.yml'
+
+jobs:
+  content-bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+      - name: PHP syntax check
+        run: |
+          find scripts/content -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Offline bridge self-test
+        run: php scripts/content/self_test.php
