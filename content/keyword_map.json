@@ -1,13 +1,15 @@
 {
-  "version": "1.0.0",
-  "generated_at": "2026-08-10",
+  "version": "1.1.0",
+  "generated_at": "2026-08-11",
   "canonical_domain": "https://www.laocaimi.org",
   "rules": {
     "one_primary_keyword_one_primary_page": true,
     "no_keyword_stuffing": true,
     "no_thin_variation_pages": true,
     "no_unverifiable_profit_claims": true,
-    "preserve_existing_article_urls": true
+    "preserve_existing_article_urls": true,
+    "consolidate_same_intent_synonyms": true,
+    "require_serp_or_corpus_evidence_before_split": true
   },
   "existing_targets": {
     "home": "/",
@@ -24,10 +26,10 @@
       "primary_keyword": "分分彩",
       "keywords": [
         {"keyword": "分分彩", "intent": "informational", "priority": "S", "target": "ffc_hub"},
-        {"keyword": "分分彩技巧", "intent": "informational", "priority": "S", "target": "ffc_skills"},
-        {"keyword": "分分彩技术", "intent": "informational", "priority": "S", "target": "ffc_technology"},
-        {"keyword": "分分彩投注技巧", "intent": "informational", "priority": "S", "target": "ffc_betting_skills"},
-        {"keyword": "分分彩投注方法", "intent": "informational", "priority": "S", "target": "ffc_betting_methods"},
+        {"keyword": "分分彩技巧", "intent": "informational", "priority": "S", "target": "ffc_skills_technology"},
+        {"keyword": "分分彩技术", "intent": "informational", "priority": "S", "target": "ffc_skills_technology"},
+        {"keyword": "分分彩投注技巧", "intent": "informational", "priority": "S", "target": "ffc_betting_guide"},
+        {"keyword": "分分彩投注方法", "intent": "informational", "priority": "S", "target": "ffc_betting_guide"},
         {"keyword": "分分彩挂机", "intent": "informational_commercial", "priority": "S", "target": "ffc_automation"},
         {"keyword": "分分彩挂机方案", "intent": "commercial", "priority": "S", "target": "/index.php?c=category&dir=gjfa"},
         {"keyword": "分分彩倍投", "intent": "informational", "priority": "S", "target": "ffc_progression"},
@@ -48,8 +50,8 @@
       "primary_keyword": "哈希分分彩",
       "keywords": [
         {"keyword": "哈希分分彩", "intent": "informational", "priority": "S", "target": "hash_ffc_hub"},
-        {"keyword": "哈希分分彩技巧", "intent": "informational", "priority": "S", "target": "hash_ffc_skills"},
-        {"keyword": "哈希分分彩技术", "intent": "informational", "priority": "S", "target": "hash_ffc_technology"},
+        {"keyword": "哈希分分彩技巧", "intent": "informational", "priority": "S", "target": "hash_ffc_skills_technology"},
+        {"keyword": "哈希分分彩技术", "intent": "informational", "priority": "S", "target": "hash_ffc_skills_technology"},
         {"keyword": "哈希分分彩玩法", "intent": "informational", "priority": "A", "target": "hash_ffc_play"},
         {"keyword": "哈希分分彩挂机", "intent": "commercial", "priority": "A", "target": "hash_ffc_automation"},
         {"keyword": "哈希分分彩倍投", "intent": "informational", "priority": "A", "target": "hash_ffc_progression"},
@@ -64,8 +66,8 @@
       "primary_keyword": "奇趣分分彩",
       "keywords": [
         {"keyword": "奇趣分分彩", "intent": "informational", "priority": "S", "target": "qiqu_ffc_hub"},
-        {"keyword": "奇趣分分彩技巧", "intent": "informational", "priority": "S", "target": "qiqu_ffc_skills"},
-        {"keyword": "奇趣分分彩技术", "intent": "informational", "priority": "A", "target": "qiqu_ffc_technology"},
+        {"keyword": "奇趣分分彩技巧", "intent": "informational", "priority": "S", "target": "qiqu_ffc_skills_technology"},
+        {"keyword": "奇趣分分彩技术", "intent": "informational", "priority": "A", "target": "qiqu_ffc_skills_technology"},
         {"keyword": "奇趣分分彩玩法", "intent": "informational", "priority": "A", "target": "qiqu_ffc_play"},
         {"keyword": "奇趣分分彩挂机", "intent": "commercial", "priority": "A", "target": "qiqu_ffc_automation"}
       ]
@@ -78,8 +80,8 @@
       "primary_keyword": "时时彩",
       "keywords": [
         {"keyword": "时时彩", "intent": "informational", "priority": "A", "target": "ssc_hub"},
-        {"keyword": "时时彩技巧", "intent": "informational", "priority": "A", "target": "ssc_skills"},
-        {"keyword": "时时彩技术", "intent": "informational", "priority": "A", "target": "ssc_technology"},
+        {"keyword": "时时彩技巧", "intent": "informational", "priority": "A", "target": "ssc_skills_technology"},
+        {"keyword": "时时彩技术", "intent": "informational", "priority": "A", "target": "ssc_skills_technology"},
         {"keyword": "时时彩计划", "intent": "informational", "priority": "A", "target": "ssc_strategy"},
         {"keyword": "时时彩挂机方案", "intent": "commercial", "priority": "A", "target": "ssc_automation"}
       ]
@@ -109,8 +111,8 @@
       "primary_keyword": "信誉平台大全",
       "keywords": [
         {"keyword": "信誉平台大全", "intent": "commercial", "priority": "S", "target": "/"},
-        {"keyword": "彩票平台评测", "intent": "commercial", "priority": "S", "target": "platform_review_hub"},
-        {"keyword": "彩票下载平台对比", "intent": "commercial", "priority": "A", "target": "platform_comparison"},
+        {"keyword": "彩票下载平台评测", "intent": "commercial", "priority": "S", "target": "platform_review_hub"},
+        {"keyword": "彩票下载平台对比", "intent": "commercial", "priority": "A", "target": "platform_review_hub"},
         {"keyword": "分分彩计划平台", "intent": "commercial", "priority": "A", "target": "ffc_platforms"},
         {"keyword": "哈希分分彩计划平台", "intent": "commercial", "priority": "A", "target": "hash_ffc_platforms"}
       ]
