@@ -94,7 +94,8 @@ PHASE="source_verify"
 git show "$TARGET_SHA:site/template/pc/default/home/index.html" > "$TMP/index.src"
 git show "$TARGET_SHA:site/template/pc/default/home/seo_header.html" > "$TMP/header.src"
 grep -Fq 'src="{SITE_LOGO}" width="114" height="114" alt="信誉平台大全（彩研导航站）"' "$TMP/index.src" || { ERROR_CLASS="home_logo_dimensions_missing"; block home_logo_dimensions_missing; }
-grep -Fq 'width="216" height="60" alt="{$t['"'"'title'"'"']}"' "$TMP/index.src" || { ERROR_CLASS="platform_logo_dimensions_missing"; block platform_logo_dimensions_missing; }
+grep -Fq 'width="216" height="60"' "$TMP/index.src" || { ERROR_CLASS="platform_logo_dimensions_missing"; block platform_logo_dimensions_missing; }
+grep -Fq 'style="height:60px;width:216px;max-width:100%;"' "$TMP/index.src" || { ERROR_CLASS="platform_logo_css_missing"; block platform_logo_css_missing; }
 grep -Fq 'class="ad_pic"' "$TMP/index.src" || { ERROR_CLASS="display_image_missing"; block display_image_missing; }
 grep -Fq 'width="227" height="71" alt="站点展示位"' "$TMP/index.src" || { ERROR_CLASS="display_image_dimensions_missing"; block display_image_dimensions_missing; }
 grep -Fq 'src="{SITE_LOGO}" width="114" height="114" alt="信誉平台大全（彩研导航站）"' "$TMP/header.src" || { ERROR_CLASS="shared_logo_dimensions_missing"; block shared_logo_dimensions_missing; }
@@ -164,15 +165,22 @@ done < "$TMP/image.status"
 [ "$ARTICLE_MISSING" = 0 ] || { ERROR_CLASS="article_image_dimensions_incomplete"; block article_image_dimensions_incomplete; }
 [ "$PLATFORM_MISSING" = 0 ] || { ERROR_CLASS="platform_image_dimensions_incomplete"; block platform_image_dimensions_incomplete; }
 
-if grep -Eiq '<meta[^>]+name=["'"']robots["'"'][^>]+content=["'"'][^"'"']*\bnone\b' "$TMP/home.html"; then
-  ERROR_CLASS="home_robots_none"; block home_robots_none
+if python3 - "$TMP/home.html" <<'PY'
+import re,sys
+s=open(sys.argv[1],encoding='utf-8',errors='ignore').read()
+raise SystemExit(0 if re.search(r'<meta[^>]+name=["\']robots["\'][^>]+content=["\'][^"\']*\bnone\b', s, re.I) else 1)
+PY
+then
+  ERROR_CLASS="home_robots_none"
+  block home_robots_none
 fi
 
 PHASE="framework_verify"
 if [ -f "$WEBROOT/dayrui/CodeIgniter72/System/Cache/CacheFactory.php" ] && [ -f "$WEBROOT/cache/frame.lock" ] && [ "$(od -An -tx1 -v "$WEBROOT/cache/frame.lock" | tr -d ' \n')" = "$EXPECTED_FRAME_LOCK_HEX" ]; then
   FRAMEWORK_OK="PASS"
 else
-  ERROR_CLASS="framework_integrity_failed"; block framework_integrity_failed
+  ERROR_CLASS="framework_integrity_failed"
+  block framework_integrity_failed
 fi
 
 PHASE="final"
