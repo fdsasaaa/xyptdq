@@ -1,93 +1,138 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-11T18:04:00+08:00",
+  "updated_at": "2026-08-11T19:51:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "seo_content_architecture_post_routing_reaudit",
+  "current_phase": "keyword_ownership_and_content_carrier_architecture",
   "article_publishing": {
-    "enabled": false,
+    "mode": "frozen_content_preparation",
+    "publishing_enabled": false,
     "cron_present": false,
     "scheduled_json_count": 11,
+    "auto_publish_allowed": false,
     "resume_requires_explicit_user_approval": true,
+    "policy_file": "config/content_publication_policy.json",
     "evidence_job": "pause-native-publisher-cron-20260811-02",
     "evidence_status": "PASS"
   },
   "technical_seo_baseline": {
-    "closed": true,
+    "status": "closed_unless_regression",
     "known_technical_issues": 0,
     "seo_growth_opportunities": 0,
     "homepage_lazy_images": 33,
     "homepage_image_count": 34,
-    "missing_intrinsic_dimensions": 0
+    "missing_intrinsic_dimensions": 0,
+    "blind_legacy_js_defer_async": "not_recommended_without_compatibility_proof"
   },
   "keyword_map": {
     "path": "content/keyword_map.json",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "keyword_count": 51,
     "same_intent_synonym_consolidation": true,
+    "serp_or_corpus_evidence_required_before_split": true,
     "keyword_owner_conflict_count_last_audit": 0,
-    "path_target_missing_count_last_audit": 0
-  },
-  "phase5_v2_checkpoint": {
-    "job_id": "seo-content-architecture-audit-20260811-03",
-    "status": "PASS",
-    "opportunity_count": 9,
-    "opportunity_classes": [
-      "active_empty_news_category",
-      "canonical_mismatch",
-      "duplicate_h1",
-      "duplicate_meta_descriptions",
-      "duplicate_titles",
-      "homepage_primary_keyword_h1_gap",
-      "orphan_pages",
-      "planned_primary_target_mapping_incomplete",
-      "sitemap_page_http_error"
-    ],
-    "sitemap_url_count": 75,
-    "published_news_count": 38,
-    "published_platform_count": 30,
-    "homepage_platform_link_coverage": "30/30"
-  },
-  "deployed_fixes_after_phase5_v2": {
-    "homepage_platform_internal_links": {
-      "status": "PASS",
-      "job_id": "deploy-home-platform-detail-links-v1-20260811-01",
-      "unique_detail_links": 30
-    },
-    "dynamic_meta_descriptions": {
-      "status": "PASS",
-      "job_id": "deploy-dynamic-meta-description-v1-20260811-01"
-    },
-    "homepage_primary_h1": {
-      "status": "PASS",
-      "job_id": "deploy-homepage-primary-h1-v1-20260811-01"
-    },
-    "request_aware_canonical": {
-      "status": "PASS",
-      "job_id": "deploy-request-aware-canonical-v1-20260811-01"
-    },
-    "sitemap_routing_cleanup": {
-      "status": "PASS",
-      "job_id": "deploy-sitemap-routing-cleanup-v1-20260811-02",
-      "sitemap_url_count": 71,
-      "all_candidate_urls_http_200": true,
-      "excluded": ["gdrz_category", "rjxm_category", "show85", "show86"]
+    "path_target_missing_count_last_audit": 0,
+    "recent_existing_carrier_bindings": {
+      "ffc_betting_guide": "/index.php?c=category&dir=tzjq",
+      "ffc_automation": "/index.php?c=category&dir=gjfa",
+      "hash_ffc_automation": "/index.php?c=category&dir=gjfa",
+      "qiqu_ffc_automation": "/index.php?c=category&dir=gjfa",
+      "ssc_automation": "/index.php?c=category&dir=gjfa"
     }
   },
-  "current_open_pr": {
-    "number": 177,
-    "title": "Ops: queue post-routing Phase 5 production re-audit",
-    "pending_job": "seo-content-architecture-audit-20260811-04",
-    "status": "OPEN_MERGEABLE",
-    "next_action": "recheck_merge_then_read_result"
+  "target_registry": {
+    "path": "content/seo_target_registry.json",
+    "version": "1.0.1",
+    "registry_creates_pages": false,
+    "empty_hubs_forbidden": true,
+    "planned_hub_count": 7,
+    "planned_hubs": [
+      "ffc_research_hub",
+      "hash_ffc_hub",
+      "qiqu_ffc_hub",
+      "ssc_hub",
+      "racing_hub",
+      "platform_review_hub",
+      "research_lab_hub"
+    ]
+  },
+  "phase5_current": {
+    "job_id": "seo-content-architecture-audit-20260811-05",
+    "result_branch": "agent/results/seo-content-architecture-audit-20260811-05",
+    "status": "PASS",
+    "audit_status": "COMPLETE",
+    "sitemap_http": 200,
+    "sitemap_url_count": 71,
+    "crawled_pages": 71,
+    "published_news_count": 38,
+    "published_platform_count": 30,
+    "homepage_platform_link_coverage": "30/30",
+    "canonical_mismatch_count": 0,
+    "duplicate_title_group_count": 0,
+    "duplicate_h1_group_count": 0,
+    "duplicate_description_group_count": 0,
+    "orphan_page_count": 0,
+    "active_empty_news_category_count": 0,
+    "http_error_count": 0,
+    "opportunity_count": 1,
+    "opportunity_classes": [
+      "planned_primary_target_mapping_incomplete"
+    ]
+  },
+  "recent_production_evidence": {
+    "canonical_category_navigation": {
+      "deploy_job": "deploy-canonical-category-nav-v1-20260811-01",
+      "deploy_job_status": "FAIL_EMPTY_PAYLOAD",
+      "independent_verification_job": "seo-orphan-link-diagnostic-20260811-02",
+      "production_state": "verified_live",
+      "final_phase5_orphan_count": 0
+    },
+    "duplicate_descriptions": {
+      "job": "deploy-news-duplicate-description-hash-fallback-v3-20260811-01",
+      "status": "PASS",
+      "deploy": "PASS",
+      "rollback": "NO",
+      "pc_unique": "20/20",
+      "mobile_unique": "20/20"
+    },
+    "duplicate_h1": {
+      "job": "deploy-show-74-75-h1-v1-20260811-01",
+      "status": "PASS",
+      "deploy": "PASS",
+      "rollback": "NO",
+      "show74_h1": "长征（送首冲）｜软件项目",
+      "show75_h1": "长征（送首冲）｜福利资源"
+    },
+    "empty_gdrz": {
+      "job": "retire-empty-gdrz-category-v1-20260811-01",
+      "status": "PASS",
+      "retired": true
+    },
+    "tzjq_db_rename_attempt": {
+      "job": "rename-tzjq-category-v1-20260811-01",
+      "status": "BLOCKED",
+      "rollback": "YES",
+      "production_label_changed": false,
+      "next_method": "presentation_or_cache_aware_live_render_verified"
+    }
+  },
+  "category_decisions": {
+    "gjfa": "retain_automation_and_hanging_scheme_carrier",
+    "tzjq": "retain_betting_guide_carrier_public_label_target_投注技巧",
+    "zyyy": "retain_resource_carrier",
+    "gdrz": "retired_empty_category",
+    "rjxm": "keep_consolidated_excluded_duplicate_route",
+    "seo-articles": "transition_only_mixed_intent_requires_reclassification_or_reframe"
   },
   "next_actions": [
-    "recheck_and_merge_pr_177_if_still_clean",
-    "read_agent_result_seo-content-architecture-audit-20260811-04",
-    "record_new_residual_opportunity_classes",
-    "choose_next_existing_site_architecture_fix_from_new_audit",
-    "keep_article_publishing_frozen"
+    "Correct the public tzjq label using a presentation/cache-aware method with live-render verification; do not repeat the DB-only rename.",
+    "Reclassify or reframe the mixed seo-articles transition category without creating an empty replacement category.",
+    "Implement the first substantive Hub only when existing/supporting content makes the page genuinely useful; preferred first candidates are ffc_research_hub, research_lab_hub, and platform_review_hub.",
+    "After each real Hub is HTTP 200, self-canonical and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified live URL.",
+    "Keep automatic article publishing frozen until explicit user approval."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
-  "changelog": "docs/seo/SEO_CHANGELOG.md"
+  "changelog": "docs/seo/SEO_CHANGELOG.md",
+  "target_registry_document": "content/seo_target_registry.json",
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map and target registry; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases."
 }
