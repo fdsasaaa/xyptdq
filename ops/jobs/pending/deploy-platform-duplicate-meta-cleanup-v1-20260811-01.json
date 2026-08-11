@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-platform-duplicate-meta-cleanup-v1-20260811-01",
+  "required_commit": "ddf8e7e6c278ba5d63840f5afe2b70faaedb0877",
+  "script": "scripts/ops/agent_tasks/deploy_platform_duplicate_meta_cleanup_v1.sh",
+  "script_sha256": "7205f9e46fd3f055274d7cf293e6b511b5ff32ac13352d54b688ffe870c5415d",
+  "timeout_seconds": 1200
+}
