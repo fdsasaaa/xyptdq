@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "consolidate-seo-articles-into-tzjq-v2-20260811-01",
+  "required_commit": "8e72bdb4101a4109b2ebc0ed5190fa76e0a22b63",
+  "script": "scripts/ops/agent_tasks/consolidate_seo_articles_into_tzjq_v2.sh",
+  "script_sha256": "a4faea74feca68e1fca1f2e7157b5f6d11fa11b61b83ae9f89b310d376be3e18",
+  "timeout_seconds": 1200
+}
