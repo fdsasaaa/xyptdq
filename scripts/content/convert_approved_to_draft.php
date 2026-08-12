@@ -22,6 +22,71 @@ function loadCategoryMap(string $path): array
     return $data;
 }
 
+function loadClusterRegistry(string $path): array
+{
+    if (!is_file($path)) {
+        throw new RuntimeException('SEO cluster registry not found: ' . $path);
+    }
+    $data = json_decode((string) file_get_contents($path), true);
+    if (!is_array($data) || !isset($data['clusters']) || !is_array($data['clusters'])) {
+        throw new RuntimeException('invalid SEO cluster registry');
+    }
+    $carrierKey = trim((string) ($data['article_carrier']['site_category_key'] ?? ''));
+    if ($carrierKey === '') {
+        throw new RuntimeException('SEO cluster registry article carrier is missing');
+    }
+    $ids = [];
+    foreach ($data['clusters'] as $row) {
+        $clusterId = trim((string) ($row['cluster_id'] ?? ''));
+        if ($clusterId === '' || isset($ids[$clusterId])) {
+            throw new RuntimeException('SEO cluster registry contains an invalid or duplicate cluster_id');
+        }
+        $ids[$clusterId] = true;
+    }
+    if (!$ids) {
+        throw new RuntimeException('SEO cluster registry contains no clusters');
+    }
+    return ['carrier_key' => $carrierKey, 'ids' => $ids];
+}
+
+function normalizeClusterMetadata(array $package, array $registry, string $siteCategoryKey): array
+{
+    $hasPrimary = array_key_exists('primary_seo_cluster_id', $package);
+    $hasSecondary = array_key_exists('secondary_seo_cluster_ids', $package);
+    if (!$hasPrimary && !$hasSecondary) {
+        return [null, []];
+    }
+    $primary = trim((string) ($package['primary_seo_cluster_id'] ?? ''));
+    $secondary = $package['secondary_seo_cluster_ids'] ?? [];
+    if ($primary === '') {
+        throw new RuntimeException('SEO cluster metadata requires a non-empty primary_seo_cluster_id');
+    }
+    if (!is_array($secondary)) {
+        throw new RuntimeException('secondary_seo_cluster_ids must be an array');
+    }
+    if ($siteCategoryKey !== $registry['carrier_key']) {
+        throw new RuntimeException('SEO cluster metadata is only valid for site_category_key=' . $registry['carrier_key']);
+    }
+    if (!isset($registry['ids'][$primary])) {
+        throw new RuntimeException('unknown primary_seo_cluster_id: ' . $primary);
+    }
+    $normalizedSecondary = [];
+    foreach ($secondary as $clusterId) {
+        $clusterId = trim((string) $clusterId);
+        if ($clusterId === '' || !isset($registry['ids'][$clusterId])) {
+            throw new RuntimeException('unknown or empty secondary_seo_cluster_id: ' . $clusterId);
+        }
+        if ($clusterId === $primary) {
+            throw new RuntimeException('primary SEO cluster must not repeat in secondary clusters');
+        }
+        if (in_array($clusterId, $normalizedSecondary, true)) {
+            throw new RuntimeException('duplicate secondary SEO cluster id: ' . $clusterId);
+        }
+        $normalizedSecondary[] = $clusterId;
+    }
+    return [$primary, $normalizedSecondary];
+}
+
 function stableArticleKey(string $articleId): string
 {
     $base = strtolower($articleId);
@@ -84,7 +149,7 @@ function assertMetadataRefreshSafe(array $existing, array $draft): void
     }
 }
 
-$options = getopt('', ['input:', 'output::', 'category-map::', 'refresh-metadata']);
+$options = getopt('', ['input:', 'output::', 'category-map::', 'cluster-registry::', 'refresh-metadata']);
 $input = $options['input'] ?? ($argv[1] ?? '');
 $refreshMetadata = array_key_exists('refresh-metadata', $options);
 if ($input === '') {
@@ -92,6 +157,7 @@ if ($input === '') {
 }
 $repoRoot = dirname(__DIR__, 2);
 $categoryMapPath = $options['category-map'] ?? ($repoRoot . '/config/content_category_map.json');
+$clusterRegistryPath = $options['cluster-registry'] ?? ($repoRoot . '/content/seo_cluster_registry.json');
 
 try {
     $package = xyptdq_read_package_file($input);
@@ -114,6 +180,9 @@ try {
     if (!is_array($category) || (int) ($category['catid'] ?? 0) <= 0) {
         draftFail('unknown or invalid site_category_key: ' . $siteCategoryKey, 5);
     }
+
+    $clusterRegistry = loadClusterRegistry($clusterRegistryPath);
+    [$primaryCluster, $secondaryClusters] = normalizeClusterMetadata($package, $clusterRegistry, $siteCategoryKey);
 
     $content = (string) $package['content'];
     if (mb_strlen(strip_tags($content), 'UTF-8') < 180) {
@@ -148,6 +217,10 @@ try {
         'approved_at' => $package['approved_at'] ?? null,
         'converted_at' => gmdate('c'),
     ];
+    if ($primaryCluster !== null) {
+        $draft['primary_seo_cluster_id'] = $primaryCluster;
+        $draft['secondary_seo_cluster_ids'] = $secondaryClusters;
+    }
 
     $defaultTarget = $repoRoot . '/content/drafts/' . $articleKey . '.json';
     $target = $options['output'] ?? $defaultTarget;

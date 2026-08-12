@@ -45,6 +45,31 @@ function xyptdq_validate_approved_package(array $package): array
         $errors[] = 'internal_links must be an array';
     }
 
+    $primaryCluster = trim((string) ($package['primary_seo_cluster_id'] ?? ''));
+    if (array_key_exists('primary_seo_cluster_id', $package) && $primaryCluster === '') {
+        $errors[] = 'primary_seo_cluster_id must be a non-empty string when present';
+    }
+    $secondaryClusters = $package['secondary_seo_cluster_ids'] ?? [];
+    if (!is_array($secondaryClusters)) {
+        $errors[] = 'secondary_seo_cluster_ids must be an array';
+        $secondaryClusters = [];
+    }
+    foreach ($secondaryClusters as $clusterId) {
+        if (!is_string($clusterId) || trim($clusterId) === '') {
+            $errors[] = 'secondary_seo_cluster_ids must contain non-empty strings';
+            break;
+        }
+    }
+    if ($secondaryClusters && $primaryCluster === '') {
+        $errors[] = 'secondary_seo_cluster_ids require primary_seo_cluster_id';
+    }
+    if (count($secondaryClusters) !== count(array_unique($secondaryClusters))) {
+        $errors[] = 'secondary_seo_cluster_ids must not contain duplicates';
+    }
+    if ($primaryCluster !== '' && in_array($primaryCluster, $secondaryClusters, true)) {
+        $errors[] = 'primary_seo_cluster_id must not repeat in secondary_seo_cluster_ids';
+    }
+
     $articleId = (string) ($package['article_id'] ?? '');
     if ($articleId !== '' && preg_match('/^[A-Za-z0-9._:-]+$/', $articleId) !== 1) {
         $errors[] = 'article_id contains unsupported characters';

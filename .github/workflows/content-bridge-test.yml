@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/content/**'
       - 'config/content_category_map.json'
+      - 'content/seo_cluster_registry.json'
       - 'content/drafts/**'
       - 'content/ingress/**'
       - 'docs/CONTENT_PACKAGE_BRIDGE.md'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'scripts/content/**'
       - 'config/content_category_map.json'
+      - 'content/seo_cluster_registry.json'
       - 'content/drafts/**'
       - 'content/ingress/**'
       - 'docs/CONTENT_PACKAGE_BRIDGE.md'
@@ -39,6 +41,8 @@ jobs:
         run: php scripts/content/smoke_batch1_test.php
       - name: Smoke batch 2 converter verification
         run: php scripts/content/smoke_batch2_test.php
+      - name: SEO cluster metadata bridge regression
+        run: php scripts/content/seo_cluster_metadata_test.php
       - name: Draft metadata refresh safety verification
         run: php scripts/content/metadata_refresh_test.php
       - name: Website SEO portfolio ownership audit
