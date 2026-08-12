@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-12T21:52:00+08:00",
+  "updated_at": "2026-08-12T22:18:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "keyword_ownership_content_carrier_internal_link_architecture",
+  "current_phase": "content_engine_accumulation_waiting_for_hub_readiness",
   "article_publishing": {
     "mode": "frozen_content_preparation",
     "publishing_enabled": false,
@@ -30,6 +30,24 @@
     "may_publish": false,
     "activation_requires_explicit_user_approval": true,
     "source_contract_expected_version": 2
+  },
+  "portable_cluster_metadata": {
+    "status": "implemented_and_ci_verified",
+    "article_repository_pr": 42,
+    "article_repository_merge_commit": "7ff5b09bb25ac477855150526994ee56df7576b4",
+    "website_repository_pr": 250,
+    "website_repository_merge_commit": "00c400f2b0fea062b8a3b5390c9d5a1edafcc447",
+    "primary_field": "primary_seo_cluster_id",
+    "secondary_field": "secondary_seo_cluster_ids",
+    "legacy_packages_without_cluster_metadata_allowed": true,
+    "source_assignment_mode": "immutable_or_editorial_contract_only",
+    "title_only_or_model_guessing_allowed": false,
+    "website_validates_against": "content/seo_cluster_registry.json",
+    "website_restricts_cluster_metadata_to_category_key": "tzjq",
+    "invalid_assignment": "fail_closed_no_draft",
+    "cluster_metadata_authorizes_sync": false,
+    "cluster_metadata_authorizes_publication": false,
+    "hub_urls_injected": false
   },
   "technical_seo_baseline": {
     "status": "closed_unless_regression",
@@ -185,16 +203,16 @@
     "seo-articles": "retired_redirect_301_to_tzjq_zero_remaining_articles"
   },
   "next_actions": [
-    "Keep cross-repo transport disabled while the content engine accumulates Approved Packages; do not confuse transport enablement with publication approval.",
-    "Use content/seo_cluster_registry.json for logical article grouping while all ordinary SEO articles remain in tzjq.",
-    "Do not inject planned Hub URLs; resolve Hub and article internal links only after real published URLs are verified.",
-    "When article corpus becomes substantive, assess readiness for ffc_research_hub first, then research_lab_hub and platform_review_hub.",
-    "After each real Hub is HTTP 200, self-canonical and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified live URL.",
-    "Keep automatic article publishing frozen until explicit user approval."
+    "Do not build more transport or publication machinery merely in anticipation; let the content engine accumulate a substantive Approved corpus first.",
+    "Keep cross-repo sync_enabled=false and publishing_enabled=false until separate explicit approvals are given later.",
+    "Have new Approved Packages carry explicit SEO cluster metadata when the editorial/planning stage has enough evidence; legacy packages may remain unassigned.",
+    "When corpus volume becomes substantive, inventory cluster coverage and assess readiness for ffc_research_hub first, then research_lab_hub and platform_review_hub.",
+    "Do not inject planned Hub URLs; only use Hub/article URLs after live HTTP 200/self-canonical or Publication Receipt verification.",
+    "After each real Hub is live and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified URL."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
   "cluster_registry_document": "content/seo_cluster_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases or enabling transport/publishing without explicit approval."
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results; continue only when corpus/readiness evidence justifies the next Hub or the user explicitly approves transport/publishing."
 }
