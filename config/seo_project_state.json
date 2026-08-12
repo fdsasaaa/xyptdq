@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-12T22:18:00+08:00",
+  "updated_at": "2026-08-13T05:50:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "content_engine_accumulation_waiting_for_hub_readiness",
+  "current_phase": "content_engine_accumulation_waiting_for_formal_hub_readiness_evidence",
   "article_publishing": {
     "mode": "frozen_content_preparation",
     "publishing_enabled": false,
@@ -48,6 +48,23 @@
     "cluster_metadata_authorizes_sync": false,
     "cluster_metadata_authorizes_publication": false,
     "hub_urls_injected": false
+  },
+  "hub_readiness_audit": {
+    "status": "implemented_in_article_engine",
+    "article_repository_pr": 49,
+    "article_repository_merge_commit": "ce2d7d0f6f8dd5c59184bbf58d44c5b7fa656c28",
+    "engine_module": "engine/hub_readiness.py",
+    "cli": "scripts/audit_hub_readiness.py",
+    "documentation": "docs/HUB_READINESS_AUDIT.md",
+    "formal_transport_inventory_source": "articles/approved/*.json",
+    "registry_lifecycle_source": "registry/articles.jsonl",
+    "registry_approved_must_not_be_counted_as_formal_transport_inventory": true,
+    "formal_approved_package_count_at_checkpoint": 0,
+    "formal_inventory_observation": "articles/approved contains only .gitkeep at checkpoint",
+    "registry_approved_articles_exist_separately": true,
+    "cluster_coverage_auto_authorizes_hub": false,
+    "automatic_hub_ready_decision_allowed": false,
+    "hub_still_requires_editorial_and_live_verification": true
   },
   "technical_seo_baseline": {
     "status": "closed_unless_regression",
@@ -203,10 +220,10 @@
     "seo-articles": "retired_redirect_301_to_tzjq_zero_remaining_articles"
   },
   "next_actions": [
-    "Do not build more transport or publication machinery merely in anticipation; let the content engine accumulate a substantive Approved corpus first.",
+    "Let the article engine create actual transportable Approved Package JSON files under articles/approved; Registry approved lifecycle records are not a substitute for this inventory.",
     "Keep cross-repo sync_enabled=false and publishing_enabled=false until separate explicit approvals are given later.",
-    "Have new Approved Packages carry explicit SEO cluster metadata when the editorial/planning stage has enough evidence; legacy packages may remain unassigned.",
-    "When corpus volume becomes substantive, inventory cluster coverage and assess readiness for ffc_research_hub first, then research_lab_hub and platform_review_hub.",
+    "Run the article-engine Hub readiness audit when formal Approved Package files accumulate; use it only as coverage evidence, never as automatic Hub authorization.",
+    "When formal corpus volume becomes substantive, assess ffc_research_hub first, then research_lab_hub and platform_review_hub using editorial intent and live-link criteria in addition to article count.",
     "Do not inject planned Hub URLs; only use Hub/article URLs after live HTTP 200/self-canonical or Publication Receipt verification.",
     "After each real Hub is live and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified URL."
   ],
@@ -214,5 +231,5 @@
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
   "cluster_registry_document": "content/seo_cluster_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results; continue only when corpus/readiness evidence justifies the next Hub or the user explicitly approves transport/publishing."
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results. Distinguish Registry lifecycle approval from formal articles/approved transport inventory. Continue only when real formal corpus/readiness evidence justifies a Hub or the user explicitly approves transport/publishing."
 }

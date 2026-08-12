@@ -175,3 +175,15 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 ### Continuity protocol
 - `docs/seo/SEO_PROJECT_HANDOFF.md`, this changelog and `config/seo_project_state.json` are the required continuity files.
 - Future meaningful SEO milestones must update all three before the stage is considered closed.
+
+## 2026-08-13
+
+### Formal Hub readiness inventory audit added
+- Article engine PR #49 merged with CI PASS, commit `ce2d7d0f6f8dd5c59184bbf58d44c5b7fa656c28`.
+- Added read-only `engine/hub_readiness.py`, CLI `scripts/audit_hub_readiness.py`, tests, and `docs/HUB_READINESS_AUDIT.md`.
+- The audit fixes an important state distinction: effective Registry records with `status=approved` are lifecycle memory and may include smoke/validation articles; they are **not** automatically formal cross-repository Approved Package inventory.
+- Only real `articles/approved/*.json` files count as the future transport inventory used for Hub corpus coverage.
+- At this checkpoint `articles/approved/` contains only `.gitkeep`, so formal transportable Approved Package count is **0** even though approved lifecycle records exist separately in the Registry.
+- The audit reports explicit primary/secondary cluster coverage and validation errors but never infers clusters from titles and never auto-authorizes Hub creation.
+- Article count/coverage alone cannot make a Hub ready; editorial intent, useful Hub copy/navigation, real internal links, HTTP 200 and self-canonical live verification are still required.
+- Cross-repo sync and publication remain disabled; no production CMS/database write occurred.
