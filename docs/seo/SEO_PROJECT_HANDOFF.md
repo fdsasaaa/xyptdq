@@ -26,7 +26,8 @@
 10. Never inject planned Hub URLs; real URLs require live verification or Publication Receipt evidence.
 11. Internal-link body changes alter content hash and require revision + re-Approval.
 12. **Registry status `approved` is not equivalent to a transportable Approved Package file in `articles/approved/`.**
-13. Do not restart closed technical SEO work without regression evidence.
+13. Formal inventory staging is explicit; Approval alone must not silently stage an article.
+14. Do not restart closed technical SEO work without regression evidence.
 
 ## 3. Publishing freeze — ACTIVE
 
@@ -202,38 +203,19 @@ Portable optional fields:
 - `primary_seo_cluster_id`
 - `secondary_seo_cluster_ids`
 
-### Article engine
+Article-engine PR `fdsasaaa/caipiaowenzhang#42` merged, commit `7ff5b09bb25ac477855150526994ee56df7576b4`.
 
-PR `fdsasaaa/caipiaowenzhang#42` merged, commit `7ff5b09bb25ac477855150526994ee56df7576b4`.
+Website PR `fdsasaaa/xyptdq#250` merged, commit `00c400f2b0fea062b8a3b5390c9d5a1edafcc447`.
 
-The article engine:
+Result:
 
-- validates cluster IDs against the website-aligned seven-cluster contract
-- accepts cluster assignment only from immutable/editorial contract state
-- carries valid cluster metadata into Approved Package and Registry
-- rejects unknown/duplicate/invalid assignments fail-closed
-- records rejection cleanly instead of crashing approval
-- keeps existing Approved Packages without cluster metadata valid
-- no longer uses stale semantic `SEO文章` label for `seo_topic`
+- valid explicit cluster metadata can travel from article-engine immutable/editorial contract into Approved Package and website Draft
+- unknown/duplicate/invalid assignments fail closed
+- legacy packages without cluster metadata remain compatible
+- website never guesses cluster from title/keyword text
+- cluster metadata does not enable transport, scheduling, publication or Hub creation
 
-CI: PASS.
-
-### Website bridge
-
-PR `fdsasaaa/xyptdq#250` merged, commit `00c400f2b0fea062b8a3b5390c9d5a1edafcc447`.
-
-The website:
-
-- accepts legacy packages without cluster metadata unchanged
-- validates optional cluster IDs against `content/seo_cluster_registry.json`
-- only allows cluster metadata on the configured `tzjq` article carrier
-- preserves valid primary/secondary cluster IDs into Draft JSON
-- rejects unknown/duplicate/invalid IDs without creating a Draft
-- never guesses a cluster from title/keyword text
-
-CI gates all PASS: `repository-ci`, `embedded-python-ci`, `content-bridge-test`.
-
-This metadata does **not** enable transport, scheduling, publication or Hub creation.
+CI gates PASS on both repositories.
 
 ## 11. Formal Hub readiness audit — READY
 
@@ -245,32 +227,50 @@ Files:
 - `scripts/audit_hub_readiness.py`
 - `docs/HUB_READINESS_AUDIT.md`
 
-The audit deliberately distinguishes two inventories:
+The audit deliberately distinguishes:
 
-### Registry lifecycle state
+- Registry lifecycle state: `registry/articles.jsonl`
+- Formal transport inventory: `articles/approved/*.json`
 
-`registry/articles.jsonl` is append-only lifecycle memory. It can contain effective records whose status is `approved` and may include smoke/validation articles.
+At audit introduction, `articles/approved/` contained only `.gitkeep`, so formal transportable Approved Package count was **0** even though Registry-approved lifecycle records existed separately.
 
-### Formal transport inventory
+The audit reports explicit cluster coverage but does not infer clusters from titles and never automatically declares a Hub ready.
 
-Only actual JSON files under:
+## 12. Formal Approved Package inventory staging — READY / EXPLICIT
 
-`articles/approved/*.json`
+Article-engine PR `fdsasaaa/caipiaowenzhang#50` merged, commit `5f6dee70962cd1cc502afb0d4aa5bfdb83f095f2`.
 
-are counted as the future cross-repository Approved Package inventory.
+Files/capabilities:
 
-**These two counts must never be substituted for each other.**
+- `engine/formal_approved_inventory.py`
+- `scripts/stage_formal_approved_package.py`
+- `docs/FORMAL_APPROVED_INVENTORY.md`
+- single generator supports explicit `--stage-approved`
+- batch generator supports explicit `--stage-approved`
 
-Checkpoint at audit introduction:
+This closes the gap where successful Approval previously wrote only to a caller-chosen file or `runs/.../<article_id>/approved.json` and did not populate the canonical future transport source.
 
-- `articles/approved/` contained only `.gitkeep`
-- formal transportable Approved Package count = **0**
-- Registry still contains approved lifecycle records separately
-- therefore current Hub-supporting formal corpus must be treated as **0**, not “8 publishable articles”
+Formal staging validates:
 
-The audit reports per-cluster explicit coverage, unassigned formal packages and validation errors. It does **not** infer clusters from titles and does **not** automatically declare a Hub ready.
+- `status=approved`
+- stable `article_id`
+- non-empty content
+- `content_hash` exactly matching content bytes
+- fingerprint
+- content type → website category mapping
+- optional SEO cluster metadata
 
-## 12. Hub readiness rules
+Idempotency/overwrite rules:
+
+- exact same package -> `unchanged`
+- same article ID with different content hash -> reject; revision + re-Approval required
+- same article ID/content hash with different approved metadata -> reject; explicit inventory revision path required
+
+**Staging is opt-in and is not website sync.** Approval alone still does not automatically stage. Staging does not create Drafts on the website, does not schedule, and does not publish.
+
+Immediately after this capability merged, formal inventory remained 0 until real production-approved articles are intentionally staged.
+
+## 13. Hub readiness rules
 
 A Hub becomes eligible only when all relevant evidence exists:
 
@@ -293,13 +293,15 @@ Preferred readiness order once formal corpus is large enough:
 
 Only after live verification may corresponding symbolic Keyword Map targets be replaced by the real URL.
 
-## 13. Current next action — ACCUMULATE REAL APPROVED PACKAGES
+## 14. Current next action — ACCUMULATE REAL APPROVED PACKAGES
 
 The useful architecture work that can be done safely in advance is now complete.
 
-Next meaningful SEO work should begin when one of these conditions is true:
+For real production article batches that should join the future website corpus, use the article engine's validated `--stage-approved` path. Do **not** stage smoke/test approvals merely because Registry status says `approved`.
 
-- real Approved Package JSON files accumulate under `caipiaowenzhang/articles/approved/`, allowing the Hub readiness audit to measure cluster coverage; or
+Next meaningful SEO work begins when:
+
+- real Approved Package files accumulate under `caipiaowenzhang/articles/approved/`, allowing Hub readiness cluster coverage to become substantive; or
 - the user explicitly approves enabling cross-repo Approved→Draft transport; or
 - the user separately approves scheduling/publication.
 
@@ -307,16 +309,15 @@ Until then:
 
 - keep `sync_enabled=false`
 - keep `publishing_enabled=false`
-- let new Approved Packages carry explicit cluster metadata when editorial evidence supports assignment
-- leave uncertain articles unassigned rather than guessing
+- leave uncertain cluster assignments unassigned rather than guessing
 - do not count Registry-only smoke approvals as transport inventory
 - do not create empty Hub pages
 
-## 14. Future end-to-end lifecycle
+## 15. Future end-to-end lifecycle
 
-`source/generation -> dedupe -> rule/fact/evidence validation -> rewrite -> SEO optimization -> Approval -> formal Approved Package file under articles/approved -> optional explicit cluster metadata -> Hub readiness inventory -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
+`source/generation -> dedupe -> rule/fact/evidence validation -> rewrite -> SEO optimization -> Approval -> explicit formal inventory staging -> articles/approved -> Hub readiness inventory -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
 
-## 15. New-session takeover protocol
+## 16. New-session takeover protocol
 
 1. Read this handoff and the changelog/state files.
 2. Read keyword, target and cluster registries.
@@ -325,4 +326,5 @@ Until then:
 5. Confirm both transport and publication are still disabled unless explicitly changed.
 6. Treat `seo-articles` as retired and `tzjq` as the single ordinary SEO article carrier.
 7. Distinguish Registry `approved` lifecycle records from formal `articles/approved/*.json` inventory.
-8. Do not build Hubs or activate automation until formal corpus/readiness evidence or explicit user approval justifies the next step.
+8. Remember formal inventory staging is available but explicit; it does not imply transport or publication.
+9. Do not build Hubs or activate automation until formal corpus/readiness evidence or explicit user approval justifies the next step.
