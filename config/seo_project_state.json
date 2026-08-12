@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-12T21:42:00+08:00",
+  "updated_at": "2026-08-12T21:52:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "keyword_ownership_content_carrier_and_cross_repo_contract",
+  "current_phase": "keyword_ownership_content_carrier_internal_link_architecture",
   "article_publishing": {
     "mode": "frozen_content_preparation",
     "publishing_enabled": false,
@@ -63,9 +63,7 @@
     "seo_article_canonical_dir": "tzjq",
     "cms_display_label": "投注机巧",
     "seo_intent_label": "投注技巧",
-    "retired_category_keys": [
-      "seo-articles"
-    ],
+    "retired_category_keys": ["seo-articles"],
     "future_seo_articles_use_tzjq": true
   },
   "target_registry": {
@@ -83,6 +81,20 @@
       "platform_review_hub",
       "research_lab_hub"
     ]
+  },
+  "cluster_registry": {
+    "path": "content/seo_cluster_registry.json",
+    "version": "1.0.0",
+    "design_document": "docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md",
+    "cms_article_carrier": "tzjq",
+    "logical_cluster_count": 7,
+    "assignment_mode": "explicit_or_editorially_mapped",
+    "title_only_guessing_allowed": false,
+    "multiple_membership_allowed": true,
+    "one_primary_cluster_when_assigned": true,
+    "planned_hub_urls_may_be_injected": false,
+    "article_link_target_requires_real_published_url": true,
+    "body_link_change_requires_reapproval": true
   },
   "phase5_baseline": {
     "job_id": "seo-content-architecture-audit-20260811-05",
@@ -103,9 +115,7 @@
     "active_empty_news_category_count": 0,
     "http_error_count": 0,
     "opportunity_count": 1,
-    "opportunity_classes": [
-      "planned_primary_target_mapping_incomplete"
-    ]
+    "opportunity_classes": ["planned_primary_target_mapping_incomplete"]
   },
   "recent_production_evidence": {
     "canonical_category_navigation": {
@@ -176,14 +186,15 @@
   },
   "next_actions": [
     "Keep cross-repo transport disabled while the content engine accumulates Approved Packages; do not confuse transport enablement with publication approval.",
-    "Treat tzjq as the single CMS carrier for future SEO articles; do not recreate seo-articles or add synonym article categories.",
-    "Design the content-carrier and internal-link architecture around substantive topic Hubs while keeping underlying articles in tzjq.",
-    "Implement the first real Hub only when existing/supporting content makes the page genuinely useful; preferred first candidates are ffc_research_hub, research_lab_hub, and platform_review_hub.",
+    "Use content/seo_cluster_registry.json for logical article grouping while all ordinary SEO articles remain in tzjq.",
+    "Do not inject planned Hub URLs; resolve Hub and article internal links only after real published URLs are verified.",
+    "When article corpus becomes substantive, assess readiness for ffc_research_hub first, then research_lab_hub and platform_review_hub.",
     "After each real Hub is HTTP 200, self-canonical and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified live URL.",
     "Keep automatic article publishing frozen until explicit user approval."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases or enabling transport/publishing without explicit approval."
+  "cluster_registry_document": "content/seo_cluster_registry.json",
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases or enabling transport/publishing without explicit approval."
 }
