@@ -135,22 +135,33 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - Independent Bridge healthcheck `agent/results/bridge-healthcheck-20260812-11` returned PASS during closure.
 - The former `SEO文章` category is now closed production history, not a future content carrier.
 
-### Next SEO stage
-- Do not restart closed canonical/H1/Description/orphan/empty-category remediation without regression evidence.
-- Build the single-category `tzjq` article taxonomy/metadata rules and internal-link architecture.
-- Build substantive Hubs only when supporting content exists; preferred first candidates remain 分分时时彩研究中心, 数据实验室, 平台评测与对比.
-- Automatic article publishing remains frozen until explicit user approval.
-
 ### Cross-repo content contract prepared
 - Confirmed independent article engine `fdsasaaa/caipiaowenzhang` is already v2.2.0 and has Approved Package, SEO ownership, quality gates and Publication Receipt lifecycle support.
-- Found a real contract drift: its `publishing/LAOCAIMI_SITE_CONTRACT.json` still routed `seo_topic` to retired `seo-articles` even though the website now rejects that key.
-- Prepared article-engine contract v2 so ordinary `seo_topic` content routes to `tzjq`, `seo-articles` is explicitly retired, and future automatic source inventory is `articles/approved/`.
-- Added website machine gate `config/content_source_sync_policy.json` with `sync_enabled=false`.
-- Added `docs/CROSS_REPO_CONTENT_SYNC.md` defining the future transport boundary.
-- Cross-repo transport is deliberately separate from publication: even after future activation it may only move `approved` source packages into website `draft`; it cannot create `publish_at`, schedule, invoke Native Publisher, alter cron, or consume the scheduled queue.
+- Found and fixed contract drift: article-engine `seo_topic` now routes to `tzjq`; `seo-articles` is retired.
+- Future automatic source inventory is `articles/approved/`.
+- Added website machine gate `config/content_source_sync_policy.json` with `sync_enabled=false` and design doc `docs/CROSS_REPO_CONTENT_SYNC.md`.
+- Even after future activation, transport may only move `approved` packages into website `draft`; it cannot create `publish_at`, schedule, invoke Native Publisher, alter cron, or consume the scheduled queue.
 - Stable identity/dedup contract requires `article_id`, `source_fingerprint`, and `content_hash`; same id/different hash fails closed and requires revision + re-Approval.
-- Corrected continuity state to reflect actual `content/seo_target_registry.json` version **1.0.2**.
+- Corrected continuity state to actual `content/seo_target_registry.json` version **1.0.2**.
 - No production CMS/database write and no article publication is part of this milestone.
+
+### tzjq logical clusters and internal-link architecture prepared
+- Added `content/seo_cluster_registry.json` version **1.0.0** as a logical SEO layer above the single `tzjq` CMS category.
+- Defined seven logical clusters matching the planned Hub families: FFC research, Hash FFC, Qiqu FFC, SSC, racing/飞艇, platform review, and research lab.
+- Cluster assignment must be explicit or editorially mapped; title-only guessing is prohibited. Unassigned is safer than guessed assignment.
+- Multiple cluster membership is allowed when real, with one primary cluster when assigned; cluster membership never changes `site_category_key=tzjq` and never authorizes publication.
+- Added `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md`.
+- Planned Hub URLs may never be injected. Article→Hub requires a real HTTP-200/self-canonical Hub; Article→Article requires the target's real published URL; unresolved targets remain URL-null in planning.
+- No self-links or automatic all-to-all cluster linking; natural contextual anchors are preferred over repeated exact-match anchors.
+- Any body-link change changes the content hash and must go through revision + re-Approval.
+- Homepage remains the primary owner for `信誉平台大全`; a future platform-review Hub must target comparison/review intent instead of taking the homepage's primary owner term.
+- This milestone is source/configuration architecture only; it creates no Hub page and publishes no article.
+
+### Next SEO stage
+- Let the article engine accumulate a substantive Approved corpus while cross-repo sync and publishing remain disabled.
+- Then inventory logical cluster coverage and assess which planned Hub has enough real supporting material.
+- Preferred first readiness assessment: `ffc_research_hub`, then `research_lab_hub`, then `platform_review_hub`.
+- Create no empty Hub and do not map symbolic targets to nonexistent URLs.
 
 ### Continuity protocol
 - `docs/seo/SEO_PROJECT_HANDOFF.md`, this changelog and `config/seo_project_state.json` are the required continuity files.

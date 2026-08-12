@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "source_target_registry": {
+    "path": "content/seo_target_registry.json",
+    "version": "1.0.2"
+  },
+  "article_carrier": {
+    "site_category_key": "tzjq",
+    "catid": 3,
+    "cms_label": "投注机巧"
+  },
+  "purpose": "Logical SEO clustering for articles that remain in the single tzjq CMS category. Clusters organize keyword ownership, future Hubs and internal links without creating synonym CMS categories.",
+  "assignment_policy": {
+    "assignment_must_be_explicit_or_editorially_mapped": true,
+    "website_must_not_guess_cluster_from_title_only": true,
+    "unassigned_articles_are_allowed": true,
+    "multiple_cluster_membership_allowed": true,
+    "one_primary_cluster_when_assigned": true,
+    "cluster_membership_does_not_change_cms_category": true,
+    "cluster_membership_does_not_authorize_publication": true
+  },
+  "clusters": [
+    {
+      "cluster_id": "ffc_research",
+      "target_registry_carrier_id": "ffc_research_hub",
+      "label": "分分彩研究中心",
+      "hub_status": "planned_not_created",
+      "primary_scope": "分分彩玩法研究、技术方法、数据验证与风险分析",
+      "article_category_key": "tzjq"
+    },
+    {
+      "cluster_id": "hash_ffc",
+      "target_registry_carrier_id": "hash_ffc_hub",
+      "label": "哈希分分彩专题",
+      "hub_status": "planned_not_created",
+      "primary_scope": "哈希分分彩玩法、技巧、数据与风险研究",
+      "article_category_key": "tzjq"
+    },
+    {
+      "cluster_id": "qiqu_ffc",
+      "target_registry_carrier_id": "qiqu_ffc_hub",
+      "label": "奇趣分分彩专题",
+      "hub_status": "planned_not_created",
+      "primary_scope": "奇趣分分彩玩法、技巧与研究资料",
+      "article_category_key": "tzjq"
+    },
+    {
+      "cluster_id": "ssc",
+      "target_registry_carrier_id": "ssc_hub",
+      "label": "时时彩技术中心",
+      "hub_status": "planned_not_created",
+      "primary_scope": "时时彩技术、技巧与策略研究",
+      "article_category_key": "tzjq"
+    },
+    {
+      "cluster_id": "racing",
+      "target_registry_carrier_id": "racing_hub",
+      "label": "赛车与飞艇专题",
+      "hub_status": "planned_not_created",
+      "primary_scope": "幸运飞艇、幸运赛车、极速赛车与极速飞艇的玩法和技巧研究",
+      "article_category_key": "tzjq"
+    },
+    {
+      "cluster_id": "platform_review",
+      "target_registry_carrier_id": "platform_review_hub",
+      "label": "平台评测与对比",
+      "hub_status": "planned_not_created",
+      "primary_scope": "平台资料核验、评测与对比",
+      "article_category_key": "tzjq",
+      "ownership_note": "Homepage keeps the primary keyword 信誉平台大全; this cluster must not take the same primary owner intent."
+    },
+    {
+      "cluster_id": "research_lab",
+      "target_registry_carrier_id": "research_lab_hub",
+      "label": "数据实验室",
+      "hub_status": "planned_not_created",
+      "primary_scope": "彩票方案验证、历史数据回测、倍投实验与资金风险分析",
+      "article_category_key": "tzjq"
+    }
+  ],
+  "internal_link_policy": {
+    "planned_hub_url_must_never_be_injected": true,
+    "hub_link_requires_live_http_200_self_canonical_url": true,
+    "article_to_article_target_requires_real_published_url": true,
+    "draft_or_unpublished_target_url_must_remain_null": true,
+    "no_self_links": true,
+    "no_all_to_all_cluster_linking": true,
+    "prefer_contextual_relationships_over_exact_match_anchor_repetition": true,
+    "exact_primary_keyword_anchor_is_not_required": true,
+    "cross_cluster_links_require_genuine_contextual_relevance": true,
+    "body_link_change_requires_new_content_hash_and_reapproval": true
+  },
+  "hub_readiness_policy": {
+    "do_not_create_empty_hubs": true,
+    "supporting_corpus_must_be_substantive": true,
+    "hub_requires_distinct_primary_intent": true,
+    "hub_requires_useful_intro_and_navigation": true,
+    "hub_requires_verified_internal_links": true,
+    "hub_requires_http_200_and_self_canonical_before_sitemap": true,
+    "keyword_map_symbolic_targets_change_only_after_live_verification": true
+  }
+}
