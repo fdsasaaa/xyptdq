@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-13T06:05:00+08:00",
+  "updated_at": "2026-08-13T06:24:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "content_engine_accumulation_with_formal_approved_inventory_ready",
+  "current_phase": "content_engine_accumulation_with_production_controller_ready",
   "article_publishing": {
     "mode": "frozen_content_preparation",
     "publishing_enabled": false,
@@ -85,6 +85,33 @@
     "staging_authorizes_cross_repo_sync": false,
     "staging_authorizes_publication": false,
     "formal_approved_package_count_immediately_after_capability_merge": 0
+  },
+  "article_production_controller": {
+    "status": "implemented_and_ci_verified",
+    "article_repository_pr": 53,
+    "article_repository_merge_commit": "d5cb557aa71199fcb95bfa0bdca25cd5a70144f6",
+    "policy": "policies/ARTICLE_PRODUCTION_CONTROLLER.json",
+    "engine_module": "engine/production_controller.py",
+    "cli": "scripts/produce_articles_total.py",
+    "documentation": "docs/ARTICLE_PRODUCTION_CONTROLLER.md",
+    "default_target": 200,
+    "recommended_target_range": [50, 300],
+    "ordinary_target_max": 500,
+    "large_target_max": 2000,
+    "internal_batch_default": 25,
+    "internal_batch_range": [20, 30],
+    "capacity_preflight_required": true,
+    "capacity_is_content_space_not_model_text_volume": true,
+    "quality_floor_may_be_lowered_for_quantity": false,
+    "failed_generation_or_approval_does_not_count_toward_target": true,
+    "formal_inventory_destination": "articles/approved",
+    "default_mode": "plan_only",
+    "execute_requires_explicit_flag": true,
+    "ultra_target_requires_explicit_opt_in": true,
+    "website_sync_allowed": false,
+    "website_draft_write_allowed": false,
+    "scheduling_allowed": false,
+    "publishing_allowed": false
   },
   "technical_seo_baseline": {
     "status": "closed_unless_regression",
@@ -240,16 +267,16 @@
     "seo-articles": "retired_redirect_301_to_tzjq_zero_remaining_articles"
   },
   "next_actions": [
-    "Use the article engine's explicit --stage-approved path for real production-approved articles that should accumulate in the canonical articles/approved inventory; do not stage smoke/test approvals merely because their Registry status is approved.",
+    "Use the article production controller for future real production goals such as 200 or 500 NEW formal Approved articles; run capacity preflight first and treat the requested number as a quality-gated target rather than a quota that must be filled.",
+    "Keep controller execution separated into 20-30 article internal batches (default 25); failed generation, Approval, terminology or inventory validation must not count toward the requested target and must never cause quality gates to be lowered.",
+    "Stage only real production-approved packages into articles/approved; do not stage smoke/test approvals merely because their Registry status is approved.",
     "Keep cross-repo sync_enabled=false and publishing_enabled=false until separate explicit approvals are given later.",
     "Run the Hub readiness audit as formal Approved Package files accumulate; use cluster coverage only as evidence, never automatic Hub authorization.",
-    "When formal corpus becomes substantive, assess ffc_research_hub first, then research_lab_hub and platform_review_hub using editorial intent and live-link criteria in addition to article count.",
-    "Do not inject planned Hub URLs; only use Hub/article URLs after live HTTP 200/self-canonical or Publication Receipt verification.",
-    "After each real Hub is live and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified URL."
+    "When formal corpus becomes substantive, assess ffc_research_hub first, then research_lab_hub and platform_review_hub using editorial intent and live-link criteria in addition to article count."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
   "cluster_registry_document": "content/seo_cluster_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results. Formal inventory staging is available through the article engine but remains explicit. Distinguish Registry lifecycle approval from articles/approved transport inventory. Continue SEO Hub work only when real formal corpus/readiness evidence justifies it or the user explicitly approves transport/publishing."
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results. The article production controller is ready for natural-language goals such as 200 or 500 NEW formal Approved articles, but capacity preflight and quality gates are authoritative. Formal inventory staging remains separate from website transport. Keep sync and publication disabled unless the user separately approves them."
 }

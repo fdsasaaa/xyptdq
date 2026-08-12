@@ -7,7 +7,7 @@
 - Website repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
 - Independent article engine: `fdsasaaa/caipiaowenzhang`
-- Current phase: **let the article engine accumulate real transportable Approved Package files before creating Hubs or enabling cross-repo transport**.
+- Current phase: **Article Production Controller is ready; accumulate real quality-gated Approved Package inventory before creating Hubs or enabling cross-repo transport**.
 - Earlier technical SEO remediation is closed unless a regression is proven.
 - Ordinary future SEO articles use one CMS carrier: `tzjq` / catid 3 / display label `投注机巧`.
 - `seo-articles` is retired and must not be recreated.
@@ -27,7 +27,8 @@
 11. Internal-link body changes alter content hash and require revision + re-Approval.
 12. **Registry status `approved` is not equivalent to a transportable Approved Package file in `articles/approved/`.**
 13. Formal inventory staging is explicit; Approval alone must not silently stage an article.
-14. Do not restart closed technical SEO work without regression evidence.
+14. The Production Controller treats requested quantity as a quality-gated target; quality/duplication/evidence gates must never be weakened to fill a quota.
+15. Do not restart closed technical SEO work without regression evidence.
 
 ## 3. Publishing freeze — ACTIVE
 
@@ -41,7 +42,7 @@ Current state:
 - automatic publication not allowed
 - resume requires explicit user approval
 
-The SEO/category/contract work completed on 2026-08-12/13 did not publish articles, restore cron, or consume the scheduled queue.
+The SEO/category/content-engine architecture work completed on 2026-08-12/13 did not publish articles, restore cron, or consume the scheduled queue.
 
 ## 4. Cross-repo transport — PREPARED / DISABLED
 
@@ -248,17 +249,7 @@ Files/capabilities:
 - single generator supports explicit `--stage-approved`
 - batch generator supports explicit `--stage-approved`
 
-This closes the gap where successful Approval previously wrote only to a caller-chosen file or `runs/.../<article_id>/approved.json` and did not populate the canonical future transport source.
-
-Formal staging validates:
-
-- `status=approved`
-- stable `article_id`
-- non-empty content
-- `content_hash` exactly matching content bytes
-- fingerprint
-- content type → website category mapping
-- optional SEO cluster metadata
+Formal staging validates `status=approved`, stable article identity, exact content hash, fingerprint, content type/category contract and optional SEO cluster metadata.
 
 Idempotency/overwrite rules:
 
@@ -266,11 +257,50 @@ Idempotency/overwrite rules:
 - same article ID with different content hash -> reject; revision + re-Approval required
 - same article ID/content hash with different approved metadata -> reject; explicit inventory revision path required
 
-**Staging is opt-in and is not website sync.** Approval alone still does not automatically stage. Staging does not create Drafts on the website, does not schedule, and does not publish.
+**Staging is opt-in and is not website sync.** Approval alone does not automatically stage. Staging does not create Drafts on the website, schedule, or publish.
 
-Immediately after this capability merged, formal inventory remained 0 until real production-approved articles are intentionally staged.
+## 13. Article Production Controller — READY
 
-## 13. Hub readiness rules
+Article-engine PR `fdsasaaa/caipiaowenzhang#53` merged after Python 3.10 and Python 3.13 CI PASS, merge commit `d5cb557aa71199fcb95bfa0bdca25cd5a70144f6`.
+
+Files:
+
+- `policies/ARTICLE_PRODUCTION_CONTROLLER.json`
+- `engine/production_controller.py`
+- `scripts/produce_articles_total.py`
+- `tests/test_production_controller.py`
+- `docs/ARTICLE_PRODUCTION_CONTROLLER.md`
+
+The Production Controller makes natural-language goals such as **“目标生成200篇正式文章”** or **“帮我生成500篇高质量文章”** machine-actionable.
+
+Quantity policy:
+
+- default target: 200 new formal Approved articles
+- recommended task range: 50–300
+- ordinary task maximum: 500
+- large task: 501–2000, always subject to capacity preflight
+- over 2000: ultra mode; explicit opt-in required and capacity rules still apply
+- internal execution batch: default 25; policy range 20–30
+
+The requested number is a **quality-gated formal Approved inventory target**, not a raw AI-generation count. Generation failures, Approval failures, reader-terminology failures and inventory-validation failures do not count toward the target.
+
+Before model execution the controller runs content-space capacity preflight from currently verified mechanics and knowledge families, then applies existing identity/keyword/structural novelty and SEO eligibility checks. It is prohibited from lowering evidence, quality, deduplication, SEO or compliance gates merely to hit the requested number. If current defensible capacity is below the target, it must stop short and report the gap instead of fabricating filler.
+
+The current reader-facing policy maps internal historical `时时彩` mechanics to the public subject `分分彩` where the existing contract allows it, while preserving rule/source provenance. This is policy-driven, not model title guessing. FFC controller articles can receive `primary_seo_cluster_id=ffc_research` through controller policy.
+
+CLI safety:
+
+- default mode is plan-only / capacity preflight
+- explicit `--execute` is required before model calls and formal inventory staging
+- successful endpoint is only `caipiaowenzhang/articles/approved/*.json`
+- website sync is not an allowed controller action
+- website Draft writes are not an allowed controller action
+- scheduling is not an allowed controller action
+- Native Publisher / cron / publication are not allowed controller actions
+
+Therefore the controller is ready for real future article-production requests without changing the website's current publishing freeze.
+
+## 14. Hub readiness rules
 
 A Hub becomes eligible only when all relevant evidence exists:
 
@@ -293,38 +323,34 @@ Preferred readiness order once formal corpus is large enough:
 
 Only after live verification may corresponding symbolic Keyword Map targets be replaced by the real URL.
 
-## 14. Current next action — ACCUMULATE REAL APPROVED PACKAGES
+## 15. Current next action — USE CONTROLLER WHEN REAL PRODUCTION IS REQUESTED
 
-The useful architecture work that can be done safely in advance is now complete.
+The useful production architecture is now ready. Do not build more transport/publishing machinery merely in anticipation.
 
-For real production article batches that should join the future website corpus, use the article engine's validated `--stage-approved` path. Do **not** stage smoke/test approvals merely because Registry status says `approved`.
+When the user asks for a real article batch, use the Production Controller so the requested number is handled as a quality-gated target, capacity is measured first, and execution is internally split into safe batches. Real passing articles should enter `articles/approved/` only.
 
-Next meaningful SEO work begins when:
-
-- real Approved Package files accumulate under `caipiaowenzhang/articles/approved/`, allowing Hub readiness cluster coverage to become substantive; or
-- the user explicitly approves enabling cross-repo Approved→Draft transport; or
-- the user separately approves scheduling/publication.
-
-Until then:
+Until transport/publication are separately approved:
 
 - keep `sync_enabled=false`
 - keep `publishing_enabled=false`
+- do not stage smoke/test approvals as real corpus
 - leave uncertain cluster assignments unassigned rather than guessing
-- do not count Registry-only smoke approvals as transport inventory
+- run Hub readiness audits as formal corpus accumulates
 - do not create empty Hub pages
 
-## 15. Future end-to-end lifecycle
+## 16. Future end-to-end lifecycle
 
-`source/generation -> dedupe -> rule/fact/evidence validation -> rewrite -> SEO optimization -> Approval -> explicit formal inventory staging -> articles/approved -> Hub readiness inventory -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
+`user production target -> Production Controller capacity preflight -> batched candidate selection -> source/rule/evidence validation -> dedupe -> SEO priority -> AI Draft -> Approval -> reader terminology gate -> formal inventory staging -> articles/approved -> Hub readiness inventory -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
 
-## 16. New-session takeover protocol
+## 17. New-session takeover protocol
 
 1. Read this handoff and the changelog/state files.
 2. Read keyword, target and cluster registries.
 3. Read category and cross-repo sync policies.
-4. Inspect newer PRs/results.
+4. Inspect newer PRs/results in both website and article repositories.
 5. Confirm both transport and publication are still disabled unless explicitly changed.
 6. Treat `seo-articles` as retired and `tzjq` as the single ordinary SEO article carrier.
 7. Distinguish Registry `approved` lifecycle records from formal `articles/approved/*.json` inventory.
 8. Remember formal inventory staging is available but explicit; it does not imply transport or publication.
-9. Do not build Hubs or activate automation until formal corpus/readiness evidence or explicit user approval justifies the next step.
+9. Remember the Article Production Controller is ready: normal natural-language targets such as 200 or 500 mean NEW formal Approved inventory targets, capacity preflight is mandatory, and quantity never overrides quality gates.
+10. Do not build Hubs or activate website automation until formal corpus/readiness evidence or explicit user approval justifies the next step.

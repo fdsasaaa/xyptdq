@@ -198,3 +198,16 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - This closes the prior gap where approved artifacts could exist only in caller-selected output paths or `runs/.../<article_id>/approved.json` while the canonical future transport source stayed empty.
 - Immediately after capability merge the formal inventory remained **0** until real production-approved articles are intentionally staged.
 - Staging does not enable cross-repo sync, create website Drafts, schedule content or publish anything; `sync_enabled=false` and `publishing_enabled=false` remain authoritative.
+
+### Article Production Controller added
+- Article engine PR #53 merged after Python 3.10 / Python 3.13 CI PASS, merge commit `d5cb557aa71199fcb95bfa0bdca25cd5a70144f6`.
+- Added `policies/ARTICLE_PRODUCTION_CONTROLLER.json`, `engine/production_controller.py`, `scripts/produce_articles_total.py`, `tests/test_production_controller.py`, and `docs/ARTICLE_PRODUCTION_CONTROLLER.md`.
+- Natural-language requests such as “目标生成200篇正式文章” or “帮我生成500篇高质量文章” now map to a machine production target rather than a single uncontrolled model batch.
+- Quantity means NEW formal Approved Package target, not raw generations. Default target is 200; recommended range 50–300; ordinary max 500; 501–2000 is large mode; over 2000 requires explicit ultra opt-in.
+- Internal execution defaults to 25 articles per batch and policy limits normal internal batches to 20–30.
+- Capacity preflight is mandatory and measures current executable content space after verified mechanics, knowledge-family, identity, exact Primary Keyword, structural novelty and SEO eligibility gates.
+- The controller may stop below the requested target when current defensible content space is exhausted; it is explicitly forbidden from lowering evidence, quality, deduplication, SEO or compliance gates merely to fill the requested count.
+- Generation/Approval/terminology/inventory failures do not count toward the formal target.
+- CLI default is plan-only; explicit `--execute` is required before model calls and formal staging.
+- Passing packages terminate at `caipiaowenzhang/articles/approved/*.json`; website sync, website Draft writes, scheduling, Publisher/cron operations and publication are not controller capabilities.
+- Cross-repo transport and website publication therefore remain independently disabled after this milestone.
