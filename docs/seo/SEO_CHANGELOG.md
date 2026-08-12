@@ -157,6 +157,15 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - Homepage remains the primary owner for `信誉平台大全`; a future platform-review Hub must target comparison/review intent instead of taking the homepage's primary owner term.
 - This milestone is source/configuration architecture only; it creates no Hub page and publishes no article.
 
+### Portable SEO cluster metadata completed across both repositories
+- Article engine PR #42 merged after CI passed. Approved Packages may now optionally carry `primary_seo_cluster_id` and `secondary_seo_cluster_ids` from immutable/editorial contract data; the body-writing model cannot invent cluster ownership.
+- Article-engine validation is fail-closed for unknown, duplicate or structurally invalid cluster assignments. Existing approved articles without cluster metadata remain valid for backward compatibility.
+- The stale semantic package label `SEO文章` for `seo_topic` was removed; the unified semantic/article carrier is now `投注机巧` / `tzjq`.
+- Website PR #250 merged after `repository-ci`, `embedded-python-ci`, and `content-bridge-test` all passed.
+- Website Approved→Draft conversion validates optional cluster IDs against `content/seo_cluster_registry.json`, permits them only with the `tzjq` carrier, preserves valid cluster metadata into Draft, and rejects invalid assignments without creating a draft.
+- The website still never infers cluster identity from article title or keywords and never injects planned Hub URLs.
+- This metadata path does not enable cross-repo transport, scheduling or publishing. `sync_enabled=false` and `publishing_enabled=false` remain authoritative.
+
 ### Next SEO stage
 - Let the article engine accumulate a substantive Approved corpus while cross-repo sync and publishing remain disabled.
 - Then inventory logical cluster coverage and assess which planned Hub has enough real supporting material.
