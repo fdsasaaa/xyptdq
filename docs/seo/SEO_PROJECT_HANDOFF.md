@@ -7,7 +7,7 @@
 - Website repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
 - Independent article engine: `fdsasaaa/caipiaowenzhang`
-- Current phase: **let the article engine accumulate a substantive Approved corpus; do not overbuild transport or create empty Hubs before corpus/readiness evidence exists**.
+- Current phase: **let the article engine accumulate real transportable Approved Package files before creating Hubs or enabling cross-repo transport**.
 - Earlier technical SEO remediation is closed unless a regression is proven.
 - Ordinary future SEO articles use one CMS carrier: `tzjq` / catid 3 / display label `投注机巧`.
 - `seo-articles` is retired and must not be recreated.
@@ -25,7 +25,8 @@
 9. Never infer cluster identity from title text alone.
 10. Never inject planned Hub URLs; real URLs require live verification or Publication Receipt evidence.
 11. Internal-link body changes alter content hash and require revision + re-Approval.
-12. Do not restart closed technical SEO work without regression evidence.
+12. **Registry status `approved` is not equivalent to a transportable Approved Package file in `articles/approved/`.**
+13. Do not restart closed technical SEO work without regression evidence.
 
 ## 3. Publishing freeze — ACTIVE
 
@@ -39,7 +40,7 @@ Current state:
 - automatic publication not allowed
 - resume requires explicit user approval
 
-The SEO/category/contract work completed on 2026-08-12 did not publish articles, restore cron, or consume the scheduled queue.
+The SEO/category/contract work completed on 2026-08-12/13 did not publish articles, restore cron, or consume the scheduled queue.
 
 ## 4. Cross-repo transport — PREPARED / DISABLED
 
@@ -196,8 +197,6 @@ Homepage remains the primary owner for `信誉平台大全`; a future `platform_
 
 ## 10. Portable cluster metadata across both repositories — COMPLETE
 
-The logical cluster identity can now travel from the article engine into the website Draft contract without any title guessing.
-
 Portable optional fields:
 
 - `primary_seo_cluster_id`
@@ -207,7 +206,7 @@ Portable optional fields:
 
 PR `fdsasaaa/caipiaowenzhang#42` merged, commit `7ff5b09bb25ac477855150526994ee56df7576b4`.
 
-The article engine now:
+The article engine:
 
 - validates cluster IDs against the website-aligned seven-cluster contract
 - accepts cluster assignment only from immutable/editorial contract state
@@ -223,7 +222,7 @@ CI: PASS.
 
 PR `fdsasaaa/xyptdq#250` merged, commit `00c400f2b0fea062b8a3b5390c9d5a1edafcc447`.
 
-The website now:
+The website:
 
 - accepts legacy packages without cluster metadata unchanged
 - validates optional cluster IDs against `content/seo_cluster_registry.json`
@@ -232,22 +231,50 @@ The website now:
 - rejects unknown/duplicate/invalid IDs without creating a Draft
 - never guesses a cluster from title/keyword text
 
-CI gates all PASS:
-
-- `repository-ci`
-- `embedded-python-ci`
-- `content-bridge-test`
-- dedicated SEO cluster metadata regression: valid preserved / invalid rejected / legacy compatible / publishing untouched
+CI gates all PASS: `repository-ci`, `embedded-python-ci`, `content-bridge-test`.
 
 This metadata does **not** enable transport, scheduling, publication or Hub creation.
 
-## 11. Hub readiness rules
+## 11. Formal Hub readiness audit — READY
 
-Do not create a Hub to satisfy an audit counter.
+Article-engine PR `fdsasaaa/caipiaowenzhang#49` merged, commit `ce2d7d0f6f8dd5c59184bbf58d44c5b7fa656c28`.
 
-A Hub becomes eligible only when:
+Files:
 
-- supporting corpus is substantive
+- `engine/hub_readiness.py`
+- `scripts/audit_hub_readiness.py`
+- `docs/HUB_READINESS_AUDIT.md`
+
+The audit deliberately distinguishes two inventories:
+
+### Registry lifecycle state
+
+`registry/articles.jsonl` is append-only lifecycle memory. It can contain effective records whose status is `approved` and may include smoke/validation articles.
+
+### Formal transport inventory
+
+Only actual JSON files under:
+
+`articles/approved/*.json`
+
+are counted as the future cross-repository Approved Package inventory.
+
+**These two counts must never be substituted for each other.**
+
+Checkpoint at audit introduction:
+
+- `articles/approved/` contained only `.gitkeep`
+- formal transportable Approved Package count = **0**
+- Registry still contains approved lifecycle records separately
+- therefore current Hub-supporting formal corpus must be treated as **0**, not “8 publishable articles”
+
+The audit reports per-cluster explicit coverage, unassigned formal packages and validation errors. It does **not** infer clusters from titles and does **not** automatically declare a Hub ready.
+
+## 12. Hub readiness rules
+
+A Hub becomes eligible only when all relevant evidence exists:
+
+- real formal Approved Package corpus is substantive
 - primary intent is distinct
 - useful explanatory copy and navigation exist
 - real internal links exist
@@ -255,22 +282,24 @@ A Hub becomes eligible only when:
 - page self-canonicalizes
 - sitemap inclusion is justified
 
-Only after live verification may its symbolic Keyword Map targets be replaced by the real URL.
+Article count alone is not enough. The readiness audit is evidence, not authorization.
 
-Preferred readiness order once the corpus is large enough:
+Preferred readiness order once formal corpus is large enough:
 
 1. `ffc_research_hub`
 2. `research_lab_hub`
 3. `platform_review_hub`
 4. Hash/Qiqu/SSC/racing only when corpus or SERP evidence supports them
 
-## 12. Current next action — WAIT FOR CORPUS EVIDENCE
+Only after live verification may corresponding symbolic Keyword Map targets be replaced by the real URL.
 
-The useful architecture work that can be done safely in advance is now complete. Do **not** build more transport/publishing machinery merely in anticipation.
+## 13. Current next action — ACCUMULATE REAL APPROVED PACKAGES
 
-Next meaningful work should begin when one of these conditions is true:
+The useful architecture work that can be done safely in advance is now complete.
 
-- the article engine has accumulated enough Approved articles to inventory cluster coverage and assess Hub readiness; or
+Next meaningful SEO work should begin when one of these conditions is true:
+
+- real Approved Package JSON files accumulate under `caipiaowenzhang/articles/approved/`, allowing the Hub readiness audit to measure cluster coverage; or
 - the user explicitly approves enabling cross-repo Approved→Draft transport; or
 - the user separately approves scheduling/publication.
 
@@ -278,15 +307,16 @@ Until then:
 
 - keep `sync_enabled=false`
 - keep `publishing_enabled=false`
-- let new Approved Packages carry cluster metadata when editorial evidence supports an assignment
+- let new Approved Packages carry explicit cluster metadata when editorial evidence supports assignment
 - leave uncertain articles unassigned rather than guessing
+- do not count Registry-only smoke approvals as transport inventory
 - do not create empty Hub pages
 
-## 13. Future end-to-end lifecycle
+## 14. Future end-to-end lifecycle
 
-`source/generation -> dedupe -> rule/fact/evidence validation -> rewrite -> SEO optimization -> Approval -> optional explicit cluster metadata -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
+`source/generation -> dedupe -> rule/fact/evidence validation -> rewrite -> SEO optimization -> Approval -> formal Approved Package file under articles/approved -> optional explicit cluster metadata -> Hub readiness inventory -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
 
-## 14. New-session takeover protocol
+## 15. New-session takeover protocol
 
 1. Read this handoff and the changelog/state files.
 2. Read keyword, target and cluster registries.
@@ -294,4 +324,5 @@ Until then:
 4. Inspect newer PRs/results.
 5. Confirm both transport and publication are still disabled unless explicitly changed.
 6. Treat `seo-articles` as retired and `tzjq` as the single ordinary SEO article carrier.
-7. Do not build Hubs or activate automation until corpus/readiness evidence or explicit user approval justifies the next step.
+7. Distinguish Registry `approved` lifecycle records from formal `articles/approved/*.json` inventory.
+8. Do not build Hubs or activate automation until formal corpus/readiness evidence or explicit user approval justifies the next step.
