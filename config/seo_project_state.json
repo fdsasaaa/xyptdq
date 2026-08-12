@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-13T05:50:00+08:00",
+  "updated_at": "2026-08-13T06:05:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "content_engine_accumulation_waiting_for_formal_hub_readiness_evidence",
+  "current_phase": "content_engine_accumulation_with_formal_approved_inventory_ready",
   "article_publishing": {
     "mode": "frozen_content_preparation",
     "publishing_enabled": false,
@@ -60,11 +60,31 @@
     "registry_lifecycle_source": "registry/articles.jsonl",
     "registry_approved_must_not_be_counted_as_formal_transport_inventory": true,
     "formal_approved_package_count_at_checkpoint": 0,
-    "formal_inventory_observation": "articles/approved contains only .gitkeep at checkpoint",
+    "formal_inventory_observation": "articles/approved contained only .gitkeep at audit checkpoint",
     "registry_approved_articles_exist_separately": true,
     "cluster_coverage_auto_authorizes_hub": false,
     "automatic_hub_ready_decision_allowed": false,
     "hub_still_requires_editorial_and_live_verification": true
+  },
+  "formal_approved_inventory": {
+    "status": "implemented_and_ci_verified",
+    "article_repository_pr": 50,
+    "article_repository_merge_commit": "5f6dee70962cd1cc502afb0d4aa5bfdb83f095f2",
+    "canonical_root": "articles/approved",
+    "staging_module": "engine/formal_approved_inventory.py",
+    "staging_cli": "scripts/stage_formal_approved_package.py",
+    "documentation": "docs/FORMAL_APPROVED_INVENTORY.md",
+    "single_generation_opt_in_flag": "--stage-approved",
+    "batch_generation_opt_in_flag": "--stage-approved",
+    "staging_is_explicit_not_automatic": true,
+    "approval_alone_does_not_stage": true,
+    "exact_repeat_is_idempotent": true,
+    "same_article_id_different_content_hash": "reject_requires_revision_and_reapproval",
+    "same_article_id_same_hash_different_metadata": "reject_requires_explicit_inventory_revision_path",
+    "validates_status_identity_content_hash_fingerprint_category_and_cluster_metadata": true,
+    "staging_authorizes_cross_repo_sync": false,
+    "staging_authorizes_publication": false,
+    "formal_approved_package_count_immediately_after_capability_merge": 0
   },
   "technical_seo_baseline": {
     "status": "closed_unless_regression",
@@ -220,10 +240,10 @@
     "seo-articles": "retired_redirect_301_to_tzjq_zero_remaining_articles"
   },
   "next_actions": [
-    "Let the article engine create actual transportable Approved Package JSON files under articles/approved; Registry approved lifecycle records are not a substitute for this inventory.",
+    "Use the article engine's explicit --stage-approved path for real production-approved articles that should accumulate in the canonical articles/approved inventory; do not stage smoke/test approvals merely because their Registry status is approved.",
     "Keep cross-repo sync_enabled=false and publishing_enabled=false until separate explicit approvals are given later.",
-    "Run the article-engine Hub readiness audit when formal Approved Package files accumulate; use it only as coverage evidence, never as automatic Hub authorization.",
-    "When formal corpus volume becomes substantive, assess ffc_research_hub first, then research_lab_hub and platform_review_hub using editorial intent and live-link criteria in addition to article count.",
+    "Run the Hub readiness audit as formal Approved Package files accumulate; use cluster coverage only as evidence, never automatic Hub authorization.",
+    "When formal corpus becomes substantive, assess ffc_research_hub first, then research_lab_hub and platform_review_hub using editorial intent and live-link criteria in addition to article count.",
     "Do not inject planned Hub URLs; only use Hub/article URLs after live HTTP 200/self-canonical or Publication Receipt verification.",
     "After each real Hub is live and internally linked, replace only its corresponding symbolic Keyword Map targets with the verified URL."
   ],
@@ -231,5 +251,5 @@
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
   "cluster_registry_document": "content/seo_cluster_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results. Distinguish Registry lifecycle approval from formal articles/approved transport inventory. Continue only when real formal corpus/readiness evidence justifies a Hub or the user explicitly approves transport/publishing."
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, cluster registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results. Formal inventory staging is available through the article engine but remains explicit. Distinguish Registry lifecycle approval from articles/approved transport inventory. Continue SEO Hub work only when real formal corpus/readiness evidence justifies it or the user explicitly approves transport/publishing."
 }

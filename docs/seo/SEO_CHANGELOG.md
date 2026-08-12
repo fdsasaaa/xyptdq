@@ -187,3 +187,14 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - The audit reports explicit primary/secondary cluster coverage and validation errors but never infers clusters from titles and never auto-authorizes Hub creation.
 - Article count/coverage alone cannot make a Hub ready; editorial intent, useful Hub copy/navigation, real internal links, HTTP 200 and self-canonical live verification are still required.
 - Cross-repo sync and publication remain disabled; no production CMS/database write occurred.
+
+### Formal Approved Package inventory staging added
+- Article engine PR #50 merged with full CI PASS, commit `5f6dee70962cd1cc502afb0d4aa5bfdb83f095f2`.
+- Added `engine/formal_approved_inventory.py`, `scripts/stage_formal_approved_package.py`, tests and `docs/FORMAL_APPROVED_INVENTORY.md`.
+- Single-article and ranked-batch generation commands now support explicit `--stage-approved` after normal Approval succeeds.
+- Approval alone still does not populate `articles/approved/`; staging remains a separate explicit action so smoke/test approvals cannot silently become future website inventory.
+- Formal staging validates `status=approved`, stable article identity, exact content hash, fingerprint, content-type/category contract and optional SEO cluster metadata.
+- Exact repeat staging is idempotent (`unchanged`). Same article ID with a different content hash fails closed and requires revision + re-Approval; same content hash with different approved metadata also fails closed rather than silently overwriting inventory.
+- This closes the prior gap where approved artifacts could exist only in caller-selected output paths or `runs/.../<article_id>/approved.json` while the canonical future transport source stayed empty.
+- Immediately after capability merge the formal inventory remained **0** until real production-approved articles are intentionally staged.
+- Staging does not enable cross-repo sync, create website Drafts, schedule content or publish anything; `sync_enabled=false` and `publishing_enabled=false` remain authoritative.
