@@ -1,12 +1,12 @@
 # SEO Project Handoff — Canonical Current State
 
-> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, `config/content_category_map.json`, `config/content_source_sync_policy.json`, and inspect newer commits/PRs/results before changing anything.
+> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, `content/seo_cluster_registry.json`, `config/content_category_map.json`, `config/content_source_sync_policy.json`, and inspect newer commits/PRs/results before changing anything.
 
 ## 1. Project identity and current phase
 
 - Repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
-- Current SEO phase: **keyword ownership, substantive content-carrier architecture, and future cross-repo content contract preparation**.
+- Current SEO phase: **keyword ownership, single-carrier content architecture, logical topic clusters and internal-link architecture**.
 - The earlier technical/content-architecture cleanup is closed unless a regression is proven.
 - The user is still collecting/producing lottery-technique source material; do not start bulk article publishing.
 - Future ordinary SEO articles use the single CMS article carrier `tzjq` / catid 3 / CMS label `投注机巧`.
@@ -23,9 +23,11 @@
 6. Keep cross-repo transport separately gated from publishing; enabling one must never imply enabling the other.
 7. Do not create synonym doorway/thin pages or duplicate article categories for SEO wording variants.
 8. Same-intent synonyms should share carriers unless SERP/corpus evidence justifies a split.
-9. Do not make unverifiable profit, safety, or guaranteed-result claims.
-10. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without compatibility proof.
-11. Update this handoff, changelog and `config/seo_project_state.json` after meaningful SEO milestones.
+9. Logical SEO clusters do not create CMS categories and do not authorize publication.
+10. Never inject planned Hub URLs; Hub/article internal links require real verified published URLs.
+11. Do not make unverifiable profit, safety, or guaranteed-result claims.
+12. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without compatibility proof.
+13. Update this handoff, changelog and `config/seo_project_state.json` after meaningful SEO milestones.
 
 ## 3. Publishing freeze — ACTIVE
 
@@ -34,7 +36,7 @@
 - 11 historical scheduled JSON files remain preserved inventory only.
 - Publisher remains fail-closed while frozen.
 - Approved/Draft/Scheduled/Published states must remain distinct and must not bypass the freeze.
-- No SEO category-consolidation job published an article, changed the publisher cron, or consumed the scheduled queue.
+- No SEO category-consolidation or architecture-contract work published an article, changed the publisher cron, or consumed the scheduled queue.
 
 ## 4. Technical SEO baseline — closed unless regression
 
@@ -172,27 +174,44 @@ Seven planned Hub groups remain:
 6. `platform_review_hub` — 平台评测与对比
 7. `research_lab_hub` — 数据实验室
 
-Architectural rule after the category consolidation:
+Architectural rule:
 
 - underlying ordinary SEO articles remain in `tzjq`
 - a Hub is a substantive topic aggregation/landing page, **not another synonym article category**
 - do not create an empty Hub
 - a Hub becomes a real keyword owner only after it has substantive copy/supporting content/internal links and passes HTTP-200/self-canonical/internal-link checks
 
-## 10. First unresolved SEO work — DO THIS NEXT
+## 10. Logical article clusters + internal links — CONTRACT PREPARED
 
-The `SEO文章` consolidation is closed. The next SEO work is **content-carrier + internal-link architecture**, while the separate article engine accumulates approved content.
+Machine registry: `content/seo_cluster_registry.json` version **1.0.0**.
 
-Recommended order:
+Design document: `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md`.
 
-1. Define the single-category article taxonomy/metadata rules for `tzjq` so future harvested articles can be clustered without creating more CMS article categories.
-2. Define internal-link rules between articles and future Hubs, including primary-owner and cannibalization gates.
-3. Prepare the first substantive Hub only when enough existing/supporting content exists.
-4. Highest-value first Hub candidates remain: 分分时时彩研究中心, 数据实验室, 平台评测与对比.
-5. After a Hub is live and verified, replace only its corresponding symbolic Keyword Map targets with the real URL.
-6. Hash/Qiqu/SSC/racing Hubs should wait until the supporting corpus or SERP evidence justifies them.
+Current logical clusters:
 
-Do not restart the already-closed orphan/H1/Description/canonical/empty-category work unless a new audit proves regression.
+- `ffc_research`
+- `hash_ffc`
+- `qiqu_ffc`
+- `ssc`
+- `racing`
+- `platform_review`
+- `research_lab`
+
+Rules:
+
+- cluster membership never changes the CMS category; ordinary articles remain in `tzjq`
+- assignment must be explicit or editorially mapped; title-only guessing is prohibited
+- multi-cluster membership is allowed when real, with one primary cluster when assigned
+- unassigned is safer than guessed assignment
+- planned Hub URLs must never be injected
+- Article → Hub requires a live HTTP-200/self-canonical Hub
+- Article → Article requires the target's real published URL
+- draft/unpublished targets remain unresolved (`url=null` in planning)
+- no self links and no all-to-all cluster linking
+- natural contextual anchors are preferred over repeated exact-match anchors
+- body-link changes alter content hash and require revision + re-Approval
+
+Special ownership rule: homepage keeps `信誉平台大全`; future `platform_review` Hub must target review/comparison intent rather than duplicate the homepage primary owner.
 
 ## 10A. Cross-repo Approved -> Draft contract — PREPARED / DISABLED
 
@@ -215,17 +234,32 @@ Website machine gate:
 
 Design document: `docs/CROSS_REPO_CONTENT_SYNC.md`.
 
-The article-engine publishing contract is being synchronized so `seo_topic` routes to `tzjq` and `seo-articles` is treated as retired. Transport and publication remain two separate approvals. A future transport implementation must fail closed while `sync_enabled=false`.
+The article-engine publishing contract v2 routes `seo_topic` to `tzjq` and treats `seo-articles` as retired. Transport and publication remain two separate approvals. A future transport implementation must fail closed while `sync_enabled=false`.
 
-## 11. Future harvested-article workflow — still frozen
+## 11. Next unresolved SEO work — DO THIS NEXT
+
+The single-category taxonomy/cluster and internal-link contracts now exist. Do not create Hubs merely because their registry entries exist.
+
+Next sequence:
+
+1. Let the content engine accumulate a substantive Approved corpus while cross-repo sync stays disabled.
+2. When corpus volume is meaningful, inventory article cluster coverage and identify which Hub has enough real supporting material.
+3. Preferred first readiness assessment: `ffc_research_hub`, then `research_lab_hub`, then `platform_review_hub`.
+4. Create only the first genuinely substantive Hub; verify HTTP 200, self-canonical, useful copy/navigation and real internal links.
+5. Only after live verification, replace that Hub's symbolic Keyword Map targets with the real URL.
+6. Hash/Qiqu/SSC/racing Hubs wait for sufficient corpus or SERP evidence.
+
+Do not restart closed orphan/H1/Description/canonical/empty-category remediation without regression evidence.
+
+## 12. Future harvested-article workflow — still frozen
 
 Current intended lifecycle:
 
-`source collection / generation -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> Approval -> cross-repo Approved→Draft transport (future, separately gated) -> CMS draft -> quality/portfolio gate -> explicit scheduling -> controlled Native Publisher -> Publication Receipt`
+`source collection / generation -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> Approval -> cross-repo Approved→Draft transport (future, separately gated) -> CMS draft -> cluster/internal-link planning -> quality/portfolio gate -> explicit scheduling -> controlled Native Publisher -> Publication Receipt`
 
 Until explicit approval, cross-repo transport and automatic publication remain disabled.
 
-## 12. Key current evidence
+## 13. Key current evidence
 
 Most important production results:
 
@@ -236,15 +270,15 @@ Most important production results:
 - `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`
 - `agent/results/bridge-healthcheck-20260812-11`
 
-Important closure PRs include #215 and #237-#245. The cross-repo content contract preparation follows after that closure and does not modify production.
+Important closure PRs include #215 and #237-#245. Later cross-repo and logical-cluster contracts are source/configuration work only and do not modify production.
 
-## 13. New-session takeover protocol
+## 14. New-session takeover protocol
 
 1. Read this file from `main`.
 2. Read `docs/seo/SEO_CHANGELOG.md` and `config/seo_project_state.json`.
-3. Read `content/keyword_map.json`, `content/seo_target_registry.json`, `config/content_category_map.json`, and `config/content_source_sync_policy.json`.
-4. Read `docs/CROSS_REPO_CONTENT_SYNC.md` before implementing any automatic article retrieval.
+3. Read `content/keyword_map.json`, `content/seo_target_registry.json`, `content/seo_cluster_registry.json`, `config/content_category_map.json`, and `config/content_source_sync_policy.json`.
+4. Read `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md` and `docs/CROSS_REPO_CONTENT_SYNC.md` before implementing Hub links or automatic article retrieval.
 5. Inspect commits/PRs/results newer than this checkpoint.
 6. Verify publishing freeze remains enabled and cross-repo `sync_enabled=false` unless explicitly changed later.
 7. Treat `seo-articles` as retired and `tzjq` as the single future SEO article carrier.
-8. Continue from section 10; do not restart closed technical SEO phases without regression evidence.
+8. Continue from section 11; do not restart closed technical SEO phases without regression evidence.
