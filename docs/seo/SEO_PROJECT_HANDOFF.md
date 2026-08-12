@@ -1,16 +1,17 @@
 # SEO Project Handoff — Canonical Current State
 
-> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, and inspect newer commits/PRs/results before changing anything.
+> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, `config/content_category_map.json`, `config/content_source_sync_policy.json`, and inspect newer commits/PRs/results before changing anything.
 
 ## 1. Project identity and current phase
 
 - Repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
-- Current SEO phase: **keyword ownership and substantive content-carrier architecture**.
+- Current SEO phase: **keyword ownership, substantive content-carrier architecture, and future cross-repo content contract preparation**.
 - The earlier technical/content-architecture cleanup is closed unless a regression is proven.
-- The user is still collecting lottery-technique source material; do not start bulk article publishing.
+- The user is still collecting/producing lottery-technique source material; do not start bulk article publishing.
 - Future ordinary SEO articles use the single CMS article carrier `tzjq` / catid 3 / CMS label `投注机巧`.
 - The retired `seo-articles` category must not be recreated.
+- Independent content engine: `fdsasaaa/caipiaowenzhang`; its Approved inventory is the planned future content source, but automatic transport is currently disabled.
 
 ## 2. Non-negotiable operating rules
 
@@ -19,11 +20,12 @@
 3. Production changes use rollback-gated Server Bridge jobs.
 4. Never equate merge/job queueing with production success; read `agent/results/<job_id>`.
 5. Keep article publishing frozen until the user explicitly approves the publishing phase.
-6. Do not create synonym doorway/thin pages or duplicate article categories for SEO wording variants.
-7. Same-intent synonyms should share carriers unless SERP/corpus evidence justifies a split.
-8. Do not make unverifiable profit, safety, or guaranteed-result claims.
-9. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without compatibility proof.
-10. Update this handoff, changelog and `config/seo_project_state.json` after meaningful SEO milestones.
+6. Keep cross-repo transport separately gated from publishing; enabling one must never imply enabling the other.
+7. Do not create synonym doorway/thin pages or duplicate article categories for SEO wording variants.
+8. Same-intent synonyms should share carriers unless SERP/corpus evidence justifies a split.
+9. Do not make unverifiable profit, safety, or guaranteed-result claims.
+10. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without compatibility proof.
+11. Update this handoff, changelog and `config/seo_project_state.json` after meaningful SEO milestones.
 
 ## 3. Publishing freeze — ACTIVE
 
@@ -92,12 +94,7 @@ Authoritative production job:
 - rollback: NO
 - blocking item: NONE
 
-Migrated historical article IDs:
-
-- 85 `2026年最新信誉平台排行榜与评测`
-- 86 `平台安全防护措施详解：从注册到使用`
-- 88 `分分彩投注技巧：先看命中率、奖金与资金风险`
-- 91 `分分彩投注技巧：先算命中率、单期成本还是返奖？`
+Migrated historical article IDs: 85, 86, 88, 91.
 
 Verified production result:
 
@@ -122,7 +119,7 @@ Verified production result:
 - publisher cron changed: false
 - scheduled queue consumed: false
 
-Earlier V1-V6 attempts are diagnostic history only. They failed closed or rolled back; V7 is the authoritative final state.
+Earlier V1-V6 attempts are diagnostic history only. V7 is the authoritative final state.
 
 ## 7. Content category policy for all future SEO articles
 
@@ -133,9 +130,7 @@ Earlier V1-V6 attempts are diagnostic history only. They failed closed or rolled
 - unknown category keys fail closed
 - packages must explicitly supply a valid site category key
 
-Therefore:
-
-**Future SEO articles -> `tzjq` / 投注机巧.**
+Therefore: **Future SEO articles -> `tzjq` / 投注机巧.**
 
 Do not recreate an `SEO文章` category and do not make separate categories for `技巧`, `技术`, `方法`, `投注技巧` or other same-intent synonyms merely for keyword targeting.
 
@@ -165,7 +160,7 @@ Do not map remaining planned intents to weak/unrelated pages simply to make an a
 
 ## 9. Hub architecture — planning layer, not extra article categories
 
-`content/seo_target_registry.json` remains the planning contract for targets without justified live URLs. It does not publish pages.
+`content/seo_target_registry.json` version **1.0.2** is the planning contract for targets without justified live URLs. It does not publish pages.
 
 Seven planned Hub groups remain:
 
@@ -186,29 +181,49 @@ Architectural rule after the category consolidation:
 
 ## 10. First unresolved SEO work — DO THIS NEXT
 
-The `SEO文章` consolidation is closed. The next work is **content-carrier + internal-link architecture**.
+The `SEO文章` consolidation is closed. The next SEO work is **content-carrier + internal-link architecture**, while the separate article engine accumulates approved content.
 
 Recommended order:
 
 1. Define the single-category article taxonomy/metadata rules for `tzjq` so future harvested articles can be clustered without creating more CMS article categories.
 2. Define internal-link rules between articles and future Hubs, including primary-owner and cannibalization gates.
 3. Prepare the first substantive Hub only when enough existing/supporting content exists.
-4. Highest-value first Hub candidates remain:
-   - 分分时时彩研究中心
-   - 数据实验室
-   - 平台评测与对比
+4. Highest-value first Hub candidates remain: 分分时时彩研究中心, 数据实验室, 平台评测与对比.
 5. After a Hub is live and verified, replace only its corresponding symbolic Keyword Map targets with the real URL.
 6. Hash/Qiqu/SSC/racing Hubs should wait until the supporting corpus or SERP evidence justifies them.
 
 Do not restart the already-closed orphan/H1/Description/canonical/empty-category work unless a new audit proves regression.
 
+## 10A. Cross-repo Approved -> Draft contract — PREPARED / DISABLED
+
+Content engine: `fdsasaaa/caipiaowenzhang`.
+
+The future automatic source is only:
+
+`caipiaowenzhang@main:articles/approved/`
+
+Website machine gate:
+
+- `config/content_source_sync_policy.json`
+- `sync_enabled=false`
+- destination state = `draft`
+- no `publish_at`
+- no promotion to Scheduled
+- no Publisher invocation
+- no cron change
+- no scheduled-queue consumption
+
+Design document: `docs/CROSS_REPO_CONTENT_SYNC.md`.
+
+The article-engine publishing contract is being synchronized so `seo_topic` routes to `tzjq` and `seo-articles` is treated as retired. Transport and publication remain two separate approvals. A future transport implementation must fail closed while `sync_enabled=false`.
+
 ## 11. Future harvested-article workflow — still frozen
 
-Only after the user finishes collecting material and explicitly approves the publishing phase:
+Current intended lifecycle:
 
-`source collection -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> primary keyword/supporting keywords -> cluster -> internal links -> cannibalization gate -> CMS draft -> quality gate -> controlled scheduled publication`
+`source collection / generation -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> Approval -> cross-repo Approved→Draft transport (future, separately gated) -> CMS draft -> quality/portfolio gate -> explicit scheduling -> controlled Native Publisher -> Publication Receipt`
 
-Until explicit approval, drafts/scheduled inventory must not be auto-published.
+Until explicit approval, cross-repo transport and automatic publication remain disabled.
 
 ## 12. Key current evidence
 
@@ -218,23 +233,18 @@ Most important production results:
 - `agent/results/deploy-news-duplicate-description-hash-fallback-v3-20260811-01`
 - `agent/results/deploy-show-74-75-h1-v1-20260811-01`
 - `agent/results/retire-empty-gdrz-category-v1-20260811-01`
-- `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01` — authoritative category-consolidation closure
-- `agent/results/bridge-healthcheck-20260812-11` — PASS; production origin/main sync and site endpoints healthy during closure
+- `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`
+- `agent/results/bridge-healthcheck-20260812-11`
 
-Important closure PRs:
-
-- #215 source-side single-category consolidation policy
-- #237/#238 V4 migration design/queue
-- #239/#240 V5 exact SQL hotfix/queue
-- #242/#243 V6 verifier hotfix/queue
-- #244/#245 V7 strict redirect retry/production queue
+Important closure PRs include #215 and #237-#245. The cross-repo content contract preparation follows after that closure and does not modify production.
 
 ## 13. New-session takeover protocol
 
 1. Read this file from `main`.
 2. Read `docs/seo/SEO_CHANGELOG.md` and `config/seo_project_state.json`.
-3. Read `content/keyword_map.json`, `content/seo_target_registry.json`, and `config/content_category_map.json`.
-4. Inspect commits/PRs/results newer than this checkpoint.
-5. Verify publishing freeze remains enabled.
-6. Treat `seo-articles` as retired and `tzjq` as the single future SEO article carrier.
-7. Continue from section 10; do not restart closed technical SEO phases without regression evidence.
+3. Read `content/keyword_map.json`, `content/seo_target_registry.json`, `config/content_category_map.json`, and `config/content_source_sync_policy.json`.
+4. Read `docs/CROSS_REPO_CONTENT_SYNC.md` before implementing any automatic article retrieval.
+5. Inspect commits/PRs/results newer than this checkpoint.
+6. Verify publishing freeze remains enabled and cross-repo `sync_enabled=false` unless explicitly changed later.
+7. Treat `seo-articles` as retired and `tzjq` as the single future SEO article carrier.
+8. Continue from section 10; do not restart closed technical SEO phases without regression evidence.

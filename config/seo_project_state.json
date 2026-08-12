@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-12T06:40:52+08:00",
+  "updated_at": "2026-08-12T21:42:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "keyword_ownership_and_content_carrier_architecture",
+  "current_phase": "keyword_ownership_content_carrier_and_cross_repo_contract",
   "article_publishing": {
     "mode": "frozen_content_preparation",
     "publishing_enabled": false,
@@ -14,6 +14,22 @@
     "policy_file": "config/content_publication_policy.json",
     "evidence_job": "pause-native-publisher-cron-20260811-02",
     "evidence_status": "PASS"
+  },
+  "cross_repo_content_sync": {
+    "policy_file": "config/content_source_sync_policy.json",
+    "design_document": "docs/CROSS_REPO_CONTENT_SYNC.md",
+    "source_repository": "fdsasaaa/caipiaowenzhang",
+    "source_ref": "main",
+    "source_root": "articles/approved",
+    "sync_enabled": false,
+    "transport_status": "contract_ready_disabled",
+    "allowed_source_status": "approved",
+    "destination_state": "draft",
+    "may_create_publish_at": false,
+    "may_schedule": false,
+    "may_publish": false,
+    "activation_requires_explicit_user_approval": true,
+    "source_contract_expected_version": 2
   },
   "technical_seo_baseline": {
     "status": "closed_unless_regression",
@@ -54,7 +70,7 @@
   },
   "target_registry": {
     "path": "content/seo_target_registry.json",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "registry_creates_pages": false,
     "empty_hubs_forbidden": true,
     "planned_hub_count": 7,
@@ -159,6 +175,7 @@
     "seo-articles": "retired_redirect_301_to_tzjq_zero_remaining_articles"
   },
   "next_actions": [
+    "Keep cross-repo transport disabled while the content engine accumulates Approved Packages; do not confuse transport enablement with publication approval.",
     "Treat tzjq as the single CMS carrier for future SEO articles; do not recreate seo-articles or add synonym article categories.",
     "Design the content-carrier and internal-link architecture around substantive topic Hubs while keeping underlying articles in tzjq.",
     "Implement the first real Hub only when existing/supporting content makes the page genuinely useful; preferred first candidates are ffc_research_hub, research_lab_hub, and platform_review_hub.",
@@ -168,5 +185,5 @@
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
   "target_registry_document": "content/seo_target_registry.json",
-  "new_session_instruction": "Read main handoff, changelog, state, keyword map and target registry; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases or recreating seo-articles."
+  "new_session_instruction": "Read main handoff, changelog, state, keyword map, target registry, content category map and cross-repo sync policy; inspect newer PRs/commits/results; continue from next_actions without restarting closed SEO phases or enabling transport/publishing without explicit approval."
 }
