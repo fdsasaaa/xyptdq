@@ -1,170 +1,158 @@
 # SEO Project Handoff — Canonical Current State
 
-> Mandatory first-read continuity entrypoint for any new ChatGPT/Codex/agent session working on `fdsasaaa/xyptdq` SEO. Read this file, then `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, `content/seo_cluster_registry.json`, `config/content_category_map.json`, `config/content_source_sync_policy.json`, and inspect newer commits/PRs/results before changing anything.
+> Mandatory continuity entrypoint for `fdsasaaa/xyptdq`. New sessions must read this file, `docs/seo/SEO_CHANGELOG.md`, `config/seo_project_state.json`, `content/keyword_map.json`, `content/seo_target_registry.json`, `content/seo_cluster_registry.json`, `config/content_category_map.json`, `config/content_source_sync_policy.json`, `docs/CROSS_REPO_CONTENT_SYNC.md`, and `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md`, then inspect newer PRs/results before changing anything.
 
-## 1. Project identity and current phase
+## 1. Current phase
 
-- Repository: `fdsasaaa/xyptdq`
+- Website repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
-- Current SEO phase: **keyword ownership, single-carrier content architecture, logical topic clusters and internal-link architecture**.
-- The earlier technical/content-architecture cleanup is closed unless a regression is proven.
-- The user is still collecting/producing lottery-technique source material; do not start bulk article publishing.
-- Future ordinary SEO articles use the single CMS article carrier `tzjq` / catid 3 / CMS label `投注机巧`.
-- The retired `seo-articles` category must not be recreated.
-- Independent content engine: `fdsasaaa/caipiaowenzhang`; its Approved inventory is the planned future content source, but automatic transport is currently disabled.
+- Independent article engine: `fdsasaaa/caipiaowenzhang`
+- Current phase: **let the article engine accumulate a substantive Approved corpus; do not overbuild transport or create empty Hubs before corpus/readiness evidence exists**.
+- Earlier technical SEO remediation is closed unless a regression is proven.
+- Ordinary future SEO articles use one CMS carrier: `tzjq` / catid 3 / display label `投注机巧`.
+- `seo-articles` is retired and must not be recreated.
 
-## 2. Non-negotiable operating rules
+## 2. Hard operating rules
 
-1. `main` is the only canonical source.
-2. Source changes use isolated branch -> PR -> CI.
-3. Production changes use rollback-gated Server Bridge jobs.
-4. Never equate merge/job queueing with production success; read `agent/results/<job_id>`.
-5. Keep article publishing frozen until the user explicitly approves the publishing phase.
-6. Keep cross-repo transport separately gated from publishing; enabling one must never imply enabling the other.
-7. Do not create synonym doorway/thin pages or duplicate article categories for SEO wording variants.
-8. Same-intent synonyms should share carriers unless SERP/corpus evidence justifies a split.
-9. Logical SEO clusters do not create CMS categories and do not authorize publication.
-10. Never inject planned Hub URLs; Hub/article internal links require real verified published URLs.
-11. Do not make unverifiable profit, safety, or guaranteed-result claims.
-12. Do not mechanically defer/async legacy jQuery/Bootstrap head scripts without compatibility proof.
-13. Update this handoff, changelog and `config/seo_project_state.json` after meaningful SEO milestones.
+1. `main` is canonical.
+2. Source changes: isolated branch -> PR -> CI -> merge.
+3. Production writes: rollback-gated Server Bridge only; never equate a merge or queued job with production success.
+4. Article publishing remains frozen until explicit user approval.
+5. Cross-repo transport is a separate gate and also remains disabled until explicit user approval.
+6. Approved, Draft, Scheduled and Published remain distinct lifecycle states.
+7. Do not create synonym CMS categories for `技巧`, `技术`, `方法`, `投注技巧` or similar same-intent wording.
+8. Logical SEO clusters do not change the CMS category and do not authorize publication.
+9. Never infer cluster identity from title text alone.
+10. Never inject planned Hub URLs; real URLs require live verification or Publication Receipt evidence.
+11. Internal-link body changes alter content hash and require revision + re-Approval.
+12. Do not restart closed technical SEO work without regression evidence.
 
 ## 3. Publishing freeze — ACTIVE
 
-- `config/content_publication_policy.json`: `publishing_enabled=false`.
-- Scheduled Publisher cron is absent and previously verified paused.
-- 11 historical scheduled JSON files remain preserved inventory only.
-- Publisher remains fail-closed while frozen.
-- Approved/Draft/Scheduled/Published states must remain distinct and must not bypass the freeze.
-- No SEO category-consolidation or architecture-contract work published an article, changed the publisher cron, or consumed the scheduled queue.
+Authoritative policy: `config/content_publication_policy.json`.
 
-## 4. Technical SEO baseline — closed unless regression
+Current state:
 
-The earlier whole-site technical remediation is complete for the audited page classes:
+- `publishing_enabled=false`
+- Publisher cron absent
+- 11 historical scheduled JSON files remain preserved inventory only
+- automatic publication not allowed
+- resume requires explicit user approval
 
-- canonical mismatch: 0
-- duplicate title groups: 0
-- duplicate H1 groups: 0
-- duplicate Description groups: 0
-- orphan pages: 0
-- active empty news categories: 0
-- HTTP errors in the Phase 5 crawl: 0
-- missing audited intrinsic image dimensions: 0
-- homepage links to all 30 published platform detail pages
-- homepage H1 contains `信誉平台大全`
-- request-aware canonical metadata deployed
-- canonical `dir=` category navigation deployed and independently verified
+The SEO/category/contract work completed on 2026-08-12 did not publish articles, restore cron, or consume the scheduled queue.
 
-Latest full Phase 5 baseline audit remains:
+## 4. Cross-repo transport — PREPARED / DISABLED
 
-- job `seo-content-architecture-audit-20260811-05`
-- result `agent/results/seo-content-architecture-audit-20260811-05`
-- PASS / COMPLETE
-- 71 sitemap URLs / 71 crawled pages **at that audit checkpoint**
-- 38 published news / 30 published platform pages at that checkpoint
-- only remaining opportunity class: `planned_primary_target_mapping_incomplete`
+Machine policy: `config/content_source_sync_policy.json`.
 
-The sitemap was regenerated again during the later `seo-articles` consolidation, so do not treat the old total of 71 as a guaranteed current total without a fresh audit.
+Future automatic source:
+
+`fdsasaaa/caipiaowenzhang@main:articles/approved/`
+
+Current state:
+
+- `sync_enabled=false`
+- only source status `approved` is eligible
+- destination state is `draft`
+- transport cannot create `publish_at`
+- transport cannot promote to Scheduled
+- transport cannot invoke Native Publisher
+- transport cannot alter Publisher cron
+- transport cannot consume the scheduled queue
+
+Design: `docs/CROSS_REPO_CONTENT_SYNC.md`.
+
+Transport activation and publication activation must remain two separate future approvals.
 
 ## 5. Category architecture — CURRENT PRODUCTION TRUTH
 
-### Retained
+Retained:
 
-- `gjfa` / catid 2 / 挂机方案: retain as the automation/挂机 carrier.
-- `tzjq` / catid 3 / CMS label `投注机巧`: retain as the **single ordinary SEO article + betting-guide carrier**.
-- `zyyy` / catid 4 / 福利资源: retain as a distinct resources/download carrier.
+- `gjfa` / catid 2 / 挂机方案 — automation/挂机 carrier
+- `tzjq` / catid 3 / 投注机巧 — **single ordinary SEO article + betting-guide carrier**
+- `zyyy` / catid 4 / 福利资源 — resources/download carrier
 
-### Retired / consolidated
+Retired/consolidated:
 
-- `gdrz` / 跟单日志: retired because it contained zero content.
-- `rjxm`: duplicate category route remains consolidated/excluded; do not restore as an indexable duplicate.
-- `seo-articles` / former catid 7: **retired in production**. It has zero remaining articles and both its `dir=seo-articles` and legacy `id=7` routes 301 to `tzjq`.
+- `gdrz` — retired empty category
+- `rjxm` — duplicate route remains consolidated/excluded
+- `seo-articles` / former catid 7 — retired; zero remaining articles; old `dir=seo-articles` and `id=7` routes 301 to `tzjq`
 
-### Naming rule
-
-The CMS/public category label may remain `投注机巧`. Keyword targeting can naturally use the user-facing SEO intent wording `投注技巧` in titles, copy, metadata and Hub architecture. Do not repeat the failed DB-only rename attempt merely to force the synonym into the CMS category name.
+CMS label `投注机巧` may remain. SEO wording such as `投注技巧` belongs naturally in titles, metadata, copy and Hub architecture rather than requiring a category rename.
 
 ## 6. `SEO文章` -> `投注机巧` production closure — COMPLETE
 
-Authoritative production job:
+Authoritative production result:
 
-- job: `consolidate-seo-articles-into-tzjq-v7-20260812-01`
-- result branch: `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`
-- status: **PASS**
-- deploy: PASS
-- DB migration: PASS
-- rollback: NO
-- blocking item: NONE
+- job `consolidate-seo-articles-into-tzjq-v7-20260812-01`
+- result branch `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`
+- PASS
+- deploy PASS
+- DB migration PASS
+- rollback NO
 
-Migrated historical article IDs: 85, 86, 88, 91.
+Migrated IDs: 85, 86, 88, 91.
 
-Verified production result:
+Verified:
 
-- main rows migrated: 4
-- data rows migrated: 4
-- missing `share_index` rows repaired for 85/86: 2
-- missing `news_hits` rows repaired for 85/86: 2
-- category 7 remaining articles: 0
-- category 7 retired: PASS
-- old `dir=seo-articles` route -> 301 `tzjq`: PASS
-- old `id=7` route -> 301 `tzjq`: PASS
-- old-nav link count PC/Mobile: 0 / 0
-- article HTTP 200: 4/4
-- article self-canonical: 4/4
-- migrated articles present in regenerated sitemap: 4/4
-- old category present in sitemap: 0
-- `tzjq` category present in sitemap: 1
-- article 91 Description unchanged: PASS
-- H1 controls for show 74/75: PASS
-- framework integrity: PASS
-- article publishing attempted: false
-- publisher cron changed: false
-- scheduled queue consumed: false
+- 4 main + 4 data rows migrated to catid 3
+- missing share/hits rows for 85/86 repaired
+- category 7 remaining content = 0
+- both old category routes 301 to `tzjq`
+- old nav links PC/Mobile = 0/0
+- 4/4 article HTTP 200
+- 4/4 self-canonical
+- 4/4 migrated articles in regenerated sitemap
+- old category absent from sitemap
+- framework integrity PASS
+- no publishing/cron/queue side effect
 
-Earlier V1-V6 attempts are diagnostic history only. V7 is the authoritative final state.
+V7 is authoritative; V1-V6 are diagnostic history only.
 
-## 7. Content category policy for all future SEO articles
+## 7. Technical SEO baseline — CLOSED UNLESS REGRESSION
 
-`config/content_category_map.json` is the machine contract:
+Latest full structural audit checkpoint:
 
-- `seo_article_category_key = tzjq`
-- `seo-articles` is listed as retired
-- unknown category keys fail closed
-- packages must explicitly supply a valid site category key
+- `seo-content-architecture-audit-20260811-05`
+- PASS / COMPLETE
+- canonical mismatch 0
+- duplicate title groups 0
+- duplicate H1 groups 0
+- duplicate Description groups 0
+- HTTP errors 0
+- orphan pages 0
+- active empty news categories 0
+- homepage platform coverage 30/30
+- only remaining opportunity class: `planned_primary_target_mapping_incomplete`
 
-Therefore: **Future SEO articles -> `tzjq` / 投注机巧.**
+The old 71 sitemap total belongs to that checkpoint; sitemap was regenerated after category consolidation, so do not assume the same count without a new audit.
 
-Do not recreate an `SEO文章` category and do not make separate categories for `技巧`, `技术`, `方法`, `投注技巧` or other same-intent synonyms merely for keyword targeting.
+## 8. Keyword and target architecture
 
-## 8. Keyword architecture — current version 1.1.2
+### Keyword Map
 
-`content/keyword_map.json` is version **1.1.2**.
+`content/keyword_map.json` version **1.1.2**.
 
-Core rules remain:
+Core rules:
 
-- one primary keyword / one primary owner page
-- no keyword stuffing
+- one exact primary keyword owner per distinct article/page
+- same-intent synonyms share carriers unless SERP/corpus evidence justifies separation
 - no thin variation pages
-- preserve existing article URLs
-- consolidate same-intent synonyms
-- require SERP/corpus evidence before splitting same-intent targets
+- no keyword stuffing
+- preserve existing URLs
+- do not map planned intents to weak pages merely to reduce an audit counter
 
-Verified live carrier examples:
+Examples of current live carriers:
 
-- `分分彩投注技巧` + `分分彩投注方法` -> `/index.php?c=category&dir=tzjq`
-- `分分彩挂机` -> `/index.php?c=category&dir=gjfa`
-- `哈希分分彩挂机` -> `/index.php?c=category&dir=gjfa`
-- `奇趣分分彩挂机` -> `/index.php?c=category&dir=gjfa`
-- `时时彩挂机方案` -> `/index.php?c=category&dir=gjfa`
-- `信誉平台大全` -> homepage `/`
+- `分分彩投注技巧` + `分分彩投注方法` -> `tzjq`
+- FFC/hash/qiqu/ssc automation intents -> `gjfa`
+- `信誉平台大全` -> homepage
 
-Do not map remaining planned intents to weak/unrelated pages simply to make an audit counter reach zero.
+### Symbolic target registry
 
-## 9. Hub architecture — planning layer, not extra article categories
+`content/seo_target_registry.json` version **1.0.2**.
 
-`content/seo_target_registry.json` version **1.0.2** is the planning contract for targets without justified live URLs. It does not publish pages.
-
-Seven planned Hub groups remain:
+Seven planned Hub families:
 
 1. `ffc_research_hub` — 分分时时彩研究中心
 2. `hash_ffc_hub` — 哈希分分彩专题
@@ -174,20 +162,13 @@ Seven planned Hub groups remain:
 6. `platform_review_hub` — 平台评测与对比
 7. `research_lab_hub` — 数据实验室
 
-Architectural rule:
+These are planning identities, not permission to create empty pages.
 
-- underlying ordinary SEO articles remain in `tzjq`
-- a Hub is a substantive topic aggregation/landing page, **not another synonym article category**
-- do not create an empty Hub
-- a Hub becomes a real keyword owner only after it has substantive copy/supporting content/internal links and passes HTTP-200/self-canonical/internal-link checks
-
-## 10. Logical article clusters + internal links — CONTRACT PREPARED
+## 9. Logical SEO clusters — READY
 
 Machine registry: `content/seo_cluster_registry.json` version **1.0.0**.
 
-Design document: `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md`.
-
-Current logical clusters:
+All ordinary articles still remain in `tzjq`. Logical clusters are:
 
 - `ffc_research`
 - `hash_ffc`
@@ -199,86 +180,118 @@ Current logical clusters:
 
 Rules:
 
-- cluster membership never changes the CMS category; ordinary articles remain in `tzjq`
-- assignment must be explicit or editorially mapped; title-only guessing is prohibited
-- multi-cluster membership is allowed when real, with one primary cluster when assigned
-- unassigned is safer than guessed assignment
-- planned Hub URLs must never be injected
-- Article → Hub requires a live HTTP-200/self-canonical Hub
-- Article → Article requires the target's real published URL
-- draft/unpublished targets remain unresolved (`url=null` in planning)
-- no self links and no all-to-all cluster linking
-- natural contextual anchors are preferred over repeated exact-match anchors
-- body-link changes alter content hash and require revision + re-Approval
+- assignment is explicit/editorial, not title-only guessing
+- unassigned legacy/new content is allowed
+- multiple membership is allowed when real
+- one primary cluster when assigned
+- planned Hub URL injection prohibited
+- article-to-article links require real published URLs
+- Hub links require a real HTTP-200/self-canonical Hub
+- no self links or automatic all-to-all cluster linking
+- natural contextual anchors preferred over repeated exact-match anchors
 
-Special ownership rule: homepage keeps `信誉平台大全`; future `platform_review` Hub must target review/comparison intent rather than duplicate the homepage primary owner.
+Design: `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md`.
 
-## 10A. Cross-repo Approved -> Draft contract — PREPARED / DISABLED
+Homepage remains the primary owner for `信誉平台大全`; a future `platform_review` Hub must target review/comparison intent instead of duplicating the homepage owner term.
 
-Content engine: `fdsasaaa/caipiaowenzhang`.
+## 10. Portable cluster metadata across both repositories — COMPLETE
 
-The future automatic source is only:
+The logical cluster identity can now travel from the article engine into the website Draft contract without any title guessing.
 
-`caipiaowenzhang@main:articles/approved/`
+Portable optional fields:
 
-Website machine gate:
+- `primary_seo_cluster_id`
+- `secondary_seo_cluster_ids`
 
-- `config/content_source_sync_policy.json`
-- `sync_enabled=false`
-- destination state = `draft`
-- no `publish_at`
-- no promotion to Scheduled
-- no Publisher invocation
-- no cron change
-- no scheduled-queue consumption
+### Article engine
 
-Design document: `docs/CROSS_REPO_CONTENT_SYNC.md`.
+PR `fdsasaaa/caipiaowenzhang#42` merged, commit `7ff5b09bb25ac477855150526994ee56df7576b4`.
 
-The article-engine publishing contract v2 routes `seo_topic` to `tzjq` and treats `seo-articles` as retired. Transport and publication remain two separate approvals. A future transport implementation must fail closed while `sync_enabled=false`.
+The article engine now:
 
-## 11. Next unresolved SEO work — DO THIS NEXT
+- validates cluster IDs against the website-aligned seven-cluster contract
+- accepts cluster assignment only from immutable/editorial contract state
+- carries valid cluster metadata into Approved Package and Registry
+- rejects unknown/duplicate/invalid assignments fail-closed
+- records rejection cleanly instead of crashing approval
+- keeps existing Approved Packages without cluster metadata valid
+- no longer uses stale semantic `SEO文章` label for `seo_topic`
 
-The single-category taxonomy/cluster and internal-link contracts now exist. Do not create Hubs merely because their registry entries exist.
+CI: PASS.
 
-Next sequence:
+### Website bridge
 
-1. Let the content engine accumulate a substantive Approved corpus while cross-repo sync stays disabled.
-2. When corpus volume is meaningful, inventory article cluster coverage and identify which Hub has enough real supporting material.
-3. Preferred first readiness assessment: `ffc_research_hub`, then `research_lab_hub`, then `platform_review_hub`.
-4. Create only the first genuinely substantive Hub; verify HTTP 200, self-canonical, useful copy/navigation and real internal links.
-5. Only after live verification, replace that Hub's symbolic Keyword Map targets with the real URL.
-6. Hash/Qiqu/SSC/racing Hubs wait for sufficient corpus or SERP evidence.
+PR `fdsasaaa/xyptdq#250` merged, commit `00c400f2b0fea062b8a3b5390c9d5a1edafcc447`.
 
-Do not restart closed orphan/H1/Description/canonical/empty-category remediation without regression evidence.
+The website now:
 
-## 12. Future harvested-article workflow — still frozen
+- accepts legacy packages without cluster metadata unchanged
+- validates optional cluster IDs against `content/seo_cluster_registry.json`
+- only allows cluster metadata on the configured `tzjq` article carrier
+- preserves valid primary/secondary cluster IDs into Draft JSON
+- rejects unknown/duplicate/invalid IDs without creating a Draft
+- never guesses a cluster from title/keyword text
 
-Current intended lifecycle:
+CI gates all PASS:
 
-`source collection / generation -> deduplication -> rule/fact validation -> rewrite -> SEO optimization -> Approval -> cross-repo Approved→Draft transport (future, separately gated) -> CMS draft -> cluster/internal-link planning -> quality/portfolio gate -> explicit scheduling -> controlled Native Publisher -> Publication Receipt`
+- `repository-ci`
+- `embedded-python-ci`
+- `content-bridge-test`
+- dedicated SEO cluster metadata regression: valid preserved / invalid rejected / legacy compatible / publishing untouched
 
-Until explicit approval, cross-repo transport and automatic publication remain disabled.
+This metadata does **not** enable transport, scheduling, publication or Hub creation.
 
-## 13. Key current evidence
+## 11. Hub readiness rules
 
-Most important production results:
+Do not create a Hub to satisfy an audit counter.
 
-- `agent/results/seo-content-architecture-audit-20260811-05`
-- `agent/results/deploy-news-duplicate-description-hash-fallback-v3-20260811-01`
-- `agent/results/deploy-show-74-75-h1-v1-20260811-01`
-- `agent/results/retire-empty-gdrz-category-v1-20260811-01`
-- `agent/results/consolidate-seo-articles-into-tzjq-v7-20260812-01`
-- `agent/results/bridge-healthcheck-20260812-11`
+A Hub becomes eligible only when:
 
-Important closure PRs include #215 and #237-#245. Later cross-repo and logical-cluster contracts are source/configuration work only and do not modify production.
+- supporting corpus is substantive
+- primary intent is distinct
+- useful explanatory copy and navigation exist
+- real internal links exist
+- live URL returns HTTP 200
+- page self-canonicalizes
+- sitemap inclusion is justified
+
+Only after live verification may its symbolic Keyword Map targets be replaced by the real URL.
+
+Preferred readiness order once the corpus is large enough:
+
+1. `ffc_research_hub`
+2. `research_lab_hub`
+3. `platform_review_hub`
+4. Hash/Qiqu/SSC/racing only when corpus or SERP evidence supports them
+
+## 12. Current next action — WAIT FOR CORPUS EVIDENCE
+
+The useful architecture work that can be done safely in advance is now complete. Do **not** build more transport/publishing machinery merely in anticipation.
+
+Next meaningful work should begin when one of these conditions is true:
+
+- the article engine has accumulated enough Approved articles to inventory cluster coverage and assess Hub readiness; or
+- the user explicitly approves enabling cross-repo Approved→Draft transport; or
+- the user separately approves scheduling/publication.
+
+Until then:
+
+- keep `sync_enabled=false`
+- keep `publishing_enabled=false`
+- let new Approved Packages carry cluster metadata when editorial evidence supports an assignment
+- leave uncertain articles unassigned rather than guessing
+- do not create empty Hub pages
+
+## 13. Future end-to-end lifecycle
+
+`source/generation -> dedupe -> rule/fact/evidence validation -> rewrite -> SEO optimization -> Approval -> optional explicit cluster metadata -> future cross-repo Approved→Draft transport -> website Draft -> cluster/internal-link planning -> portfolio gate -> explicit scheduling -> Native Publisher -> Publication Receipt -> article Registry`
 
 ## 14. New-session takeover protocol
 
-1. Read this file from `main`.
-2. Read `docs/seo/SEO_CHANGELOG.md` and `config/seo_project_state.json`.
-3. Read `content/keyword_map.json`, `content/seo_target_registry.json`, `content/seo_cluster_registry.json`, `config/content_category_map.json`, and `config/content_source_sync_policy.json`.
-4. Read `docs/seo/SEO_INTERNAL_LINK_ARCHITECTURE.md` and `docs/CROSS_REPO_CONTENT_SYNC.md` before implementing Hub links or automatic article retrieval.
-5. Inspect commits/PRs/results newer than this checkpoint.
-6. Verify publishing freeze remains enabled and cross-repo `sync_enabled=false` unless explicitly changed later.
-7. Treat `seo-articles` as retired and `tzjq` as the single future SEO article carrier.
-8. Continue from section 11; do not restart closed technical SEO phases without regression evidence.
+1. Read this handoff and the changelog/state files.
+2. Read keyword, target and cluster registries.
+3. Read category and cross-repo sync policies.
+4. Inspect newer PRs/results.
+5. Confirm both transport and publication are still disabled unless explicitly changed.
+6. Treat `seo-articles` as retired and `tzjq` as the single ordinary SEO article carrier.
+7. Do not build Hubs or activate automation until corpus/readiness evidence or explicit user approval justifies the next step.
