@@ -1,0 +1,57 @@
+{
+  "approved_at": "2026-08-13T03:08:00+00:00",
+  "article_id": "LCM-CREATOR-cf50-20260813-002",
+  "case_scope": "mechanics_only",
+  "category": "投注技巧",
+  "claim_evidence": [
+    {
+      "claim_text": "后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。",
+      "claim_type": "rule_fact",
+      "evidence_note": "已验证玩法机制；不继承平台奖金、返点、单注金额或限额。",
+      "support_refs": ["SSC-HIST-MECH-2STAR-LAST-V1"],
+      "support_type": "verified_rule"
+    },
+    {
+      "claim_text": "先把十位与个位相加，再除以5看余数。本例只保留余数1或4，共40组。示例前20组：01、04、06、09、10、13、15、18、22、24、27、29、31、33、36、38、40、42、45、47。",
+      "claim_type": "calculation",
+      "evidence_note": "文中固定研究参数和候选集合的演示计算；不是历史开奖记录。",
+      "support_refs": ["case_bundle"],
+      "support_type": "synthetic_case"
+    },
+    {
+      "claim_text": "例如18的两位和是9，除以5余4，所以保留；17的两位和是8，余3，所以不保留。余数只是分类方法，不代表某一类更容易出现。",
+      "claim_type": "calculation",
+      "evidence_note": "自拟演示号码用于解释计算方法；不是历史开奖记录。",
+      "support_refs": ["case_bundle"],
+      "support_type": "synthetic_case"
+    }
+  ],
+  "content": "<p>先把复杂的预测说法放一边，只做一个能手算、能复盘的小实验。</p><p>后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。</p><p><strong>演示参数，不是真实开奖记录。</strong></p><h2>先说规则</h2><p>先把十位与个位相加，再除以5看余数。本例只保留余数1或4，共40组。示例前20组：01、04、06、09、10、13、15、18、22、24、27、29、31、33、36、38、40、42、45、47。</p><h2>实际怎么判断</h2><p>例如18的两位和是9，除以5余4，所以保留；17的两位和是8，余3，所以不保留。余数只是分类方法，不代表某一类更容易出现。</p><p>真正有用的地方不是这组参数本身，而是你能清楚知道每一个号码为什么留下、为什么排除。</p><h2>别把资金越做越重</h2><p>这类40组的集合不适合用激进倍投去追。我更建议固定单位做短轮次，先看方法是否便于执行和记录。</p><h2>这个技巧的边界</h2><p>短期出现多少次都不能反过来证明这条结构有稳定优势。先把规则固定、记录完整，再谈是否值得继续研究。</p>",
+  "content_format": "html",
+  "content_hash": "32afe41f97a20aa95279b759bf3a02531f9cf33199f9ff837efb9bb764fc0208",
+  "content_type": "technique_article",
+  "creator_batch_id": "CF50-20260813",
+  "creator_first_contract_version": "1.0",
+  "fingerprint": "39d72a6c743a6354866883a86c338c5a70a0d8a9652af8156985cc480f3a89b7",
+  "generation_contract_version": "2.0",
+  "internal_links": [],
+  "lottery": "时时彩",
+  "meta_description": "分分彩后二直选余数筛选技巧：用和值余数双区做一个可复算的研究示例，讲清选号逻辑、计算方法和资金停止条件，不把结构筛选包装成预测优势。",
+  "play": "后二直选",
+  "primary_keyword": "分分彩后二直选余数筛选技巧",
+  "provider_id": null,
+  "rule_refs": ["SSC-HIST-MECH-2STAR-LAST-V1"],
+  "search_intent": "了解后二直选的和值余数双区研究方法，并看懂可复算示例和资金控制",
+  "secondary_keywords": ["分分彩后二直选技巧", "和值余数双区", "分分彩投注技巧"],
+  "seo_title": "分分彩后二直选余数筛选技巧：不用追号码，改看两位数和的余数",
+  "site_category_key": "tzjq",
+  "slug": "ffc-last2-direct-sum-mod5",
+  "source_refs": [],
+  "status": "approved",
+  "subject_lottery": "分分彩",
+  "subject_play": "后二直选",
+  "summary": "用和值余数双区重新拆解后二直选，把选号逻辑、可复算例子和资金停止条件讲清楚。",
+  "tags": ["分分彩", "后二直选", "和值余数双区", "投注技巧"],
+  "technique_atoms": ["sum_modulo", "relation_filter"],
+  "title": "分分彩后二直选余数筛选技巧：不用追号码，改看两位数和的余数"
+}
