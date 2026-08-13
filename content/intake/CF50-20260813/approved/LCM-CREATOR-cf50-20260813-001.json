@@ -1,0 +1,77 @@
+{
+  "approved_at": "2026-08-13T03:08:00+00:00",
+  "article_id": "LCM-CREATOR-cf50-20260813-001",
+  "case_scope": "mechanics_only",
+  "category": "投注技巧",
+  "claim_evidence": [
+    {
+      "claim_text": "后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。",
+      "claim_type": "rule_fact",
+      "evidence_note": "已验证玩法机制；不继承平台奖金、返点、单注金额或限额。",
+      "support_refs": [
+        "SSC-HIST-MECH-2STAR-LAST-V1"
+      ],
+      "support_type": "verified_rule"
+    },
+    {
+      "claim_text": "只看十位和个位的绝对差，保留差2或差5。完整候选共26组：02、05、13、16、20、24、27、31、35、38、42、46、49、50、53、57、61、64、68、72、75、79、83、86、94、97。",
+      "claim_type": "calculation",
+      "evidence_note": "文中固定研究参数和候选集合的演示计算；不是历史开奖记录。",
+      "support_refs": [
+        "case_bundle"
+      ],
+      "support_type": "synthetic_case"
+    },
+    {
+      "claim_text": "例如27和72都属于差5，24和42都属于差2；39的差值是6，所以不在本轮集合里。",
+      "claim_type": "calculation",
+      "evidence_note": "自拟演示号码用于解释计算方法；不是历史开奖记录。",
+      "support_refs": [
+        "case_bundle"
+      ],
+      "support_type": "synthetic_case"
+    }
+  ],
+  "content": "<p>这篇不从“哪个号码热”开始，而是换一个更容易复算的角度。</p><p>后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。</p><p><strong>演示参数，不是真实开奖记录。</strong></p><h2>方法很简单</h2><p>只看十位和个位的绝对差，保留差2或差5。完整候选共26组：02、05、13、16、20、24、27、31、35、38、42、46、49、50、53、57、61、64、68、72、75、79、83、86、94、97。</p><h2>拿几个号码试一下</h2><p>例如27和72都属于差5，24和42都属于差2；39的差值是6，所以不在本轮集合里。</p><p>我会把这条条件写在纸上，开奖以后只做“符合/不符合”两个记录，不临时补第二个条件。</p><h2>资金怎么配</h2><p>如果拿它做连续实验，我更倾向1、1、0.8、0.8、0.6、0.6这样的降压单位，连续六次仍不符合预期就结束本轮，而不是越不中越翻倍。</p><h2>最后提醒</h2><p>这只是一个研究型投注技巧，用来说明选号结构和执行纪律，不用于证明未来预测优势。</p>",
+  "content_format": "html",
+  "content_hash": "8047d09d9a71eae240a6607d04c1db30308431d086f5b5ad5d5e2301083c188b",
+  "content_type": "technique_article",
+  "creator_batch_id": "CF50-20260813",
+  "creator_first_contract_version": "1.0",
+  "fingerprint": "c7dff0a997c7c2bd59997650150840771fa4979284c2a9ff7c67516287473b74",
+  "generation_contract_version": "2.0",
+  "internal_links": [],
+  "lottery": "时时彩",
+  "meta_description": "分分彩后二直选差值技巧：用差值双轨做一个可复算的研究示例，讲清选号逻辑、计算方法和资金停止条件，不把结构筛选包装成预测优势。",
+  "play": "后二直选",
+  "primary_keyword": "分分彩后二直选差值技巧",
+  "provider_id": null,
+  "rule_refs": [
+    "SSC-HIST-MECH-2STAR-LAST-V1"
+  ],
+  "search_intent": "了解后二直选的差值双轨研究方法，并看懂可复算示例和资金控制",
+  "secondary_keywords": [
+    "分分彩后二直选技巧",
+    "差值双轨",
+    "分分彩投注技巧"
+  ],
+  "seo_title": "分分彩后二直选差值技巧：把100组号码拆成两条距离轨道",
+  "site_category_key": "tzjq",
+  "slug": "ffc-last2-direct-diff-double-track",
+  "source_refs": [],
+  "status": "approved",
+  "subject_lottery": "分分彩",
+  "subject_play": "后二直选",
+  "summary": "用差值双轨重新拆解后二直选，把选号逻辑、可复算例子和资金停止条件讲清楚。",
+  "tags": [
+    "分分彩",
+    "后二直选",
+    "差值双轨",
+    "投注技巧"
+  ],
+  "technique_atoms": [
+    "difference_relation",
+    "two_track_selection"
+  ],
+  "title": "分分彩后二直选差值技巧：把100组号码拆成两条距离轨道"
+}
