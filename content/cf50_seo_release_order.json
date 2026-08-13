@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "batch_id": "CF50-20260813",
+  "purpose": "SEO sequencing only; this file is not a publication queue and contains no publish_at values.",
+  "source_repository": "fdsasaaa/caipiaowenzhang",
+  "source_ref": "main",
+  "primary_cluster_id": "ffc_research",
+  "article_count": 50,
+  "recommended_cadence": {
+    "articles_per_day": 2,
+    "timezone": "Asia/Singapore",
+    "editorial_slots": ["10:00", "19:00"],
+    "direct_ranking_signal_claimed": false
+  },
+  "hard_gates": {
+    "public_release_revision_required_when_source_body_changes": true,
+    "formal_validation_required": true,
+    "website_draft_validation_required": true,
+    "this_file_authorizes_scheduling": false,
+    "this_file_authorizes_publication": false,
+    "planned_hub_url_may_be_injected": false
+  },
+  "waves": [
+    {
+      "wave_id": "canary_and_hub_seed",
+      "positions": [1, 12],
+      "goal": "Establish diverse FFC research coverage before the Hub exists.",
+      "hub_action_after_wave": "evaluate_ffc_research_hub_live_creation",
+      "hub_trigger": {
+        "minimum_verified_live_articles": 12,
+        "minimum_distinct_play_families": 6,
+        "all_seed_articles_http_200": true,
+        "all_seed_articles_self_canonical": true,
+        "all_seed_articles_indexable": true,
+        "seed_articles_present_in_sitemap": true,
+        "major_keyword_owner_conflicts": 0,
+        "automatic_hub_creation_allowed": false
+      }
+    },
+    {
+      "wave_id": "breadth_expansion",
+      "positions": [13, 30],
+      "goal": "Expand play-family breadth while keeping consecutive pages semantically distinct."
+    },
+    {
+      "wave_id": "long_tail_depth",
+      "positions": [31, 45],
+      "goal": "Deepen long-tail coverage after the first corpus and Hub decision are observable."
+    },
+    {
+      "wave_id": "broad_term_overlap_control",
+      "positions": [46, 50],
+      "goal": "Release progression/bankroll-adjacent pages only after broad keyword owners are established.",
+      "additional_gate": "ffc_research_hub_must_be_live_or_explicit_editorial_hold_remains",
+      "broad_terms_reserved_for_non_article_owners": [
+        "分分彩倍投",
+        "分分彩高级倍投",
+        "分分彩资金管理"
+      ]
+    }
+  ],
+  "release_order": [
+    {"position": 1, "article_id": "LCM-CREATOR-cf50-20260813-001", "family": "后二直选"},
+    {"position": 2, "article_id": "LCM-CREATOR-cf50-20260813-011", "family": "后三直选"},
+    {"position": 3, "article_id": "LCM-CREATOR-cf50-20260813-021", "family": "五星直选"},
+    {"position": 4, "article_id": "LCM-CREATOR-cf50-20260813-031", "family": "定位胆"},
+    {"position": 5, "article_id": "LCM-CREATOR-cf50-20260813-041", "family": "后二组选"},
+    {"position": 6, "article_id": "LCM-CREATOR-cf50-20260813-046", "family": "后三组选6"},
+    {"position": 7, "article_id": "LCM-CREATOR-cf50-20260813-002", "family": "后二直选"},
+    {"position": 8, "article_id": "LCM-CREATOR-cf50-20260813-012", "family": "后三直选"},
+    {"position": 9, "article_id": "LCM-CREATOR-cf50-20260813-022", "family": "五星直选"},
+    {"position": 10, "article_id": "LCM-CREATOR-cf50-20260813-032", "family": "定位胆"},
+    {"position": 11, "article_id": "LCM-CREATOR-cf50-20260813-037", "family": "一星直选"},
+    {"position": 12, "article_id": "LCM-CREATOR-cf50-20260813-049", "family": "后三组选3"},
+    {"position": 13, "article_id": "LCM-CREATOR-cf50-20260813-003", "family": "后二直选"},
+    {"position": 14, "article_id": "LCM-CREATOR-cf50-20260813-013", "family": "后三直选"},
+    {"position": 15, "article_id": "LCM-CREATOR-cf50-20260813-023", "family": "五星直选"},
+    {"position": 16, "article_id": "LCM-CREATOR-cf50-20260813-033", "family": "定位胆"},
+    {"position": 17, "article_id": "LCM-CREATOR-cf50-20260813-042", "family": "后二组选"},
+    {"position": 18, "article_id": "LCM-CREATOR-cf50-20260813-047", "family": "后三组选6"},
+    {"position": 19, "article_id": "LCM-CREATOR-cf50-20260813-004", "family": "后二直选"},
+    {"position": 20, "article_id": "LCM-CREATOR-cf50-20260813-014", "family": "后三直选"},
+    {"position": 21, "article_id": "LCM-CREATOR-cf50-20260813-024", "family": "五星直选"},
+    {"position": 22, "article_id": "LCM-CREATOR-cf50-20260813-034", "family": "定位胆"},
+    {"position": 23, "article_id": "LCM-CREATOR-cf50-20260813-043", "family": "后二组选"},
+    {"position": 24, "article_id": "LCM-CREATOR-cf50-20260813-050", "family": "后三组选3"},
+    {"position": 25, "article_id": "LCM-CREATOR-cf50-20260813-005", "family": "后二直选"},
+    {"position": 26, "article_id": "LCM-CREATOR-cf50-20260813-015", "family": "后三直选"},
+    {"position": 27, "article_id": "LCM-CREATOR-cf50-20260813-025", "family": "五星直选"},
+    {"position": 28, "article_id": "LCM-CREATOR-cf50-20260813-035", "family": "定位胆"},
+    {"position": 29, "article_id": "LCM-CREATOR-cf50-20260813-044", "family": "后二组选"},
+    {"position": 30, "article_id": "LCM-CREATOR-cf50-20260813-048", "family": "后三组选6"},
+    {"position": 31, "article_id": "LCM-CREATOR-cf50-20260813-006", "family": "后二直选"},
+    {"position": 32, "article_id": "LCM-CREATOR-cf50-20260813-016", "family": "后三直选"},
+    {"position": 33, "article_id": "LCM-CREATOR-cf50-20260813-026", "family": "五星直选"},
+    {"position": 34, "article_id": "LCM-CREATOR-cf50-20260813-036", "family": "定位胆"},
+    {"position": 35, "article_id": "LCM-CREATOR-cf50-20260813-045", "family": "后二组选"},
+    {"position": 36, "article_id": "LCM-CREATOR-cf50-20260813-007", "family": "后二直选"},
+    {"position": 37, "article_id": "LCM-CREATOR-cf50-20260813-017", "family": "后三直选"},
+    {"position": 38, "article_id": "LCM-CREATOR-cf50-20260813-027", "family": "五星直选"},
+    {"position": 39, "article_id": "LCM-CREATOR-cf50-20260813-008", "family": "后二直选"},
+    {"position": 40, "article_id": "LCM-CREATOR-cf50-20260813-018", "family": "后三直选"},
+    {"position": 41, "article_id": "LCM-CREATOR-cf50-20260813-028", "family": "五星直选"},
+    {"position": 42, "article_id": "LCM-CREATOR-cf50-20260813-009", "family": "后二直选"},
+    {"position": 43, "article_id": "LCM-CREATOR-cf50-20260813-019", "family": "后三直选"},
+    {"position": 44, "article_id": "LCM-CREATOR-cf50-20260813-030", "family": "五星直选"},
+    {"position": 45, "article_id": "LCM-CREATOR-cf50-20260813-010", "family": "后二直选"},
+    {"position": 46, "article_id": "LCM-CREATOR-cf50-20260813-020", "family": "后三直选", "overlap_control": true},
+    {"position": 47, "article_id": "LCM-CREATOR-cf50-20260813-029", "family": "五星直选", "overlap_control": true},
+    {"position": 48, "article_id": "LCM-CREATOR-cf50-20260813-038", "family": "一星直选", "overlap_control": true},
+    {"position": 49, "article_id": "LCM-CREATOR-cf50-20260813-039", "family": "定位胆", "overlap_control": true},
+    {"position": 50, "article_id": "LCM-CREATOR-cf50-20260813-040", "family": "定位胆", "overlap_control": true}
+  ]
+}
