@@ -1,0 +1,57 @@
+{
+  "approved_at": "2026-08-13T03:08:00+00:00",
+  "article_id": "LCM-CREATOR-cf50-20260813-003",
+  "case_scope": "mechanics_only",
+  "category": "投注技巧",
+  "claim_evidence": [
+    {
+      "claim_text": "后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。",
+      "claim_type": "rule_fact",
+      "evidence_note": "已验证玩法机制；不继承平台奖金、返点、单注金额或限额。",
+      "support_refs": ["SSC-HIST-MECH-2STAR-LAST-V1"],
+      "support_type": "verified_rule"
+    },
+    {
+      "claim_text": "把0到9想成一个圆环，0和9的距离也是1。本例保留环形距离1或3，共40组，前20组如：01、03、07、09、10、12、14、18、21、23、25、29、30、32、34、36、41、43、45、47。",
+      "claim_type": "calculation",
+      "evidence_note": "文中固定研究参数和候选集合的演示计算；不是历史开奖记录。",
+      "support_refs": ["case_bundle"],
+      "support_type": "synthetic_case"
+    },
+    {
+      "claim_text": "09在普通差值里相差9，但在圆环上只隔1格；07在圆环上隔3格。这样能得到一种和普通跨度完全不同的关系分类。",
+      "claim_type": "calculation",
+      "evidence_note": "自拟演示号码用于解释计算方法；不是历史开奖记录。",
+      "support_refs": ["case_bundle"],
+      "support_type": "synthetic_case"
+    }
+  ],
+  "content": "<p>如果一个技巧需要解释十分钟才能知道怎么选，通常已经太复杂了。这次把规则压到一句话。</p><p>后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。</p><p><strong>演示参数，不是真实开奖记录。</strong></p><h2>核心思路</h2><p>把0到9想成一个圆环，0和9的距离也是1。本例保留环形距离1或3，共40组，前20组如：01、03、07、09、10、12、14、18、21、23、25、29、30、32、34、36、41、43、45、47。</p><h2>看一个例子就明白</h2><p>09在普通差值里相差9，但在圆环上只隔1格；07在圆环上隔3格。这样能得到一种和普通跨度完全不同的关系分类。</p><p>参数可以换，但要在下一轮开始前换；不能先看结果，再把规则改成刚好解释结果的样子。</p><h2>如果连续做实验</h2><p>资金上只按固定单位测试，不因为某条环形轨道连续没出现就加码。</p><h2>为什么值得记录</h2><p>这篇只解决“怎么分类、怎么执行、怎么限制暴露”三个问题，不给出收益承诺。</p>",
+  "content_format": "html",
+  "content_hash": "ca01cbd953c51b51739a6f7180c9d76340da5429616051cb5d7d3cadd6f76a22",
+  "content_type": "technique_article",
+  "creator_batch_id": "CF50-20260813",
+  "creator_first_contract_version": "1.0",
+  "fingerprint": "f12be9c0323996363714686e5b64cf64ee8781730573259a8886fc86f63101c8",
+  "generation_contract_version": "2.0",
+  "internal_links": [],
+  "lottery": "时时彩",
+  "meta_description": "分分彩后二直选环形距离技巧：用环形距离做一个可复算的研究示例，讲清选号逻辑、计算方法和资金停止条件，不把结构筛选包装成预测优势。",
+  "play": "后二直选",
+  "primary_keyword": "分分彩后二直选环形距离技巧",
+  "provider_id": null,
+  "rule_refs": ["SSC-HIST-MECH-2STAR-LAST-V1"],
+  "search_intent": "了解后二直选的环形距离研究方法，并看懂可复算示例和资金控制",
+  "secondary_keywords": ["分分彩后二直选技巧", "环形距离", "分分彩投注技巧"],
+  "seo_title": "分分彩后二直选环形距离技巧：把0和9也当成邻居来看",
+  "site_category_key": "tzjq",
+  "slug": "ffc-last2-direct-ring-distance",
+  "source_refs": [],
+  "status": "approved",
+  "subject_lottery": "分分彩",
+  "subject_play": "后二直选",
+  "summary": "用环形距离重新拆解后二直选，把选号逻辑、可复算例子和资金停止条件讲清楚。",
+  "tags": ["分分彩", "后二直选", "环形距离", "投注技巧"],
+  "technique_atoms": ["circular_distance", "digit_relation"],
+  "title": "分分彩后二直选环形距离技巧：把0和9也当成邻居来看"
+}
