@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-14T05:30:00+08:00",
+  "batch_id": "CF50-20260813",
+  "exact_primary_keyword_conflict_count": 0,
+  "recommended_primary_cluster_id": "ffc_research",
+  "broad_keyword_owners_preserved": {
+    "分分彩": "ffc_hub",
+    "分分彩技巧": "ffc_skills_technology",
+    "分分彩技术": "ffc_skills_technology",
+    "分分彩倍投": "ffc_progression",
+    "分分彩高级倍投": "ffc_advanced_progression",
+    "分分彩数据分析": "ffc_data",
+    "分分彩方案验证": "ffc_validation",
+    "分分彩历史数据": "ffc_history",
+    "分分彩冷热号": "ffc_hot_cold",
+    "分分彩遗漏": "ffc_omission",
+    "分分彩资金管理": "ffc_bankroll"
+  },
+  "higher_semantic_overlap_articles": [
+    "LCM-CREATOR-cf50-20260813-020",
+    "LCM-CREATOR-cf50-20260813-029",
+    "LCM-CREATOR-cf50-20260813-038",
+    "LCM-CREATOR-cf50-20260813-039",
+    "LCM-CREATOR-cf50-20260813-040"
+  ],
+  "controls": [
+    "retain_play_specific_long_tail_primary_keyword",
+    "do_not_retitle_article_to_broad_owner_keyword",
+    "avoid_repeated_broad_exact_match_internal_anchors",
+    "do_not_create_thin_sub_hubs_without_serp_or_corpus_evidence",
+    "do_not_replace_symbolic_targets_before_verified_live_url"
+  ],
+  "new_sub_hubs_authorized": 0,
+  "keyword_map_url_replacements_authorized": 0,
+  "evidence_document": "docs/seo/CF50_KEYWORD_CANNIBALIZATION_AUDIT_20260814.md"
+}
