@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "map_id": "CF50-20260813-ffc-research",
+  "source_repository": "fdsasaaa/caipiaowenzhang",
+  "source_ref": "main",
+  "batch_id": "CF50-20260813",
+  "expected_article_count": 50,
+  "article_id_prefix": "LCM-CREATOR-cf50-20260813-",
+  "article_id_range": [1, 50],
+  "primary_seo_cluster_id": "ffc_research",
+  "secondary_seo_cluster_ids": [],
+  "assignment_type": "editorial_batch_contract",
+  "decision_basis": [
+    "The formal batch declares subject_lottery=分分彩.",
+    "The batch corpus covers multiple distinct FFC play/research families rather than one narrow synonym page.",
+    "The target registry already reserves ffc_research_hub for the broad FFC research/navigation intent."
+  ],
+  "apply_only_when": [
+    "article_id_matches_batch_contract",
+    "formal_package_validation_passes",
+    "website_public_release_is_separately_authorized"
+  ],
+  "must_not": [
+    "infer_assignment_from_title_only",
+    "authorize_publication",
+    "inject_nonexistent_hub_url",
+    "replace_keyword_map_symbolic_target_before_live_verification"
+  ]
+}
