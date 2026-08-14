@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-category-scale-templates-20260814-01",
+  "required_commit": "ce6b9bea333556583f3cd3fdffee30811bc9adc2",
+  "script": "scripts/ops/agent_tasks/deploy_category_scale_templates_v1.sh",
+  "script_sha256": "ff81adb01c47cb72d83f6f9e809f571e078ba0189e2874c883f14272771fb8ab",
+  "timeout_seconds": 300
+}
