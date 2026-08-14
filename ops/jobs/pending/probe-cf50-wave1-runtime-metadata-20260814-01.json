@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-cf50-wave1-runtime-metadata-20260814-01",
+  "required_commit": "e3f849638ab60058887df9f13b0578da776fa49a",
+  "script": "scripts/ops/agent_tasks/probe_cf50_wave1_runtime_metadata_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 300
+}
