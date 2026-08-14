@@ -49,6 +49,73 @@ function loadClusterRegistry(string $path): array
     return ['carrier_key' => $carrierKey, 'ids' => $ids];
 }
 
+function loadEditorialClusterMap(string $path): array
+{
+    if (!is_file($path)) {
+        throw new RuntimeException('editorial SEO cluster map not found: ' . $path);
+    }
+    $data = json_decode((string) file_get_contents($path), true);
+    if (!is_array($data) || (int) ($data['schema_version'] ?? 0) !== 1) {
+        throw new RuntimeException('invalid editorial SEO cluster map');
+    }
+    foreach (['map_id', 'batch_id', 'article_id_prefix', 'primary_seo_cluster_id', 'assignment_type'] as $field) {
+        if (trim((string) ($data[$field] ?? '')) === '') {
+            throw new RuntimeException('editorial SEO cluster map missing ' . $field);
+        }
+    }
+    if ((string) $data['assignment_type'] !== 'editorial_batch_contract') {
+        throw new RuntimeException('editorial SEO cluster map must use assignment_type=editorial_batch_contract');
+    }
+    $range = $data['article_id_range'] ?? null;
+    if (!is_array($range) || count($range) !== 2 || (int) $range[0] <= 0 || (int) $range[1] < (int) $range[0]) {
+        throw new RuntimeException('editorial SEO cluster map has invalid article_id_range');
+    }
+    $secondary = $data['secondary_seo_cluster_ids'] ?? [];
+    if (!is_array($secondary)) {
+        throw new RuntimeException('editorial SEO cluster map secondary_seo_cluster_ids must be an array');
+    }
+    return $data;
+}
+
+function applyEditorialClusterMap(array $package, array $map): array
+{
+    $articleId = trim((string) ($package['article_id'] ?? ''));
+    $batchId = trim((string) ($package['creator_batch_id'] ?? $package['batch_id'] ?? ''));
+    $expectedBatch = trim((string) $map['batch_id']);
+    if ($batchId === '' || $batchId !== $expectedBatch) {
+        throw new RuntimeException('Approved Package does not match editorial map batch_id');
+    }
+
+    $prefix = trim((string) $map['article_id_prefix']);
+    if (strpos($articleId, $prefix) !== 0) {
+        throw new RuntimeException('Approved Package article_id does not match editorial map prefix');
+    }
+    $suffix = substr($articleId, strlen($prefix));
+    if ($suffix === '' || ctype_digit($suffix) === false) {
+        throw new RuntimeException('Approved Package article_id has no numeric editorial-map suffix');
+    }
+    $number = (int) $suffix;
+    $range = array_values($map['article_id_range']);
+    if ($number < (int) $range[0] || $number > (int) $range[1]) {
+        throw new RuntimeException('Approved Package article_id is outside editorial map range');
+    }
+
+    $mapPrimary = trim((string) $map['primary_seo_cluster_id']);
+    $mapSecondary = array_values($map['secondary_seo_cluster_ids'] ?? []);
+    $hasPackageCluster = array_key_exists('primary_seo_cluster_id', $package) || array_key_exists('secondary_seo_cluster_ids', $package);
+    if ($hasPackageCluster) {
+        $packagePrimary = trim((string) ($package['primary_seo_cluster_id'] ?? ''));
+        $packageSecondary = array_values($package['secondary_seo_cluster_ids'] ?? []);
+        if ($packagePrimary !== $mapPrimary || $packageSecondary !== $mapSecondary) {
+            throw new RuntimeException('Approved Package SEO cluster metadata conflicts with explicit editorial map');
+        }
+    }
+
+    $package['primary_seo_cluster_id'] = $mapPrimary;
+    $package['secondary_seo_cluster_ids'] = $mapSecondary;
+    return [$package, 'editorial_map:' . trim((string) $map['map_id'])];
+}
+
 function normalizeClusterMetadata(array $package, array $registry, string $siteCategoryKey): array
 {
     $hasPrimary = array_key_exists('primary_seo_cluster_id', $package);
@@ -149,15 +216,16 @@ function assertMetadataRefreshSafe(array $existing, array $draft): void
     }
 }
 
-$options = getopt('', ['input:', 'output::', 'category-map::', 'cluster-registry::', 'refresh-metadata']);
+$options = getopt('', ['input:', 'output::', 'category-map::', 'cluster-registry::', 'editorial-cluster-map::', 'refresh-metadata']);
 $input = $options['input'] ?? ($argv[1] ?? '');
 $refreshMetadata = array_key_exists('refresh-metadata', $options);
 if ($input === '') {
-    draftFail('Usage: php convert_approved_to_draft.php --input=approved.json [--output=draft.json] [--refresh-metadata]');
+    draftFail('Usage: php convert_approved_to_draft.php --input=approved.json [--output=draft.json] [--editorial-cluster-map=map.json] [--refresh-metadata]');
 }
 $repoRoot = dirname(__DIR__, 2);
 $categoryMapPath = $options['category-map'] ?? ($repoRoot . '/config/content_category_map.json');
 $clusterRegistryPath = $options['cluster-registry'] ?? ($repoRoot . '/content/seo_cluster_registry.json');
+$editorialClusterMapPath = trim((string) ($options['editorial-cluster-map'] ?? ''));
 
 try {
     $package = xyptdq_read_package_file($input);
@@ -182,7 +250,15 @@ try {
     }
 
     $clusterRegistry = loadClusterRegistry($clusterRegistryPath);
+    $clusterAssignmentSource = null;
+    if ($editorialClusterMapPath !== '') {
+        $editorialMap = loadEditorialClusterMap($editorialClusterMapPath);
+        [$package, $clusterAssignmentSource] = applyEditorialClusterMap($package, $editorialMap);
+    }
     [$primaryCluster, $secondaryClusters] = normalizeClusterMetadata($package, $clusterRegistry, $siteCategoryKey);
+    if ($primaryCluster !== null && $clusterAssignmentSource === null) {
+        $clusterAssignmentSource = 'package';
+    }
 
     $content = (string) $package['content'];
     if (mb_strlen(strip_tags($content), 'UTF-8') < 180) {
@@ -220,6 +296,7 @@ try {
     if ($primaryCluster !== null) {
         $draft['primary_seo_cluster_id'] = $primaryCluster;
         $draft['secondary_seo_cluster_ids'] = $secondaryClusters;
+        $draft['seo_cluster_assignment_source'] = $clusterAssignmentSource;
     }
 
     $defaultTarget = $repoRoot . '/content/drafts/' . $articleKey . '.json';
