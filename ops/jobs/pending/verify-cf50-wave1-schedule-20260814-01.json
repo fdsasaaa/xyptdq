@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "verify-cf50-wave1-schedule-20260814-01",
+  "required_commit": "354fd4a06c0bc402acfd8842a28559acff72a19d",
+  "script": "scripts/ops/agent_tasks/verify_cf50_wave1_schedule_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 300
+}
