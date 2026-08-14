@@ -8,11 +8,15 @@ function isolationFail(string $message): void
     exit(1);
 }
 
-$script = __DIR__ . '/run_scheduled_publish.sh';
-if (!is_file($script)) {
-    isolationFail('publisher wrapper missing');
+$runner = __DIR__ . '/run_scheduled_publish.sh';
+$installer = __DIR__ . '/install_publisher_cron.sh';
+foreach ([$runner, $installer] as $path) {
+    if (!is_file($path)) {
+        isolationFail('required Publisher script missing: ' . basename($path));
+    }
 }
-$src = (string) file_get_contents($script);
+$src = (string) file_get_contents($runner);
+$cron = (string) file_get_contents($installer);
 
 $required = [
     'SOURCE_QUEUE="${XYPTDQ_PUBLISH_SOURCE:-}"',
@@ -26,7 +30,7 @@ $required = [
 ];
 foreach ($required as $needle) {
     if (strpos($src, $needle) === false) {
-        isolationFail('missing fail-closed marker: ' . $needle);
+        isolationFail('missing runner fail-closed marker: ' . $needle);
     }
 }
 
@@ -40,4 +44,36 @@ if ($policyPause === false || $sourceGuard === false || $policyPause > $sourceGu
     isolationFail('disabled publication policy must pause before isolated-source enforcement');
 }
 
-fwrite(STDOUT, "[publisher-source-isolation-test] PASS explicit_source=required legacy_queue=forbidden realpath=guarded policy_pause=preserved\n");
+$cronRequired = [
+    'SOURCE_QUEUE="${XYPTDQ_PUBLISH_SOURCE:-}"',
+    'STATE_PATH="${XYPTDQ_PUBLISH_STATE:-}"',
+    'LOCK_PATH="${XYPTDQ_PUBLISH_LOCK:-}"',
+    'QUEUE_ROOT="/var/lib/xyptdq-content"',
+    'STATE_ROOT="/var/lib/xyptdq-publisher"',
+    'XYPTDQ_PUBLISH_SOURCE is required',
+    'XYPTDQ_PUBLISH_STATE is required',
+    'XYPTDQ_PUBLISH_LOCK is required',
+    'SOURCE_REAL=$(realpath "$SOURCE_QUEUE")',
+    'STATE_PARENT=$(dirname "$STATE_PATH")',
+    'LOCK_PARENT=$(dirname "$LOCK_PATH")',
+    'XYPTDQ_PUBLISH_SOURCE=$SOURCE_Q',
+    'XYPTDQ_PUBLISH_STATE=$STATE_Q',
+    'XYPTDQ_PUBLISH_LOCK=$LOCK_Q',
+];
+foreach ($cronRequired as $needle) {
+    if (strpos($cron, $needle) === false) {
+        isolationFail('missing cron isolation marker: ' . $needle);
+    }
+}
+
+$policyGate = strpos($cron, 'scheduled publishing is frozen by content publication policy');
+$cronSourceGuard = strpos($cron, 'XYPTDQ_PUBLISH_SOURCE is required');
+if ($policyGate === false || $cronSourceGuard === false || $policyGate > $cronSourceGuard) {
+    isolationFail('cron installer must verify enabled publication policy before runtime-path activation');
+}
+
+if (strpos($cron, '7 * * * * root XYPTDQ_REPO_DIR=/opt/xyptdq-repo /opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh') !== false) {
+    isolationFail('cron installer still contains a naked runner invocation without isolated runtime bindings');
+}
+
+fwrite(STDOUT, "[publisher-source-isolation-test] PASS runner_source=isolated cron_source=isolated cron_state_lock=isolated realpath=guarded policy_pause=preserved\n");
