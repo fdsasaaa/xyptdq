@@ -29,13 +29,13 @@
     <aside class="col-xl-4">
         <div class="xyptdq-card mb-4">
             <h2 class="fs-4 fw-bold mb-4">推荐阅读</h2>
-            {module module=news order=updatetime num=8}
+            {module catid=$catid order=updatetime num=8}
             <div class="py-2 border-bottom"><a href="{$t.url}" class="text-dark text-decoration-none">{$t.title}</a></div>
             {/module}
         </div>
         <div class="xyptdq-card">
             <h2 class="fs-4 fw-bold mb-4">热门阅读</h2>
-            {module module=news order=hits num=8}
+            {module catid=$catid order=hits num=8}
             <div class="py-2 border-bottom"><a href="{$t.url}" class="text-dark text-decoration-none">{$t.title}</a></div>
             {/module}
         </div>
