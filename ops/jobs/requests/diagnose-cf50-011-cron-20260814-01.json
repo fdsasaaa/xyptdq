@@ -1,0 +1,5 @@
+{
+  "job_id": "diagnose-cf50-011-cron-20260814-01",
+  "requested_at": "2026-08-14T11:31:00Z",
+  "purpose": "read-only diagnose first recurring CF50 011 cron execution after missing publisher state"
+}
