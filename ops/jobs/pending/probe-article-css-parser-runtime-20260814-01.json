@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-article-css-parser-runtime-20260814-01",
+  "required_commit": "c7cc2fb82c9cb58235877e0c326f25ffe5f3da3e",
+  "script": "scripts/ops/agent_tasks/probe_article_css_parser_runtime_v1.sh",
+  "script_sha256": "e8e0bf17833c148ec38abf7c6b1830bfa14c81de20c7cba3498d0b35a2afc78e",
+  "timeout_seconds": 120
+}
