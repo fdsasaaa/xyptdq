@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "repair-test-cf50-011-cron-20260814-02",
+  "required_commit": "594d2643000e2b6a05d2994926ad96ec3aa38e3d",
+  "script": "scripts/ops/agent_tasks/repair_and_test_cf50_011_cron_v2.sh",
+  "script_sha256": "aed153ba95a3af4d63c700e708852c4afb3c0ff0c33b9c4b716021af30af5810",
+  "timeout_seconds": 900
+}
