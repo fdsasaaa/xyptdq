@@ -1,0 +1,29 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-14T06:42:42Z",
+  "job_id": "verify-cf50-wave1-schedule-20260814-01",
+  "payload": {
+    "blocking_item": "runtime_schedule_or_metadata_mismatch",
+    "cms_write_attempted": false,
+    "draft_count": 11,
+    "legacy_repository_scheduled_count": 11,
+    "publisher_cron_count": 0,
+    "publishing_enabled": false,
+    "queue_consumed": false,
+    "read_only": true,
+    "runtime_root": "/var/lib/xyptdq-content/CF50-20260813-wave1",
+    "schedule_timezone": "Asia/Singapore",
+    "scheduled_count": 11,
+    "status": "BLOCKED",
+    "task": "verify_cf50_wave1_schedule_v1",
+    "verified_schedule": []
+  },
+  "raw_log_published": false,
+  "required_commit": "354fd4a06c0bc402acfd8842a28559acff72a19d",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/verify_cf50_wave1_schedule_v1.sh",
+  "script_sha256": "5291df73c4a4f6bfce2208b8d59d095d77e83421a3e259f6e948f0c4b47600c3",
+  "started_at": "2026-08-14T06:42:41Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
