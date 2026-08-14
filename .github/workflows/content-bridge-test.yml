@@ -45,6 +45,8 @@ jobs:
         run: php scripts/content/seo_cluster_metadata_test.php
       - name: Draft metadata refresh safety verification
         run: php scripts/content/metadata_refresh_test.php
+      - name: Public-release intake contract regression
+        run: php scripts/content/public_release_intake_test.php
       - name: Website SEO portfolio ownership audit
         run: php scripts/content/seo_portfolio_audit.php
       - name: Website SEO portfolio audit regression
