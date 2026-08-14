@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-cf50-011-live-20260814-01",
+  "required_commit": "bcc34d424701b8652e629a11b074d2bd754e859f",
+  "script": "scripts/ops/agent_tasks/probe_cf50_011_live_v1.sh",
+  "script_sha256": "1f24f2eafb1e140aaba74b51320a4266d125f368d44e8fd93bc5e187679a87e9",
+  "timeout_seconds": 300
+}
