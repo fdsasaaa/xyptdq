@@ -1,0 +1,14 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-14T06:26:39Z",
+  "job_id": "stage-cf50-wave1-schedule-20260814-01",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "44863ce1ce40b0abcda0576ed9898c27b1afcdcc",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/stage_cf50_wave1_schedule_v1.sh",
+  "script_sha256": "60fef6b858c9878de893d368fca505c92f95b6086bf9710406f19e72ac5b2bb4",
+  "started_at": "2026-08-14T06:26:36Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
