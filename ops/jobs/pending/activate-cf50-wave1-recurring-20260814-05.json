@@ -3,6 +3,6 @@
   "job_id": "activate-cf50-wave1-recurring-20260814-05",
   "required_commit": "fd702562fd7fa40a2fd66cf6c710263082455420",
   "script": "scripts/ops/agent_tasks/activate_cf50_wave1_recurring_v5.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "3552b1410b682c293fb759853f8f468f54f8c7a1b1f8140c914f273b259c077d",
   "timeout_seconds": 300
 }
