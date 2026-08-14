@@ -1,0 +1,141 @@
+/* XYPTDQ_ARTICLE_READING_START */
+/* Scoped reading design for the primary article body only. */
+body article .xyptdq-card > .xyptdq-content {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.95;
+  letter-spacing: 0.01em;
+  color: #344054;
+  overflow-wrap: anywhere;
+}
+body article .xyptdq-card > .xyptdq-content > p {
+  margin: 0 0 1.3em;
+}
+body article .xyptdq-card > .xyptdq-content > p:first-child {
+  font-size: 1.04em;
+  color: #2d3a4b;
+}
+body article .xyptdq-card > .xyptdq-content h2 {
+  margin: 2em 0 0.85em;
+  padding-left: 12px;
+  border-left: 3px solid #52779a;
+  font-size: 1.42em;
+  line-height: 1.45;
+  font-weight: 700;
+  color: #182536;
+}
+body article .xyptdq-card > .xyptdq-content h3 {
+  margin: 1.7em 0 0.7em;
+  font-size: 1.2em;
+  line-height: 1.5;
+  font-weight: 700;
+  color: #25364b;
+}
+body article .xyptdq-card > .xyptdq-content h4 {
+  margin: 1.45em 0 0.6em;
+  font-size: 1.08em;
+  line-height: 1.55;
+  font-weight: 700;
+  color: #34475c;
+}
+body article .xyptdq-card > .xyptdq-content strong,
+body article .xyptdq-card > .xyptdq-content b {
+  font-weight: 700;
+  color: #243b55;
+}
+body article .xyptdq-card > .xyptdq-content a {
+  color: #315f88;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+body article .xyptdq-card > .xyptdq-content a:hover {
+  color: #234b70;
+}
+body article .xyptdq-card > .xyptdq-content ul,
+body article .xyptdq-card > .xyptdq-content ol {
+  margin: 0.65em 0 1.35em;
+  padding-left: 1.65em;
+}
+body article .xyptdq-card > .xyptdq-content li {
+  margin: 0.35em 0;
+}
+body article .xyptdq-card > .xyptdq-content blockquote {
+  margin: 1.5em 0;
+  padding: 14px 18px;
+  border-left: 4px solid #7896b2;
+  border-radius: 0 8px 8px 0;
+  background: #f6f8fb;
+  color: #475467;
+}
+body article .xyptdq-card > .xyptdq-content blockquote > :last-child {
+  margin-bottom: 0;
+}
+body article .xyptdq-card > .xyptdq-content table {
+  width: 100%;
+  margin: 1.5em 0;
+  border-collapse: collapse;
+  font-size: 0.94em;
+  line-height: 1.65;
+}
+body article .xyptdq-card > .xyptdq-content th,
+body article .xyptdq-card > .xyptdq-content td {
+  padding: 10px 12px;
+  border: 1px solid #e2e7ee;
+  text-align: left;
+  vertical-align: top;
+}
+body article .xyptdq-card > .xyptdq-content th {
+  background: #f7f9fb;
+  color: #26384c;
+  font-weight: 700;
+}
+body article .xyptdq-card > .xyptdq-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.6em auto;
+  border-radius: 8px;
+}
+body article .xyptdq-card > .xyptdq-content hr {
+  margin: 2em 0;
+  border: 0;
+  border-top: 1px solid #e5e9ef;
+}
+body article .xyptdq-card > .xyptdq-content code {
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
+  background: #f1f4f8;
+  font-size: 0.92em;
+  color: #344054;
+}
+@media (max-width: 768px) {
+  body article .xyptdq-card > .xyptdq-content {
+    max-width: none;
+    font-size: 16.5px;
+    line-height: 1.9;
+    letter-spacing: 0;
+  }
+  body article .xyptdq-card > .xyptdq-content > p {
+    margin-bottom: 1.18em;
+  }
+  body article .xyptdq-card > .xyptdq-content h2 {
+    margin-top: 1.7em;
+    padding-left: 10px;
+    font-size: 1.3em;
+  }
+  body article .xyptdq-card > .xyptdq-content h3 {
+    margin-top: 1.5em;
+    font-size: 1.16em;
+  }
+  body article .xyptdq-card > .xyptdq-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+}
+/* XYPTDQ_ARTICLE_READING_END */
