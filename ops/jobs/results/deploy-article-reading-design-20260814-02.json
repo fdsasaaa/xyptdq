@@ -1,0 +1,33 @@
+{
+  "exit_code": 10,
+  "finished_at": "2026-08-14T07:55:16Z",
+  "job_id": "deploy-article-reading-design-20260814-02",
+  "payload": {
+    "article_publishing_attempted": false,
+    "blocking_item": "mobile_render_style_missing",
+    "database_changed": false,
+    "deploy": "PASS",
+    "mobile_article_reading_style": "NO",
+    "mobile_http": 200,
+    "pc_article_reading_style": "PASS",
+    "pc_http": 200,
+    "phase": "render_verify",
+    "publisher_cron_count_after": 0,
+    "publisher_cron_count_before": 0,
+    "publisher_queue_consumed": false,
+    "rollback": "YES",
+    "status": "BLOCKED",
+    "targeted_cache_invalidation": true,
+    "task": "deploy_article_reading_design_v2",
+    "title_canonical_stable": "PASS",
+    "whole_cache_cleared": false
+  },
+  "raw_log_published": false,
+  "required_commit": "92722e2b90eaf91888a310bca2faa1a7ac5f1812",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/deploy_article_reading_design_v2.sh",
+  "script_sha256": "347381a25cb49196797352c6f1c6b473918d5e081b4322b661c48c8d1095e5fa",
+  "started_at": "2026-08-14T07:55:14Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
