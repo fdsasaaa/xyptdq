@@ -94,7 +94,7 @@ cron_count(){
   local n=0
   [ -f /etc/cron.d/xyptdq-publisher ] && n=$((n+1))
   local user_hits
-  user_hits=$(( (crontab -l 2>/dev/null || true) | grep -c 'run_scheduled_publish.sh' || true ))
+  user_hits=$( (crontab -l 2>/dev/null || true) | grep -c 'run_scheduled_publish.sh' || true )
   echo $((n + user_hits))
 }
 
