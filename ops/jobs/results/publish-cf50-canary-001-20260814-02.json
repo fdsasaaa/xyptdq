@@ -1,0 +1,14 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-14T04:10:36Z",
+  "job_id": "publish-cf50-canary-001-20260814-02",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "203dc3f5f8e6fd029b5cb28e2af12d4204aacccb",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publish_cf50_canary_001_v2.sh",
+  "script_sha256": "0e03953c889604ab359d5332bb49c1fc3bc36c2d7558cde975e51a61511c8f45",
+  "started_at": "2026-08-14T04:10:35Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
