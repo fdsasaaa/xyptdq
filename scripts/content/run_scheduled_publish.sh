@@ -13,6 +13,7 @@ LOCK_PATH="${XYPTDQ_PUBLISH_LOCK:-/var/lib/xyptdq-publisher/publisher.lock}"
 NATIVE_ADAPTER="$REPO_DIR/scripts/content/cms_publish_native_adapter.php"
 POLICY="$REPO_DIR/config/content_publication_policy.json"
 LEGACY_QUEUE="$REPO_DIR/content/scheduled"
+RUNTIME_QUEUE_ROOT="/var/lib/xyptdq-content"
 
 fail() {
     echo "[scheduled-publish] ERROR: $*" >&2
@@ -48,12 +49,17 @@ fi
 # Publishing must never fall back to the repository's preserved historical queue.
 # A future activation must explicitly point at an isolated runtime queue.
 [ -n "$SOURCE_QUEUE" ] || fail "XYPTDQ_PUBLISH_SOURCE is required when publishing is enabled"
-case "$SOURCE_QUEUE" in
-    /var/lib/xyptdq-content/*) ;;
-    *) fail "publish source must be an isolated path under /var/lib/xyptdq-content" ;;
-esac
-[ "$SOURCE_QUEUE" != "$LEGACY_QUEUE" ] || fail "legacy repository Scheduled queue is forbidden"
+[ -d "$RUNTIME_QUEUE_ROOT" ] || fail "isolated queue root does not exist: $RUNTIME_QUEUE_ROOT"
 [ -d "$SOURCE_QUEUE" ] || fail "isolated publish source does not exist: $SOURCE_QUEUE"
+SOURCE_REAL=$(realpath "$SOURCE_QUEUE") || fail "cannot resolve isolated publish source"
+ROOT_REAL=$(realpath "$RUNTIME_QUEUE_ROOT") || fail "cannot resolve isolated queue root"
+LEGACY_REAL=$(realpath "$LEGACY_QUEUE") || fail "cannot resolve legacy Scheduled queue"
+case "$SOURCE_REAL/" in
+    "$ROOT_REAL"/*) ;;
+    *) fail "resolved publish source must remain under $ROOT_REAL" ;;
+esac
+[ "$SOURCE_REAL" != "$LEGACY_REAL" ] || fail "legacy repository Scheduled queue is forbidden"
+SOURCE_QUEUE="$SOURCE_REAL"
 
 RUN_SHA=$(git -C "$REPO_DIR" rev-parse HEAD)
 RUN_ID=$(date -u +%Y%m%dT%H%M%SZ)
