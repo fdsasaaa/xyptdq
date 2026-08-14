@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-cf50-wave1-stage-failure-20260814-01",
+  "required_commit": "3dce41eb4e98d66da56ffd50837447dcae46fb7c",
+  "script": "scripts/ops/agent_tasks/probe_cf50_wave1_stage_failure_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 300
+}
