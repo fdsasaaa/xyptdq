@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'scripts/content/**'
+      - 'scripts/seo/live_publication_seo_test.php'
+      - 'scripts/seo/verify_publication_seo.php'
+      - 'scripts/seo/lib/live_publication_seo.php'
       - 'config/content_category_map.json'
       - 'content/seo_cluster_registry.json'
       - 'content/drafts/**'
@@ -15,6 +18,9 @@ on:
       - main
     paths:
       - 'scripts/content/**'
+      - 'scripts/seo/live_publication_seo_test.php'
+      - 'scripts/seo/verify_publication_seo.php'
+      - 'scripts/seo/lib/live_publication_seo.php'
       - 'config/content_category_map.json'
       - 'content/seo_cluster_registry.json'
       - 'content/drafts/**'
@@ -35,6 +41,9 @@ jobs:
       - name: PHP syntax check
         run: |
           find scripts/content -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+          php -l scripts/seo/lib/live_publication_seo.php
+          php -l scripts/seo/verify_publication_seo.php
+          php -l scripts/seo/live_publication_seo_test.php
       - name: Offline bridge self-test
         run: php scripts/content/self_test.php
       - name: Smoke batch 1 converter verification
@@ -57,3 +66,5 @@ jobs:
         run: php scripts/content/seo_portfolio_audit_test.php
       - name: Publication receipt export regression
         run: php scripts/content/publication_receipt_test.php
+      - name: Live publication SEO verification regression
+        run: php scripts/seo/live_publication_seo_test.php
