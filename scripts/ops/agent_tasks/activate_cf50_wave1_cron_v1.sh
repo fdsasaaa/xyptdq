@@ -12,19 +12,6 @@ POLICY="$REPO/config/content_publication_policy.json"
 INSTALLER="$REPO/scripts/content/install_publisher_cron.sh"
 LEGACY_QUEUE="$REPO/content/scheduled"
 CRON_FILE="/etc/cron.d/xyptdq-publisher"
-EXPECTED_IDS=(
-  LCM-CREATOR-cf50-20260813-011
-  LCM-CREATOR-cf50-20260813-021
-  LCM-CREATOR-cf50-20260813-031
-  LCM-CREATOR-cf50-20260813-041
-  LCM-CREATOR-cf50-20260813-046
-  LCM-CREATOR-cf50-20260813-002
-  LCM-CREATOR-cf50-20260813-012
-  LCM-CREATOR-cf50-20260813-022
-  LCM-CREATOR-cf50-20260813-032
-  LCM-CREATOR-cf50-20260813-037
-  LCM-CREATOR-cf50-20260813-049
-)
 
 PHASE="init"
 STATUS="BLOCKED"
@@ -100,7 +87,7 @@ git reset --hard origin/main >/dev/null
 
 PHASE="policy_verify"
 [ -f "$POLICY" ] || block publication_policy_missing
-php - "$POLICY" "$SOURCE" "$STATE" "$LOCK" <<'PHP' || exit 41
+if ! php - "$POLICY" "$SOURCE" "$STATE" "$LOCK" <<'PHP'
 <?php
 $x=json_decode(file_get_contents($argv[1]),true);
 if (!is_array($x) || ($x['publishing_enabled']??null)!==true) exit(1);
@@ -112,7 +99,9 @@ if (($r['runtime_lock_file']??null)!==$argv[4]) exit(5);
 if (($r['legacy_repository_queue_forbidden']??null)!==true) exit(6);
 if (($x['post_first_wave_gate']['wave_b_scheduling_allowed_before_checkpoint']??null)!==false) exit(7);
 PHP
-if [ $? -ne 0 ]; then block publication_policy_contract_mismatch; fi
+then
+  block publication_policy_contract_mismatch
+fi
 
 PHASE="runtime_verify"
 [ -d "$SOURCE" ] || block first_wave_scheduled_runtime_missing
