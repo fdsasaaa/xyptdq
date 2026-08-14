@@ -12,6 +12,9 @@
             <ul class="search-container" id="content_list">{template "list_data.html"}</ul>
         </div>
         <div class="margin-top-20" id="is_ajax_btn"><a href="javascript:dr_ajax_load_more();" class="btn default btn-block">加载更多</a></div>
+        {if $pages}
+        <nav class="margin-top-20 xyptdq-mobile-pagination" aria-label="分页">{$pages}</nav>
+        {/if}
     </div>
 </div>
 
