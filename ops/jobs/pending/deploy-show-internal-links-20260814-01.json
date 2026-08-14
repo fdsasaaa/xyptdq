@@ -3,6 +3,6 @@
   "job_id": "deploy-show-internal-links-20260814-01",
   "required_commit": "1ffe2c838d86e0391fcbe60d190f28d757ba70cf",
   "script": "scripts/ops/agent_tasks/deploy_show_internal_links_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "05ee00c979db7bd35eda37490b14bc25dfd8cb474b5df01429fdcb68b7c54348",
   "timeout_seconds": 300
 }
