@@ -3,6 +3,6 @@
   "job_id": "probe-retired-show-links-20260814-01",
   "required_commit": "10d9f823a42508cb5ef68cfaec83e1fd752c4231",
   "script": "scripts/ops/agent_tasks/probe_retired_show_links_v1.sh",
-  "script_sha256": "afdedd6d9eea8dbad4d55fb2e1c46f2f4b56dbd3baabd85732e2adf92d130a8d",
+  "script_sha256": "b3bc0633792336eb19c036beb3148234234021356c247e8ac3de401a7b4d712c",
   "timeout_seconds": 120
 }
