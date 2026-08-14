@@ -1,0 +1,92 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-14T13:57:21Z",
+  "job_id": "diagnose-cf50-011-cron-runtime-20260814-02",
+  "payload": {
+    "cms_write_attempted": false,
+    "cron_file": {
+      "ends_with_newline": true,
+      "entry_has_lock": true,
+      "entry_has_runner": true,
+      "entry_has_source": true,
+      "entry_has_state": true,
+      "entry_schedule": "7 * * * *",
+      "entry_user": "root",
+      "exists": true,
+      "gid": 0,
+      "has_crlf": false,
+      "has_nul": false,
+      "mode": "0o644",
+      "mtime_utc": "2026-08-14T08:15:35.072777+00:00",
+      "size": 641,
+      "uid": 0
+    },
+    "cron_mutated": false,
+    "file_log_xyptdq_tail": "/var/log/syslog:\nAug 14 13:37:01 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:37:01 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:37:54 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:38:01 green-clusters-1 xyptdq-agent-run[3430429]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:38:01 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:38:01 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:38:54 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:39:00 green-clusters-1 xyptdq-agent-run[3431357]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:39:00 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:39:00 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:39:54 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:40:01 green-clusters-1 xyptdq-agent-run[3432334]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:40:01 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:40:01 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:40:55 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:41:02 green-clusters-1 xyptdq-agent-run[3433267]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:41:02 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:41:02 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:42:00 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:42:07 green-clusters-1 xyptdq-agent-run[3434197]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:42:07 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:42:07 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:43:04 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:43:11 green-clusters-1 xyptdq-agent-run[3435131]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:43:11 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:43:11 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:44:04 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:44:11 green-clusters-1 xyptdq-agent-run[3436065]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:44:11 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:44:11 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:45:04 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:45:11 green-clusters-1 xyptdq-agent-run[3436994]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:45:11 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:45:11 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:46:04 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:46:11 green-clusters-1 xyptdq-agent-run[3437928]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:46:11 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:46:11 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:47:04 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:47:11 green-clusters-1 xyptdq-agent-run[3438852]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:47:11 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:47:11 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:48:05 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:48:12 green-clusters-1 xyptdq-agent-run[3439787]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:48:12 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:48:12 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:49:10 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:49:17 green-clusters-1 xyptdq-agent-run[3440716]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:49:17 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:49:17 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:50:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:50:21 green-clusters-1 xyptdq-agent-run[3441654]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:50:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:50:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:51:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:51:21 green-clusters-1 xyptdq-agent-run[3442580]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:51:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:51:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:52:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:52:21 green-clusters-1 xyptdq-agent-run[3443508]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:52:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:52:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:53:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:53:21 green-clusters-1 xyptdq-agent-run[3444448]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:53:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:53:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:54:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:54:21 green-clusters-1 xyptdq-agent-run[3445381]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:54:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:54:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:55:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:55:21 green-clusters-1 xyptdq-agent-run[3446313]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:55:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:55:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:56:14 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:56:21 green-clusters-1 xyptdq-agent-run[3447243]: [xyptdq-agent] no unhandled valid jobs\nAug 14 13:56:21 green-clusters-1 systemd[1]: xyptdq-agent.service: Succeeded.\nAug 14 13:56:21 green-clusters-1 systemd[1]: Finished xyptdq GitHub server bridge worker.\nAug 14 13:57:15 green-clusters-1 systemd[1]: Starting xyptdq GitHub server bridge worker...\nAug 14 13:57:20 green-clusters-1 xyptdq-agent-run[3448180]: [xyptdq-agent] executing diagnose-cf50-011-cron-runtime-20260814-02 from 5d53793b3552fb8573a8b4888cd0acb08612a2f7",
+    "journal_xyptdq_1855_1920": "",
+    "lock_exists": false,
+    "probable_root_cause": "runner_not_executable_or_invalid",
+    "processes": "    821 cron            /usr/sbin/cron -f",
+    "queue_consumed": false,
+    "read_only": true,
+    "runner": {
+      "bash_syntax": {
+        "out": "",
+        "rc": 0
+      },
+      "ends_with_newline": true,
+      "executable": false,
+      "exists": true,
+      "gid": 0,
+      "has_crlf": false,
+      "has_nul": false,
+      "mode": "0o600",
+      "mtime_utc": "2026-08-14T09:40:27.325871+00:00",
+      "size": 6551,
+      "uid": 0
+    },
+    "services": {
+      "cron": {
+        "active": {
+          "out": "active",
+          "rc": 0
+        },
+        "enabled": {
+          "out": "enabled",
+          "rc": 0
+        },
+        "show": {
+          "out": "LoadState=loaded\nActiveState=active\nSubState=running\nFragmentPath=/lib/systemd/system/cron.service\nUnitFileState=enabled",
+          "rc": 0
+        }
+      },
+      "crond": {
+        "active": {
+          "out": "inactive",
+          "rc": 3
+        },
+        "enabled": {
+          "out": "Failed to get unit file state for crond.service: No such file or directory",
+          "rc": 1
+        },
+        "show": {
+          "out": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nFragmentPath=\nUnitFileState=",
+          "rc": 0
+        }
+      }
+    },
+    "source_exists": true,
+    "source_json_count": 11,
+    "state_exists": false,
+    "status": "PASS",
+    "task": "diagnose_cf50_011_cron_runtime_v2"
+  },
+  "raw_log_published": false,
+  "required_commit": "5d53793b3552fb8573a8b4888cd0acb08612a2f7",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/diagnose_cf50_011_cron_runtime_v2.sh",
+  "script_sha256": "f7f30a05675d79599d879ef85b09cc961a0489a9e22b498ac92637062a57cc09",
+  "started_at": "2026-08-14T13:57:20Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
