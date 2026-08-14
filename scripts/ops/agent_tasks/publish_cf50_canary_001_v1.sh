@@ -77,7 +77,7 @@ echo $ok?"PASS":"FAIL";
 ' "$POLICY") || fail_phase "preflight" "publication policy invalid"
 [ "$POLICY_CHECK" = "PASS" ] || fail_phase "preflight" "one-shot canary policy gate not satisfied"
 
-CRON_COUNT=$(( (crontab -l 2>/dev/null || true) | grep -F 'run_scheduled_publish.sh' | wc -l ))
+CRON_COUNT=$( (crontab -l 2>/dev/null || true) | grep -F 'run_scheduled_publish.sh' | wc -l )
 [ "$CRON_COUNT" -eq 0 ] || fail_phase "preflight" "publisher cron must remain absent for canary"
 LEGACY_COUNT=$(find "$REPO_DIR/content/scheduled" -maxdepth 1 -type f -name '*.json' | wc -l)
 [ "$LEGACY_COUNT" -eq 11 ] || fail_phase "preflight" "legacy Scheduled inventory count changed"
@@ -162,7 +162,7 @@ php "$REPO_DIR/scripts/seo/verify_publication_seo.php" --receipt="$RECEIPT_PATH"
   exit 21
 }
 
-CRON_COUNT_AFTER=$(( (crontab -l 2>/dev/null || true) | grep -F 'run_scheduled_publish.sh' | wc -l ))
+CRON_COUNT_AFTER=$( (crontab -l 2>/dev/null || true) | grep -F 'run_scheduled_publish.sh' | wc -l )
 [ "$CRON_COUNT_AFTER" -eq 0 ] || fail_phase "postflight" "publisher cron changed unexpectedly"
 [ "$(find "$REPO_DIR/content/scheduled" -maxdepth 1 -type f -name '*.json' | wc -l)" -eq 11 ] || fail_phase "postflight" "legacy Scheduled inventory changed"
 
