@@ -26,6 +26,28 @@ $xyptdq_article_schema = [
 ];
 ?>
 <script type="application/ld+json"><?php echo json_encode($xyptdq_article_schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES); ?></script>
+<style>
+.xyptdq-article-prose{max-width:760px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;font-size:17px;line-height:1.95;color:#303846;word-break:break-word}
+.xyptdq-article-prose p{margin:0 0 1.35em}
+.xyptdq-article-prose>p:first-child{font-size:18px;color:#485568}
+.xyptdq-article-prose h2{font-size:24px;line-height:1.45;font-weight:700;color:#1f2d3d;margin:2.1em 0 .85em;padding-left:12px;border-left:4px solid #587a99}
+.xyptdq-article-prose h3{font-size:20px;line-height:1.5;font-weight:700;color:#26384a;margin:1.8em 0 .7em}
+.xyptdq-article-prose h4{font-size:18px;line-height:1.55;font-weight:700;color:#334155;margin:1.55em 0 .65em}
+.xyptdq-article-prose strong{font-weight:700;color:#203b55}
+.xyptdq-article-prose a{color:#356b96;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.xyptdq-article-prose a:hover{color:#244f72}
+.xyptdq-article-prose ul,.xyptdq-article-prose ol{margin:0 0 1.4em;padding-left:1.6em}
+.xyptdq-article-prose li{margin:.45em 0;padding-left:.15em}
+.xyptdq-article-prose blockquote{margin:1.6em 0;padding:14px 18px;border-left:4px solid #8aa4ba;background:#f5f8fb;color:#46566a;border-radius:0 8px 8px 0}
+.xyptdq-article-prose blockquote p:last-child{margin-bottom:0}
+.xyptdq-article-prose table{display:block;width:100%;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:1.6em 0;font-size:15px}
+.xyptdq-article-prose th,.xyptdq-article-prose td{border:1px solid #dce3ea;padding:10px 12px;text-align:left;vertical-align:top;white-space:normal}
+.xyptdq-article-prose th{background:#f4f7fa;color:#27384a;font-weight:700}
+.xyptdq-article-prose img{display:block;max-width:100%;height:auto;margin:1.7em auto;border-radius:8px}
+.xyptdq-article-prose hr{border:0;border-top:1px solid #e4e9ee;margin:2em 0}
+.xyptdq-article-prose code{font-family:Consolas,"SFMono-Regular",monospace;font-size:.92em;background:#f3f5f7;padding:.12em .35em;border-radius:4px}
+@media(max-width:991px){.xyptdq-article-prose{max-width:none;font-size:16.5px;line-height:1.9}.xyptdq-article-prose>p:first-child{font-size:17px}.xyptdq-article-prose h2{font-size:22px}}
+</style>
 {/if}
 
 <nav class="xyptdq-breadcrumb" aria-label="面包屑">
@@ -41,7 +63,11 @@ $xyptdq_article_schema = [
                 <span>更新时间：{$updatetime}</span>
                 {if MOD_DIR=='news'}&nbsp;&nbsp;<span>阅读：{dr_show_hits($id)}</span>{/if}
             </div>
+            {if MOD_DIR=='news'}
+            <div class="xyptdq-content xyptdq-article-prose">{$content}</div>
+            {else}
             <div class="xyptdq-content">{$content}</div>
+            {/if}
 
             {if MOD_DIR=='xm'}
             <section class="mt-5 pt-4 border-top" aria-labelledby="platform-reading-guide">
