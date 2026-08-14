@@ -1,5 +1,6 @@
 #!/bin/bash
 # Read-only probe for which show template/cache the mobile request actually renders.
+# Safety boundary: metadata/marker inspection only; never returns article body or mutates production.
 set -euo pipefail
 umask 077
 RESULT_FILE="${XYPTDQ_AGENT_RESULT_FILE:-}"
