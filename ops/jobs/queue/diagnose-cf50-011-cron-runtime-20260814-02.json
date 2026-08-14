@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "job_id": "diagnose-cf50-011-cron-runtime-20260814-02",
-  "required_commit": "5d53793b3552fb8573a8b4888cd0acb08612a2f7",
-  "script": "scripts/ops/agent_tasks/diagnose_cf50_011_cron_runtime_v2.sh",
-  "script_sha256": "f7f30a05675d79599d879ef85b09cc961a0489a9e22b498ac92637062a57cc09",
-  "timeout_seconds": 300
-}
