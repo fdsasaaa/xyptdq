@@ -2,7 +2,7 @@
   "schema_version": 1,
   "publishing_enabled": true,
   "mode": "wave1_recurring_activation_authorized",
-  "reason": "CF50 first-wave reviewed public-release inventory is complete (12/12 including the published canary). Remaining 11 articles are staged only in the isolated runtime and must pass fail-closed server verification before publisher cron installation.",
+  "reason": "CF50 first-wave reviewed public-release inventory is complete and recurring Publisher activation v5 passed on production. The remaining 11 first-wave articles are isolated, scheduled, and eligible for the existing hourly cron subject to each publish_at value. Wave B remains unauthorized until the post-12 search-discovery checkpoint.",
   "user_authorization": {
     "status": "granted",
     "recorded_date": "2026-08-13",
@@ -24,28 +24,26 @@
     "publication_status": "PASS",
     "live_seo_verification": "PASS",
     "source_transport": "sanitized_public_release_bundle",
+    "legacy_repository_queue_consumed": false
+  },
+  "recurring_activation": {
+    "status": "PASS",
+    "server_bridge_job": "activate-cf50-wave1-recurring-20260814-05",
+    "result_branch": "agent/results/activate-cf50-wave1-recurring-20260814-05",
+    "publisher_cron_count": 1,
+    "cron_schedule": "7 * * * *",
+    "cms_write_attempted_during_activation": false,
     "legacy_repository_queue_consumed": false,
-    "recurring_cron_installed": false
+    "wave_b_authorized": false
   },
   "planned_cadence": {
     "articles_per_day": 2,
     "timezone": "Asia/Singapore",
-    "editorial_slots": [
-      "10:00",
-      "19:00"
-    ],
+    "editorial_slots": ["10:00", "19:00"],
     "first_wave_size": 12,
     "continue_after_first_wave_requires_search_discovery_checkpoint": true,
     "cadence_is_not_claimed_as_a_direct_ranking_signal": true
   },
-  "recurring_activation_requires": [
-    "reviewed_public_release_inventory_is_available_for_the_next_release_wave",
-    "each_revision_passes_website_transfer_validation_before_draft_creation",
-    "isolated_runtime_source_state_and_lock_paths_are_verified",
-    "legacy_repository_scheduled_queue_is_not_used",
-    "rollback_gated_cron_activation_is_verified",
-    "first_wave_stops_at_12_for_search_discovery_checkpoint"
-  ],
   "runtime_rules": {
     "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled",
     "runtime_state_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json",
@@ -54,7 +52,15 @@
     "historical_repository_scheduled_json_count": 11,
     "expected_isolated_scheduled_count": 11,
     "recurring_cron_allowed_now": true,
+    "recurring_cron_installed": true,
     "activation_must_fail_closed_on_runtime_mismatch": true
   },
-  "resume_requires": "server_bridge_activation_verification_then_isolated_publisher_cron_install"
+  "post_publication_seo": {
+    "status": "enabled_in_main",
+    "sitemap_refresh_before_live_verification": true,
+    "publication_receipt_per_new_publication": true,
+    "live_seo_verification_per_new_publication": true,
+    "verification_failure_mode": "warn_without_rolling_back_committed_cms_page"
+  },
+  "resume_requires": "continue_first_wave_automatically_then_stop_after_12_for_search_discovery_checkpoint"
 }
