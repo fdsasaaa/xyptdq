@@ -2,7 +2,11 @@
   "schema_version": 1,
   "source_repository": "fdsasaaa/caipiaowenzhang",
   "source_ref": "main",
-  "source_root": "articles/approved",
+  "source_mode": "website_public_release_revision",
+  "source_root": "articles/public_release",
+  "source_manifest_root": "articles/public_release/manifests",
+  "immutable_parent_root": "articles/approved",
+  "allowed_revision_kind": "website_public_release",
   "transport_status": "contract_ready_disabled",
   "sync_enabled": false,
   "allowed_source_status": ["approved"],
@@ -12,6 +16,16 @@
   "allow_invoke_publisher": false,
   "allow_change_publisher_cron": false,
   "allow_consume_scheduled_queue": false,
+  "canary_ingestion": {
+    "allowed": true,
+    "requires_manifest_flag": "canary_ingestion_allowed",
+    "minimum_valid_revisions": 1,
+    "does_not_authorize_scheduling_or_publication": true
+  },
+  "full_batch_ingestion": {
+    "requires_manifest_status": "complete",
+    "requires_manifest_flag": "website_batch_ingestion_allowed"
+  },
   "category_policy": {
     "site_category_map": "config/content_category_map.json",
     "ordinary_seo_article_category_key": "tzjq",
@@ -20,24 +34,29 @@
     "website_must_not_guess_category_from_title_or_keyword": true
   },
   "identity_and_idempotency": {
-    "required_identity_fields": ["article_id", "source_fingerprint", "content_hash"],
-    "same_article_id_same_hash": "idempotent_unchanged",
-    "same_article_id_different_hash": "reject_requires_revision_and_reapproval",
+    "required_revision_identity_fields": ["article_id", "revision_id", "source_batch_id", "creator_batch_id", "fingerprint", "content_hash"],
+    "required_parent_link_fields": ["parent_content_hash", "parent_fingerprint"],
+    "same_article_id_same_revision_same_hash": "idempotent_unchanged",
+    "same_article_id_changed_hash": "requires_new_validated_public_release_revision",
     "missing_identity_field": "reject"
   },
   "defense_in_depth": {
-    "website_revalidates_approved_package": true,
-    "approved_package_is_not_publication_authorization": true,
+    "website_revalidates_revision_package": true,
+    "website_revalidates_immutable_parent_package": true,
+    "website_verifies_parent_hash_and_fingerprint_linkage": true,
+    "website_verifies_public_release_review": true,
+    "website_verifies_revision_fingerprint": true,
+    "approved_or_public_release_package_is_not_publication_authorization": true,
     "draft_must_not_have_publish_at": true,
     "publication_receipt_required_for_published_identity": true
   },
   "future_activation_requires": [
-    "explicit_user_approval_to_enable_cross_repo_sync",
     "trusted_private_repository_transport",
+    "public_release_manifest_and_revision_contract_match",
     "source_contract_matches_current_website_category_policy",
     "dry_run_inventory_and_duplicate_check_pass",
-    "approved_to_draft_batch_smoke_pass",
+    "public_release_to_draft_canary_pass",
     "publishing_remains_separately_gated"
   ],
-  "notes": "This policy prepares future automatic retrieval of Approved Packages from the content-engine repository. It deliberately does not authorize scheduling or publication."
+  "notes": "Formal Approved packages remain immutable parent evidence. Website Draft body bytes must come from separately reviewed website_public_release revisions selected by the public-release manifest. This policy remains disabled and does not authorize scheduling or publication."
 }
