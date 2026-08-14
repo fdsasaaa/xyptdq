@@ -1,0 +1,33 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-14T01:42:55Z",
+  "job_id": "deploy-show-internal-links-20260814-01",
+  "payload": {
+    "article_publishing_attempted": false,
+    "blocking_item": "retired_internal_link_rendered_pc74",
+    "database_changed": false,
+    "deploy": "PASS",
+    "deploy_error_class": "retired_internal_link_rendered",
+    "deployment_status": "BLOCKED",
+    "framework_integrity": "NO",
+    "mobile_related_content": "NO",
+    "phase": "render_verify",
+    "platform_canonical_internal_link": "NO",
+    "publisher_cron_count_after": -1,
+    "publisher_cron_count_before": 0,
+    "publisher_policy_changed": false,
+    "publisher_queue_consumed": false,
+    "rollback": "YES",
+    "secrets_disclosed": false,
+    "source_hash_match": "PASS",
+    "task": "deploy_show_internal_links_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "1ffe2c838d86e0391fcbe60d190f28d757ba70cf",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/deploy_show_internal_links_v1.sh",
+  "script_sha256": "05ee00c979db7bd35eda37490b14bc25dfd8cb474b5df01429fdcb68b7c54348",
+  "started_at": "2026-08-14T01:42:53Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
