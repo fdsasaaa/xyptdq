@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-mobile-article-render-cache-20260814-01",
+  "required_commit": "21861f173f452b713f8e0981d0a32a35a42f36ce",
+  "script": "scripts/ops/agent_tasks/probe_mobile_article_render_cache_v1.sh",
+  "script_sha256": "7f71a40c790338cc04387276324f1adb36387c200605c89a1afa86d89a0f0e93",
+  "timeout_seconds": 300
+}
