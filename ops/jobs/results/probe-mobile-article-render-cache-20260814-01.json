@@ -1,0 +1,46 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-14T08:13:36Z",
+  "job_id": "probe-mobile-article-render-cache-20260814-01",
+  "payload": {
+    "article_body_returned": false,
+    "cache_mutated": false,
+    "candidate_cache_files": [],
+    "candidate_count": 0,
+    "cms_write_attempted": false,
+    "mobile_render": {
+      "any_article_style_css": false,
+      "http": 200,
+      "mobile_content_wrapper": false,
+      "mobile_related_marker": false,
+      "mobile_shell": false,
+      "pc_content_wrapper": false,
+      "pc_related_marker": true,
+      "pc_shell": true
+    },
+    "production_templates": {
+      "template/mobile/default/home/show.html": {
+        "has_new_article_style": false,
+        "mtime": 1786694116,
+        "sha256": "f8ab7a83edee4bd75e49f80b96c2709d162ded7766948d45f5400412a2388af9"
+      },
+      "template/pc/default/home/show.html": {
+        "has_new_article_style": false,
+        "mtime": 1786694116,
+        "sha256": "655abf796adde337572e9fec6683a1936ee77dd300e4144cc3bb542d0154cd6c"
+      }
+    },
+    "read_only": true,
+    "status": "PASS",
+    "task": "probe_mobile_article_render_cache_v1",
+    "templates_mutated": false
+  },
+  "raw_log_published": false,
+  "required_commit": "21861f173f452b713f8e0981d0a32a35a42f36ce",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/probe_mobile_article_render_cache_v1.sh",
+  "script_sha256": "7f71a40c790338cc04387276324f1adb36387c200605c89a1afa86d89a0f0e93",
+  "started_at": "2026-08-14T08:13:36Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
