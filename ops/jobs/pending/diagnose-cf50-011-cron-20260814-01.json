@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "job_id": "diagnose-cf50-011-cron-20260814-01",
-  "required_commit": "TO_BE_PINNED",
+  "required_commit": "b6e425bfd642830d14b1835f835f856457ed0d74",
   "script": "scripts/ops/agent_tasks/diagnose_cf50_011_cron_v1.sh",
-  "script_sha256": "TO_BE_PINNED",
+  "script_sha256": "f5c4afbd5cb441c70a0da728961d0e17edbde93c9c8e43c1e9590a0169ad7598",
   "timeout_seconds": 120
 }
