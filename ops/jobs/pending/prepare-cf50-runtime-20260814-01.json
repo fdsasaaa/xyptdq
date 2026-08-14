@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "prepare-cf50-runtime-20260814-01",
+  "required_commit": "ffdcf42bc648acfc0a06c9fed9d747f32417009e",
+  "script": "scripts/ops/agent_tasks/prepare_cf50_runtime_v1.sh",
+  "script_sha256": "c8e8db342db0ef243f42c846bf8757b43c8c3915e366114573aaca0ecd1553f6",
+  "timeout_seconds": 180
+}
