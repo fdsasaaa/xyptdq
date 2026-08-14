@@ -1,0 +1,27 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-14T09:51:37Z",
+  "job_id": "probe-article-css-parser-runtime-20260814-01",
+  "payload": {
+    "css_sha256": "044f17e763fecd28709e79dc785c30512049691b1cf394d5a972b6607a71f055",
+    "css_utf8_strict_valid": true,
+    "database_changed": false,
+    "managed_end_count": 0,
+    "managed_start_count": 0,
+    "path_write_text_newline_supported": false,
+    "publisher_queue_consumed": false,
+    "python_version": "3.8.10",
+    "read_only": true,
+    "status": "PASS",
+    "task": "probe_article_css_parser_runtime_v1",
+    "templates_mutated": false
+  },
+  "raw_log_published": false,
+  "required_commit": "c7cc2fb82c9cb58235877e0c326f25ffe5f3da3e",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/probe_article_css_parser_runtime_v1.sh",
+  "script_sha256": "e8e0bf17833c148ec38abf7c6b1830bfa14c81de20c7cba3498d0b35a2afc78e",
+  "started_at": "2026-08-14T09:51:37Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
