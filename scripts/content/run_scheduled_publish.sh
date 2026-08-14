@@ -47,7 +47,6 @@ if [ "$POLICY_ENABLED" != "yes" ]; then
 fi
 
 # Publishing must never fall back to the repository's preserved historical queue.
-# A future activation must explicitly point at an isolated runtime queue.
 [ -n "$SOURCE_QUEUE" ] || fail "XYPTDQ_PUBLISH_SOURCE is required when publishing is enabled"
 [ -d "$RUNTIME_QUEUE_ROOT" ] || fail "isolated queue root does not exist: $RUNTIME_QUEUE_ROOT"
 [ -d "$SOURCE_QUEUE" ] || fail "isolated publish source does not exist: $SOURCE_QUEUE"
@@ -64,6 +63,12 @@ SOURCE_QUEUE="$SOURCE_REAL"
 RUN_SHA=$(git -C "$REPO_DIR" rev-parse HEAD)
 RUN_ID=$(date -u +%Y%m%dT%H%M%SZ)
 LOG_FILE="$LOG_DIR/run_${RUN_ID}.log"
+PUBLISH_TMP=$(mktemp /tmp/xyptdq-publish-output.XXXXXX)
+trap 'rm -f "$PUBLISH_TMP"' EXIT
+RECEIPT_DIR="${XYPTDQ_PUBLISH_RECEIPT_DIR:-$(dirname "$STATE_PATH")/receipts}"
+VERIFY_DIR="${XYPTDQ_PUBLISH_VERIFY_DIR:-$(dirname "$STATE_PATH")/seo-verification}"
+mkdir -p "$RECEIPT_DIR" "$VERIFY_DIR"
+chmod 750 "$RECEIPT_DIR" "$VERIFY_DIR"
 
 {
     echo "run_id=$RUN_ID"
@@ -77,16 +82,57 @@ LOG_FILE="$LOG_DIR/run_${RUN_ID}.log"
         --lock="$LOCK_PATH" \
         --limit="$LIMIT" \
         --adapter="$NATIVE_ADAPTER" \
-        --commit
+        --commit | tee "$PUBLISH_TMP"
 
+    # Sitemap must be refreshed before any live SEO verification checks membership.
     XYPTDQ_WEBROOT="$WEBROOT" \
     XYPTDQ_DB_CONFIG="$WEBROOT/config/database.php" \
     XYPTDQ_SITEMAP="$WEBROOT/sitemap.xml" \
         php "$REPO_DIR/scripts/seo/generate_sitemap.php"
 
+    mapfile -t PUBLISHED_LINES < <(grep -E '^\[filequeue\] PUBLISHED key=[a-z0-9_-]+ cms_id=[0-9]+$' "$PUBLISH_TMP" || true)
+    SEO_STATUS="NO_NEW_PUBLICATIONS"
+    SEO_WARN=0
+    if [ "${#PUBLISHED_LINES[@]}" -gt 0 ]; then
+        SEO_STATUS="PASS"
+        for line in "${PUBLISHED_LINES[@]}"; do
+            key=$(printf '%s\n' "$line" | sed -E 's/^\[filequeue\] PUBLISHED key=([a-z0-9_-]+) cms_id=([0-9]+)$/\1/')
+            cms_id=$(printf '%s\n' "$line" | sed -E 's/^\[filequeue\] PUBLISHED key=([a-z0-9_-]+) cms_id=([0-9]+)$/\2/')
+            source_file=$(php -r '
+$dir=rtrim($argv[1],"/"); $key=$argv[2]; $matches=[];
+foreach(glob($dir."/*.json")?:[] as $p){$x=json_decode((string)file_get_contents($p),true); if(is_array($x) && (string)($x["article_key"]??"")===$key){$matches[]=$p;}}
+if(count($matches)!==1){exit(2);} echo $matches[0];
+' "$SOURCE_QUEUE" "$key" 2>/dev/null || true)
+            if [ -z "$source_file" ] || [ ! -f "$source_file" ]; then
+                echo "[scheduled-publish] SEO_VERIFY_WARN key=$key cms_id=$cms_id reason=scheduled_source_not_unique"
+                SEO_WARN=1
+                continue
+            fi
+            receipt="$RECEIPT_DIR/${key}.${cms_id}.json"
+            verify="$VERIFY_DIR/${key}.${cms_id}.json"
+            if ! php "$REPO_DIR/scripts/content/export_publication_receipt.php" \
+                --article="$source_file" --state="$STATE_PATH" --output="$receipt"; then
+                echo "[scheduled-publish] SEO_VERIFY_WARN key=$key cms_id=$cms_id reason=receipt_export_failed"
+                SEO_WARN=1
+                continue
+            fi
+            chmod 640 "$receipt"
+            if php "$REPO_DIR/scripts/seo/verify_publication_seo.php" --receipt="$receipt" > "$verify" 2>&1; then
+                chmod 640 "$verify"
+                echo "[scheduled-publish] SEO_VERIFY_PASS key=$key cms_id=$cms_id receipt=$receipt verification=$verify"
+            else
+                chmod 640 "$verify" 2>/dev/null || true
+                echo "[scheduled-publish] SEO_VERIFY_WARN key=$key cms_id=$cms_id reason=live_seo_failed verification=$verify"
+                SEO_WARN=1
+            fi
+        done
+        if [ "$SEO_WARN" -ne 0 ]; then SEO_STATUS="WARN"; fi
+    fi
+    echo "seo_verification=$SEO_STATUS"
     echo "result=PASS"
 } >> "$LOG_FILE" 2>&1
 
 chmod 640 "$LOG_FILE"
 # Retain 60 days of publisher run logs; logs contain no credentials by design.
 find "$LOG_DIR" -type f -name 'run_*.log' -mtime +60 -delete 2>/dev/null || true
+find "$VERIFY_DIR" -type f -name '*.json' -mtime +60 -delete 2>/dev/null || true
