@@ -1,0 +1,401 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-14T07:51:16Z",
+  "job_id": "probe-cf50-wave1-runtime-metadata-20260814-01",
+  "payload": {
+    "cms_write_attempted": false,
+    "cron_mutated": false,
+    "legacy_repository_scheduled_count": 11,
+    "mismatch_count": 22,
+    "publisher_cron_count": 0,
+    "read_only": true,
+    "rows": [
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-011",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-011:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-14T19:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-14T19:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-011:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-021",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-021:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-15T10:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-15T10:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-021:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-031",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-031:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-15T19:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-15T19:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-031:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-041",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-041:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-16T10:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-16T10:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-041:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-046",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-046:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-16T19:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-16T19:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-046:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-002",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-002:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-17T10:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-17T10:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-002:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-012",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-012:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-17T19:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-17T19:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-012:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-022",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-022:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-18T10:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-18T10:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-022:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-032",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-032:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-18T19:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-18T19:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-032:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-037",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-037:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-19T10:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-19T10:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-037:public-r1"
+        },
+        "scheduled_exists": true
+      },
+      {
+        "article_id": "LCM-CREATOR-cf50-20260813-049",
+        "draft": {
+          "article_id": null,
+          "catid": 3,
+          "has_publish_at": false,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "draft",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-049:public-r1"
+        },
+        "draft_exists": true,
+        "expected_publish_at": "2026-08-19T19:00:00+08:00",
+        "mismatches": [
+          "draft_article_id",
+          "scheduled_article_id"
+        ],
+        "scheduled": {
+          "article_id": null,
+          "catid": 3,
+          "primary_seo_cluster_id": "ffc_research",
+          "publication_state": "scheduled",
+          "publish_at": "2026-08-19T19:00:00+08:00",
+          "site_category_key": "tzjq",
+          "source_batch_id": "CF50-20260813",
+          "source_creator_batch_id": "CF50-20260813",
+          "source_intake_mode": "public_release_transfer_canary",
+          "source_revision_id": "LCM-CREATOR-cf50-20260813-049:public-r1"
+        },
+        "scheduled_exists": true
+      }
+    ],
+    "runtime_mutated": false,
+    "runtime_root": "/var/lib/xyptdq-content/CF50-20260813-wave1",
+    "status": "PASS",
+    "task": "probe_cf50_wave1_runtime_metadata_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "e3f849638ab60058887df9f13b0578da776fa49a",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/probe_cf50_wave1_runtime_metadata_v1.sh",
+  "script_sha256": "4099c4a0666782f7e4b7e70897890cefc6128ff40e7bd87748036225eb192c46",
+  "started_at": "2026-08-14T07:51:16Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
