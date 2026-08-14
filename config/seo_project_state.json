@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-14T16:32:00+08:00",
+  "updated_at": "2026-08-14T18:20:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
   "current_phase": "phase2_first_wave_recurring_publication_active",
@@ -125,25 +125,32 @@
     "empty_hub_creation_allowed": false
   },
   "article_reading_design": {
-    "status": "non_blocking_visual_enhancement_in_progress",
-    "template_deploy_attempts": 3,
-    "all_failed_attempts_rolled_back_safely": true,
-    "seo_metadata_unchanged_during_attempts": true,
-    "publisher_cron_unchanged_during_attempts": true,
+    "status": "production_pass_closed_unless_regression",
+    "production_job": "deploy-article-reading-static-css-20260814-03",
+    "deployment_method": "scoped_managed_static_css_block",
+    "css_path": "static/default/pc/css/style.bundle.css",
+    "managed_block": "XYPTDQ_ARTICLE_READING",
+    "base_sha256": "044f17e763fecd28709e79dc785c30512049691b1cf394d5a972b6607a71f055",
+    "final_sha256": "c1d6c0a97839d95c311c455b61d163f60f7cec7785890159b09d27e8a6658b96",
+    "pc_http": 200,
+    "mobile_http": 200,
+    "public_css_marker": "PASS",
+    "title_canonical_stable": "PASS",
+    "publisher_cron_count_before": 1,
+    "publisher_cron_count_after": 1,
+    "publisher_queue_consumed": false,
+    "database_changed": false,
+    "templates_mutated": false,
+    "template_cache_mutated": false,
+    "whole_cache_cleared": false,
     "production_mobile_requests_use_pc_responsive_shell": true,
-    "current_strategy": "locate_live_static_css_asset_then_apply_scoped_managed_article_style_block",
-    "current_probe_job": "probe-live-article-css-assets-20260814-01"
+    "evidence_document": "docs/seo/ARTICLE_READING_DESIGN_PRODUCTION_PASS_20260814.md"
   },
   "current_open_items": [
     {
       "id": "first_wave_automatic_publication",
       "status": "active",
-      "detail": "Let the isolated cron publish the remaining 11 first-wave reviewed public releases according to publish_at; verify each new publication through Sitemap + receipt + live SEO."
-    },
-    {
-      "id": "article_reading_design",
-      "status": "in_progress_non_blocking",
-      "detail": "Finish scoped static-CSS reading design after live stylesheet path probe; do not reopen template-cache deployment attempts."
+      "detail": "Let the isolated cron publish the remaining first-wave reviewed public releases according to publish_at; verify each new publication through Sitemap + receipt + live SEO."
     },
     {
       "id": "first_wave_search_discovery_checkpoint",
@@ -154,14 +161,15 @@
   "next_actions": [
     "Do not republish CF50-001; CMS ID 92 is canonical canary evidence.",
     "Do not reinstall or duplicate Publisher cron; activation v5 is PASS and cron count is 1.",
-    "Allow the remaining 11 first-wave Scheduled public-r1 articles to publish from the isolated runtime according to publish_at.",
+    "Allow the remaining first-wave Scheduled public-r1 articles to publish from the isolated runtime according to publish_at.",
     "Use the merged post-publication SEO runner to refresh Sitemap and verify each newly published URL.",
     "Continue hourly inventory monitoring; never publish raw Approved bodies directly.",
-    "Finish article visual design through a tightly scoped static CSS block after exact live CSS path evidence.",
+    "Keep CF50 final five 020/029/038/039/040 frozen until Issue #264 explicitly authorizes release.",
+    "Do not reopen article-reading design unless a real production regression is observed.",
     "Stop after 12 live seed articles for the search-discovery checkpoint before Wave B.",
     "Keep Phase 1 closed unless a real regression appears."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
-  "new_session_instruction": "Read main handoff/state and newer result branches first. CF50 recurring Publisher activation v5 is production PASS with one cron bound only to the isolated wave1 source/state/lock. The first 12 reviewed public releases are the active wave; 001 is already live as CMS ID 92 and the remaining 11 are scheduled. Post-publication Sitemap/receipt/live SEO verification is merged. Do not reauthorize or reinstall cron, do not publish raw Approved bodies, and do not start Wave B before the post-12 discovery checkpoint. Article visual design is a non-blocking static-CSS enhancement in progress."
+  "new_session_instruction": "Read main handoff/state and newer result branches first. CF50 recurring Publisher activation v5 is production PASS with one cron bound only to the isolated wave1 source/state/lock. The first 12 reviewed public releases are the active wave; 001 is already live as CMS ID 92 and the remaining first-wave seeds publish on the existing schedule. Post-publication Sitemap/receipt/live SEO verification is merged. Article reading design is production PASS through the scoped XYPTDQ_ARTICLE_READING static CSS block and is closed unless regression. Do not reauthorize or reinstall cron, do not publish raw Approved bodies, keep 020/029/038/039/040 frozen, and do not start Wave B before the post-12 Issue #264 discovery checkpoint."
 }
