@@ -1,6 +1,7 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "created_at": "2026-08-11",
+  "updated_at": "2026-08-14",
   "source_keyword_map": {
     "path": "content/keyword_map.json",
     "version": "1.1.2"
@@ -9,6 +10,8 @@
   "rules": {
     "registry_is_not_a_publish_queue": true,
     "registry_does_not_create_pages": true,
+    "registry_never_authorizes_article_publication": true,
+    "publication_policy_is_authoritative": true,
     "do_not_replace_keyword_map_targets_with_nonexistent_urls": true,
     "no_empty_hub_pages": true,
     "no_thin_synonym_variation_pages": true,
@@ -17,8 +20,7 @@
     "new_hub_requires_unique_primary_intent": true,
     "new_hub_requires_substantive_content_or_existing_supporting_content": true,
     "new_hub_requires_internal_links_before_sitemap_inclusion": true,
-    "new_hub_requires_http_200_self_canonical_before_sitemap_inclusion": true,
-    "article_publishing_must_remain_frozen_until_explicit_user_approval": true
+    "new_hub_requires_http_200_self_canonical_before_sitemap_inclusion": true
   },
   "existing_carriers": [
     {
@@ -53,7 +55,10 @@
       "carrier_id": "ffc_research_hub",
       "surface": "planned_hub",
       "proposed_label": "分分彩研究中心",
-      "implementation_status": "planned_not_created",
+      "implementation_status": "blueprint_created_not_live",
+      "blueprint_path": "content/hub_blueprints/ffc_research_hub.json",
+      "blueprint_pr": 259,
+      "live_url": null,
       "symbolic_targets": [
         "ffc_hub",
         "ffc_skills_technology",
@@ -67,6 +72,14 @@
         "ffc_bankroll"
       ],
       "primary_intent": "分分彩玩法研究、技术方法、数据验证与风险分析的综合入口",
+      "live_creation_requires": [
+        "verified_live_seed_articles",
+        "real_internal_link_targets",
+        "http_200",
+        "self_canonical",
+        "indexable",
+        "sitemap_gate"
+      ],
       "split_triggers": [
         "supporting_corpus_becomes_large_enough_for_a_distinct_subtopic",
         "SERP_evidence_shows_materially_different_search_intent",
@@ -189,8 +202,8 @@
     }
   ],
   "implementation_order": [
-    "use_tzjq_as_the_single_current_seo_article_category_while_publishing_remains_frozen",
-    "implement_ffc_research_hub_with_real_supporting_content",
+    "use_tzjq_as_the_single_current_seo_article_category_during_public_release_canary_phase",
+    "create_ffc_research_hub_only_after_verified_live_seed_urls_exist",
     "implement_research_lab_hub_with_real_validation_content",
     "implement_platform_review_hub_when_real_review_corpus_is_substantive",
     "implement_hash_ffc_and_qiqu_ffc_hubs_when_supporting_corpus_is_ready",
