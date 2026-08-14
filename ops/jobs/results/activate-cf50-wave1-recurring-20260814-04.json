@@ -1,0 +1,31 @@
+{
+  "exit_code": 10,
+  "finished_at": "2026-08-14T07:59:24Z",
+  "job_id": "activate-cf50-wave1-recurring-20260814-04",
+  "payload": {
+    "blocking_item": "cron_install_failed",
+    "cms_write_attempted": false,
+    "draft_count_expected": 11,
+    "expected_source_intake_mode": "public_release_transfer_canary",
+    "identity_field": "source_article_id",
+    "legacy_queue_consumed": false,
+    "legacy_repository_scheduled_count_expected": 11,
+    "lock_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock",
+    "publisher_cron_count": 0,
+    "runtime_root": "/var/lib/xyptdq-content/CF50-20260813-wave1",
+    "scheduled_count_expected": 11,
+    "source_queue": "/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled",
+    "state_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json",
+    "status": "BLOCKED",
+    "task": "activate_cf50_wave1_recurring_v4",
+    "wave_b_authorized": false
+  },
+  "raw_log_published": false,
+  "required_commit": "f2ce600aac7cc25d58eda507eaabdf8815975360",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/activate_cf50_wave1_recurring_v4.sh",
+  "script_sha256": "599ea44f196097a0562125af4c51e4e8d18cfad11185ed93c8e6afd3029fb089",
+  "started_at": "2026-08-14T07:59:23Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
