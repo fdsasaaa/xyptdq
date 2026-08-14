@@ -49,6 +49,8 @@ jobs:
         run: php scripts/content/public_release_intake_test.php
       - name: Public-release canary Draft regression
         run: php scripts/content/public_release_canary_test.php
+      - name: Publisher source isolation regression
+        run: php scripts/content/publisher_source_isolation_test.php
       - name: Website SEO portfolio ownership audit
         run: php scripts/content/seo_portfolio_audit.php
       - name: Website SEO portfolio audit regression
