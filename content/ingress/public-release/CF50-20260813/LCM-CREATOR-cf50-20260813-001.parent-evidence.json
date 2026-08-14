@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "evidence_kind": "immutable_approved_parent_identity",
+  "source_repository": "fdsasaaa/caipiaowenzhang",
+  "source_ref": "55e3d8982426976863613669ef0172112bf76eb5",
+  "parent_path": "articles/approved/LCM-CREATOR-cf50-20260813-001.json",
+  "article_id": "LCM-CREATOR-cf50-20260813-001",
+  "content_hash": "8047d09d9a71eae240a6607d04c1db30308431d086f5b5ad5d5e2301083c188b",
+  "fingerprint": "c7dff0a997c7c2bd59997650150840771fa4979284c2a9ff7c67516287473b74",
+  "creator_batch_id": "CF50-20260813",
+  "slug": "ffc-last2-direct-diff-double-track",
+  "primary_keyword": "分分彩后二直选差值技巧",
+  "site_category_key": "tzjq",
+  "content_type": "technique_article",
+  "contains_parent_body": false
+}
