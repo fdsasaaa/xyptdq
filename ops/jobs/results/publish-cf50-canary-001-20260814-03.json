@@ -1,0 +1,28 @@
+{
+  "exit_code": 20,
+  "finished_at": "2026-08-14T04:17:37Z",
+  "job_id": "publish-cf50-canary-001-20260814-03",
+  "payload": {
+    "article_id": "LCM-CREATOR-cf50-20260813-001",
+    "batch_id": "CF50-20260813",
+    "checked_at": "2026-08-14T04:17:37.960223+00:00",
+    "cms_id": null,
+    "detail": "production host has no non-interactive read access to private article repository",
+    "legacy_repository_queue_consumed": false,
+    "phase": "source_access",
+    "published_url": null,
+    "publisher_cron_expected": 0,
+    "recurring_cron_installed": false,
+    "revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
+    "status": "FAIL",
+    "task": "publish_cf50_canary_001_v2"
+  },
+  "raw_log_published": false,
+  "required_commit": "77757dfdcafed6594a2c2b32d1a38e8b5e4d5180",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publish_cf50_canary_001_v3.sh",
+  "script_sha256": "b4e7556062a66587c0984d5b541ee1f972b2a08cdc0ecab92b803261ea286ffd",
+  "started_at": "2026-08-14T04:17:35Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
