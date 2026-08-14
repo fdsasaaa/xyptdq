@@ -43,6 +43,15 @@ if ($xyptdq_desc === '') {
         $xyptdq_desc = '提供彩票数据研究、方案验证、投注成本与风险分析、平台资料导航。内容用于信息与方法研究，不承诺任何收益。';
     }
 }
+if ($xyptdq_is_category && $xyptdq_request_page > 1) {
+    $xyptdq_page_label = '第' . $xyptdq_request_page . '页';
+    if (mb_strpos($xyptdq_title, $xyptdq_page_label, 0, 'UTF-8') === false) {
+        $xyptdq_title .= '｜' . $xyptdq_page_label;
+    }
+    if (mb_strpos($xyptdq_desc, $xyptdq_page_label, 0, 'UTF-8') === false) {
+        $xyptdq_desc .= ' 当前为' . $xyptdq_page_label . '。';
+    }
+}
 $xyptdq_canonical = 'https://www.laocaimi.org/';
 if ($xyptdq_is_show) {
     $xyptdq_show_id = $xyptdq_request_id > 0 ? $xyptdq_request_id : (int)($id ?? 0);
