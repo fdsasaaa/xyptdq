@@ -20,6 +20,39 @@
     "this_file_authorizes_publication": false,
     "planned_hub_url_may_be_injected": false
   },
+  "search_discovery_checkpoint_after_seed": {
+    "required_before_wave_b": true,
+    "reason": "Public search discovery checks on 2026-08-14 returned no laocaimi.org result for domain/site/brand and representative target queries, so technical Google discoverability must be distinguished from simple indexing delay before scaling the batch.",
+    "google_source_of_truth": "Google Search Console URL Inspection and Page Indexing/Sitemaps reports",
+    "public_site_query_is_diagnostic_only": true,
+    "do_not_require_all_seed_urls_to_be_indexed_before_wave_b": true,
+    "google_notes": [
+      "URL Inspection live availability tests technical indexability but does not guarantee indexing.",
+      "Google states crawling/indexing can take days to weeks.",
+      "For many new URLs, Sitemap is preferred over repeated individual indexing requests."
+    ],
+    "local_live_requirements": {
+      "all_12_seed_urls_http_200": true,
+      "all_12_seed_urls_self_canonical": true,
+      "all_12_seed_urls_indexable_no_noindex": true,
+      "all_12_seed_urls_in_current_sitemap": true,
+      "current_tzjq_category_links_expose_seed_urls": true
+    },
+    "google_search_console_requirements": {
+      "sitemap_is_submitted_or_known_and_processed_without_blocking_error": true,
+      "representative_seed_url_inspection_count": 3,
+      "representative_seed_positions": [1, 3, 5],
+      "representative_live_test_available_to_google": true,
+      "no_systemic_robots_or_canonical_blocker": true,
+      "actual_indexed_count_is_observed_not_forced": true
+    },
+    "decision_rules": {
+      "technical_blocker_found": "hold_wave_b_and_fix_only_the_proven_regression",
+      "technically_available_but_not_yet_indexed": "do_not_treat_normal_indexing_delay_as_a_failure; continue only after recording the Search Console evidence",
+      "systemic_canonical_or_noindex_problem": "hold_wave_b",
+      "sitemap_processing_failure": "hold_wave_b"
+    }
+  },
   "waves": [
     {
       "wave_id": "canary_and_hub_seed",
@@ -40,7 +73,8 @@
     {
       "wave_id": "breadth_expansion",
       "positions": [13, 30],
-      "goal": "Expand play-family breadth while keeping consecutive pages semantically distinct."
+      "goal": "Expand play-family breadth while keeping consecutive pages semantically distinct.",
+      "entry_gate": "search_discovery_checkpoint_after_seed_passed_or_recorded_as_technically_available_without_systemic_blocker"
     },
     {
       "wave_id": "long_tail_depth",
