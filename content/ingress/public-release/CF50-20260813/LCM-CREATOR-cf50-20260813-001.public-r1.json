@@ -1,0 +1,61 @@
+{
+  "approved_at": "2026-08-14T03:52:00+00:00",
+  "article_id": "LCM-CREATOR-cf50-20260813-001",
+  "case_scope": "mechanics_only",
+  "category": "投注技巧",
+  "claim_evidence": [
+    {
+      "claim_text": "后二直选看十位和个位，位置和顺序都要对应；00到99可以看成100个有序结果。",
+      "claim_type": "rule_fact",
+      "evidence_note": "已验证玩法机制；不继承平台奖金、返点、单注金额或限额。",
+      "support_refs": ["SSC-HIST-MECH-2STAR-LAST-V1"],
+      "support_type": "verified_rule"
+    },
+    {
+      "claim_text": "两位数字的绝对差可以作为历史样本的分类变量，用于观察不同距离类别在不同时间区间中的分布与波动。",
+      "claim_type": "methodology",
+      "evidence_note": "用于解释数据整理与复盘方法，不提供具体候选号码或投注指令。",
+      "support_refs": ["case_bundle"],
+      "support_type": "synthetic_case"
+    }
+  ],
+  "content": "<p>这篇文章把“差值”当成一个<strong>复盘和分类工具</strong>来讲，而不是把它当成预测下一期结果的方法。</p><p>后二直选只涉及十位和个位，位置与顺序都需要区分。从研究角度看，可以把两位之间的距离关系记录下来，再观察不同距离类别在历史样本中的分布是否稳定。</p><h2>什么叫差值观察</h2><p>最简单的做法，是把两个位置上的数字做绝对差，并把结果按不同距离类别归档。这样做的价值主要是把原本零散的两位组合转换成一个更容易统计的结构变量。</p><h2>为什么要做分类，而不是追号码</h2><p>单个号码在短样本里很容易出现看起来“很热”或“很冷”的波动。把样本改成距离类别后，可以更清楚地检查：某个现象到底只是偶然波动，还是在更长样本里仍然存在。</p><h2>怎样做一个合格的复盘</h2><p>先固定观察口径，再记录历史样本中的类别结果；不要看到结果以后临时增加条件，也不要因为某一段样本好看就把它解释成未来优势。更合理的做法，是把样本拆成不同时间段，比较同一规则在不同区间里的表现是否一致。</p><h2>两条“距离轨道”怎么理解</h2><p>所谓两条轨道，可以理解为把多个距离类别分成两组，方便做对照研究。重点不是哪一组“应该下注”，而是比较两组在不同历史区间中的数量、波动和连续出现情况，从而判断这个分类有没有统计解释价值。</p><h2>最后提醒</h2><p>差值分类只是数据整理方法。随机开奖结果不会因为某种分类方式就自动获得可持续预测能力。任何短期回测结果都应继续接受样本外验证，并同时考虑实际成本和连续波动风险。</p>",
+  "content_format": "html",
+  "content_hash": "d88510a74d6440f1553cef9cbc2d5af679e144708106585bad8bb0f3ab477d0f",
+  "content_type": "technique_article",
+  "creator_batch_id": "CF50-20260813",
+  "creator_first_contract_version": "1.0",
+  "fingerprint": "c2aaf03023c3c40967981c8d0530f1aaf483f5793289a2b3f464eb10fd9efd73",
+  "generation_contract_version": "2.0",
+  "internal_links": [],
+  "lottery": "时时彩",
+  "meta_description": "分分彩后二直选差值技巧：把差值作为历史样本分类和复盘变量，说明如何做对照研究、避免短样本误判，并强调样本外验证与风险控制。",
+  "parent_content_hash": "8047d09d9a71eae240a6607d04c1db30308431d086f5b5ad5d5e2301083c188b",
+  "parent_fingerprint": "c7dff0a997c7c2bd59997650150840771fa4979284c2a9ff7c67516287473b74",
+  "play": "后二直选",
+  "primary_keyword": "分分彩后二直选差值技巧",
+  "provider_id": null,
+  "public_release_review": {
+    "review_contract": "website-public-release-editorial-v1",
+    "reviewed_at": "2026-08-14T03:52:00+00:00",
+    "status": "approved"
+  },
+  "release_revision": 1,
+  "revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
+  "revision_kind": "website_public_release",
+  "rule_refs": ["SSC-HIST-MECH-2STAR-LAST-V1"],
+  "search_intent": "了解后二直选差值分类作为数据复盘工具的基本思路、验证边界和风险限制",
+  "secondary_keywords": ["分分彩后二直选技巧", "差值双轨", "分分彩投注技巧"],
+  "seo_title": "分分彩后二直选差值技巧：把100组号码拆成两条距离轨道",
+  "site_category_key": "tzjq",
+  "slug": "ffc-last2-direct-diff-double-track",
+  "source_batch_id": "CF50-20260813",
+  "source_refs": [],
+  "status": "approved",
+  "subject_lottery": "分分彩",
+  "subject_play": "后二直选",
+  "summary": "把差值从选号指令改为历史样本分类工具，重点讲清复盘、对照与样本外验证。",
+  "tags": ["分分彩", "后二直选", "差值双轨", "投注技巧"],
+  "technique_atoms": ["difference_relation", "two_track_selection"],
+  "title": "分分彩后二直选差值技巧：把100组号码拆成两条距离轨道"
+}

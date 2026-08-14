@@ -1,0 +1,22 @@
+{
+  "approved_public_release_count": 1,
+  "articles": [
+    {
+      "article_id": "LCM-CREATOR-cf50-20260813-001",
+      "content_hash": "d88510a74d6440f1553cef9cbc2d5af679e144708106585bad8bb0f3ab477d0f",
+      "fingerprint": "c2aaf03023c3c40967981c8d0530f1aaf483f5793289a2b3f464eb10fd9efd73",
+      "path": "articles/public_release/CF50-20260813/LCM-CREATOR-cf50-20260813-001.public-r1.json",
+      "primary_keyword": "分分彩后二直选差值技巧",
+      "release_revision": 1,
+      "revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
+      "slug": "ffc-last2-direct-diff-double-track"
+    }
+  ],
+  "canary_ingestion_allowed": true,
+  "expected_count": 50,
+  "revision_kind": "website_public_release",
+  "schema_version": 1,
+  "source_batch_id": "CF50-20260813",
+  "status": "partial",
+  "website_batch_ingestion_allowed": false
+}
