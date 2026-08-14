@@ -60,6 +60,8 @@ jobs:
         run: php scripts/content/public_release_canary_test.php
       - name: Sanitized public-release transfer canary regression
         run: php scripts/content/public_release_transfer_canary_test.php
+      - name: First-wave sanitized transfer batch regression
+        run: php scripts/content/public_release_transfer_batch_test.php
       - name: Publisher source isolation regression
         run: php scripts/content/publisher_source_isolation_test.php
       - name: Website SEO portfolio ownership audit
