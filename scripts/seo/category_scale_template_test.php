@@ -17,10 +17,10 @@ $mobileList = (string) file_get_contents($root . '/site/template/mobile/default/
 foreach (['pc' => $pcHeader, 'mobile' => $mobileHeader] as $name => $src) {
     foreach ([
         '$xyptdq_is_category && $xyptdq_request_page > 1',
-        "$xyptdq_page_label = '第' . $xyptdq_request_page . '页'",
-        "$xyptdq_title .= '｜' . $xyptdq_page_label",
-        "$xyptdq_desc .= ' 当前为' . $xyptdq_page_label . '。'",
-        "$xyptdq_canonical .= '&page=' . $xyptdq_request_page",
+        "\$xyptdq_page_label = '第' . \$xyptdq_request_page . '页'",
+        "\$xyptdq_title .= '｜' . \$xyptdq_page_label",
+        "\$xyptdq_desc .= ' 当前为' . \$xyptdq_page_label . '。'",
+        "\$xyptdq_canonical .= '&page=' . \$xyptdq_request_page",
     ] as $needle) {
         if (strpos($src, $needle) === false) {
             categoryScaleFail($name . ' paginated metadata marker missing: ' . $needle);
