@@ -1,0 +1,65 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-14T08:30:47Z",
+  "job_id": "probe-live-article-css-assets-20260814-01",
+  "payload": {
+    "cms_write_attempted": false,
+    "cron_mutated": false,
+    "files_mutated": false,
+    "http": 200,
+    "page_body_returned": false,
+    "read_only": true,
+    "status": "PASS",
+    "stylesheet_count": 3,
+    "stylesheets": [
+      {
+        "basename": "plugins.bundle.css",
+        "href": "https://www.laocaimi.org/static/default/pc/plugins/global/plugins.bundle.css",
+        "production_matches": [
+          {
+            "mtime": 1786447731,
+            "path": "static/default/pc/plugins/global/plugins.bundle.css",
+            "sha256": "0ffae3abd29aecd213732904507d146150f60339f00cb532cdd9f91936a05e38",
+            "size": 650896
+          }
+        ],
+        "url_path": "/static/default/pc/plugins/global/plugins.bundle.css"
+      },
+      {
+        "basename": "style.bundle.css",
+        "href": "https://www.laocaimi.org/static/default/pc/css/style.bundle.css",
+        "production_matches": [
+          {
+            "mtime": 1786447731,
+            "path": "static/default/pc/css/style.bundle.css",
+            "sha256": "044f17e763fecd28709e79dc785c30512049691b1cf394d5a972b6607a71f055",
+            "size": 1396001
+          }
+        ],
+        "url_path": "/static/default/pc/css/style.bundle.css"
+      },
+      {
+        "basename": "icon.css",
+        "href": "https://www.laocaimi.org/static/assets/icon/css/icon.css",
+        "production_matches": [
+          {
+            "mtime": 1786447731,
+            "path": "static/assets/icon/css/icon.css",
+            "sha256": "94bc71297852084ae2bcd0e0b93c8cca3fa552f23103184db4803af400c76d39",
+            "size": 86512
+          }
+        ],
+        "url_path": "/static/assets/icon/css/icon.css"
+      }
+    ],
+    "task": "probe_live_article_css_assets_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "0f6ff932bb516bd485a823e739953414628c03de",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/probe_live_article_css_assets_v1.sh",
+  "script_sha256": "d42f86c54e378bfc1062868bec57edc0a487e9da60db4946368bda2f5f7ea592",
+  "started_at": "2026-08-14T08:30:46Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
