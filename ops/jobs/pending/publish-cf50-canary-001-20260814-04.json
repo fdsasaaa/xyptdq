@@ -3,6 +3,6 @@
   "job_id": "publish-cf50-canary-001-20260814-04",
   "required_commit": "64b0f0e31940dd87f8f2b4a780730064074179a8",
   "script": "scripts/ops/agent_tasks/publish_cf50_canary_001_v4.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "23291622c782b535b8a316daea45d39b9fabe5f52da30df73c4eadc1df1b82cf",
   "timeout_seconds": 900
 }
