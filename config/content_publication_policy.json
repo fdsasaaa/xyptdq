@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "publishing_enabled": false,
-  "mode": "public_release_canary_gate",
-  "reason": "User authorization for Draft-first automated publication is recorded, but activation remains paused until the reviewed public-release canary, isolated source queue, and first-live SEO safety gates pass.",
+  "publishing_enabled": true,
+  "mode": "one_shot_public_release_canary",
+  "reason": "User authorization is recorded and CF50-001 now has a reviewed public-release revision. Enable only a one-shot canary publication through the isolated runtime source; recurring cron remains disabled until first-live SEO verification passes.",
   "user_authorization": {
     "status": "granted",
     "recorded_date": "2026-08-13",
@@ -13,6 +13,16 @@
     ],
     "does_not_bypass_quality_or_technical_gates": true
   },
+  "canary_execution_scope": {
+    "max_articles": 1,
+    "required_batch_id": "CF50-20260813",
+    "required_article_id": "LCM-CREATOR-cf50-20260813-001",
+    "required_revision_kind": "website_public_release",
+    "required_revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
+    "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813/scheduled",
+    "legacy_repository_queue_forbidden": true,
+    "recurring_cron_allowed": false
+  },
   "planned_cadence": {
     "articles_per_day": 2,
     "timezone": "Asia/Singapore",
@@ -21,14 +31,19 @@
     "continue_after_first_wave_requires_search_discovery_checkpoint": true,
     "cadence_is_not_claimed_as_a_direct_ranking_signal": true
   },
-  "activation_requires": [
-    "first_reviewed_public_release_canary_exists",
+  "canary_pre_publish_requires": [
+    "reviewed_public_release_canary_exists",
     "website_public_release_validation_passes",
     "canary_draft_intake_passes",
     "isolated_runtime_scheduled_queue_is_configured",
     "legacy_repository_scheduled_queue_is_not_used",
-    "rollback_gated_activation_is_verified",
-    "first_live_article_http_canonical_indexability_and_sitemap_checks_pass"
+    "publisher_cron_is_absent"
   ],
-  "resume_requires": "technical_readiness_gates_only_user_authorization_already_recorded"
+  "recurring_activation_requires": [
+    "one_shot_canary_publication_succeeds",
+    "first_live_article_http_canonical_indexability_and_sitemap_checks_pass",
+    "isolated_runtime_source_state_and_lock_paths_are_verified",
+    "rollback_gated_cron_activation_is_verified"
+  ],
+  "resume_requires": "one_shot_canary_then_first_live_seo_verification_user_authorization_already_recorded"
 }
