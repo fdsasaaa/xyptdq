@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-live-article-css-assets-20260814-01",
+  "required_commit": "0f6ff932bb516bd485a823e739953414628c03de",
+  "script": "scripts/ops/agent_tasks/probe_live_article_css_assets_v1.sh",
+  "script_sha256": "d42f86c54e378bfc1062868bec57edc0a487e9da60db4946368bda2f5f7ea592",
+  "timeout_seconds": 300
+}
