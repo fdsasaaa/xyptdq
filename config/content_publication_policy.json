@@ -2,7 +2,7 @@
   "schema_version": 1,
   "publishing_enabled": true,
   "mode": "wave1_recurring_activation_authorized",
-  "reason": "CF50 first-wave reviewed public-release inventory is complete and recurring Publisher activation v5 passed on production. The remaining 11 first-wave articles are isolated, scheduled, and eligible for the existing hourly cron subject to each publish_at value. Wave B remains unauthorized until the post-12 search-discovery checkpoint.",
+  "reason": "CF50 first-wave recurring publication is active after a proven scheduler regression was repaired and production-tested. CF50-001 and CF50-011 are live; 10 Wave1 items remain unpublished. The cron must invoke run_scheduled_publish.sh through /bin/bash and stay bound only to the isolated Wave1 source/state/lock. Wave B remains unauthorized until the post-12 search-discovery checkpoint.",
   "user_authorization": {
     "status": "granted",
     "recorded_date": "2026-08-13",
@@ -26,13 +26,30 @@
     "source_transport": "sanitized_public_release_bundle",
     "legacy_repository_queue_consumed": false
   },
+  "latest_wave1_publication": {
+    "article_id": "LCM-CREATOR-cf50-20260813-011",
+    "cms_id": 93,
+    "published_url": "https://www.laocaimi.org/index.php?c=show&id=93",
+    "server_bridge_job": "repair-test-cf50-011-cron-20260814-02",
+    "publication_status": "PASS",
+    "live_seo_verification": "PASS",
+    "test_delay_seconds": 10,
+    "remaining_unpublished_count": 10,
+    "legacy_repository_queue_consumed": false
+  },
   "recurring_activation": {
     "status": "PASS",
-    "server_bridge_job": "activate-cf50-wave1-recurring-20260814-05",
-    "result_branch": "agent/results/activate-cf50-wave1-recurring-20260814-05",
+    "original_server_bridge_job": "activate-cf50-wave1-recurring-20260814-05",
+    "scheduler_regression_diagnostic_job": "diagnose-cf50-011-cron-runtime-20260814-02",
+    "scheduler_regression_root_cause": "cron_directly_executed_non_executable_runner_mode_0600",
+    "durable_fix": "invoke_runner_through_bin_bash",
+    "repair_test_job": "repair-test-cf50-011-cron-20260814-02",
+    "repair_test_result_branch": "agent/results/repair-test-cf50-011-cron-20260814-02",
+    "repair_test_status": "PASS",
     "publisher_cron_count": 1,
     "cron_schedule": "7 * * * *",
-    "cms_write_attempted_during_activation": false,
+    "cron_runner_invocation": "/bin/bash scripts/content/run_scheduled_publish.sh",
+    "cms_write_attempted_during_original_activation": false,
     "legacy_repository_queue_consumed": false,
     "wave_b_authorized": false
   },
@@ -50,17 +67,29 @@
     "runtime_lock_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock",
     "legacy_repository_queue_forbidden": true,
     "historical_repository_scheduled_json_count": 11,
-    "expected_isolated_scheduled_count": 11,
+    "expected_isolated_scheduled_physical_count": 11,
+    "current_state_article_count": 11,
+    "current_state_published_count": 1,
+    "current_state_scheduled_count": 10,
+    "current_state_failed_count": 0,
+    "current_remaining_unpublished_count": 10,
+    "scheduled_json_files_are_retained_for_idempotency": true,
     "recurring_cron_allowed_now": true,
     "recurring_cron_installed": true,
+    "cron_must_invoke_runner_through_bin_bash": true,
     "activation_must_fail_closed_on_runtime_mismatch": true
+  },
+  "next_wave1_item": {
+    "article_id": "LCM-CREATOR-cf50-20260813-021",
+    "publish_at": "2026-08-15T10:00:00+08:00"
   },
   "post_publication_seo": {
     "status": "enabled_in_main",
     "sitemap_refresh_before_live_verification": true,
     "publication_receipt_per_new_publication": true,
     "live_seo_verification_per_new_publication": true,
-    "verification_failure_mode": "warn_without_rolling_back_committed_cms_page"
+    "verification_failure_mode": "warn_without_rolling_back_committed_cms_page",
+    "cf50_011_verification": "PASS"
   },
   "resume_requires": "continue_first_wave_automatically_then_stop_after_12_for_search_discovery_checkpoint"
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-14T18:20:00+08:00",
+  "updated_at": "2026-08-14T22:17:43+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
   "current_phase": "phase2_first_wave_recurring_publication_active",
@@ -70,6 +70,19 @@
     "live_seo_verification": "PASS",
     "source_transport": "sanitized_public_release_bundle"
   },
+  "second_live_publication": {
+    "status": "PASS",
+    "article_id": "LCM-CREATOR-cf50-20260813-011",
+    "cms_id": 93,
+    "published_url": "https://www.laocaimi.org/index.php?c=show&id=93",
+    "server_bridge_job": "repair-test-cf50-011-cron-20260814-02",
+    "result_branch": "agent/results/repair-test-cf50-011-cron-20260814-02",
+    "live_seo_verification": "PASS",
+    "test_delay_seconds": 10,
+    "state_published_count": 1,
+    "state_scheduled_count": 10,
+    "state_failed_count": 0
+  },
   "article_publishing": {
     "policy_file": "config/content_publication_policy.json",
     "publishing_enabled": true,
@@ -84,9 +97,28 @@
     "remaining_first_wave_scheduled_count_at_activation": 11,
     "recurring_activation_job": "activate-cf50-wave1-recurring-20260814-05",
     "recurring_activation_status": "PASS",
+    "scheduler_regression_detected_on": "CF50-011",
+    "scheduler_regression_root_cause": "cron_directly_executed_non_executable_runner_mode_0600",
+    "scheduler_diagnostic_job": "diagnose-cf50-011-cron-runtime-20260814-02",
+    "scheduler_durable_fix": "cron_invokes_runner_through_bin_bash",
+    "scheduler_repair_test_v1": "repair-test-cf50-011-cron-20260814-01",
+    "scheduler_repair_test_v1_status": "FAIL_SAFE_BEFORE_PUBLICATION_CRON_RELOAD_UNSUPPORTED",
+    "scheduler_repair_test_v2": "repair-test-cf50-011-cron-20260814-02",
+    "scheduler_repair_test_v2_status": "PASS",
     "recurring_cron_present": true,
     "recurring_cron_schedule": "7 * * * *",
+    "recurring_cron_runner_invocation": "/bin/bash scripts/content/run_scheduled_publish.sh",
+    "current_wave1_state_article_count": 11,
+    "current_wave1_published_count": 1,
+    "current_wave1_scheduled_count": 10,
+    "current_wave1_failed_count": 0,
+    "current_wave1_remaining_unpublished_count": 10,
+    "isolated_scheduled_physical_json_count": 11,
+    "scheduled_file_retention_semantics": "physical_json_retained_for_idempotency_state_tracks_published_vs_remaining",
+    "next_article_id": "LCM-CREATOR-cf50-20260813-021",
+    "next_publish_at": "2026-08-15T10:00:00+08:00",
     "legacy_repository_queue_consumed_during_activation": false,
+    "legacy_repository_queue_consumed_during_011_repair_test": false,
     "wave_b_authorized": false
   },
   "planned_recurring_cadence": {
@@ -102,7 +134,8 @@
     "sitemap_refresh": true,
     "publication_receipt": true,
     "live_http_canonical_noindex_title_h1_description_sitemap_verification": true,
-    "failure_behavior": "warn_without_rolling_back_committed_cms_page"
+    "failure_behavior": "warn_without_rolling_back_committed_cms_page",
+    "cf50_011_live_verification": "PASS"
   },
   "new_inventory_monitor": {
     "status": "active",
@@ -150,7 +183,7 @@
     {
       "id": "first_wave_automatic_publication",
       "status": "active",
-      "detail": "Let the isolated cron publish the remaining first-wave reviewed public releases according to publish_at; verify each new publication through Sitemap + receipt + live SEO."
+      "detail": "Scheduler repair is production PASS. Let the restored isolated cron publish 021 at 2026-08-15 10:00 Asia/Singapore and the remaining first-wave reviewed public releases according to publish_at; verify each new publication through state + Sitemap + receipt + live SEO."
     },
     {
       "id": "first_wave_search_discovery_checkpoint",
@@ -159,8 +192,9 @@
     }
   ],
   "next_actions": [
-    "Do not republish CF50-001; CMS ID 92 is canonical canary evidence.",
-    "Do not reinstall or duplicate Publisher cron; activation v5 is PASS and cron count is 1.",
+    "Do not republish CF50-001 (CMS ID 92) or CF50-011 (CMS ID 93).",
+    "Do not reinstall or duplicate Publisher cron; the repaired recurring cron is installed and invokes the runner through /bin/bash.",
+    "Let CF50-021 reach 2026-08-15T10:00:00+08:00 and use that normal slot as the next proof of recurring cron operation.",
     "Allow the remaining first-wave Scheduled public-r1 articles to publish from the isolated runtime according to publish_at.",
     "Use the merged post-publication SEO runner to refresh Sitemap and verify each newly published URL.",
     "Continue hourly inventory monitoring; never publish raw Approved bodies directly.",
@@ -171,5 +205,5 @@
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
-  "new_session_instruction": "Read main handoff/state and newer result branches first. CF50 recurring Publisher activation v5 is production PASS with one cron bound only to the isolated wave1 source/state/lock. The first 12 reviewed public releases are the active wave; 001 is already live as CMS ID 92 and the remaining first-wave seeds publish on the existing schedule. Post-publication Sitemap/receipt/live SEO verification is merged. Article reading design is production PASS through the scoped XYPTDQ_ARTICLE_READING static CSS block and is closed unless regression. Do not reauthorize or reinstall cron, do not publish raw Approved bodies, keep 020/029/038/039/040 frozen, and do not start Wave B before the post-12 Issue #264 discovery checkpoint."
+  "new_session_instruction": "Read main handoff/state and newer result branches first. CF50-001 is live as CMS ID 92 and CF50-011 is live as CMS ID 93 with live SEO PASS. The missed-011 scheduler regression was proven to be direct cron execution of a mode-0600 runner; the durable fix is explicit /bin/bash runner invocation. Corrected repair job repair-test-cf50-011-cron-20260814-02 is PASS, Wave1 state is 1 published / 10 scheduled / 0 failed, and the repaired recurring cron is installed. Next article is 021 at 2026-08-15 10:00 Asia/Singapore. Post-publication Sitemap/receipt/live SEO verification is active. Article reading design remains closed unless regression. Do not reauthorize or reinstall cron, do not republish 001/011, do not publish raw Approved bodies, keep 020/029/038/039/040 frozen, and do not start Wave B before the post-12 Issue #264 discovery checkpoint."
 }

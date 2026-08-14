@@ -25,35 +25,71 @@ Website-facing content must be a separately reviewed `website_public_release` re
 - First-wave order: `001, 011, 021, 031, 041, 046, 002, 012, 022, 032, 037, 049`
 - High-overlap tail: `020, 029, 038, 039, 040`
 
-CF50-001 is already live:
+CF50-001 is live:
 - revision `LCM-CREATOR-cf50-20260813-001:public-r1`
 - CMS ID `92`
 - URL `https://www.laocaimi.org/index.php?c=show&id=92`
 - canary Server Bridge PASS
 - live SEO PASS
 
-Do not republish 001.
+CF50-011 is also live after the 2026-08-14 scheduler repair test:
+- article `LCM-CREATOR-cf50-20260813-011`
+- CMS ID `93`
+- URL `https://www.laocaimi.org/index.php?c=show&id=93`
+- Server Bridge job `repair-test-cf50-011-cron-20260814-02`
+- result branch `agent/results/repair-test-cf50-011-cron-20260814-02`
+- status **PASS**
+- live SEO **PASS**
+- Wave1 state after publication: `1 published / 10 scheduled / 0 failed`
+- next article: `LCM-CREATOR-cf50-20260813-021`
+- next publish_at: `2026-08-15T10:00:00+08:00`
 
-## 4. Recurring Publisher — PRODUCTION PASS
+Do not republish 001 or 011.
+
+## 4. Recurring Publisher — REPAIRED PRODUCTION PASS
 
 Authoritative policy: `config/content_publication_policy.json`.
 
-Recurring activation v5 is the canonical production result:
+Recurring activation v5 originally installed the isolated production scheduler:
 - Server Bridge job: `activate-cf50-wave1-recurring-20260814-05`
-- result branch: `agent/results/activate-cf50-wave1-recurring-20260814-05`
-- status: **PASS**
-- Publisher cron count: `1`
-- cron schedule: `7 * * * *`
 - source: `/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled`
 - state: `/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json`
 - lock: `/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock`
 - historical repository Scheduled queue consumed: `false`
-- CMS write during activation: `false`
 - Wave B authorized: `false`
 
-Do **not** reinstall or duplicate this cron. The hourly cron processes articles whose `publish_at` is due; planned editorial slots remain 10:00 and 19:00 Asia/Singapore, so the hourly job normally processes a due item around minute 07 after the hour.
+A real production regression was then proven when CF50-011 missed its 2026-08-14 19:00 Asia/Singapore slot. The deeper read-only diagnostic `diagnose-cf50-011-cron-runtime-20260814-02` proved:
+- `cron` daemon active and enabled;
+- `/etc/cron.d/xyptdq-publisher` existed with correct root ownership/mode, `7 * * * *` schedule, root user and correct isolated source/state/lock bindings;
+- deployed `scripts/content/run_scheduled_publish.sh` was mode `0600`, Bash syntax valid, but not executable;
+- no Wave1 state had been created and no article had been consumed or published.
 
-At activation, the remaining 11 first-wave articles existed as exactly 11 isolated Draft + 11 isolated Scheduled files. Their schedule/category/Cluster/public-r1 provenance passed the read-only runtime probe.
+Root cause: cron directly executed the non-executable checkout of `run_scheduled_publish.sh`.
+
+Durable fix: `scripts/content/install_publisher_cron.sh` now writes the cron command using **`/bin/bash <runner>`**, so scheduler execution no longer depends on the Git checkout executable bit. Do not replace this with a direct runner invocation.
+
+The first repair test `repair-test-cf50-011-cron-20260814-01` failed safely before publication because the test harness incorrectly required `systemctl reload cron`; this host's cron service does not accept that reload operation. No CMS write occurred, state remained absent, all 11 isolated Scheduled files and all 11 historical repository Scheduled files remained intact, and the Publisher cron stayed disabled.
+
+The corrected test `repair-test-cf50-011-cron-20260814-02` removed only that reload dependency and then:
+1. confirmed exactly one due Wave1 item and that it was 011;
+2. kept recurring Publisher cron absent;
+3. waited 10 seconds as explicitly requested by the user;
+4. ran one Publisher invocation with `XYPTDQ_PUBLISH_LIMIT=1`;
+5. published only 011 as CMS ID 93;
+6. regenerated Sitemap, exported the Publication Receipt and passed live SEO verification;
+7. confirmed state `1 published / 10 scheduled / 0 failed`;
+8. confirmed both physical Scheduled inventories still contain 11 JSON files, as intended for idempotency/history;
+9. reinstalled the recurring Publisher cron only after all checks passed;
+10. confirmed the restored cron uses the durable `/bin/bash .../run_scheduled_publish.sh` invocation.
+
+Current recurring cron state is **PASS / installed**:
+- cron schedule: `7 * * * *`
+- editorial cadence: `10:00` and `19:00` Asia/Singapore
+- next scheduled article: 021 at `2026-08-15T10:00:00+08:00`
+
+Important queue semantics: the isolated Scheduled JSON files are retained for idempotency. “11 → 10” means the number of **remaining unpublished state entries** fell from 11 to 10; it does not mean a Scheduled JSON file is physically deleted.
+
+Do **not** reinstall or duplicate the cron. The hourly cron is only a poller; each article's `publish_at` controls actual release eligibility. Planned editorial slots remain 10:00 and 19:00 Asia/Singapore, so a due item is normally processed around minute 07 after the hour.
 
 ## 5. Historical queue safety — HARD RULE
 
@@ -78,7 +114,7 @@ The clock times are operating cadence, not claimed as a Google ranking signal.
 
 ## 7. Post-publication SEO is automatic
 
-The scheduled runner now performs, for **new pages actually published in the current cron run**:
+The scheduled runner performs, for **new pages actually published in the current cron run**:
 
 1. Native Publisher writes the CMS page through the existing idempotent adapter.
 2. Sitemap is regenerated.
@@ -157,23 +193,30 @@ This visual work is **closed unless a real production regression is observed**. 
 
 ## 12. Immediate next actions
 
-1. Let the active isolated cron continue the remaining first-wave publication; do not reinstall cron.
-2. Confirm each real publication only after Publisher state/live URL evidence exists.
-3. Use automatic post-publication Sitemap + receipt + live SEO evidence for each new page.
-4. Continue hourly new-inventory monitoring; never publish raw Approved bodies directly.
-5. Keep `020, 029, 038, 039, 040` frozen until Issue #264 explicitly authorizes release.
-6. Stop after the first 12 live seed articles and perform the search-discovery checkpoint before Wave B.
-7. Keep article-page visual design closed unless a real production regression appears.
-8. Keep Phase 1 closed unless a real regression appears.
+1. Do not make further scheduler changes unless a new production regression is proven; the cron repair is now production PASS.
+2. Let 021 reach `2026-08-15T10:00:00+08:00` and confirm the normal recurring cron publishes it without a manual one-shot invocation.
+3. Confirm each real publication only after Publisher state/live URL evidence exists.
+4. Use automatic post-publication Sitemap + receipt + live SEO evidence for each new page.
+5. Continue hourly new-inventory monitoring; never publish raw Approved bodies directly.
+6. Keep `020, 029, 038, 039, 040` frozen until Issue #264 explicitly authorizes release.
+7. Stop after the first 12 live seed articles and perform the search-discovery checkpoint before Wave B.
+8. Keep article-page visual design closed unless a real production regression appears.
+9. Keep Phase 1 closed unless a real regression appears.
 
 ## 13. New-session takeover protocol
 
 A new session must first confirm current `main`, `config/content_publication_policy.json`, newer `agent/results/*`, Publisher state and current live article count. Canonical facts at this handoff are:
 - CF50-001 is live as CMS ID 92 and passed live SEO;
-- recurring activation v5 is production PASS with exactly one isolated Publisher cron;
-- post-publication Sitemap/receipt/live SEO verification is merged;
+- CF50-011 is live as CMS ID 93 and passed live SEO after the controlled 10-second repair test;
+- the missed-011 root cause was direct cron execution of a mode-0600 runner;
+- the durable cron fix is explicit `/bin/bash .../run_scheduled_publish.sh` invocation;
+- corrected repair job `repair-test-cf50-011-cron-20260814-02` is production PASS;
+- Wave1 state is `1 published / 10 scheduled / 0 failed` for the 11 post-canary runtime items;
+- next item is 021 at `2026-08-15T10:00:00+08:00`;
+- recurring cron is installed and bound only to the isolated Wave1 source/state/lock;
+- post-publication Sitemap/receipt/live SEO verification is active;
 - article-page reading design is production PASS through the scoped `XYPTDQ_ARTICLE_READING` static CSS block and is closed unless regression;
 - CF50 final five `020, 029, 038, 039, 040` remain frozen;
 - Wave B is not authorized before the Issue #264 post-12 checkpoint.
 
-Continue from the first real publication/checkpoint gap. Do not repeat Phase 1, do not reopen completed visual work, and do not ask the user for publication authorization already recorded.
+Continue from the first real publication/checkpoint gap. Do not repeat Phase 1, do not reopen completed visual work, do not republish 001/011, do not reinstall the Publisher cron, and do not ask the user for publication authorization already recorded.
