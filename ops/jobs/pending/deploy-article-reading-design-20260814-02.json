@@ -3,6 +3,6 @@
   "job_id": "deploy-article-reading-design-20260814-02",
   "required_commit": "92722e2b90eaf91888a310bca2faa1a7ac5f1812",
   "script": "scripts/ops/agent_tasks/deploy_article_reading_design_v2.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "347381a25cb49196797352c6f1c6b473918d5e081b4322b661c48c8d1095e5fa",
   "timeout_seconds": 300
 }
