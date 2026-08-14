@@ -3,6 +3,6 @@
   "job_id": "stage-cf50-wave1-schedule-20260814-01",
   "required_commit": "44863ce1ce40b0abcda0576ed9898c27b1afcdcc",
   "script": "scripts/ops/agent_tasks/stage_cf50_wave1_schedule_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "60fef6b858c9878de893d368fca505c92f95b6086bf9710406f19e72ac5b2bb4",
   "timeout_seconds": 900
 }
