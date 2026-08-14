@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-article-reading-design-20260814-01",
+  "required_commit": "a58f81a14c2fdb6154d5c1744bd38f556dc8d0df",
+  "script": "scripts/ops/agent_tasks/deploy_article_reading_design_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 900
+}
