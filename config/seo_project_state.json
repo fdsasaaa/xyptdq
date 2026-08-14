@@ -1,15 +1,14 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-14T12:42:00+08:00",
+  "updated_at": "2026-08-14T16:32:00+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
-  "current_phase": "phase2_first_live_canary_passed_preparing_reviewed_inventory_for_recurring_publication",
+  "current_phase": "phase2_first_wave_recurring_publication_active",
   "canonical_checkpoint": {
-    "website_main_head_before_state_update": "6b84a6bffba3dd57b451e6549f6d0cef8287e2ab",
     "article_repository": "fdsasaaa/caipiaowenzhang",
     "technical_seo_baseline": "closed_unless_regression",
-    "website_thread_owns_article_generation": false,
-    "website_thread_owns_intake_seo_publication": true
+    "website_thread_owns_intake_seo_publication": true,
+    "original_approved_body_publication_allowed": false
   },
   "phase1": {
     "status": "closed_unless_regression",
@@ -44,10 +43,10 @@
     "formal_approved_count": 50,
     "formal_approved_root": "articles/approved",
     "formal_approved_is_immutable_parent_evidence": true,
-    "original_approved_body_must_not_be_published_when_public_release_is_required": true,
-    "release_order_file": "content/cf50_seo_release_order.json",
+    "reviewed_first_wave_count": 12,
     "first_wave_article_numbers": [1, 11, 21, 31, 41, 46, 2, 12, 22, 32, 37, 49],
-    "semantic_overlap_tail_article_numbers": [20, 29, 38, 39, 40]
+    "semantic_overlap_tail_article_numbers": [20, 29, 38, 39, 40],
+    "release_order_file": "content/cf50_seo_release_order.json"
   },
   "public_release": {
     "revision_kind": "website_public_release",
@@ -59,35 +58,36 @@
     "public_release_review_required": true,
     "website_independent_validation": true,
     "sanitized_transfer_bundle_supported": true,
-    "sanitized_transfer_bundle_pr": 294,
     "original_parent_body_copied_to_public_website_repo": false
   },
   "first_live_canary": {
     "status": "PASS",
     "article_id": "LCM-CREATOR-cf50-20260813-001",
     "revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
-    "article_repository_public_release_pr": 80,
     "cms_id": 92,
     "published_url": "https://www.laocaimi.org/index.php?c=show&id=92",
     "server_bridge_job": "publish-cf50-canary-001-20260814-04",
-    "result_branch": "agent/results/publish-cf50-canary-001-20260814-04",
     "live_seo_verification": "PASS",
-    "source_transport": "sanitized_public_release_bundle",
-    "legacy_repository_queue_consumed": false,
-    "recurring_cron_installed": false,
-    "result_evidence_pr": 298
+    "source_transport": "sanitized_public_release_bundle"
   },
   "article_publishing": {
     "policy_file": "config/content_publication_policy.json",
-    "publishing_enabled": false,
-    "mode": "canary_passed_waiting_reviewed_inventory_and_recurring_activation",
+    "publishing_enabled": true,
+    "mode": "wave1_recurring_activation_authorized",
     "user_authorization_status": "granted",
-    "user_authorization_recorded_date": "2026-08-13",
     "historical_repository_scheduled_json_count": 11,
     "historical_repository_queue_forbidden_as_runtime_source": true,
-    "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813/scheduled",
-    "publisher_state_lock_root": "/var/lib/xyptdq-publisher",
-    "recurring_cron_present": false
+    "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled",
+    "runtime_state_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json",
+    "runtime_lock_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock",
+    "remaining_first_wave_draft_count_at_activation": 11,
+    "remaining_first_wave_scheduled_count_at_activation": 11,
+    "recurring_activation_job": "activate-cf50-wave1-recurring-20260814-05",
+    "recurring_activation_status": "PASS",
+    "recurring_cron_present": true,
+    "recurring_cron_schedule": "7 * * * *",
+    "legacy_repository_queue_consumed_during_activation": false,
+    "wave_b_authorized": false
   },
   "planned_recurring_cadence": {
     "articles_per_day": 2,
@@ -97,16 +97,23 @@
     "after_first_wave": "search_discovery_checkpoint",
     "cadence_is_direct_ranking_signal": false
   },
+  "post_publication_seo": {
+    "status": "enabled_in_main",
+    "sitemap_refresh": true,
+    "publication_receipt": true,
+    "live_http_canonical_noindex_title_h1_description_sitemap_verification": true,
+    "failure_behavior": "warn_without_rolling_back_committed_cms_page"
+  },
+  "new_inventory_monitor": {
+    "status": "active",
+    "check_frequency": "hourly",
+    "source_repository": "fdsasaaa/caipiaowenzhang",
+    "raw_approved_direct_publication": false,
+    "requires_reviewed_public_release_before_website_intake": true
+  },
   "search_discovery_checkpoint": {
     "issue": 264,
-    "after_first_12_verify": [
-      "http_200",
-      "self_canonical",
-      "no_noindex",
-      "sitemap_membership",
-      "search_console_sitemap_processing",
-      "representative_url_inspection_live_tests"
-    ],
+    "after_first_12_verify": ["http_200", "self_canonical", "no_noindex", "sitemap_membership", "search_console_sitemap_processing", "representative_url_inspection_live_tests"],
     "all_12_must_be_indexed_before_continuing": false,
     "systemic_technical_blocker_holds_next_wave": true
   },
@@ -117,37 +124,44 @@
     "minimum_verified_seed_articles_before_live_evaluation": 12,
     "empty_hub_creation_allowed": false
   },
+  "article_reading_design": {
+    "status": "non_blocking_visual_enhancement_in_progress",
+    "template_deploy_attempts": 3,
+    "all_failed_attempts_rolled_back_safely": true,
+    "seo_metadata_unchanged_during_attempts": true,
+    "publisher_cron_unchanged_during_attempts": true,
+    "production_mobile_requests_use_pc_responsive_shell": true,
+    "current_strategy": "locate_live_static_css_asset_then_apply_scoped_managed_article_style_block",
+    "current_probe_job": "probe-live-article-css-assets-20260814-01"
+  },
   "current_open_items": [
     {
-      "id": "reviewed_public_release_inventory",
-      "status": "in_progress",
-      "detail": "Prepare and merge additional non-operational reviewed public-r1 revisions for the first-wave release order before recurring automation."
+      "id": "first_wave_automatic_publication",
+      "status": "active",
+      "detail": "Let the isolated cron publish the remaining 11 first-wave reviewed public releases according to publish_at; verify each new publication through Sitemap + receipt + live SEO."
     },
     {
-      "id": "cf50_article_011_public_r1",
-      "status": "ci_green_not_merged",
-      "detail": "Article repo PR #81 prepared the next seed public-r1 but its merge action was blocked by the platform safety layer; do not bypass."
-    },
-    {
-      "id": "recurring_publication_activation",
-      "status": "not_enabled",
-      "detail": "Enable only after enough reviewed public-release inventory exists; keep isolated runtime and install recurring cron through rollback-gated path."
+      "id": "article_reading_design",
+      "status": "in_progress_non_blocking",
+      "detail": "Finish scoped static-CSS reading design after live stylesheet path probe; do not reopen template-cache deployment attempts."
     },
     {
       "id": "first_wave_search_discovery_checkpoint",
       "status": "waiting_first_12_live",
-      "detail": "Evaluate systemic discovery/indexability blockers after 12 diverse seed pages before Wave B."
+      "detail": "Stop Wave B after the first 12 are live and evaluate systemic discovery/indexability blockers."
     }
   ],
   "next_actions": [
-    "Do not republish CF50-001; its CMS ID 92 and live SEO PASS are canonical evidence.",
-    "Prepare additional reviewed public-r1 revisions following the existing CF50 SEO release order; never publish the operational original Approved bodies directly.",
-    "For each reviewed revision, use the sanitized transfer bundle plus website validation to create Drafts and isolated Scheduled entries.",
-    "When sufficient reviewed inventory is ready, enable recurring publication at 2/day using only the isolated CF50 runtime source; never use repository content/scheduled.",
-    "Stop after the first 12 live seed articles for the search discovery checkpoint before continuing Wave B.",
-    "Keep Phase 1 closed unless a real regression is proven."
+    "Do not republish CF50-001; CMS ID 92 is canonical canary evidence.",
+    "Do not reinstall or duplicate Publisher cron; activation v5 is PASS and cron count is 1.",
+    "Allow the remaining 11 first-wave Scheduled public-r1 articles to publish from the isolated runtime according to publish_at.",
+    "Use the merged post-publication SEO runner to refresh Sitemap and verify each newly published URL.",
+    "Continue hourly inventory monitoring; never publish raw Approved bodies directly.",
+    "Finish article visual design through a tightly scoped static CSS block after exact live CSS path evidence.",
+    "Stop after 12 live seed articles for the search-discovery checkpoint before Wave B.",
+    "Keep Phase 1 closed unless a real regression appears."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
-  "new_session_instruction": "Read main handoff/state and newer PR/result branches first. CF50-001 public-r1 is already live as CMS ID 92 and passed live SEO verification. The immediate task is no longer first-canary testing; it is preparing reviewed safe public-r1 inventory and then activating isolated 2/day recurring publication. Original Approved bodies must not be published directly. Recurring cron is currently off and the 11 historical repository Scheduled JSON files remain forbidden as the runtime source."
+  "new_session_instruction": "Read main handoff/state and newer result branches first. CF50 recurring Publisher activation v5 is production PASS with one cron bound only to the isolated wave1 source/state/lock. The first 12 reviewed public releases are the active wave; 001 is already live as CMS ID 92 and the remaining 11 are scheduled. Post-publication Sitemap/receipt/live SEO verification is merged. Do not reauthorize or reinstall cron, do not publish raw Approved bodies, and do not start Wave B before the post-12 discovery checkpoint. Article visual design is a non-blocking static-CSS enhancement in progress."
 }
