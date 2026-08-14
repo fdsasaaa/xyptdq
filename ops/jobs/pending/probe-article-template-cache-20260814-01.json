@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-article-template-cache-20260814-01",
+  "required_commit": "70b8aa6ba2b5b31f0c0716c1b67bb3fd175f4160",
+  "script": "scripts/ops/agent_tasks/probe_article_template_cache_v1.sh",
+  "script_sha256": "2ba67c1309caaa8ff45d46d710c02f8e86c489a58de8958efefa992de224e36a",
+  "timeout_seconds": 300
+}
