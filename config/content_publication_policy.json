@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "publishing_enabled": true,
-  "mode": "one_shot_public_release_canary",
-  "reason": "User authorization is recorded and CF50-001 now has a reviewed public-release revision. Enable only a one-shot canary publication through the isolated runtime source; recurring cron remains disabled until first-live SEO verification passes.",
+  "publishing_enabled": false,
+  "mode": "canary_passed_waiting_reviewed_inventory_and_recurring_activation",
+  "reason": "CF50-001 public-r1 completed the one-shot publication canary and passed live SEO verification. Close the one-shot execution gate before preparing recurring publication; user authorization remains recorded and does not need to be requested again.",
   "user_authorization": {
     "status": "granted",
     "recorded_date": "2026-08-13",
@@ -13,15 +13,19 @@
     ],
     "does_not_bypass_quality_or_technical_gates": true
   },
-  "canary_execution_scope": {
-    "max_articles": 1,
-    "required_batch_id": "CF50-20260813",
-    "required_article_id": "LCM-CREATOR-cf50-20260813-001",
-    "required_revision_kind": "website_public_release",
-    "required_revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
-    "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813/scheduled",
-    "legacy_repository_queue_forbidden": true,
-    "recurring_cron_allowed": false
+  "completed_canary": {
+    "batch_id": "CF50-20260813",
+    "article_id": "LCM-CREATOR-cf50-20260813-001",
+    "revision_kind": "website_public_release",
+    "revision_id": "LCM-CREATOR-cf50-20260813-001:public-r1",
+    "cms_id": 92,
+    "published_url": "https://www.laocaimi.org/index.php?c=show&id=92",
+    "server_bridge_job": "publish-cf50-canary-001-20260814-04",
+    "publication_status": "PASS",
+    "live_seo_verification": "PASS",
+    "source_transport": "sanitized_public_release_bundle",
+    "legacy_repository_queue_consumed": false,
+    "recurring_cron_installed": false
   },
   "planned_cadence": {
     "articles_per_day": 2,
@@ -31,19 +35,19 @@
     "continue_after_first_wave_requires_search_discovery_checkpoint": true,
     "cadence_is_not_claimed_as_a_direct_ranking_signal": true
   },
-  "canary_pre_publish_requires": [
-    "reviewed_public_release_canary_exists",
-    "website_public_release_validation_passes",
-    "canary_draft_intake_passes",
-    "isolated_runtime_scheduled_queue_is_configured",
-    "legacy_repository_scheduled_queue_is_not_used",
-    "publisher_cron_is_absent"
-  ],
   "recurring_activation_requires": [
-    "one_shot_canary_publication_succeeds",
-    "first_live_article_http_canonical_indexability_and_sitemap_checks_pass",
+    "reviewed_public_release_inventory_is_available_for_the_next_release_wave",
+    "each_revision_passes_website_transfer_validation_before_draft_creation",
     "isolated_runtime_source_state_and_lock_paths_are_verified",
-    "rollback_gated_cron_activation_is_verified"
+    "legacy_repository_scheduled_queue_is_not_used",
+    "rollback_gated_cron_activation_is_verified",
+    "first_wave_stops_at_12_for_search_discovery_checkpoint"
   ],
-  "resume_requires": "one_shot_canary_then_first_live_seo_verification_user_authorization_already_recorded"
+  "runtime_rules": {
+    "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813/scheduled",
+    "legacy_repository_queue_forbidden": true,
+    "historical_repository_scheduled_json_count": 11,
+    "recurring_cron_allowed_now": false
+  },
+  "resume_requires": "reviewed_public_release_inventory_plus_recurring_activation_gates_user_authorization_already_recorded"
 }
