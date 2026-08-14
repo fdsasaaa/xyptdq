@@ -89,7 +89,8 @@ SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Run hourly. publish_at inside each isolated Scheduled article controls the actual release time.
 # The publisher is idempotent and publishes at most XYPTDQ_PUBLISH_LIMIT (default 2) due items per run.
-7 * * * * root XYPTDQ_REPO_DIR=$REPO_Q XYPTDQ_PUBLISH_SOURCE=$SOURCE_Q XYPTDQ_PUBLISH_STATE=$STATE_Q XYPTDQ_PUBLISH_LOCK=$LOCK_Q $RUNNER_Q >/dev/null 2>&1
+# Invoke the runner through /bin/bash so cron does not depend on the checkout file's executable bit.
+7 * * * * root XYPTDQ_REPO_DIR=$REPO_Q XYPTDQ_PUBLISH_SOURCE=$SOURCE_Q XYPTDQ_PUBLISH_STATE=$STATE_Q XYPTDQ_PUBLISH_LOCK=$LOCK_Q /bin/bash $RUNNER_Q >/dev/null 2>&1
 EOF
 install -o root -g root -m 0644 "$CRON_FILE.tmp" "$CRON_FILE"
 rm -f "$CRON_FILE.tmp"
