@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-retired-show-links-20260814-01",
+  "required_commit": "10d9f823a42508cb5ef68cfaec83e1fd752c4231",
+  "script": "scripts/ops/agent_tasks/probe_retired_show_links_v1.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 120
+}
