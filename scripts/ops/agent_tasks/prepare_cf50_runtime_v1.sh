@@ -31,9 +31,11 @@ STATE_COUNT=-1
 PATH_GUARDS="NO"
 ERROR_CLASS="NONE"
 BLOCKING_ITEM="NONE"
+CREATED_QUEUE_ROOT=0
 CREATED_BATCH=0
 CREATED_DRAFT=0
 CREATED_SCHEDULED=0
+CREATED_PUBLISHER_ROOT=0
 CREATED_STATE=0
 
 [ -n "$RESULT_FILE" ] || exit 2
@@ -84,11 +86,14 @@ cron_count(){ (crontab -l 2>/dev/null || true; cat /etc/cron.d/xyptdq-publisher 
 
 rollback_created(){
   set +e
-  [ "$CREATED_STATE" -eq 1 ] && [ "$(count_entries "$STATE_DIR")" -eq 0 ] && rmdir "$STATE_DIR" 2>/dev/null
-  [ "$CREATED_SCHEDULED" -eq 1 ] && [ "$(count_entries "$SCHEDULED_DIR")" -eq 0 ] && rmdir "$SCHEDULED_DIR" 2>/dev/null
-  [ "$CREATED_DRAFT" -eq 1 ] && [ "$(count_entries "$DRAFT_DIR")" -eq 0 ] && rmdir "$DRAFT_DIR" 2>/dev/null
-  [ "$CREATED_BATCH" -eq 1 ] && [ -d "$BATCH_ROOT" ] && [ "$(count_entries "$BATCH_ROOT")" -eq 0 ] && rmdir "$BATCH_ROOT" 2>/dev/null
-  ROLLBACK="YES"
+  changed=0
+  [ "$CREATED_STATE" -eq 1 ] && [ "$(count_entries "$STATE_DIR")" -eq 0 ] && { rmdir "$STATE_DIR" 2>/dev/null || true; changed=1; }
+  [ "$CREATED_SCHEDULED" -eq 1 ] && [ "$(count_entries "$SCHEDULED_DIR")" -eq 0 ] && { rmdir "$SCHEDULED_DIR" 2>/dev/null || true; changed=1; }
+  [ "$CREATED_DRAFT" -eq 1 ] && [ "$(count_entries "$DRAFT_DIR")" -eq 0 ] && { rmdir "$DRAFT_DIR" 2>/dev/null || true; changed=1; }
+  [ "$CREATED_BATCH" -eq 1 ] && [ -d "$BATCH_ROOT" ] && [ "$(count_entries "$BATCH_ROOT")" -eq 0 ] && { rmdir "$BATCH_ROOT" 2>/dev/null || true; changed=1; }
+  [ "$CREATED_QUEUE_ROOT" -eq 1 ] && [ -d "$QUEUE_ROOT" ] && [ "$(count_entries "$QUEUE_ROOT")" -eq 0 ] && { rmdir "$QUEUE_ROOT" 2>/dev/null || true; changed=1; }
+  [ "$CREATED_PUBLISHER_ROOT" -eq 1 ] && [ -d "$PUBLISHER_ROOT" ] && [ "$(count_entries "$PUBLISHER_ROOT")" -eq 0 ] && { rmdir "$PUBLISHER_ROOT" 2>/dev/null || true; changed=1; }
+  [ "$changed" -eq 1 ] && ROLLBACK="YES"
   set -e
 }
 
@@ -114,8 +119,6 @@ trap on_err ERR
 PHASE="repo_sync"
 cd "$REPO"
 git fetch --prune origin main >/dev/null 2>&1
-
-git merge-base --is-ancestor HEAD origin/main >/dev/null 2>&1 || true
 [ -s "$POLICY" ] || { ERROR_CLASS="publication_policy_missing"; block publication_policy_missing; }
 [ -d "$LEGACY_QUEUE" ] || { ERROR_CLASS="legacy_queue_missing"; block legacy_queue_missing; }
 
@@ -128,12 +131,13 @@ CRON_BEFORE="$(cron_count)"
 LEGACY_BEFORE="$(count_json "$LEGACY_QUEUE")"
 [ "$LEGACY_BEFORE" -eq "$EXPECTED_LEGACY_JSON_COUNT" ] || { ERROR_CLASS="legacy_queue_count_drift"; block legacy_queue_count_drift; }
 
-for p in "$BATCH_ROOT" "$DRAFT_DIR" "$SCHEDULED_DIR" "$STATE_DIR"; do
+for p in "$QUEUE_ROOT" "$BATCH_ROOT" "$DRAFT_DIR" "$SCHEDULED_DIR" "$PUBLISHER_ROOT" "$STATE_DIR"; do
   [ ! -L "$p" ] || { ERROR_CLASS="runtime_path_is_symlink"; block "runtime_path_is_symlink_$p"; }
 done
 
 PHASE="prepare"
-install -d -o root -g www-data -m 0750 "$QUEUE_ROOT" "$PUBLISHER_ROOT"
+if [ ! -d "$QUEUE_ROOT" ]; then CREATED_QUEUE_ROOT=1; install -d -o root -g www-data -m 0750 "$QUEUE_ROOT"; fi
+if [ ! -d "$PUBLISHER_ROOT" ]; then CREATED_PUBLISHER_ROOT=1; install -d -o root -g www-data -m 0750 "$PUBLISHER_ROOT"; fi
 if [ ! -d "$BATCH_ROOT" ]; then CREATED_BATCH=1; fi
 install -d -o root -g www-data -m 0750 "$BATCH_ROOT"
 if [ ! -d "$DRAFT_DIR" ]; then CREATED_DRAFT=1; fi
