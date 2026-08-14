@@ -20,6 +20,26 @@ $xyptdq_article_schema = [
 ];
 ?>
 <script type="application/ld+json"><?php echo json_encode($xyptdq_article_schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES); ?></script>
+<style>
+.xyptdq-article-prose{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;font-size:16.5px;line-height:1.9;color:#303846;word-break:break-word}
+.xyptdq-article-prose p{margin:0 0 1.3em}
+.xyptdq-article-prose>p:first-child{font-size:17px;color:#485568}
+.xyptdq-article-prose h2{font-size:21px!important;line-height:1.5!important;font-weight:700;color:#1f2d3d;margin:1.9em 0 .8em!important;padding-left:10px;border-left:4px solid #587a99}
+.xyptdq-article-prose h3{font-size:18.5px!important;line-height:1.55!important;font-weight:700;color:#26384a;margin:1.6em 0 .7em!important}
+.xyptdq-article-prose h4{font-size:17px!important;line-height:1.6!important;font-weight:700;color:#334155;margin:1.45em 0 .6em!important}
+.xyptdq-article-prose strong{font-weight:700;color:#203b55}
+.xyptdq-article-prose a{color:#356b96;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.xyptdq-article-prose ul,.xyptdq-article-prose ol{margin:0 0 1.3em;padding-left:1.55em}
+.xyptdq-article-prose li{margin:.4em 0}
+.xyptdq-article-prose blockquote{margin:1.45em 0;padding:12px 14px;border-left:4px solid #8aa4ba;background:#f5f8fb;color:#46566a;border-radius:0 7px 7px 0}
+.xyptdq-article-prose blockquote p:last-child{margin-bottom:0}
+.xyptdq-article-prose table{display:block;width:100%;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:1.4em 0;font-size:14px;-webkit-overflow-scrolling:touch}
+.xyptdq-article-prose th,.xyptdq-article-prose td{border:1px solid #dce3ea;padding:8px 10px;text-align:left;vertical-align:top}
+.xyptdq-article-prose th{background:#f4f7fa;color:#27384a;font-weight:700}
+.xyptdq-article-prose img{display:block;max-width:100%;height:auto;margin:1.5em auto;border-radius:7px}
+.xyptdq-article-prose hr{border:0;border-top:1px solid #e4e9ee;margin:1.8em 0}
+.xyptdq-article-prose code{font-family:Consolas,"SFMono-Regular",monospace;font-size:.9em;background:#f3f5f7;padding:.12em .3em;border-radius:4px}
+</style>
 {/if}
 <header class="hui-header">
     <div id="hui-back"></div>
@@ -37,7 +57,11 @@ $xyptdq_article_schema = [
             </div>
             <div class="portlet-body" style="height:auto;overflow:hidden;">
                 <div class="row">
+                    {if MOD_DIR=='news'}
+                    <div class="col-md-12 xrcontent xyptdq-article-prose">{dr_text_full($content)}</div>
+                    {else}
                     <div class="col-md-12 xrcontent">{dr_text_full($content)}</div>
+                    {/if}
                     {if MOD_DIR=='xm'}
                     <section class="col-md-12" aria-labelledby="mobile-platform-reading-guide" style="margin-top:20px;padding-top:15px;border-top:1px solid #eee;">
                         <h2 id="mobile-platform-reading-guide" style="font-size:20px;line-height:1.5;margin-bottom:12px;">平台资料阅读与核验说明</h2>
