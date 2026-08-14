@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-article-reading-static-css-20260814-03",
+  "required_commit": "f4dc7c54aea3e0e48ef3b6b3f0d40ffca65f2949",
+  "script": "scripts/ops/agent_tasks/deploy_article_reading_static_css_v3.sh",
+  "script_sha256": "c9c47d32445bb589d99908aa901740085660203416d3f24e3d2401ea34772b7c",
+  "timeout_seconds": 300
+}
