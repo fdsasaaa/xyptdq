@@ -98,6 +98,8 @@ When new content appears:
 - raw Approved bodies are never sent directly to production;
 - existing release-order/Cluster/search-discovery gates remain authoritative.
 
+The CF50 high-overlap final five `020, 029, 038, 039, 040` remain hard-frozen until Issue #264 explicitly records `CF50_FINAL_5_RELEASE=AUTHORIZED`.
+
 This removes the need for the user to manually announce new article inventory.
 
 ## 9. Category / keyword / Cluster rules
@@ -125,28 +127,44 @@ Before Wave B, verify:
 
 Do not require all 12 pages to be indexed before continuing; indexing can lag. A systemic robots/canonical/noindex/Sitemap blocker must hold Wave B.
 
-## 11. Article-page visual design — NON-BLOCKING ENHANCEMENT
+## 11. Article-page visual design — PRODUCTION PASS
 
 The user approved a professional research/blog reading style: restrained typography, clearer heading hierarchy, comfortable line-height, paragraph rhythm, lists/blockquote/table/image/link styling, and responsive mobile readability. Do not use rainbow keyword colors or exaggerated font-size SEO styling.
 
-Three template/cache deployment attempts were rollback-safe and proved that final production HTML is controlled by an additional application/page cache layer. Android mobile UA also renders the responsive PC shell, not the separate mobile show template.
+Template/cache deployment attempts were rollback-safe and established that production mobile requests render the responsive PC shell. The final implementation therefore uses a tightly scoped managed block in the live static stylesheet rather than repeated template-cache mutation.
 
-Therefore do **not** keep deleting template caches. Current strategy:
-- read-only job `probe-live-article-css-assets-20260814-01` identifies the stylesheet URLs and exact production static CSS files used by article 92;
-- then add a managed, tightly scoped CSS block to the actual live static stylesheet, targeting only the article main-body container;
-- deploy with exact-file backup/rollback and verify HTTP/Title/canonical/cron remain unchanged.
+Authoritative production result:
+- Server Bridge job: `deploy-article-reading-static-css-20260814-03`
+- result branch: `agent/results/deploy-article-reading-static-css-20260814-03`
+- status: **PASS**
+- CSS path: `static/default/pc/css/style.bundle.css`
+- managed block: `XYPTDQ_ARTICLE_READING`
+- public CSS marker: PASS
+- PC HTTP: 200
+- mobile HTTP: 200
+- Title/canonical stable: PASS
+- Publisher cron before/after: `1 / 1`
+- Publisher queue consumed: false
+- templates mutated: false
+- template cache mutated: false
+- whole cache cleared: false
+- database changed: false
+- article publishing attempted: false
 
-Visual design must not block publication.
+Evidence: `docs/seo/ARTICLE_READING_DESIGN_PRODUCTION_PASS_20260814.md`.
+
+This visual work is **closed unless a real production regression is observed**. Do not reopen template-cache deployment attempts.
 
 ## 12. Immediate next actions
 
 1. Let the active isolated cron continue the remaining first-wave publication; do not reinstall cron.
 2. Confirm each real publication only after Publisher state/live URL evidence exists.
 3. Use automatic post-publication Sitemap + receipt + live SEO evidence for each new page.
-4. Finish the scoped static-CSS visual enhancement after exact live CSS path evidence; do not reopen template-cache attempts.
-5. Continue hourly new-inventory monitoring; never publish raw Approved bodies directly.
+4. Continue hourly new-inventory monitoring; never publish raw Approved bodies directly.
+5. Keep `020, 029, 038, 039, 040` frozen until Issue #264 explicitly authorizes release.
 6. Stop after the first 12 live seed articles and perform the search-discovery checkpoint before Wave B.
-7. Keep Phase 1 closed unless a real regression appears.
+7. Keep article-page visual design closed unless a real production regression appears.
+8. Keep Phase 1 closed unless a real regression appears.
 
 ## 13. New-session takeover protocol
 
@@ -154,7 +172,8 @@ A new session must first confirm current `main`, `config/content_publication_pol
 - CF50-001 is live as CMS ID 92 and passed live SEO;
 - recurring activation v5 is production PASS with exactly one isolated Publisher cron;
 - post-publication Sitemap/receipt/live SEO verification is merged;
-- Wave B is not authorized;
-- visual design is a non-blocking static-CSS enhancement in progress.
+- article-page reading design is production PASS through the scoped `XYPTDQ_ARTICLE_READING` static CSS block and is closed unless regression;
+- CF50 final five `020, 029, 038, 039, 040` remain frozen;
+- Wave B is not authorized before the Issue #264 post-12 checkpoint.
 
-Continue from the first real publication/visual/checkpoint gap. Do not repeat Phase 1 and do not ask the user for publication authorization already recorded.
+Continue from the first real publication/checkpoint gap. Do not repeat Phase 1, do not reopen completed visual work, and do not ask the user for publication authorization already recorded.
