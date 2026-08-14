@@ -3,6 +3,6 @@
   "job_id": "prepare-cf50-runtime-20260814-01",
   "required_commit": "ffdcf42bc648acfc0a06c9fed9d747f32417009e",
   "script": "scripts/ops/agent_tasks/prepare_cf50_runtime_v1.sh",
-  "script_sha256": "d58143436703278590f5823337f424743b8ffd32faa7109f142312c384022fa4",
+  "script_sha256": "eae10cbd026c6801ed6d4103eb4b376c6e167596870d43b56742191a06a7370f",
   "timeout_seconds": 180
 }
