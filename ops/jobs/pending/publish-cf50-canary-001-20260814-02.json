@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "publish-cf50-canary-001-20260814-02",
+  "required_commit": "203dc3f5f8e6fd029b5cb28e2af12d4204aacccb",
+  "script": "scripts/ops/agent_tasks/publish_cf50_canary_001_v2.sh",
+  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "timeout_seconds": 900
+}
