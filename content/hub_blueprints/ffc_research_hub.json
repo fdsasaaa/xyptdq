@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "hub_id": "ffc_research_hub",
+  "cluster_id": "ffc_research",
+  "status": "blueprint_not_live",
+  "live_url": null,
+  "primary_intent": "分分彩玩法研究、技术方法、数据验证与风险分析的综合入口",
+  "primary_keyword_owner": "分分彩",
+  "seo_title_template": "分分彩研究中心：玩法技巧、数据验证与风险分析",
+  "h1": "分分彩研究中心",
+  "meta_description_template": "汇总分分彩玩法结构、技巧研究、数据验证、历史复盘与风险分析，按后二、后三、五星、定位胆和组选等主题整理，方便系统查找与交叉阅读。",
+  "ownership_boundaries": {
+    "hub_owns": ["分分彩"],
+    "existing_category_keeps": ["分分彩投注技巧", "分分彩投注方法"],
+    "symbolic_subtopics_not_claimed_as_new_live_pages": [
+      "分分彩技巧",
+      "分分彩技术",
+      "分分彩倍投",
+      "分分彩高级倍投",
+      "分分彩数据分析",
+      "分分彩方案验证",
+      "分分彩历史数据",
+      "分分彩冷热号",
+      "分分彩遗漏",
+      "分分彩资金管理"
+    ],
+    "individual_articles_keep_play_specific_long_tail_primary_keywords": true
+  },
+  "creation_gate": {
+    "automatic_creation_allowed": false,
+    "minimum_verified_live_seed_articles": 12,
+    "minimum_distinct_play_families": 6,
+    "seed_http_200_required": true,
+    "seed_self_canonical_required": true,
+    "seed_indexable_required": true,
+    "seed_sitemap_membership_required": true,
+    "major_keyword_owner_conflicts_allowed": 0,
+    "hub_http_200_required_before_sitemap": true,
+    "hub_self_canonical_required_before_sitemap": true
+  },
+  "sections": [
+    {
+      "section_id": "last2_direct",
+      "label": "后二玩法研究",
+      "intent": "后二直选结构与可复算研究方法",
+      "seed_article_ids": [
+        "LCM-CREATOR-cf50-20260813-001",
+        "LCM-CREATOR-cf50-20260813-002"
+      ]
+    },
+    {
+      "section_id": "last3_direct",
+      "label": "后三玩法研究",
+      "intent": "后三直选结构、位置关系与复盘方法",
+      "seed_article_ids": [
+        "LCM-CREATOR-cf50-20260813-011",
+        "LCM-CREATOR-cf50-20260813-012"
+      ]
+    },
+    {
+      "section_id": "five_direct",
+      "label": "五星结构研究",
+      "intent": "五星直选的结构分类与研究方法",
+      "seed_article_ids": [
+        "LCM-CREATOR-cf50-20260813-021",
+        "LCM-CREATOR-cf50-20260813-022"
+      ]
+    },
+    {
+      "section_id": "located_and_one_star",
+      "label": "定位胆与一星研究",
+      "intent": "定位胆与一星玩法的分类、执行纪律与复盘",
+      "seed_article_ids": [
+        "LCM-CREATOR-cf50-20260813-031",
+        "LCM-CREATOR-cf50-20260813-032",
+        "LCM-CREATOR-cf50-20260813-037"
+      ]
+    },
+    {
+      "section_id": "group_play",
+      "label": "组选研究",
+      "intent": "后二组选、后三组六与后三组三的组合结构研究",
+      "seed_article_ids": [
+        "LCM-CREATOR-cf50-20260813-041",
+        "LCM-CREATOR-cf50-20260813-046",
+        "LCM-CREATOR-cf50-20260813-049"
+      ]
+    },
+    {
+      "section_id": "validation_and_risk",
+      "label": "数据验证与风险控制",
+      "intent": "解释研究边界、历史验证、概率与资金风险，不承诺预测优势",
+      "seed_article_ids": []
+    }
+  ],
+  "seed_link_registry": [
+    {"article_id": "LCM-CREATOR-cf50-20260813-001", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-011", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-021", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-031", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-041", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-046", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-002", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-012", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-022", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-032", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-037", "url": null, "verified": false},
+    {"article_id": "LCM-CREATOR-cf50-20260813-049", "url": null, "verified": false}
+  ],
+  "internal_link_policy": {
+    "only_verified_live_article_urls": true,
+    "no_planned_or_draft_url_injection": true,
+    "no_all_to_all_linking": true,
+    "prefer_contextual_anchor_text": true,
+    "exact_match_anchor_repetition_required": false,
+    "hub_may_link_to_seed_articles_after_verification": true,
+    "article_body_backlink_to_hub_requires_normal_content_revision_rules": true
+  },
+  "sitemap_policy": {
+    "include_before_live_verification": false,
+    "replace_symbolic_keyword_targets_before_live_verification": false
+  }
+}
