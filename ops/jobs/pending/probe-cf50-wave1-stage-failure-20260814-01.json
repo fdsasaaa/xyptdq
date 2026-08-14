@@ -3,6 +3,6 @@
   "job_id": "probe-cf50-wave1-stage-failure-20260814-01",
   "required_commit": "3dce41eb4e98d66da56ffd50837447dcae46fb7c",
   "script": "scripts/ops/agent_tasks/probe_cf50_wave1_stage_failure_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "2a3e250bdca7cbccf4ace580cdc2fc61e7219a68c545f5241b7733c05202e75c",
   "timeout_seconds": 300
 }
