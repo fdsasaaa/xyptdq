@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "batch_id": "CF50-20260813",
+  "gate_name": "CF50_FINAL_5_RELEASE",
+  "status": "NOT_AUTHORIZED",
+  "authority": {
+    "repository": "fdsasaaa/xyptdq",
+    "issue": 264,
+    "decision_owner": "website_seo_mainline"
+  },
+  "frozen_article_ids": [
+    "LCM-CREATOR-cf50-20260813-020",
+    "LCM-CREATOR-cf50-20260813-029",
+    "LCM-CREATOR-cf50-20260813-038",
+    "LCM-CREATOR-cf50-20260813-039",
+    "LCM-CREATOR-cf50-20260813-040"
+  ],
+  "reason": "These five broad-term overlap-control articles remain frozen until the first-12 search-discovery and FFC research Hub readiness Gate is decided from real production evidence.",
+  "unlock_requirements": {
+    "first_12_seed_real_live_evidence_required": true,
+    "issue_264_gate_decision_required": true,
+    "required_decision_value": "AUTHORIZED",
+    "calendar_date_is_not_authorization": true,
+    "inventory_count_is_not_authorization": true,
+    "other_articles_being_live_is_not_authorization": true
+  },
+  "forbidden_while_not_authorized": [
+    "create_or_merge_website_public_release_for_frozen_ids",
+    "website_intake_for_frozen_ids",
+    "draft_or_scheduled_queue_entry_for_frozen_ids",
+    "publication_for_frozen_ids"
+  ],
+  "article_repository": "fdsasaaa/caipiaowenzhang",
+  "article_repository_current_observed_public_release_count": 45,
+  "observed_missing_public_release_numbers": [20, 29, 38, 39, 40],
+  "observed_at": "2026-08-14T17:43:00+08:00"
+}
