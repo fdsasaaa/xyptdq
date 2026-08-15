@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-private-repo-auth-env-20260815-01",
+  "required_commit": "06888561ecf9a83cb128feec12aa7a6cea1560b3",
+  "script": "scripts/ops/agent_tasks/run_probe_private_repo_auth_env_v1.sh",
+  "script_sha256": "2251f2636ec56c5993225412fafe99ee5b31bf8ba6620b917181924a60720941",
+  "timeout_seconds": 180
+}
