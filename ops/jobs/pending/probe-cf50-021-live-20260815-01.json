@@ -3,6 +3,6 @@
   "job_id": "probe-cf50-021-live-20260815-01",
   "required_commit": "9ba2a13b35f4c06ef0fe760123ff0492fe8302a1",
   "script": "scripts/ops/agent_tasks/probe_cf50_021_live_v1.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "e27da2726f97f1a8eedb9ad07ae38bb883f5c789230930e56f87a6692b21ed25",
   "timeout_seconds": 300
 }
