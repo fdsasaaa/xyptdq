@@ -1,0 +1,14 @@
+{
+  "exit_code": 127,
+  "finished_at": "2026-08-15T13:59:49Z",
+  "job_id": "probe-article-repo-transport-20260815-01",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "d67f96e45bab18328759482fd4407799bc225ca9",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_article_repo_transport_probe_v1.sh",
+  "script_sha256": "1a5eb5b35995d6d6759e9cd52beb95b0688281196eab980e220ae3c09555ae1d",
+  "started_at": "2026-08-15T13:59:49Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
