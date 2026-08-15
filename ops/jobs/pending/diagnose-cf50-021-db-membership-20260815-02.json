@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "diagnose-cf50-021-db-membership-20260815-02",
+  "required_commit": "2ae86477a20f275611a0f8853562e166caf39653",
+  "script": "scripts/ops/agent_tasks/run_diagnose_cf50_021_db_membership_v2.sh",
+  "script_sha256": "bb3730d596e0acdd2ee7a292839bc8c6887106c3d3ca5d3822c5ad5e170a2948",
+  "timeout_seconds": 300
+}
