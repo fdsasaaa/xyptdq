@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-bridge-runtime-env-20260815-01",
+  "required_commit": "204933d4fc60ca492c383e0c61af6d7077267093",
+  "script": "scripts/ops/agent_tasks/bridge_runtime_env_probe_v1.sh",
+  "script_sha256": "b97cb64fbf814f719f6c547b77a955a7e1b08780f819609a51a69af1762e872a",
+  "timeout_seconds": 120
+}
