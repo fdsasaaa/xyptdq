@@ -1,0 +1,14 @@
+{
+  "exit_code": 127,
+  "finished_at": "2026-08-15T13:58:49Z",
+  "job_id": "diagnose-cf50-021-sitemap-url-20260815-03",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "d67f96e45bab18328759482fd4407799bc225ca9",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_cf50_021_sitemap_diagnostic_v2.sh",
+  "script_sha256": "4a254c5161a9208ffe31e632bec5e16a00faac60ac178434ed5d19729753c376",
+  "started_at": "2026-08-15T13:58:49Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
