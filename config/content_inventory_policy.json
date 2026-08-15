@@ -27,16 +27,27 @@
     "source_batch_id": "CF50-20260813",
     "immutable_approved_parent_count": 50,
     "website_ready_public_r1_count": 45,
-    "retired_without_public_release": [
+    "final5_frozen_pending_issue_264": [
       "LCM-CREATOR-cf50-20260813-020",
       "LCM-CREATOR-cf50-20260813-029",
       "LCM-CREATOR-cf50-20260813-038",
       "LCM-CREATOR-cf50-20260813-039",
       "LCM-CREATOR-cf50-20260813-040"
     ],
-    "retirement_semantics": "immutable Approved parent remains audit history; website must never wait for, intake, schedule, publish, or build future release tasks around these IDs",
-    "legacy_manifest_terminal_exception": {
-      "reason": "CF50 public-release manifest is historically partial at 45/50; website treats the five explicit retirements as terminal exclusions instead of waiting for a nonexistent 50/50 completion",
+    "final5_status": "frozen_until_issue_264_authorization",
+    "release_authorized": false,
+    "extra_authorization_required": true,
+    "extra_authorization_mechanism": "xyptdq_issue_264_machine_gate",
+    "required_exact_machine_conclusion": "CF50_FINAL_5_RELEASE=AUTHORIZED",
+    "freeze_semantics": "immutable Approved parents remain audit history; do not create, merge, intake, schedule, publish, or otherwise release public revisions for these IDs until Issue #264 explicitly records the exact required machine conclusion",
+    "non_authorizing_events": [
+      "calendar_date_arrival",
+      "other_articles_published",
+      "public_release_inventory_growth",
+      "wave_a_completion_without_issue_264_conclusion"
+    ],
+    "legacy_manifest_gate_exception": {
+      "reason": "CF50 public-release manifest remains 45/50 while the five explicit final5 IDs are frozen behind Issue #264; 45/50 is therefore a valid waiting state, not evidence that the five IDs are permanently retired",
       "does_not_apply_to_future_daily_batches": true
     }
   },
@@ -78,7 +89,7 @@
     "same_article_revision_changed_hash": "fail_closed_requires_new_validated_revision",
     "same_slug_different_article": "fail_closed",
     "same_primary_keyword_different_active_owner": "fail_closed_pending_seo_review",
-    "retired_article_id": "ignore_as_terminal_retired",
+    "final5_frozen_article_id": "reject_until_issue_264_exact_authorization",
     "missing_manifest_or_revision_identity": "reject"
   },
   "seo_editorial_gate": {
