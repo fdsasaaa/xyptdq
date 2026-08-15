@@ -6,6 +6,7 @@
  * - Reads the existing server-side CMS database config; no credentials in Git.
  * - Emits only URLs on the configured canonical host.
  * - Includes only visible non-empty news categories and content that has a valid shared routing index.
+ * - Publisher-managed pages use the same canonical show-ID URL contract returned by the durable Native Publisher.
  * - Writes atomically through a temporary file.
  * - Can run from cron after an article is published.
  */
@@ -153,6 +154,26 @@ if (!tableExists($pdo, $database, $shareIndexTable)) {
 }
 $safeShareIndexTable = str_replace('`', '', $shareIndexTable);
 
+// Native Publisher owns a durable article_key -> cms_id registry and returns
+// /index.php?c=show&id=<cms_id> as its canonical publication URL. A managed page
+// must therefore not drift to a CMS-relative m.url in Sitemap output. Legacy
+// non-managed content keeps the historical m.url behavior below.
+$managedCmsIds = [];
+$publisherRegistryTable = $prefix . 'xyptdq_publish_registry';
+if (tableExists($pdo, $database, $publisherRegistryTable)) {
+    try {
+        $safePublisherRegistryTable = str_replace('`', '', $publisherRegistryTable);
+        foreach ($pdo->query('SELECT `cms_id` FROM `' . $safePublisherRegistryTable . '`') as $row) {
+            $cmsId = (int) ($row['cms_id'] ?? 0);
+            if ($cmsId > 0) {
+                $managedCmsIds[$cmsId] = true;
+            }
+        }
+    } catch (Throwable $e) {
+        fail('Publisher registry exists but managed CMS IDs could not be read: ' . $e->getMessage());
+    }
+}
+
 foreach (['news', 'xm'] as $module) {
     $table = $prefix . '1_' . $module;
     if (!tableExists($pdo, $database, $table)) {
@@ -171,9 +192,13 @@ foreach (['news', 'xm'] as $module) {
             if ($id <= 0) {
                 continue;
             }
-            $candidate = trim((string) ($row['url'] ?? ''));
-            if ($candidate === '' || isAbsoluteUrl($candidate)) {
+            if (isset($managedCmsIds[$id])) {
                 $candidate = '/index.php?c=show&id=' . $id;
+            } else {
+                $candidate = trim((string) ($row['url'] ?? ''));
+                if ($candidate === '' || isAbsoluteUrl($candidate)) {
+                    $candidate = '/index.php?c=show&id=' . $id;
+                }
             }
             $url = canonicalUrl($canonical, $candidate);
             if ($url === null) {
