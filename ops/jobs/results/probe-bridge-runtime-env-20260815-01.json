@@ -1,0 +1,31 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-15T14:03:49Z",
+  "job_id": "probe-bridge-runtime-env-20260815-01",
+  "payload": {
+    "bash_bin": "/usr/bin/bash",
+    "cms_write_attempted": false,
+    "cron_mutated": false,
+    "git_bin": "/usr/bin/git",
+    "php_bin": "/usr/bin/php",
+    "python3_bin": "/usr/bin/python3",
+    "queue_consumed": false,
+    "read_only": true,
+    "repo_dir": "/opt/xyptdq-repo",
+    "repo_exists": true,
+    "status": "PASS",
+    "target1_exists": false,
+    "target1_mode": null,
+    "target2_exists": false,
+    "target2_mode": null,
+    "task": "bridge_runtime_env_probe_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "204933d4fc60ca492c383e0c61af6d7077267093",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/bridge_runtime_env_probe_v1.sh",
+  "script_sha256": "b97cb64fbf814f719f6c547b77a955a7e1b08780f819609a51a69af1762e872a",
+  "started_at": "2026-08-15T14:03:49Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
