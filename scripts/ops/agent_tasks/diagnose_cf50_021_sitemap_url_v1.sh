@@ -21,7 +21,10 @@ TMP=$(mktemp -d /tmp/xyptdq-021-sitemap-diagnostic.XXXXXX)
 trap 'rm -rf "$TMP"' EXIT
 
 # Read only routing-relevant CMS fields. Never print credentials.
-php - "$DB_CONFIG" "$CMS_ID" "$TMP/db.json" <<'PHP'
+# Use a temporary PHP file instead of `php -`: some production PHP CLI builds
+# treat `-` as a literal input filename and exit before the diagnostic payload
+# can be written.
+cat > "$TMP/read_cms.php" <<'PHP'
 <?php
 $dbConfig=$argv[1]; $id=(int)$argv[2]; $out=$argv[3];
 $db=[]; require $dbConfig;
@@ -49,6 +52,7 @@ try {
 } catch(Throwable $e) {}
 file_put_contents($out,json_encode(['cms_rows'=>$rows,'share_index_rows'=>$share],JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
 PHP
+php "$TMP/read_cms.php" "$DB_CONFIG" "$CMS_ID" "$TMP/db.json"
 
 curl -skL --max-time 25 -o "$TMP/live_sitemap.xml" "$LIVE_SITEMAP" || true
 curl -skL --max-time 25 -o "$TMP/page.html" "$EXPECTED" || true
