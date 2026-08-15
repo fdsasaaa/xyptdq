@@ -1,0 +1,14 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-08-15T14:17:50Z",
+  "job_id": "diagnose-cf50-021-db-membership-20260815-01",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "7f4426edf6d5dc1959d02d140954225c01454b9f",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_diagnose_cf50_021_db_membership_v1.sh",
+  "script_sha256": "efb8ba640d04e7c92c50fe61e35f11238cb0c0b9f66e19b4bc70d92251e66fa7",
+  "started_at": "2026-08-15T14:17:49Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
