@@ -1,0 +1,58 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-15T14:28:12Z",
+  "job_id": "probe-private-repo-auth-env-20260815-01",
+  "payload": {
+    "candidate_environment_results": [
+      {
+        "name": "GITHUB_TOKEN",
+        "present": false,
+        "private_repo_api_http": 0
+      },
+      {
+        "name": "GH_TOKEN",
+        "present": false,
+        "private_repo_api_http": 0
+      },
+      {
+        "name": "XYPTDQ_GITHUB_TOKEN",
+        "present": false,
+        "private_repo_api_http": 0
+      },
+      {
+        "name": "XYPTDQ_AGENT_GITHUB_TOKEN",
+        "present": false,
+        "private_repo_api_http": 0
+      },
+      {
+        "name": "GITHUB_API_TOKEN",
+        "present": false,
+        "private_repo_api_http": 0
+      },
+      {
+        "name": "GH_PAT",
+        "present": false,
+        "private_repo_api_http": 0
+      }
+    ],
+    "cms_write_attempted": false,
+    "credential_values_printed": false,
+    "cron_mutated": false,
+    "git_global_credential_helper_configured": false,
+    "private_repo_authenticated_read_available": false,
+    "queue_consumed": false,
+    "read_only": true,
+    "recommendation": "provision_dedicated_read_only_private_repo_credential",
+    "status": "PASS",
+    "task": "probe_private_repo_auth_env_v1",
+    "usable_private_repo_token_environment_names": []
+  },
+  "raw_log_published": false,
+  "required_commit": "06888561ecf9a83cb128feec12aa7a6cea1560b3",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_probe_private_repo_auth_env_v1.sh",
+  "script_sha256": "2251f2636ec56c5993225412fafe99ee5b31bf8ba6620b917181924a60720941",
+  "started_at": "2026-08-15T14:28:10Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
