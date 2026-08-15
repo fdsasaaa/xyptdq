@@ -8,6 +8,8 @@ on:
       - 'scripts/seo/verify_publication_seo.php'
       - 'scripts/seo/lib/live_publication_seo.php'
       - 'config/content_category_map.json'
+      - 'config/content_inventory_policy.json'
+      - 'config/content_source_sync_policy.json'
       - 'content/seo_cluster_registry.json'
       - 'content/drafts/**'
       - 'content/ingress/**'
@@ -22,6 +24,8 @@ on:
       - 'scripts/seo/verify_publication_seo.php'
       - 'scripts/seo/lib/live_publication_seo.php'
       - 'config/content_category_map.json'
+      - 'config/content_inventory_policy.json'
+      - 'config/content_source_sync_policy.json'
       - 'content/seo_cluster_registry.json'
       - 'content/drafts/**'
       - 'content/ingress/**'
@@ -44,6 +48,12 @@ jobs:
           php -l scripts/seo/lib/live_publication_seo.php
           php -l scripts/seo/verify_publication_seo.php
           php -l scripts/seo/live_publication_seo_test.php
+      - name: Python inventory syntax check
+        run: python3 -m py_compile scripts/content/inventory_diff.py
+      - name: Inventory policy JSON check
+        run: |
+          python3 -m json.tool config/content_inventory_policy.json >/dev/null
+          python3 -m json.tool config/content_source_sync_policy.json >/dev/null
       - name: Offline bridge self-test
         run: php scripts/content/self_test.php
       - name: Smoke batch 1 converter verification
