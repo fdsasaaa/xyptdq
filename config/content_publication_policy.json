@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "publishing_enabled": true,
-  "mode": "wave1_recurring_activation_authorized",
-  "reason": "CF50 first-wave recurring publication is active after a proven scheduler regression was repaired and production-tested. CF50-001 and CF50-011 are live; 10 Wave1 items remain unpublished. The cron must invoke run_scheduled_publish.sh through /bin/bash and stay bound only to the isolated Wave1 source/state/lock. Wave B remains unauthorized until the post-12 search-discovery checkpoint.",
+  "publishing_enabled": false,
+  "mode": "wave1_paused_after_cf50_021_post_publication_seo_gap",
+  "reason": "CF50-021 was published by the repaired recurring Publisher at its normal slot, but the later read-only production probe observed all_required_checks_pass=false because the live URL was not a Sitemap member and the SEO verification status was empty. Publication is fail-closed before CF50-031 until the 021 Sitemap/live SEO gap is diagnosed, repaired, and re-verified. This pause does not alter the isolated queue, cron installation, CMS content, or Wave B authorization.",
   "user_authorization": {
     "status": "granted",
     "recorded_date": "2026-08-13",
@@ -27,18 +27,23 @@
     "legacy_repository_queue_consumed": false
   },
   "latest_wave1_publication": {
-    "article_id": "LCM-CREATOR-cf50-20260813-011",
-    "cms_id": 93,
-    "published_url": "https://www.laocaimi.org/index.php?c=show&id=93",
-    "server_bridge_job": "repair-test-cf50-011-cron-20260814-02",
-    "publication_status": "PASS",
-    "live_seo_verification": "PASS",
-    "test_delay_seconds": 10,
-    "remaining_unpublished_count": 10,
+    "article_id": "LCM-CREATOR-cf50-20260813-021",
+    "cms_id": 94,
+    "published_url": "https://www.laocaimi.org/index.php?c=show&id=94",
+    "server_bridge_job": "recurring-cron-normal-slot-20260815-10-00",
+    "publication_status": "PUBLISHED_REQUIRES_SEO_REPAIR",
+    "live_seo_verification": "INCOMPLETE",
+    "read_only_probe_job": "probe-cf50-021-live-20260815-01",
+    "read_only_probe_result_branch": "agent/results/probe-cf50-021-live-20260815-01",
+    "read_only_probe_all_required_checks_pass": false,
+    "read_only_probe_sitemap_member": false,
+    "read_only_probe_http_status": 200,
+    "read_only_probe_noindex": false,
+    "remaining_unpublished_count": 9,
     "legacy_repository_queue_consumed": false
   },
   "recurring_activation": {
-    "status": "PASS",
+    "status": "PAUSED_BY_POLICY_AFTER_POST_PUBLICATION_SEO_GAP",
     "original_server_bridge_job": "activate-cf50-wave1-recurring-20260814-05",
     "scheduler_regression_diagnostic_job": "diagnose-cf50-011-cron-runtime-20260814-02",
     "scheduler_regression_root_cause": "cron_directly_executed_non_executable_runner_mode_0600",
@@ -69,27 +74,32 @@
     "historical_repository_scheduled_json_count": 11,
     "expected_isolated_scheduled_physical_count": 11,
     "current_state_article_count": 11,
-    "current_state_published_count": 1,
-    "current_state_scheduled_count": 10,
+    "current_state_published_count": 2,
+    "current_state_scheduled_count": 9,
     "current_state_failed_count": 0,
-    "current_remaining_unpublished_count": 10,
+    "current_remaining_unpublished_count": 9,
     "scheduled_json_files_are_retained_for_idempotency": true,
-    "recurring_cron_allowed_now": true,
+    "recurring_cron_allowed_now": false,
     "recurring_cron_installed": true,
     "cron_must_invoke_runner_through_bin_bash": true,
     "activation_must_fail_closed_on_runtime_mismatch": true
   },
   "next_wave1_item": {
-    "article_id": "LCM-CREATOR-cf50-20260813-021",
-    "publish_at": "2026-08-15T10:00:00+08:00"
+    "article_id": "LCM-CREATOR-cf50-20260813-031",
+    "publish_at": "2026-08-15T19:00:00+08:00",
+    "publication_blocked_until_cf50_021_seo_repair_pass": true
   },
   "post_publication_seo": {
-    "status": "enabled_in_main",
+    "status": "BLOCKED_ON_CF50_021_REPAIR",
     "sitemap_refresh_before_live_verification": true,
     "publication_receipt_per_new_publication": true,
     "live_seo_verification_per_new_publication": true,
     "verification_failure_mode": "warn_without_rolling_back_committed_cms_page",
-    "cf50_011_verification": "PASS"
+    "cf50_011_verification": "PASS",
+    "cf50_021_http_status": 200,
+    "cf50_021_sitemap_member": false,
+    "cf50_021_verification_status": "INCOMPLETE",
+    "cf50_021_probe_all_required_checks_pass": false
   },
-  "resume_requires": "continue_first_wave_automatically_then_stop_after_12_for_search_discovery_checkpoint"
+  "resume_requires": "diagnose and repair CF50-021 Sitemap/live SEO verification, re-verify PASS, then resume remaining Wave1 only; still stop after 12 for search-discovery checkpoint"
 }
