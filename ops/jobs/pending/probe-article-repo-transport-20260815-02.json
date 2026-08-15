@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-article-repo-transport-20260815-02",
+  "required_commit": "486c13ea5293e3f82c3addf75ccd42ea2b7a47c3",
+  "script": "scripts/ops/agent_tasks/run_probe_article_repo_transport_v2.sh",
+  "script_sha256": "6b094bb1fe78f138f6dd9c7b3657a5ab1b6a36329bdabf7a90cb3111a3d82747",
+  "timeout_seconds": 180
+}
