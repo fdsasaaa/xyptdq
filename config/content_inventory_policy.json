@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "mode": "inventory_driven_public_release_consumption",
+  "source_repository": "fdsasaaa/caipiaowenzhang",
+  "source_ref": "main",
+  "source_inventory_root": "articles/public_release",
+  "source_manifest_root": "articles/public_release/manifests",
+  "official_inventory_unit": "website_public_release_revision_merged_to_main_and_selected_by_formal_manifest",
+  "never_count_as_official_inventory": [
+    "model_candidate_count",
+    "generated_count",
+    "approved_parent_count",
+    "workflow_run_count",
+    "unmerged_branch_content",
+    "failed_or_below_minimum_daily_batch"
+  ],
+  "upstream_contract": {
+    "production_system_status": "sealed",
+    "daily_target_count": 20,
+    "daily_minimum_formal_batch_count": 10,
+    "daily_quality_first_range": [10, 25],
+    "below_minimum_1_to_9_means_official_new_inventory": 0,
+    "website_must_not_assume_fixed_daily_supply": true,
+    "website_must_not_request_quality_gate_reduction_to_maintain_cadence": true
+  },
+  "cf50_terminal_baseline": {
+    "source_batch_id": "CF50-20260813",
+    "immutable_approved_parent_count": 50,
+    "website_ready_public_r1_count": 45,
+    "retired_without_public_release": [
+      "LCM-CREATOR-cf50-20260813-020",
+      "LCM-CREATOR-cf50-20260813-029",
+      "LCM-CREATOR-cf50-20260813-038",
+      "LCM-CREATOR-cf50-20260813-039",
+      "LCM-CREATOR-cf50-20260813-040"
+    ],
+    "retirement_semantics": "immutable Approved parent remains audit history; website must never wait for, intake, schedule, publish, or build future release tasks around these IDs",
+    "legacy_manifest_terminal_exception": {
+      "reason": "CF50 public-release manifest is historically partial at 45/50; website treats the five explicit retirements as terminal exclusions instead of waiting for a nonexistent 50/50 completion",
+      "does_not_apply_to_future_daily_batches": true
+    }
+  },
+  "website_watermarks": {
+    "A_upstream_official_ready": "count of formal public-release revisions on source main that are eligible under this policy",
+    "B_website_draft_buffer": "count of eligible revisions reconciled into website Draft lifecycle but not yet published",
+    "C_website_live": "count of managed revisions with a durable Publisher/CMS publication identity",
+    "publication_rate_must_not_equal_upstream_production_rate": true
+  },
+  "intake_boundary": {
+    "destination_state": "draft",
+    "may_create_publish_at": false,
+    "may_promote_to_scheduled": false,
+    "may_invoke_publisher": false,
+    "may_change_publisher_cron": false,
+    "may_bypass_seed_or_search_discovery_gate": false,
+    "may_mutate_immutable_approved_parent": false,
+    "website_body_source": "validated website_public_release revision only"
+  },
+  "incremental_reconciliation": {
+    "required": true,
+    "runtime_ledger_path": "/var/lib/xyptdq-content/intake/state.json",
+    "required_record_fields": [
+      "article_id",
+      "revision_id",
+      "content_hash",
+      "fingerprint",
+      "primary_keyword",
+      "slug",
+      "site_category_key",
+      "source_batch_id",
+      "source_commit",
+      "lifecycle_state",
+      "cms_id",
+      "scheduled_at",
+      "published_at"
+    ],
+    "same_article_revision_hash": "idempotent_noop",
+    "same_article_revision_changed_hash": "fail_closed_requires_new_validated_revision",
+    "same_slug_different_article": "fail_closed",
+    "same_primary_keyword_different_active_owner": "fail_closed_pending_seo_review",
+    "retired_article_id": "ignore_as_terminal_retired",
+    "missing_manifest_or_revision_identity": "reject"
+  },
+  "seo_editorial_gate": {
+    "website_owns_final_cluster_hub_internal_links_canonical_sitemap_indexing_and_publish_cadence": true,
+    "keyword_map": "content/keyword_map.json",
+    "cluster_registry": "content/seo_cluster_registry.json",
+    "planned_hub_url_may_be_injected": false,
+    "body_change_requires_upstream_revision": true,
+    "current_seed_gate_remains_authoritative": true,
+    "wave_b_requires_post_seed_search_discovery_checkpoint": true
+  },
+  "activation": {
+    "automatic_intake_enabled": false,
+    "reason": "contract is now inventory-driven, but automatic cross-repository transport must remain fail-closed until trusted private-repository read access and an incremental Draft canary are proven on production",
+    "requires": [
+      "private_source_main_read_access_proven",
+      "formal_manifest_selection_proven",
+      "incremental_inventory_diff_dry_run_pass",
+      "durable_intake_ledger_canary_pass",
+      "public_release_to_draft_canary_pass",
+      "keyword_and_cluster_conflict_gate_pass"
+    ]
+  }
+}
