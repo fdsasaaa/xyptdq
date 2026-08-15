@@ -1,0 +1,29 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-15T14:10:51Z",
+  "job_id": "probe-article-repo-transport-20260815-02",
+  "payload": {
+    "cms_write_attempted": false,
+    "credentials_printed": false,
+    "cron_mutated": false,
+    "git_bin": "/usr/bin/git",
+    "git_ls_remote_exit_code": 128,
+    "private_repo_read_access": false,
+    "queue_consumed": false,
+    "read_only": true,
+    "recommendation": "trusted_private_repo_credential_required_before_automatic_intake",
+    "resolved_main_sha": null,
+    "source_ref": "main",
+    "source_repository": "fdsasaaa/caipiaowenzhang",
+    "status": "PASS",
+    "task": "probe_article_repo_transport_v2"
+  },
+  "raw_log_published": false,
+  "required_commit": "486c13ea5293e3f82c3addf75ccd42ea2b7a47c3",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_probe_article_repo_transport_v2.sh",
+  "script_sha256": "6b094bb1fe78f138f6dd9c7b3657a5ab1b6a36329bdabf7a90cb3111a3d82747",
+  "started_at": "2026-08-15T14:10:49Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
