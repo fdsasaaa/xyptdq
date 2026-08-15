@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "diagnose-cf50-021-sitemap-url-20260815-01",
+  "required_commit": "a4c26378a9409df4f411f6d68b4f6952cf3a2896",
+  "script": "scripts/ops/agent_tasks/run_cf50_021_sitemap_diagnostic_v1.sh",
+  "script_sha256": "15bdfc5e682cf7982ab14f61df231050b6086e31318ea2f88f3e38da8acba574",
+  "timeout_seconds": 300
+}
