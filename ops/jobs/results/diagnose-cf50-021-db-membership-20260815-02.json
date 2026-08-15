@@ -1,0 +1,59 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-15T14:25:00Z",
+  "job_id": "diagnose-cf50-021-db-membership-20260815-02",
+  "payload": {
+    "cms_id": 94,
+    "cms_write_attempted": false,
+    "cron_mutated": false,
+    "db_prefix": "dr_",
+    "generator_candidate_url": "/index.php?c=show&id=94",
+    "generator_join_94": {
+      "id": 94,
+      "mid": "news",
+      "status": 9,
+      "updatetime": 1786759622,
+      "url": "/index.php?c=show&id=94"
+    },
+    "news_94": {
+      "catid": 3,
+      "id": 94,
+      "status": 9,
+      "tableid": 0,
+      "title": "分分彩五星直选多样性技巧：五位里至少出现4个不同数字",
+      "updatetime": 1786759622,
+      "url": "/index.php?c=show&id=94"
+    },
+    "production_sitemap_mutated": false,
+    "queue_consumed": false,
+    "read_only": true,
+    "registry_94": {
+      "article_key": "lcm-creator-cf50-20260813-021",
+      "cms_id": 94,
+      "content_hash": "3f08cb50873f85550564207d5414e788205f430623765264752648f0c98492e7",
+      "published_at": 1786759622,
+      "source_file": "LCM-CREATOR-cf50-20260813-021.json"
+    },
+    "root_cause_candidate": "cms94_is_generator_eligible_with_publisher_registry",
+    "share_94": {
+      "id": 94,
+      "mid": "news"
+    },
+    "status": "PASS",
+    "tables": {
+      "news": true,
+      "registry": true,
+      "share_index": true
+    },
+    "task": "diagnose_cf50_021_db_membership_v2",
+    "would_use_managed_canonical": true
+  },
+  "raw_log_published": false,
+  "required_commit": "2ae86477a20f275611a0f8853562e166caf39653",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_diagnose_cf50_021_db_membership_v2.sh",
+  "script_sha256": "bb3730d596e0acdd2ee7a292839bc8c6887106c3d3ca5d3822c5ad5e170a2948",
+  "started_at": "2026-08-15T14:24:59Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
