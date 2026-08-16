@@ -26,6 +26,26 @@ CRON_EXISTED=false
 [ -e "$EXPECTED_DRAFT" ] && DRAFT_EXISTED=true
 [ -e "$CRON_FILE" ] && { CRON_EXISTED=true; cp "$CRON_FILE" "$TMP/cron.before"; }
 
+count_intake_crons() {
+  python3 - <<'PY'
+from pathlib import Path
+count=0
+paths=[]
+root=Path('/etc/cron.d')
+if root.is_dir(): paths.extend(p for p in root.iterdir() if p.is_file())
+crontab=Path('/etc/crontab')
+if crontab.is_file(): paths.append(crontab)
+for path in paths:
+    try: lines=path.read_text(encoding='utf-8',errors='ignore').splitlines()
+    except Exception: continue
+    for line in lines:
+        s=line.strip()
+        if s and not s.startswith('#') and 'run_incremental_inventory_intake.sh' in s:
+            count += 1
+print(count)
+PY
+}
+
 write_fail() {
   local phase="$1" detail="$2" rollback="$3"
   python3 - "$RESULT_FILE" "$phase" "$detail" "$rollback" <<'PY'
@@ -77,8 +97,7 @@ PY
 )
 [ "$POLICY_OK" = yes ] || fail policy_preflight "automatic intake policies are not enabled"
 
-# Activation requires no pre-existing managed or unmanaged intake cron.
-COUNT_BEFORE=$(grep -R -h -F 'run_incremental_inventory_intake.sh' /etc/cron.d /etc/crontab 2>/dev/null | grep -v '^#' | wc -l | tr -d ' ')
+COUNT_BEFORE=$(count_intake_crons)
 [ "$COUNT_BEFORE" = 0 ] || fail cron_preflight "intake cron already exists before first activation"
 [ "$DRAFT_EXISTED" = false ] || fail runtime_preflight "005 activation Draft already exists"
 
@@ -136,7 +155,7 @@ then
 fi
 
 /bin/bash "$REPO/scripts/content/install_incremental_intake_cron.sh" >"$TMP/install.out" 2>"$TMP/install.err" || fail cron_install "intake cron installation failed"
-COUNT_AFTER=$(grep -R -h -F 'run_incremental_inventory_intake.sh' /etc/cron.d /etc/crontab 2>/dev/null | grep -v '^#' | wc -l | tr -d ' ')
+COUNT_AFTER=$(count_intake_crons)
 [ "$COUNT_AFTER" = 1 ] || fail cron_verify "expected exactly one intake cron after activation"
 [ -s "$CRON_FILE" ] || fail cron_verify "managed intake cron file missing"
 grep -Fq '23 * * * * root XYPTDQ_INTAKE_MODE=auto XYPTDQ_INTAKE_LIMIT=25' "$CRON_FILE" || fail cron_verify "managed intake cron schedule mismatch"
