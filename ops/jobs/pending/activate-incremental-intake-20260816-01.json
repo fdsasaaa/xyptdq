@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "activate-incremental-intake-20260816-01",
+  "required_commit": "2a4fe4f36620f27356fe64b83118273bad0a3c4b",
+  "script": "scripts/ops/agent_tasks/run_activate_incremental_intake_v1.sh",
+  "script_sha256": "6e86edb3b603710b8dca6d3afdf895d87658fef9e55c48302704b6e20c972764",
+  "timeout_seconds": 600
+}
