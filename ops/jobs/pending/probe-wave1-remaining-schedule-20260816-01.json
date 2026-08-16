@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-wave1-remaining-schedule-20260816-01",
+  "required_commit": "da5993e8290c9317f9be0a61ad12dac63fb9c86b",
+  "script": "scripts/ops/agent_tasks/run_probe_wave1_remaining_schedule_v1.sh",
+  "script_sha256": "cf4cdef826224e04a41ed8dfabd448bb74524bc5c6ba058d4ddb322fcfd7ae5d",
+  "timeout_seconds": 180
+}
