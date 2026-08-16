@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "publishing_enabled": false,
-  "mode": "wave1_paused_after_cf50_021_post_publication_seo_gap",
-  "reason": "CF50-021 was published by the repaired recurring Publisher at its normal slot, but the later read-only production probe observed all_required_checks_pass=false because the live URL was not a Sitemap member and the SEO verification status was empty. Publication is fail-closed before CF50-031 until the 021 Sitemap/live SEO gap is diagnosed, repaired, and re-verified. This pause does not alter the isolated queue, cron installation, CMS content, or Wave B authorization.",
+  "publishing_enabled": true,
+  "mode": "wave1_resumed_after_cf50_021_xml_gate_repair_and_schedule_rebase",
+  "reason": "CF50-021 production repair is PASS: CMS 94 is present in temporary, production, and live Sitemap, self-canonical is correct, and authoritative Publication Receipt live SEO verification exits 0. The earlier negative Sitemap observations were false negatives caused by raw grep against XML-escaped &amp; query separators. The nine remaining Wave1 items are authorized to resume only after the isolated runtime schedule has been shifted exactly one 10:00/19:00 editorial slot, preventing pause catch-up from compressing the 2/day cadence.",
   "user_authorization": {
     "status": "granted",
     "recorded_date": "2026-08-13",
@@ -31,19 +31,19 @@
     "cms_id": 94,
     "published_url": "https://www.laocaimi.org/index.php?c=show&id=94",
     "server_bridge_job": "recurring-cron-normal-slot-20260815-10-00",
-    "publication_status": "PUBLISHED_REQUIRES_SEO_REPAIR",
-    "live_seo_verification": "INCOMPLETE",
-    "read_only_probe_job": "probe-cf50-021-live-20260815-01",
-    "read_only_probe_result_branch": "agent/results/probe-cf50-021-live-20260815-01",
-    "read_only_probe_all_required_checks_pass": false,
-    "read_only_probe_sitemap_member": false,
-    "read_only_probe_http_status": 200,
-    "read_only_probe_noindex": false,
+    "publication_status": "PASS",
+    "live_seo_verification": "PASS",
+    "repair_job": "repair-cf50-021-sitemap-20260816-03",
+    "repair_result_branch": "agent/results/repair-cf50-021-sitemap-20260816-03",
+    "repair_root_cause": "raw Sitemap grep compared unescaped show URL to XML-escaped loc where ampersand is serialized as &amp;",
+    "repair_membership_check": "XML-aware loc parser decodes XML entities before normalized URL comparison",
+    "live_sitemap_member": true,
+    "live_http_status": 200,
     "remaining_unpublished_count": 9,
     "legacy_repository_queue_consumed": false
   },
   "recurring_activation": {
-    "status": "PAUSED_BY_POLICY_AFTER_POST_PUBLICATION_SEO_GAP",
+    "status": "RESUMED_AFTER_021_REPAIR_AND_SCHEDULE_REBASE",
     "original_server_bridge_job": "activate-cf50-wave1-recurring-20260814-05",
     "scheduler_regression_diagnostic_job": "diagnose-cf50-011-cron-runtime-20260814-02",
     "scheduler_regression_root_cause": "cron_directly_executed_non_executable_runner_mode_0600",
@@ -51,6 +51,9 @@
     "repair_test_job": "repair-test-cf50-011-cron-20260814-02",
     "repair_test_result_branch": "agent/results/repair-test-cf50-011-cron-20260814-02",
     "repair_test_status": "PASS",
+    "pause_schedule_probe_job": "probe-wave1-remaining-schedule-20260816-01",
+    "schedule_rebase_job": "rebase-cf50-wave1-after-021-20260816-01",
+    "schedule_rebase_semantics": "shift all nine remaining items exactly one editorial slot; preserve article identity, release order and 2/day cadence",
     "publisher_cron_count": 1,
     "cron_schedule": "7 * * * *",
     "cron_runner_invocation": "/bin/bash scripts/content/run_scheduled_publish.sh",
@@ -79,27 +82,28 @@
     "current_state_failed_count": 0,
     "current_remaining_unpublished_count": 9,
     "scheduled_json_files_are_retained_for_idempotency": true,
-    "recurring_cron_allowed_now": false,
+    "recurring_cron_allowed_now": true,
     "recurring_cron_installed": true,
     "cron_must_invoke_runner_through_bin_bash": true,
     "activation_must_fail_closed_on_runtime_mismatch": true
   },
   "next_wave1_item": {
     "article_id": "LCM-CREATOR-cf50-20260813-031",
-    "publish_at": "2026-08-15T19:00:00+08:00",
-    "publication_blocked_until_cf50_021_seo_repair_pass": true
+    "publish_at": "2026-08-16T10:00:00+08:00",
+    "publication_blocked_until_cf50_021_seo_repair_pass": false,
+    "publication_requires_schedule_rebase_pass": true
   },
   "post_publication_seo": {
-    "status": "BLOCKED_ON_CF50_021_REPAIR",
+    "status": "ENABLED",
     "sitemap_refresh_before_live_verification": true,
     "publication_receipt_per_new_publication": true,
     "live_seo_verification_per_new_publication": true,
     "verification_failure_mode": "warn_without_rolling_back_committed_cms_page",
     "cf50_011_verification": "PASS",
     "cf50_021_http_status": 200,
-    "cf50_021_sitemap_member": false,
-    "cf50_021_verification_status": "INCOMPLETE",
-    "cf50_021_probe_all_required_checks_pass": false
+    "cf50_021_sitemap_member": true,
+    "cf50_021_verification_status": "PASS",
+    "cf50_021_repair_job": "repair-cf50-021-sitemap-20260816-03"
   },
-  "resume_requires": "diagnose and repair CF50-021 Sitemap/live SEO verification, re-verify PASS, then resume remaining Wave1 only; still stop after 12 for search-discovery checkpoint"
+  "resume_requires": "remaining Wave1 runtime schedule rebase PASS; after that normal isolated recurring publication may continue through the first 12 only, then stop for Issue #264 search-discovery checkpoint"
 }
