@@ -1,0 +1,28 @@
+{
+  "exit_code": 20,
+  "finished_at": "2026-08-16T03:25:53Z",
+  "job_id": "audit-first-scheduled-intake-20260816-02",
+  "payload": {
+    "cms_write_attempted": false,
+    "detail": "one or more scheduled intake logs failed safety audit",
+    "intake_cron_mutated": false,
+    "phase": "logs",
+    "publication_queue_consumed": false,
+    "publish_at_created": false,
+    "publisher_cron_mutated": false,
+    "publisher_invoked": false,
+    "read_only": true,
+    "runtime_mutation_attempted": false,
+    "scheduled_queue_mutated": false,
+    "status": "FAIL",
+    "task": "audit_first_scheduled_intake_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "528b15c9908cf1bc28d727ad92e7fbcd388391a1",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_audit_first_scheduled_intake_v1.sh",
+  "script_sha256": "c072b15368264a8ae00a730fd9dad09c35adb6be39995801c210d9790ef618e4",
+  "started_at": "2026-08-16T03:25:52Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
