@@ -39,6 +39,14 @@ def read_json(path: Path) -> Dict[str, Any]:
     return data
 
 
+def int_field(data: Dict[str, Any], key: str, default: int = -1) -> int:
+    """Read an integer field without treating the valid value 0 as missing."""
+    value = data.get(key, default)
+    if value is None:
+        return int(default)
+    return int(value)
+
+
 def atomic_json(path: Path, data: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True, mode=0o750)
     encoded = json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
@@ -392,10 +400,10 @@ def main() -> int:
                     atomic_json(ledger_path, ledger)
 
             after = run_inventory_diff(website, source, ledger_path, Path(tmpdir) / "after.json")
-            expected_after = int(before.get("new_draft_candidates") or 0) - len(selected)
-            if int(after.get("new_draft_candidates") or -1) != expected_after:
+            expected_after = int_field(before, "new_draft_candidates", 0) - len(selected)
+            if int_field(after, "new_draft_candidates") != expected_after:
                 fail(f"post-intake candidate count mismatch expected={expected_after} actual={after.get('new_draft_candidates')}")
-            if int(after.get("ledger_known") or -1) != int(before.get("ledger_known") or 0) + len(selected):
+            if int_field(after, "ledger_known") != int_field(before, "ledger_known", 0) + len(selected):
                 fail("post-intake ledger_known mismatch")
             after_ids = set(after.get("candidate_revision_ids") or [])
             leaked = [rev for rev in plan["selected_revision_ids"] if rev in after_ids]

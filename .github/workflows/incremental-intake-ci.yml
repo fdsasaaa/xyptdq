@@ -35,6 +35,24 @@ jobs:
           coverage: none
       - name: Compile Python intake code
         run: python3 -m py_compile scripts/content/inventory_diff.py scripts/content/incremental_inventory_intake.py
+      - name: Preserve zero-valued reconciliation counts
+        run: |
+          python3 - <<'PY'
+          import importlib.util
+          from pathlib import Path
+          path = Path('scripts/content/incremental_inventory_intake.py')
+          spec = importlib.util.spec_from_file_location('incremental_inventory_intake', path)
+          module = importlib.util.module_from_spec(spec)
+          assert spec.loader is not None
+          spec.loader.exec_module(module)
+          assert module.int_field({'count': 0}, 'count') == 0
+          assert module.int_field({'count': '0'}, 'count') == 0
+          assert module.int_field({}, 'count', -1) == -1
+          assert module.int_field({'count': None}, 'count', -1) == -1
+          source = path.read_text(encoding='utf-8')
+          assert 'after.get("new_draft_candidates") or -1' not in source
+          assert 'after.get("ledger_known") or -1' not in source
+          PY
       - name: Lint PHP Draft converter
         run: php -l scripts/content/ingest_public_release_draft.php
       - name: Lint shell intake wrapper
