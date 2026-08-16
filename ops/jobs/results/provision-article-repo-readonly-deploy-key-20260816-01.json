@@ -1,0 +1,29 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-08-16T00:27:40Z",
+  "job_id": "provision-article-repo-readonly-deploy-key-20260816-01",
+  "payload": {
+    "cms_write_attempted": false,
+    "created_new_key": true,
+    "cron_mutated": false,
+    "fingerprint": "SHA256:qgkoW70e+CTTmZ+AQOxM/kcpHu5i0WsinMMSXoMKD7E",
+    "intake_enabled": false,
+    "private_key_exported": false,
+    "private_key_path": "/var/lib/xyptdq-content/intake/credentials/caipiaowenzhang_readonly_ed25519",
+    "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQKDCG5MrQb6vRREqMapw6lesYL45S2zX9YdXKNoHuK xyptdq-intake-readonly@laocaimi",
+    "queue_consumed": false,
+    "required_github_setting": "Deploy key with Allow write access disabled",
+    "status": "PASS",
+    "target_repository": "fdsasaaa/caipiaowenzhang",
+    "task": "provision_article_repo_readonly_deploy_key_v1",
+    "usage": "read_only_deploy_key_for_xyptdq_inventory_intake"
+  },
+  "raw_log_published": false,
+  "required_commit": "5fee0e210d46a8d001c8f63ed642237c6bcf43ee",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_provision_article_repo_readonly_deploy_key_v1.sh",
+  "script_sha256": "2ee60d9bb09eae748498908d1c559e6fdbf3cc4c19a05781cd20a2eba23543f5",
+  "started_at": "2026-08-16T00:27:39Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
