@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "rebase-cf50-wave1-after-021-20260816-01",
+  "required_commit": "ccea9b6f79f9ff69d6d39fd9d8ecfb0e3d3ee0be",
+  "script": "scripts/ops/agent_tasks/run_rebase_cf50_wave1_remaining_schedule_v1.sh",
+  "script_sha256": "9933c1292497ae977765b56efdcaca23eac4c82f1afaac57f772d3107674e9b2",
+  "timeout_seconds": 300
+}
