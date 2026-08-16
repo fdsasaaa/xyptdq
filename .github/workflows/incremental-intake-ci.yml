@@ -1,0 +1,52 @@
+name: incremental-intake-ci
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/content/incremental_inventory_intake.py'
+      - 'scripts/content/ingest_public_release_draft.php'
+      - 'scripts/content/run_incremental_inventory_intake.sh'
+      - 'scripts/content/inventory_diff.py'
+      - 'config/content_inventory_policy.json'
+      - 'config/content_source_sync_policy.json'
+      - '.github/workflows/incremental-intake-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/content/incremental_inventory_intake.py'
+      - 'scripts/content/ingest_public_release_draft.php'
+      - 'scripts/content/run_incremental_inventory_intake.sh'
+      - 'scripts/content/inventory_diff.py'
+      - 'config/content_inventory_policy.json'
+      - 'config/content_source_sync_policy.json'
+      - '.github/workflows/incremental-intake-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+      - name: Compile Python intake code
+        run: python3 -m py_compile scripts/content/inventory_diff.py scripts/content/incremental_inventory_intake.py
+      - name: Lint PHP Draft converter
+        run: php -l scripts/content/ingest_public_release_draft.php
+      - name: Lint shell intake wrapper
+        run: bash -n scripts/content/run_incremental_inventory_intake.sh
+      - name: CLI smoke
+        run: |
+          python3 scripts/content/incremental_inventory_intake.py --help >/dev/null
+          php scripts/content/ingest_public_release_draft.php 2>&1 | grep -Fq 'missing required --revision'
+      - name: Guard Draft-only boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -Eiq 'INSERT[[:space:]]+INTO|UPDATE[[:space:]].*news|DELETE[[:space:]]+FROM' scripts/content/incremental_inventory_intake.py scripts/content/ingest_public_release_draft.php scripts/content/run_incremental_inventory_intake.sh
+          ! grep -Fq 'auto_publish_filequeue.php' scripts/content/incremental_inventory_intake.py scripts/content/ingest_public_release_draft.php scripts/content/run_incremental_inventory_intake.sh
+          ! grep -Fq 'install_publisher_cron.sh' scripts/content/incremental_inventory_intake.py scripts/content/ingest_public_release_draft.php scripts/content/run_incremental_inventory_intake.sh
