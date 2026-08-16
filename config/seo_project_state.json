@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-16T10:09:16+08:00",
+  "updated_at": "2026-08-16T17:36:33+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
   "article_repository": "fdsasaaa/caipiaowenzhang",
-  "current_phase": "phase2_first_wave_active_inventory_intake_active",
+  "current_phase": "phase2_first_wave_active_inventory_intake_healthy_idle",
   "canonical_checkpoint": {
     "technical_seo_baseline": "closed_unless_regression",
     "website_thread_owns_intake_seo_publication": true,
@@ -47,8 +47,8 @@
     "A_upstream_official_public_r1": 45,
     "source_formal_manifests_on_main": ["CF50-20260813.json"],
     "website_repository_ingress_known": 12,
-    "runtime_intake_ledger_known": 3,
-    "remaining_new_draft_candidates": 30,
+    "runtime_intake_ledger_known": 33,
+    "remaining_new_draft_candidates": 0,
     "website_live_seed_count": 4,
     "website_scheduled_not_live": 8,
     "production_rate_decoupled_from_publication_rate": true,
@@ -191,7 +191,32 @@
     "max_candidates_per_run": 25,
     "publisher_cron_mutated_by_activation": false,
     "publication_queue_consumed_by_activation": false,
-    "first_scheduled_cron_run_not_yet_observed_at_state_timestamp": true
+    "first_scheduled_cron_run_observed": true,
+    "first_scheduled_cron_run_job": "audit-first-scheduled-intake-20260816-01",
+    "first_scheduled_cron_run_status": "PASS",
+    "first_scheduled_cron_run_selected": 25,
+    "first_scheduled_cron_ledger_before": 3,
+    "first_scheduled_cron_ledger_after": 28,
+    "first_scheduled_cron_candidates_before": 30,
+    "first_scheduled_cron_candidates_after": 5,
+    "second_scheduled_cron_business_status": "PASS_POSTCHECK_FALSE_FAILURE",
+    "second_scheduled_cron_selected": 5,
+    "second_scheduled_cron_ledger_after": 33,
+    "second_scheduled_cron_candidates_after": 0,
+    "second_scheduled_cron_failed_audit_job": "audit-first-scheduled-intake-20260816-02",
+    "second_scheduled_cron_diagnostic_job": "diagnose-scheduled-intake-failure-20260816-01",
+    "second_scheduled_cron_diagnostic_status": "PASS",
+    "zero_candidate_postcheck_root_cause": "python_truthiness_converted_valid_zero_to_minus_one",
+    "zero_candidate_postcheck_fix_pr": 417,
+    "zero_candidate_postcheck_fix_merge_sha": "cea94bc700c325dcb0ac9eea8f9487fee78b5ae3",
+    "zero_candidate_postcheck_fix_status": "MERGED_CI_PASS",
+    "ledger_records_current": 33,
+    "remaining_new_draft_candidates_current": 0,
+    "inventory_reconciliation_status": "FULLY_RECONCILED_WAITING_NEW_UPSTREAM",
+    "post_fix_idle_audit_job": "audit-idle-intake-after-zero-fix-20260816-01",
+    "post_fix_idle_audit_status": "PASS",
+    "post_fix_idle_runs_audited": 5,
+    "post_fix_idle_slots_asia_singapore": ["2026-08-16T13:23:08+08:00", "2026-08-16T14:23:07+08:00", "2026-08-16T15:23:07+08:00", "2026-08-16T16:23:07+08:00", "2026-08-16T17:23:07+08:00"]
   },
   "search_discovery_checkpoint": {
     "issue": 264,
@@ -221,9 +246,9 @@
       "detail": "031 published normally through the :07 Publisher poll and passed Receipt/live SEO proof. Next is 041 at 2026-08-16 19:00 Asia/Singapore. Stop after 12 live seeds for Issue #264."
     },
     {
-      "id": "inventory_intake_first_scheduled_run_observation",
-      "status": "ACTIVE_AUTOMATION_INSTALLED",
-      "detail": "Automatic Draft-only intake is production PASS and scheduled at minute :23. Observe the first scheduled run; this does not gate or authorize publication."
+      "id": "inventory_intake_inventory_watch",
+      "status": "HEALTHY_IDLE_ZERO_CANDIDATES",
+      "detail": "All 45 current formal public-r1 are accounted for by 12 website ingress revisions plus 33 Draft-ledger records. The :23 cron is healthy and has passed five post-fix zero-candidate no-op runs. Wait for new upstream formal public-r1; do not manually replay the reconciled CF50 inventory."
     },
     {
       "id": "first_wave_search_discovery_checkpoint",
@@ -233,8 +258,9 @@
   ],
   "next_actions": [
     "Do not republish CF50-001/011/021/031.",
-    "Let the rebased isolated Wave1 schedule continue to CF50-041 at 2026-08-16T19:00:00+08:00 and prove each actual publication through state, Receipt and live SEO.",
-    "Allow automatic Draft-only intake cron at :23 to reconcile formal public-r1 inventory; do not treat Draft intake as publication authorization.",
+    "Let the rebased isolated Wave1 schedule continue to CF50-041 at 2026-08-16T19:00:00+08:00 and prove the actual publication through Publisher state, Receipt and live SEO.",
+    "Leave the independent :23 Draft-only intake cron active as an idempotent inventory watcher; current formal public-r1 inventory is fully reconciled at ledger=33 / candidates=0.",
+    "Do not manually replay the five revisions processed by the 11:23 run; that run completed the business writes and only the old zero-value postcheck failed.",
     "Do not reinstall or duplicate either Publisher cron (:07) or intake cron (:23).",
     "Keep final five 020/029/038/039/040 frozen until Issue #264 records CF50_FINAL_5_RELEASE=AUTHORIZED.",
     "Stop after 12 live seed articles for Search Discovery before Wave B or Hub activation.",
@@ -242,5 +268,5 @@
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
-  "new_session_instruction": "Read main handoff/state and newer agent/results first. Phase 1 is closed. CF50 has 45 formal public-r1. 001/011/021/031 are proven live as CMS 92/93/94/95 with live SEO PASS; 031 published normally at 2026-08-16 10:07:03 Asia/Singapore-equivalent UTC timestamp 02:07:03Z. Wave1 runtime is 3 published / 8 scheduled / 0 failed and next is 041 at 2026-08-16 19:00. Automatic private-repo Draft intake is ACTIVE: read-only SSH PASS, 003 Draft+ledger canary PASS, 004 generic runner canary PASS, 005 auto-mode activation PASS, ledger=3, remaining candidates=30, exactly one intake cron at :23 with limit 25. Intake never creates publish_at or invokes Publisher. Publisher remains independent at :07. Do not duplicate crons, publish raw Approved bodies, release 020/029/038/039/040, start Wave B, or activate the live Hub before Issue #264 post-12 Search Discovery."
+  "new_session_instruction": "Read main handoff/state and newer agent/results first. Phase 1 is closed. CF50 has 45 formal public-r1. 001/011/021/031 are proven live as CMS 92/93/94/95 with live SEO PASS; Wave1 runtime is 3 published / 8 scheduled / 0 failed and next is 041 at 2026-08-16 19:00. Automatic private-repo Draft intake is ACTIVE and fully reconciled: 003/004/005 proved canary/generic/activation, the first natural 10:23 run processed 25 (ledger 3->28, candidates 30->5), the 11:23 run processed the remaining 5 and reached ledger=33/candidates=0 but the old postcheck falsely failed because valid zero was converted to -1. Diagnosis proved all 33 Drafts safe; PR #417 fixed the zero-value verifier with CI PASS. Five natural post-fix :23 runs from 13:23 through 17:23 all passed as selected=0 no-ops. Intake never creates publish_at or invokes Publisher. Publisher remains independent at :07. Do not duplicate crons, manually replay reconciled intake, publish raw Approved bodies, release 020/029/038/039/040, start Wave B, or activate the live Hub before Issue #264 post-12 Search Discovery."
 }
