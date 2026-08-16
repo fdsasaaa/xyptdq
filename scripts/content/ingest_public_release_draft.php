@@ -10,6 +10,11 @@
  * - batch: ordinary future formal batches. Requires manifest status=complete
  *   and website_batch_ingestion_allowed=true through the canonical validator.
  *
+ * An editorial Cluster map is optional. When omitted, explicit Cluster metadata
+ * in the revision is validated by the normal converter; otherwise the Draft may
+ * remain unassigned, which the SEO Cluster registry explicitly permits. Cluster
+ * assignment is never guessed from title text.
+ *
  * This script never creates publish_at, Scheduled state, CMS content, or
  * Publisher state.
  */
@@ -58,9 +63,9 @@ function intakeDraftAtomicWrite(string $path, array $data): void
 
 $options = getopt('', [
     'revision:', 'parent:', 'manifest:', 'inventory-policy:',
-    'editorial-cluster-map:', 'output:', 'mode:'
+    'editorial-cluster-map::', 'output:', 'mode:'
 ]);
-foreach (['revision','parent','manifest','inventory-policy','editorial-cluster-map','output','mode'] as $name) {
+foreach (['revision','parent','manifest','inventory-policy','output','mode'] as $name) {
     if (!isset($options[$name]) || trim((string) $options[$name]) === '') {
         intakeDraftFail('missing required --' . $name, 2);
     }
@@ -70,7 +75,7 @@ $revisionPath = (string) $options['revision'];
 $parentPath = (string) $options['parent'];
 $manifestPath = (string) $options['manifest'];
 $policyPath = (string) $options['inventory-policy'];
-$editorialMapPath = (string) $options['editorial-cluster-map'];
+$editorialMapPath = trim((string) ($options['editorial-cluster-map'] ?? ''));
 $outputPath = (string) $options['output'];
 $mode = (string) $options['mode'];
 
@@ -125,8 +130,13 @@ try {
     }
     $cmd = escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($converter)
         . ' --input=' . escapeshellarg($revisionPath)
-        . ' --output=' . escapeshellarg($outputPath)
-        . ' --editorial-cluster-map=' . escapeshellarg($editorialMapPath);
+        . ' --output=' . escapeshellarg($outputPath);
+    if ($editorialMapPath !== '') {
+        if (!is_file($editorialMapPath)) {
+            throw new RuntimeException('editorial Cluster map not found');
+        }
+        $cmd .= ' --editorial-cluster-map=' . escapeshellarg($editorialMapPath);
+    }
     $out = [];
     $exit = 0;
     exec($cmd . ' 2>&1', $out, $exit);
@@ -167,6 +177,7 @@ try {
         'revision_id' => $revision['revision_id'],
         'publication_state' => $draft['publication_state'],
         'primary_seo_cluster_id' => $draft['primary_seo_cluster_id'] ?? null,
+        'cluster_assignment_source' => $draft['seo_cluster_assignment_source'] ?? null,
         'output' => $outputPath,
     ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
 } catch (Throwable $e) {
