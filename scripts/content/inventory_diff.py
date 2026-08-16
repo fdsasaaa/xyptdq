@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only incremental inventory diff for the sealed article-factory -> website Draft boundary.
+"""Read-only incremental inventory diff for article-factory -> website Draft intake.
 
-This script never writes CMS data, Drafts, publish_at, Scheduled queues, Publisher state or cron.
-It answers only: which formal public-r1 revisions on source main are already known vs new candidates?
+Only formal website_public_release revisions on source main are considered. The
+script never writes CMS data, Drafts, publish_at, Scheduled queues, Publisher
+state or cron. It also enforces the website-side CF50 final-five release gate.
 """
 from __future__ import annotations
 
@@ -11,7 +12,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Set
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -35,21 +36,10 @@ def git_output(repo: Path, *args: str) -> str:
 
 def verify_source_main(repo: Path) -> str:
     head = git_output(repo, "rev-parse", "HEAD")
-    branch = ""
+    branch = git_output(repo, "branch", "--show-current")
     try:
-        branch = subprocess.check_output(
-            ["git", "-C", str(repo), "branch", "--show-current"], text=True, stderr=subprocess.DEVNULL
-        ).strip()
-    except Exception:
-        branch = ""
-    origin_main = ""
-    try:
-        origin_main = subprocess.check_output(
-            ["git", "-C", str(repo), "rev-parse", "refs/remotes/origin/main"],
-            text=True,
-            stderr=subprocess.DEVNULL,
-        ).strip()
-    except Exception:
+        origin_main = git_output(repo, "rev-parse", "refs/remotes/origin/main")
+    except RuntimeError:
         origin_main = ""
     if branch == "main":
         if origin_main and origin_main != head:
@@ -171,8 +161,14 @@ def main() -> int:
         raise RuntimeError("source repository checkout missing")
     source_commit = verify_source_main(source)
 
-    retired: Set[str] = set((policy.get("cf50_terminal_baseline") or {}).get("retired_without_public_release") or [])
     cf50 = policy.get("cf50_terminal_baseline") or {}
+    frozen: Set[str] = set(cf50.get("final5_frozen_pending_issue_264") or [])
+    final5_authorized = cf50.get("release_authorized") is True
+    if not final5_authorized:
+        required = str(cf50.get("required_exact_machine_conclusion") or "")
+        if len(frozen) != 5 or required != "CF50_FINAL_5_RELEASE=AUTHORIZED":
+            raise RuntimeError("CF50 final-five freeze policy is incomplete or inconsistent")
+
     official: Dict[str, Dict[str, Any]] = {}
     manifest_rows: List[Dict[str, Any]] = []
     manifest_root = source / str(policy["source_manifest_root"])
@@ -189,11 +185,26 @@ def main() -> int:
         if count != len(articles):
             raise RuntimeError("manifest count mismatch: %s" % manifest_path.name)
 
+        manifest_ids = {str(row.get("article_id") or "") for row in articles if isinstance(row, dict)}
+        frozen_seen = sorted(x for x in manifest_ids if x in frozen)
+        if frozen_seen and not final5_authorized:
+            raise RuntimeError(
+                "Issue #264 has not authorized frozen CF50 final-five public inventory: " + ",".join(frozen_seen)
+            )
+
         terminal_cf50 = batch_id == str(cf50.get("source_batch_id") or "")
         if terminal_cf50:
-            expected = int(cf50.get("website_ready_public_r1_count") or 0)
-            eligible = count == expected
-            reason = "explicit_terminal_cf50_retirement_exception"
+            baseline = int(cf50.get("website_ready_public_r1_count") or 0)
+            full = int(cf50.get("immutable_approved_parent_count") or 0)
+            if count == baseline:
+                eligible = True
+                reason = "cf50_valid_45_waiting_state"
+            elif final5_authorized and count == full:
+                eligible = manifest.get("status") == "complete" and manifest.get("website_batch_ingestion_allowed") is True
+                reason = "cf50_authorized_full_inventory" if eligible else "cf50_authorized_but_manifest_not_formal"
+            else:
+                eligible = False
+                reason = "cf50_count_not_allowed_by_current_issue_264_gate"
         else:
             eligible = (
                 manifest.get("status") == "complete"
@@ -201,17 +212,20 @@ def main() -> int:
                 and count >= int((policy.get("upstream_contract") or {}).get("daily_minimum_formal_batch_count") or 10)
             )
             reason = "formal_complete_manifest" if eligible else "not_formal_inventory"
-        manifest_rows.append(
-            {"manifest": manifest_path.name, "batch_id": batch_id, "count": count, "eligible": eligible, "reason": reason}
-        )
+
+        manifest_rows.append({
+            "manifest": manifest_path.name,
+            "batch_id": batch_id,
+            "count": count,
+            "eligible": eligible,
+            "reason": reason,
+            "frozen_final5_present": frozen_seen,
+        })
         if not eligible:
             continue
         for raw in articles:
             if not isinstance(raw, dict):
                 raise RuntimeError("non-object manifest article: %s" % manifest_path.name)
-            article_id = str(raw.get("article_id") or "")
-            if article_id in retired:
-                raise RuntimeError("retired article unexpectedly appears in formal website inventory: %s" % article_id)
             record = validate_entry(source, raw)
             revision_id = record["revision_id"]
             prior = official.get(revision_id)
@@ -230,8 +244,6 @@ def main() -> int:
             raise RuntimeError("duplicate slug across official inventory: %s" % slug)
         if keyword in keyword_owner and keyword_owner[keyword] != revision_id:
             raise RuntimeError("duplicate Primary Keyword across official inventory: %s" % keyword)
-        # A later revision of the same article is valid only if the formal source manifests intentionally supersede it.
-        # Until a supersession contract exists, two active revisions of one article fail closed rather than silently choosing one.
         if article_id in article_owner and article_owner[article_id] != revision_id:
             raise RuntimeError("multiple active formal revisions for one article_id: %s" % article_id)
         slug_owner[slug] = revision_id
@@ -246,8 +258,7 @@ def main() -> int:
         for existing in (ingress.get(revision_id), ledger.get(revision_id)):
             if not existing:
                 continue
-            existing_hash = str(existing.get("content_hash") or "")
-            if existing_hash != record["content_hash"]:
+            if str(existing.get("content_hash") or "") != record["content_hash"]:
                 drift.append(revision_id)
     if drift:
         raise RuntimeError("content-hash drift for known revision(s): " + ",".join(sorted(set(drift))))
@@ -265,8 +276,9 @@ def main() -> int:
         "website_ingress_known": len(set(official) & set(ingress)),
         "ledger_known": len(set(official) & set(ledger)),
         "new_draft_candidates": len(candidates),
-        "retired_count": len(retired),
-        "retired_article_ids": sorted(retired),
+        "cf50_final5_release_authorized": final5_authorized,
+        "cf50_frozen_final5_count": len(frozen),
+        "cf50_frozen_final5_article_ids": sorted(frozen),
         "eligible_manifests": [row for row in manifest_rows if row["eligible"]],
         "ignored_manifests": [row for row in manifest_rows if not row["eligible"]],
         "candidate_revision_ids": [row["revision_id"] for row in candidates],
