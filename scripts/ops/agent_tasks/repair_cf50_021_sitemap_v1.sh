@@ -10,9 +10,9 @@ WEBROOT="${XYPTDQ_WEBROOT:-/www/wwwroot/59.110.217.6}"
 POLICY="$REPO/config/content_publication_policy.json"
 GENERATOR="$REPO/scripts/seo/generate_sitemap.php"
 VERIFY="$REPO/scripts/seo/verify_publication_seo.php"
+SITEMAP_CHECK="$REPO/scripts/seo/sitemap_contains_url.php"
 STATE="/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json"
 BASE="/var/lib/xyptdq-publisher/CF50-20260813-wave1"
-SCHEDULED="$BASE/../CF50-20260813-wave1/../CF50-20260813-wave1"
 PROD_SITEMAP="$WEBROOT/sitemap.xml"
 EXPECTED_URL="https://www.laocaimi.org/index.php?c=show&id=94"
 EXPECTED_KEY="lcm-creator-cf50-20260813-021"
@@ -23,7 +23,6 @@ TMP=$(mktemp -d /tmp/xyptdq-021-sitemap-repair.XXXXXX)
 BACKUP="$TMP/sitemap.before"
 ROLLBACK=false
 MUTATED=false
-SUCCESS=false
 PHASE="preflight"
 DETAIL=""
 TEMP_HAS_94=false
@@ -45,7 +44,8 @@ p={
  'live_seo_verify_exit_code':int(vrc),'production_sitemap_mutated':mutated=='true',
  'rollback_performed':rollback=='true','cms_write_attempted':False,'cron_mutated':False,
  'publication_policy_mutated':False,'queue_consumed':False,'wave1_resumed':False,
- 'durable_fix':'Publisher-registry managed CMS IDs emit canonical show-ID URLs in Sitemap'
+ 'membership_check':'XML-aware loc parser; XML entities decoded before URL comparison',
+ 'durable_fix':'Publisher-managed canonical plus XML-aware Sitemap membership verification'
 }
 with open(out,'w',encoding='utf-8') as f:
  json.dump(p,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
@@ -68,7 +68,7 @@ trap 'rm -rf "$TMP"' EXIT
 git -C "$REPO" fetch --prune origin main >/dev/null 2>&1 || fail repo_sync "fetch main failed"
 git -C "$REPO" checkout -q main || fail repo_sync "checkout main failed"
 git -C "$REPO" reset --hard origin/main >/dev/null || fail repo_sync "reset main failed"
-[ -s "$POLICY" ] && [ -s "$GENERATOR" ] && [ -s "$VERIFY" ] || fail preflight "required website files missing"
+[ -s "$POLICY" ] && [ -s "$GENERATOR" ] && [ -s "$VERIFY" ] && [ -s "$SITEMAP_CHECK" ] || fail preflight "required website files missing"
 [ -s "$STATE" ] || fail preflight "Wave1 state missing"
 
 grep -Fq "xyptdq_publish_registry" "$GENERATOR" || fail preflight "managed Publisher Sitemap fix is not in main"
@@ -87,19 +87,19 @@ RECEIPT=$(find "$BASE/receipts" -maxdepth 1 -type f -name "${EXPECTED_KEY}.94.js
 PHASE="temporary_generation"
 XYPTDQ_WEBROOT="$WEBROOT" XYPTDQ_DB_CONFIG="$WEBROOT/config/database.php" XYPTDQ_SITEMAP="$TMP/sitemap.test.xml" php "$GENERATOR" >"$TMP/generate.out" 2>"$TMP/generate.err" || fail temporary_generation "temporary Sitemap generation failed"
 [ -s "$TMP/sitemap.test.xml" ] || fail temporary_generation "temporary Sitemap missing"
-grep -Fq "$EXPECTED_URL" "$TMP/sitemap.test.xml" || fail temporary_generation "temporary Sitemap still omits CMS 94 canonical URL"
+php "$SITEMAP_CHECK" "$TMP/sitemap.test.xml" "$EXPECTED_URL" >/dev/null || fail temporary_generation "temporary Sitemap omits CMS 94 canonical URL"
 TEMP_HAS_94=true
 
 cp "$PROD_SITEMAP" "$BACKUP" || fail deploy "could not back up current production Sitemap"
 PHASE="deploy"
 XYPTDQ_WEBROOT="$WEBROOT" XYPTDQ_DB_CONFIG="$WEBROOT/config/database.php" XYPTDQ_SITEMAP="$PROD_SITEMAP" php "$GENERATOR" >"$TMP/deploy.out" 2>"$TMP/deploy.err" || fail deploy "production Sitemap generation failed"
 MUTATED=true
-grep -Fq "$EXPECTED_URL" "$PROD_SITEMAP" || fail deploy "production Sitemap omits CMS 94 after generation"
+php "$SITEMAP_CHECK" "$PROD_SITEMAP" "$EXPECTED_URL" >/dev/null || fail deploy "production Sitemap omits CMS 94 after generation"
 PROD_HAS_94=true
 
 PHASE="live_verify"
 curl -skL --max-time 25 -o "$TMP/live-sitemap.xml" "https://www.laocaimi.org/sitemap.xml" || fail live_verify "live Sitemap fetch failed"
-grep -Fq "$EXPECTED_URL" "$TMP/live-sitemap.xml" || fail live_verify "live Sitemap omits CMS 94"
+php "$SITEMAP_CHECK" "$TMP/live-sitemap.xml" "$EXPECTED_URL" >/dev/null || fail live_verify "live Sitemap omits CMS 94"
 LIVE_HAS_94=true
 curl -skL --max-time 25 -o "$TMP/page.html" "$EXPECTED_URL" || fail live_verify "CMS 94 page fetch failed"
 LIVE_CANONICAL=$(python3 - "$TMP/page.html" <<'PY'
@@ -120,7 +120,6 @@ set -e
 [ "$VERIFY_RC" -eq 0 ] || fail live_verify "021 live SEO verification still fails"
 
 PHASE="complete"
-DETAIL="CMS 94 canonical URL is present in temporary, production, and live Sitemap; live SEO verification passed; Wave1 remains paused pending repository policy resume"
-SUCCESS=true
+DETAIL="CMS 94 canonical URL is present in temporary, production, and live Sitemap using XML-aware membership checks; live SEO verification passed; Wave1 remains paused pending repository policy resume"
 write_result
 echo "CF50_021_SITEMAP_REPAIR=PASS"
