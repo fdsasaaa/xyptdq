@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "provision-article-repo-readonly-deploy-key-20260816-01",
+  "required_commit": "5fee0e210d46a8d001c8f63ed642237c6bcf43ee",
+  "script": "scripts/ops/agent_tasks/run_provision_article_repo_readonly_deploy_key_v1.sh",
+  "script_sha256": "2ee60d9bb09eae748498908d1c559e6fdbf3cc4c19a05781cd20a2eba23543f5",
+  "timeout_seconds": 180
+}
