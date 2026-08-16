@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "diagnose-scheduled-intake-failure-20260816-01",
+  "required_commit": "00d8f76ef6a29f86934d761c55d02b6b308c4d20",
+  "script": "scripts/ops/agent_tasks/run_diagnose_scheduled_intake_failure_v1.sh",
+  "script_sha256": "7ca7fa2044b6bc5bc64c4a52ecec8ea171f4eb24749370ea304b91165ea0a682",
+  "timeout_seconds": 300
+}
