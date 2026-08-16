@@ -10,10 +10,12 @@
  * - batch: ordinary future formal batches. Requires manifest status=complete
  *   and website_batch_ingestion_allowed=true through the canonical validator.
  *
- * An editorial Cluster map is optional. When omitted, explicit Cluster metadata
- * in the revision is validated by the normal converter; otherwise the Draft may
- * remain unassigned, which the SEO Cluster registry explicitly permits. Cluster
- * assignment is never guessed from title text.
+ * An editorial Cluster map is optional. A map is applied only when its explicit
+ * batch_id equals the revision source_batch_id. A mismatched map is ignored so
+ * it can never bleed one batch's editorial decision into another. Without a
+ * matching map, explicit revision Cluster metadata is validated by the normal
+ * converter; otherwise the Draft may remain unassigned, which the Cluster
+ * registry permits. Cluster assignment is never guessed from title text.
  *
  * This script never creates publish_at, Scheduled state, CMS content, or
  * Publisher state.
@@ -124,6 +126,21 @@ try {
         throw new RuntimeException('public-release validation failed: ' . implode('; ', $validation['errors']));
     }
 
+    if ($editorialMapPath !== '') {
+        if (!is_file($editorialMapPath)) {
+            throw new RuntimeException('editorial Cluster map not found');
+        }
+        $editorialMap = intakeDraftReadJson($editorialMapPath, 'editorial Cluster map');
+        $mapBatchId = trim((string) ($editorialMap['batch_id'] ?? ''));
+        $revisionBatchId = trim((string) ($revision['source_batch_id'] ?? ''));
+        if ($mapBatchId === '' || $mapBatchId !== $revisionBatchId) {
+            $editorialMapPath = '';
+        }
+    }
+    if ($mode === 'terminal_cf50' && $editorialMapPath === '') {
+        throw new RuntimeException('terminal_cf50 requires its matching explicit editorial Cluster map');
+    }
+
     $converter = __DIR__ . '/convert_approved_to_draft.php';
     if (!is_file($converter)) {
         throw new RuntimeException('Draft converter missing');
@@ -132,9 +149,6 @@ try {
         . ' --input=' . escapeshellarg($revisionPath)
         . ' --output=' . escapeshellarg($outputPath);
     if ($editorialMapPath !== '') {
-        if (!is_file($editorialMapPath)) {
-            throw new RuntimeException('editorial Cluster map not found');
-        }
         $cmd .= ' --editorial-cluster-map=' . escapeshellarg($editorialMapPath);
     }
     $out = [];
