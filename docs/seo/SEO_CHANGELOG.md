@@ -211,3 +211,16 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - CLI default is plan-only; explicit `--execute` is required before model calls and formal staging.
 - Passing packages terminate at `caipiaowenzhang/articles/approved/*.json`; website sync, website Draft writes, scheduling, Publisher/cron operations and publication are not controller capabilities.
 - Cross-repo transport and website publication therefore remain independently disabled after this milestone.
+
+## 2026-08-16 — Draft intake reconciliation follow-up
+
+### Automatic Draft intake fully reconciled and zero-count verifier fixed
+- First natural `:23` intake run (`audit-first-scheduled-intake-20260816-01`) passed at 10:23 Asia/Singapore: 25 revisions were processed, ledger `3→28`, remaining candidates `30→5`, and all Draft-only/idempotency guards passed.
+- The 11:23 run processed the remaining five revisions and actually completed ledger `28→33` / candidates `5→0`, but the old post-intake verifier falsely reported `expected=0 actual=0` as a failure after the durable writes had already succeeded.
+- Read-only diagnosis `diagnose-scheduled-intake-failure-20260816-01` proved the production business state was complete and safe: ledger=33, runtime Draft files=33, candidates=0, final five absent, and no CMS/Scheduled/Publisher/cron mutation.
+- Root cause was Python truthiness in `incremental_inventory_intake.py`: `int(after.get("new_draft_candidates") or -1)` converted legitimate zero to `-1`.
+- PR #417 fixed zero-value handling and added regression coverage; merge `cea94bc700c325dcb0ac9eea8f9487fee78b5ae3` passed `incremental-intake-ci`, `repository-ci`, `embedded-python-ci`, and `content-bridge-test`.
+- Read-only `audit-idle-intake-after-zero-fix-20260816-01` then passed across five natural post-fix cron slots (13:23, 14:23, 15:23, 16:23, 17:23 Asia/Singapore): every run was an `auto` no-op with selected=0, ledger=33, candidates=0.
+- Current intake state is **healthy idle / fully reconciled**. All 45 current formal public-r1 are accounted for as 12 website-ingress revisions + 33 intake-ledger Drafts. The `:23` cron remains active only as an idempotent watcher for future upstream formal public-r1.
+- The intake never created `publish_at`, promoted content to Scheduled, wrote CMS content, invoked Publisher, altered Publisher cron, or released CF50 final-five `020/029/038/039/040`.
+- Do not manually replay the five revisions from 11:23; their business writes are already complete.
