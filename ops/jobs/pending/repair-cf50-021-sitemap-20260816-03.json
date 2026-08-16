@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "repair-cf50-021-sitemap-20260816-03",
+  "required_commit": "d3e4497c047c372ff3b65dec9221072bfa7d647f",
+  "script": "scripts/ops/agent_tasks/run_repair_cf50_021_sitemap_v1.sh",
+  "script_sha256": "518bca5bd02ba95facb8d22b85c35fa2f73abbcf028891c3ee211fccbb0a7a45",
+  "timeout_seconds": 600
+}
