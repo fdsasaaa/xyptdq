@@ -43,7 +43,8 @@ p={
  'cms_write_attempted':False,'publish_at_created':False,'scheduled_queue_mutated':False,
  'publisher_invoked':False,'cron_mutated':False,'publication_queue_consumed':False
 }
-with open(out,'w',encoding='utf-8') as f: json.dump(p,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
+with open(out,'w',encoding='utf-8') as f:
+    json.dump(p,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
 PY
   echo "ARTICLE_REPO_DRAFT_LEDGER_CANARY=FAIL phase=$phase" >&2
   exit 20
@@ -82,14 +83,15 @@ if [ "$LEDGER_EXISTED" = true ]; then
   cp "$LEDGER" "$TMP/ledger.before"
   PRE_RECORDS=$(python3 - "$LEDGER" <<'PY'
 import json,sys
-x=json.load(open(sys.argv[1],encoding='utf-8')); r=x.get('records') or {}; print(len(r) if isinstance(r,dict) else -1)
+x=json.load(open(sys.argv[1],encoding='utf-8')); r=x.get('records') or {}
+print(len(r) if isinstance(r,dict) else -1)
 PY
 )
   [ "$PRE_RECORDS" = 0 ] || write_fail runtime_preflight "intake ledger is not empty before first canary"
 fi
 
 python3 "$REPO/scripts/content/inventory_diff.py" --source-repo="$SOURCE_DIR" --website-repo="$REPO" --ledger="$LEDGER" --output="$TMP/before.json" 2>"$TMP/before.err" || write_fail inventory_before "inventory diff before canary failed"
-python3 - "$TMP/before.json" "$CANARY_REV" <<'PY' || write_fail inventory_before "pre-canary inventory assertions failed"
+if ! python3 - "$TMP/before.json" "$CANARY_REV" <<'PY'
 import json,sys
 x=json.load(open(sys.argv[1],encoding='utf-8')); canary=sys.argv[2]
 assert x.get('status')=='PASS'
@@ -100,19 +102,21 @@ assert x.get('new_draft_candidates')==33
 assert canary in (x.get('candidate_revision_ids') or [])
 assert x.get('cf50_final5_release_authorized') is False
 PY
+then
+  write_fail inventory_before "pre-canary inventory assertions failed"
+fi
 
-php "$REPO/scripts/content/ingest_public_release_canary.php" \
+if ! php "$REPO/scripts/content/ingest_public_release_canary.php" \
   --revision="$REVISION" --parent="$PARENT" --manifest="$MANIFEST" \
-  --editorial-cluster-map="$EDITORIAL_MAP" --output="$DRAFT" >"$TMP/canary.out" 2>"$TMP/canary.err" || {
-    rb=$(rollback_runtime); write_fail draft_canary "public-r1 Draft canary failed" "$rb";
-  }
+  --editorial-cluster-map="$EDITORIAL_MAP" --output="$DRAFT" >"$TMP/canary.out" 2>"$TMP/canary.err"; then
+  rb=$(rollback_runtime); write_fail draft_canary "public-r1 Draft canary failed" "$rb"
+fi
 chmod 0640 "$DRAFT"
 
-python3 - "$REVISION" "$DRAFT" "$SOURCE_HEAD" "$LEDGER" <<'PY' || {
-import sys; raise SystemExit(1)
-PY
-import json,os,sys,tempfile,datetime
-rev=json.load(open(sys.argv[1],encoding='utf-8')); draft=json.load(open(sys.argv[2],encoding='utf-8'))
+if ! python3 - "$REVISION" "$DRAFT" "$SOURCE_HEAD" "$LEDGER" <<'PY'
+import datetime,json,os,sys,tempfile
+rev=json.load(open(sys.argv[1],encoding='utf-8'))
+draft=json.load(open(sys.argv[2],encoding='utf-8'))
 source_commit=sys.argv[3]; ledger_path=sys.argv[4]
 if draft.get('publication_state')!='draft': raise SystemExit('Draft publication_state is not draft')
 if 'publish_at' in draft: raise SystemExit('Draft unexpectedly contains publish_at')
@@ -121,30 +125,33 @@ if draft.get('source_revision_id')!=rev.get('revision_id'): raise SystemExit('Dr
 if draft.get('source_content_hash')!=rev.get('content_hash'): raise SystemExit('Draft source hash mismatch')
 if draft.get('source_fingerprint')!=rev.get('fingerprint'): raise SystemExit('Draft source fingerprint mismatch')
 if draft.get('primary_seo_cluster_id')!='ffc_research': raise SystemExit('Draft primary SEO cluster mismatch')
+now=datetime.datetime.now(datetime.timezone.utc).isoformat()
 record={
  'article_id':rev['article_id'],'revision_id':rev['revision_id'],'content_hash':rev['content_hash'],
  'fingerprint':rev['fingerprint'],'primary_keyword':rev['primary_keyword'],'slug':rev['slug'],
  'site_category_key':rev['site_category_key'],'source_batch_id':rev['source_batch_id'],
  'source_commit':source_commit,'lifecycle_state':'draft','cms_id':None,'scheduled_at':None,'published_at':None,
- 'draft_path':sys.argv[2],'ingested_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+ 'draft_path':sys.argv[2],'ingested_at':now,
 }
-ledger={'schema_version':1,'source_repository':'fdsasaaa/caipiaowenzhang','source_ref':'main','updated_at':record['ingested_at'],'records':{rev['revision_id']:record}}
+ledger={'schema_version':1,'source_repository':'fdsasaaa/caipiaowenzhang','source_ref':'main','updated_at':now,'records':{rev['revision_id']:record}}
 os.makedirs(os.path.dirname(ledger_path),exist_ok=True)
 fd,tmp=tempfile.mkstemp(prefix=os.path.basename(ledger_path)+'.tmp.',dir=os.path.dirname(ledger_path)); os.close(fd)
 try:
-    with open(tmp,'w',encoding='utf-8') as f: json.dump(ledger,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
+    with open(tmp,'w',encoding='utf-8') as f:
+        json.dump(ledger,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
     os.chmod(tmp,0o640); os.replace(tmp,ledger_path)
 finally:
     if os.path.exists(tmp): os.unlink(tmp)
 PY
-if [ "$?" -ne 0 ]; then rb=$(rollback_runtime); write_fail ledger_write "Draft validation or ledger write failed" "$rb"; fi
+then
+  rb=$(rollback_runtime); write_fail ledger_write "Draft validation or ledger write failed" "$rb"
+fi
+chmod 0640 "$LEDGER"
 
-python3 "$REPO/scripts/content/inventory_diff.py" --source-repo="$SOURCE_DIR" --website-repo="$REPO" --ledger="$LEDGER" --output="$TMP/after.json" 2>"$TMP/after.err" || {
-  rb=$(rollback_runtime); write_fail inventory_after "inventory diff after canary failed" "$rb";
-}
-python3 - "$TMP/after.json" "$CANARY_REV" <<'PY' || {
-import sys; raise SystemExit(1)
-PY
+if ! python3 "$REPO/scripts/content/inventory_diff.py" --source-repo="$SOURCE_DIR" --website-repo="$REPO" --ledger="$LEDGER" --output="$TMP/after.json" 2>"$TMP/after.err"; then
+  rb=$(rollback_runtime); write_fail inventory_after "inventory diff after canary failed" "$rb"
+fi
+if ! python3 - "$TMP/after.json" "$CANARY_REV" <<'PY'
 import json,sys
 x=json.load(open(sys.argv[1],encoding='utf-8')); canary=sys.argv[2]
 assert x.get('status')=='PASS'
@@ -154,7 +161,9 @@ assert x.get('ledger_known')==1
 assert x.get('new_draft_candidates')==32
 assert canary not in (x.get('candidate_revision_ids') or [])
 PY
-if [ "$?" -ne 0 ]; then rb=$(rollback_runtime); write_fail inventory_after "post-canary idempotency assertions failed" "$rb"; fi
+then
+  rb=$(rollback_runtime); write_fail inventory_after "post-canary idempotency assertions failed" "$rb"
+fi
 
 python3 - "$RESULT_FILE" "$SOURCE_HEAD" "$DRAFT" "$LEDGER" "$TMP/after.json" <<'PY'
 import json,sys
@@ -173,7 +182,8 @@ p={
  'cms_write_attempted':False,'publish_at_created':False,'scheduled_queue_mutated':False,
  'publisher_invoked':False,'cron_mutated':False,'publication_queue_consumed':False
 }
-with open(out,'w',encoding='utf-8') as f: json.dump(p,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
+with open(out,'w',encoding='utf-8') as f:
+    json.dump(p,f,ensure_ascii=False,indent=2,sort_keys=True); f.write('\n')
 PY
 
 echo ARTICLE_REPO_DRAFT_LEDGER_CANARY=PASS
