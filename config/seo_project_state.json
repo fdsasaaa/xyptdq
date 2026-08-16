@@ -1,16 +1,17 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-16T08:45:00+08:00",
+  "updated_at": "2026-08-16T10:00:33+08:00",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
   "article_repository": "fdsasaaa/caipiaowenzhang",
-  "current_phase": "phase2_first_wave_resumed_inventory_driven_intake_pre_activation",
+  "current_phase": "phase2_first_wave_active_inventory_intake_active",
   "canonical_checkpoint": {
     "technical_seo_baseline": "closed_unless_regression",
     "website_thread_owns_intake_seo_publication": true,
     "article_factory_status": "PRODUCTION_SEALED",
     "raw_approved_body_publication_allowed": false,
-    "website_body_source": "validated_website_public_release_revision"
+    "website_body_source": "validated_website_public_release_revision",
+    "draft_intake_is_separate_from_publication": true
   },
   "phase1": {
     "status": "closed_unless_regression",
@@ -37,16 +38,19 @@
     "last_exact_owner_conflicts": 0,
     "cluster_registry": "content/seo_cluster_registry.json",
     "cf50_primary_cluster": "ffc_research",
-    "cluster_assignment": "explicit_or_editorially_mapped",
-    "title_only_cluster_guessing": false
+    "cluster_assignment": "explicit_or_editorially_mapped_or_unassigned_draft",
+    "title_only_cluster_guessing": false,
+    "cf50_editorial_map_batch_scoped": true,
+    "future_batch_cf50_map_leakage_blocked_by_pr": 407
   },
   "inventory_watermarks": {
     "A_upstream_official_public_r1": 45,
     "source_formal_manifests_on_main": ["CF50-20260813.json"],
-    "website_synced_first_wave": 12,
+    "website_repository_ingress_known": 12,
+    "runtime_intake_ledger_known": 3,
+    "remaining_new_draft_candidates": 30,
     "website_live_seed_count": 3,
     "website_scheduled_not_live": 9,
-    "website_unsynced_official_inventory": 33,
     "production_rate_decoupled_from_publication_rate": true,
     "daily_supply_assumed_fixed": false
   },
@@ -54,6 +58,10 @@
     "batch_id": "CF50-20260813",
     "formal_approved_count": 50,
     "website_ready_public_r1_count": 45,
+    "manifest_status": "partial",
+    "manifest_canary_ingestion_allowed": true,
+    "manifest_website_batch_ingestion_allowed": false,
+    "terminal_45_of_50_waiting_state_explicitly_allowed": true,
     "reviewed_first_wave_count": 12,
     "first_wave_article_numbers": [1, 11, 21, 31, 41, 46, 2, 12, 22, 32, 37, 49],
     "final5_frozen_article_numbers": [20, 29, 38, 39, 40],
@@ -106,6 +114,8 @@
     "schedule_rebase_status": "PASS",
     "next_article_id": "LCM-CREATOR-cf50-20260813-031",
     "next_publish_at": "2026-08-16T10:00:00+08:00",
+    "next_normal_publisher_poll_expected_after": "2026-08-16T10:07:00+08:00",
+    "normal_slot_probe_prepared": "scripts/ops/agent_tasks/probe_cf50_031_normal_slot_v1.sh",
     "last_first_wave_article_id": "LCM-CREATOR-cf50-20260813-049",
     "last_first_wave_publish_at": "2026-08-20T10:00:00+08:00",
     "wave_b_authorized": false
@@ -133,18 +143,44 @@
     "inventory_policy": "config/content_inventory_policy.json",
     "source_sync_policy": "config/content_source_sync_policy.json",
     "incremental_diff": "scripts/content/inventory_diff.py",
-    "automatic_intake_enabled": false,
+    "incremental_runner": "scripts/content/incremental_inventory_intake.py",
+    "wrapper": "scripts/content/run_incremental_inventory_intake.sh",
+    "automatic_intake_enabled": true,
     "destination_state": "draft_only",
     "may_create_publish_at": false,
+    "may_promote_to_scheduled": false,
     "may_invoke_publisher": false,
+    "runtime_draft_root": "/var/lib/xyptdq-content/intake/drafts",
     "runtime_ledger_path": "/var/lib/xyptdq-content/intake/state.json",
+    "runtime_lock_path": "/var/lib/xyptdq-content/intake/intake.lock",
     "idempotency_required": true,
+    "exact_primary_keyword_conflict_gate": "fail_closed",
+    "exact_slug_conflict_gate": "fail_closed",
     "final5_freeze_gate_synced_to_issue_264": true,
-    "private_repo_direct_https_auth_available": false,
-    "dedicated_readonly_deploy_key_server_side": "PROVISIONED",
+    "dedicated_readonly_deploy_key": "REGISTERED_AND_PROVEN",
     "deploy_key_fingerprint": "SHA256:qgkoW70e+CTTmZ+AQOxM/kcpHu5i0WsinMMSXoMKD7E",
-    "github_deploy_key_registration": "AWAITING_MANUAL_READONLY_REGISTRATION",
-    "next_gate": "register public deploy key on caipiaowenzhang with write access disabled, then prove SSH main read, run inventory diff dry-run, ledger canary and Draft-only canary"
+    "private_key_exported": false,
+    "private_source_main_read_proof_job": "prove-article-repo-ssh-inventory-20260816-01",
+    "private_source_main_read_proof_status": "PASS",
+    "proven_source_commit": "e4833ff81a71f6246922ec8992d9ddc8faec1ccf",
+    "first_draft_ledger_canary": "LCM-CREATOR-cf50-20260813-003",
+    "first_draft_ledger_canary_job": "canary-article-repo-draft-ledger-20260816-01",
+    "first_draft_ledger_canary_status": "PASS",
+    "generic_runner_canary": "LCM-CREATOR-cf50-20260813-004",
+    "generic_runner_canary_job": "canary-incremental-intake-runner-004-20260816-01",
+    "generic_runner_canary_status": "PASS",
+    "auto_mode_activation_article": "LCM-CREATOR-cf50-20260813-005",
+    "auto_mode_activation_job": "activate-incremental-intake-20260816-01",
+    "auto_mode_activation_status": "PASS",
+    "ledger_records_after_activation": 3,
+    "remaining_new_draft_candidates_after_activation": 30,
+    "cron_installed": true,
+    "cron_file": "/etc/cron.d/xyptdq-intake",
+    "cron_schedule": "23 * * * *",
+    "max_candidates_per_run": 25,
+    "publisher_cron_mutated_by_activation": false,
+    "publication_queue_consumed_by_activation": false,
+    "first_scheduled_cron_run_not_yet_observed_at_state_timestamp": true
   },
   "search_discovery_checkpoint": {
     "issue": 264,
@@ -169,29 +205,29 @@
     {
       "id": "first_wave_remaining_publication",
       "status": "ACTIVE_RESUMED",
-      "detail": "Allow only the rebased isolated first-wave schedule to continue at 10:00/19:00 Asia/Singapore. Stop after 12 live seeds for Issue #264."
+      "detail": "Verify CF50-031 only after its 10:00 slot and the :07 Publisher poll, then continue the rebased first-wave schedule. Stop after 12 live seeds for Issue #264."
     },
     {
-      "id": "inventory_intake_private_transport",
-      "status": "WAITING_ONE_MANUAL_DEPLOY_KEY_REGISTRATION",
-      "detail": "Server-side read-only keypair is provisioned; GitHub repository must register the public key with Allow write access disabled before SSH transport can be proven."
+      "id": "inventory_intake_first_scheduled_run_observation",
+      "status": "ACTIVE_AUTOMATION_INSTALLED",
+      "detail": "Automatic Draft-only intake is production PASS and scheduled at minute :23. Observe the first scheduled run; this does not gate or authorize publication."
     },
     {
       "id": "first_wave_search_discovery_checkpoint",
       "status": "WAITING_FIRST_12_LIVE",
-      "detail": "Do not start Wave B or final-five release until Issue #264 evaluates the first 12 live seeds."
+      "detail": "Do not start Wave B, release the final five, or activate the live Hub until Issue #264 evaluates the first 12 live seeds."
     }
   ],
   "next_actions": [
     "Do not republish CF50-001/011/021.",
-    "Do not reinstall or duplicate Publisher cron.",
-    "Let the rebased isolated Wave1 schedule continue from CF50-031 at 2026-08-16T10:00:00+08:00 and verify each real publication through state, Sitemap, receipt and live SEO.",
-    "Register the provisioned public SSH deploy key on the private article repository as read-only, then prove source main transport and run Draft-only intake canaries.",
+    "After the 2026-08-16 10:07 Asia/Singapore Publisher poll, run the prepared read-only 031 normal-slot proof; do not infer publication from clock time.",
+    "Allow automatic Draft-only intake cron at :23 to reconcile formal public-r1 inventory; do not treat Draft intake as publication authorization.",
+    "Do not reinstall or duplicate either Publisher cron (:07) or intake cron (:23).",
     "Keep final five 020/029/038/039/040 frozen until Issue #264 records CF50_FINAL_5_RELEASE=AUTHORIZED.",
     "Stop after 12 live seed articles for Search Discovery before Wave B or Hub activation.",
     "Keep Phase 1 and article-reading visual work closed unless a real regression appears."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
   "changelog": "docs/seo/SEO_CHANGELOG.md",
-  "new_session_instruction": "Read main handoff/state and newer agent/results first. Phase 1 is closed. CF50 has 45 formal public-r1; first 12 are website-synced, 001/011/021 are live as CMS 92/93/94 and all have live SEO PASS. The 021 blocker was a raw-grep XML entity false negative and is repaired by XML-aware Sitemap membership. Remaining nine first-wave items were rebased one editorial slot and publication policy is resumed; next is 031 at 2026-08-16 10:00 Asia/Singapore, last seed 049 at 2026-08-20 10:00. Do not duplicate cron or use the historical queue. Automatic inventory intake remains disabled until the provisioned server public key is registered as a read-only Deploy Key on caipiaowenzhang and SSH/diff/ledger/Draft canaries pass. Final five 020/029/038/039/040 remain frozen pending Issue #264 exact authorization. Wave B and ffc_research Hub remain blocked until the first 12 live seed Search Discovery checkpoint."
+  "new_session_instruction": "Read main handoff/state and newer agent/results first. Phase 1 is closed. CF50 has 45 formal public-r1; first 12 are publication Seed inventory and 001/011/021 are live as CMS 92/93/94 with live SEO PASS. Remaining nine Seed slots were rebased; next 031 is scheduled for 2026-08-16 10:00 and must be proven after the :07 poll. Automatic private-repo Draft intake is ACTIVE: read-only SSH PASS, 003 Draft+ledger canary PASS, 004 generic runner canary PASS, 005 auto-mode activation PASS, ledger=3, remaining candidates=30, exactly one intake cron at :23 with limit 25. This intake never creates publish_at or invokes Publisher. Publisher remains independent at :07. Do not duplicate crons, publish raw Approved bodies, release 020/029/038/039/040, start Wave B, or activate the live Hub before Issue #264 post-12 Search Discovery."
 }
