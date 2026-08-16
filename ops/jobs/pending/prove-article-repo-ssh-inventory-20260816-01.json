@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "prove-article-repo-ssh-inventory-20260816-01",
+  "required_commit": "ecff38d340fa1cd9c686d94a76ec36e10b6427b9",
+  "script": "scripts/ops/agent_tasks/run_prove_article_repo_ssh_inventory_v1.sh",
+  "script_sha256": "c5ffa4888cfe2a90fdc917dcc9dae76be626a0eead688633da8cdf63c43056f2",
+  "timeout_seconds": 600
+}
