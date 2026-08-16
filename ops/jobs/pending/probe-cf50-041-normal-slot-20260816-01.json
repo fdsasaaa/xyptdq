@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-cf50-041-normal-slot-20260816-01",
+  "required_commit": "ad909a6fc9f032462d231cab2245df1840ff23af",
+  "script": "scripts/ops/agent_tasks/run_probe_cf50_041_normal_slot_v1.sh",
+  "script_sha256": "91a47d749c820a2893349e161ff56a4780a70128b28352a63f402a588d49a160",
+  "timeout_seconds": 300
+}
