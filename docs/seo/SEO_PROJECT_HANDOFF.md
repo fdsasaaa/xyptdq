@@ -1,159 +1,201 @@
 # SEO Project Handoff — Canonical Current State
 
-> Mandatory continuity entrypoint for `fdsasaaa/xyptdq`. Read this file, `config/seo_project_state.json`, `docs/seo/SEO_CHANGELOG.md`, `content/keyword_map.json`, `content/seo_target_registry.json`, `content/seo_cluster_registry.json`, `config/content_category_map.json`, `config/content_source_sync_policy.json`, and `config/content_publication_policy.json`, then inspect newer PRs and `agent/results/*` before changing anything.
+> Continuity entrypoint for `fdsasaaa/xyptdq`. Read this file, `config/seo_project_state.json`, `config/content_publication_policy.json`, `config/content_inventory_policy.json`, `config/content_source_sync_policy.json`, `content/keyword_map.json`, `content/seo_cluster_registry.json`, Issue #264, newer PRs and `agent/results/*` before changing anything.
 
 ## 1. Current phase
 
 - Website repository: `fdsasaaa/xyptdq`
 - Production: `https://www.laocaimi.org`
-- Article repository: `fdsasaaa/caipiaowenzhang`
-- Phase 1 technical SEO remains **closed unless a real regression is proven**.
-- Current phase: **CF50 first-wave recurring publication is active in production.**
-- Do not restart the technical SEO audit and do not ask the user to reauthorize publication.
+- Upstream article repository: `fdsasaaa/caipiaowenzhang`
+- Phase 1 technical SEO: **closed unless a real regression is proven**.
+- Article factory: **PRODUCTION / SEALED**. Do not rebuild article generation in this repository.
+- Website phase: **first 12 Seed publication resumed + inventory-driven intake pre-activation**.
+- Wave B remains unauthorized until the post-12 Search Discovery checkpoint in Issue #264.
 
-## 2. Content safety contract
+## 2. Repository boundary
 
-`articles/approved/` in the private article repository is immutable parent/audit evidence. Raw Approved bodies are not the website publication body when a public-release revision is required.
+`caipiaowenzhang` owns article creation, rule/quality checks, Approval, immutable Approved parent, website-public-release/public-r1, audit and CI.
 
-Website-facing content must be a separately reviewed `website_public_release` revision that preserves article identity, slug, Primary Keyword, category/content type, parent hash/fingerprint and batch provenance, while using a non-operational public-facing body. The website independently validates the revision and uses sanitized transfer when needed. Never bulk-publish raw Approved bodies.
+`xyptdq` owns formal public-r1 intake, final SEO ownership, Draft inventory, Cluster/Hub/internal links, scheduling, Publisher, Sitemap and search feedback.
 
-## 3. CF50 inventory and first wave
+Hard rules:
+- never publish raw Approved parent bodies;
+- website body comes only from validated `website_public_release` revision;
+- website must not silently rewrite article mechanics/identity;
+- upstream production volume never directly determines website publication volume;
+- intake is Draft-only and cannot create `publish_at`, invoke Publisher or alter cron.
 
-- Batch: `CF50-20260813`
-- Formal Approved inventory: 50
-- Reviewed first wave: 12
-- First-wave order: `001, 011, 021, 031, 041, 046, 002, 012, 022, 032, 037, 049`
-- High-overlap tail: `020, 029, 038, 039, 040`
+## 3. Current inventory watermarks
 
-CF50-001 is live:
+As of 2026-08-16 morning Asia/Singapore:
+
+- **A — upstream formal public-r1: 45**
+  - `caipiaowenzhang/main` currently has only formal manifest `CF50-20260813.json`.
+  - 2026-08-15 automated production produced no formal new batch because final public-r1 count stayed below the minimum batch gate.
+- Website-synced first wave: **12**.
+- Website live Seed pages: **3** (`001`, `011`, `021`).
+- Website Scheduled but not live: **9**.
+- Upstream formal public-r1 not yet synchronized to website: **33**.
+
+Do not interpret 45 as “publish 45 now”. The first-wave Seed/Search Discovery discipline remains authoritative.
+
+## 4. CF50 final five — FROZEN, NOT RETIRED
+
+IDs:
+- `020`
+- `029`
+- `038`
+- `039`
+- `040`
+
+They remain immutable Approved audit history and are **hard-frozen** until Issue #264 records the exact machine conclusion:
+
+`CF50_FINAL_5_RELEASE=AUTHORIZED`
+
+Current authorization: **false / NOT_AUTHORIZED**.
+
+Do not create, merge, intake, schedule or publish public revisions for these five before that exact gate. PR #395 aligned `inventory_diff.py` with this freeze semantics; the obsolete “retired_without_public_release” interpretation must not return.
+
+## 5. Live Seed pages
+
+### CF50-001
 - revision `LCM-CREATOR-cf50-20260813-001:public-r1`
 - CMS ID `92`
 - URL `https://www.laocaimi.org/index.php?c=show&id=92`
-- canary Server Bridge PASS
-- live SEO PASS
+- live SEO: **PASS**
 
-CF50-011 is also live after the 2026-08-14 scheduler repair test:
-- article `LCM-CREATOR-cf50-20260813-011`
+### CF50-011
 - CMS ID `93`
 - URL `https://www.laocaimi.org/index.php?c=show&id=93`
-- Server Bridge job `repair-test-cf50-011-cron-20260814-02`
-- result branch `agent/results/repair-test-cf50-011-cron-20260814-02`
-- status **PASS**
-- live SEO **PASS**
-- Wave1 state after publication: `1 published / 10 scheduled / 0 failed`
-- next article: `LCM-CREATOR-cf50-20260813-021`
-- next publish_at: `2026-08-15T10:00:00+08:00`
+- scheduler repair job `repair-test-cf50-011-cron-20260814-02`: **PASS**
+- live SEO: **PASS**
 
-Do not republish 001 or 011.
+### CF50-021
+- CMS ID `94`
+- URL `https://www.laocaimi.org/index.php?c=show&id=94`
+- final repair job `repair-cf50-021-sitemap-20260816-03`: **PASS**
+- temporary Sitemap membership: PASS
+- production Sitemap membership: PASS
+- live Sitemap membership: PASS
+- self-canonical: PASS
+- Publication Receipt live SEO verification exit code: `0`
 
-## 4. Recurring Publisher — REPAIRED PRODUCTION PASS
+Do not republish `001`, `011` or `021`.
+
+## 6. CF50-021 root cause — CLOSED
+
+The page and CMS routing were not broken. CMS 94 was status 9, present in `share_index` with `mid=news`, and present in the durable Publisher registry.
+
+The false blocker came from a diagnostic Gate using raw `grep` against the literal URL containing `&id=94`, while valid XML serializes the query separator as `&amp;id=94`. The authoritative live SEO library already decoded XML entities correctly.
+
+Durable fix:
+- `scripts/seo/sitemap_contains_url.php`
+- XML-aware `<loc>` parsing and entity decoding before normalized URL comparison
+- CF50-021 repair task now uses that check for temporary, production and live Sitemap validation.
+
+Do not reopen “CMS94 is missing from Sitemap” unless new production evidence proves a regression.
+
+## 7. Recurring Publisher — RESUMED
 
 Authoritative policy: `config/content_publication_policy.json`.
 
-Recurring activation v5 originally installed the isolated production scheduler:
-- Server Bridge job: `activate-cf50-wave1-recurring-20260814-05`
+Current runtime:
 - source: `/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled`
 - state: `/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json`
 - lock: `/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock`
-- historical repository Scheduled queue consumed: `false`
-- Wave B authorized: `false`
+- historical repository `content/scheduled` queue: **forbidden runtime source**
+- recurring cron: exactly one
+- schedule: `7 * * * *`
+- runner invocation: `/bin/bash scripts/content/run_scheduled_publish.sh`
+- Publisher limit: 2, but per-article `publish_at` is the eligibility gate.
 
-A real production regression was then proven when CF50-011 missed its 2026-08-14 19:00 Asia/Singapore slot. The deeper read-only diagnostic `diagnose-cf50-011-cron-runtime-20260814-02` proved:
-- `cron` daemon active and enabled;
-- `/etc/cron.d/xyptdq-publisher` existed with correct root ownership/mode, `7 * * * *` schedule, root user and correct isolated source/state/lock bindings;
-- deployed `scripts/content/run_scheduled_publish.sh` was mode `0600`, Bash syntax valid, but not executable;
-- no Wave1 state had been created and no article had been consumed or published.
+Do not reinstall or duplicate cron. The explicit `/bin/bash` invocation is the durable fix for the earlier mode-0600 runner regression.
 
-Root cause: cron directly executed the non-executable checkout of `run_scheduled_publish.sh`.
+## 8. Pause recovery schedule — PASS
 
-Durable fix: `scripts/content/install_publisher_cron.sh` now writes the cron command using **`/bin/bash <runner>`**, so scheduler execution no longer depends on the Git checkout executable bit. Do not replace this with a direct runner invocation.
+Read-only probe `probe-wave1-remaining-schedule-20260816-01` proved the isolated state was:
+- 2 published / 9 scheduled / 0 failed within the 11-item post-canary runtime;
+- only `031` was overdue at the checkpoint.
 
-The first repair test `repair-test-cf50-011-cron-20260814-01` failed safely before publication because the test harness incorrectly required `systemctl reload cron`; this host's cron service does not accept that reload operation. No CMS write occurred, state remained absent, all 11 isolated Scheduled files and all 11 historical repository Scheduled files remained intact, and the Publisher cron stayed disabled.
+Blind resume was rejected because the Publisher can process up to two overdue items per run and could compress the intended cadence.
 
-The corrected test `repair-test-cf50-011-cron-20260814-02` removed only that reload dependency and then:
-1. confirmed exactly one due Wave1 item and that it was 011;
-2. kept recurring Publisher cron absent;
-3. waited 10 seconds as explicitly requested by the user;
-4. ran one Publisher invocation with `XYPTDQ_PUBLISH_LIMIT=1`;
-5. published only 011 as CMS ID 93;
-6. regenerated Sitemap, exported the Publication Receipt and passed live SEO verification;
-7. confirmed state `1 published / 10 scheduled / 0 failed`;
-8. confirmed both physical Scheduled inventories still contain 11 JSON files, as intended for idempotency/history;
-9. reinstalled the recurring Publisher cron only after all checks passed;
-10. confirmed the restored cron uses the durable `/bin/bash .../run_scheduled_publish.sh` invocation.
+Server Bridge job `rebase-cf50-wave1-after-021-20260816-01` therefore shifted all nine remaining `publish_at` values exactly one editorial slot, changing no article body, identity or order:
 
-Current recurring cron state is **PASS / installed**:
-- cron schedule: `7 * * * *`
-- editorial cadence: `10:00` and `19:00` Asia/Singapore
-- next scheduled article: 021 at `2026-08-15T10:00:00+08:00`
+1. `031` → `2026-08-16 10:00 +08:00`
+2. `041` → `2026-08-16 19:00 +08:00`
+3. `046` → `2026-08-17 10:00 +08:00`
+4. `002` → `2026-08-17 19:00 +08:00`
+5. `012` → `2026-08-18 10:00 +08:00`
+6. `022` → `2026-08-18 19:00 +08:00`
+7. `032` → `2026-08-19 10:00 +08:00`
+8. `037` → `2026-08-19 19:00 +08:00`
+9. `049` → `2026-08-20 10:00 +08:00`
 
-Important queue semantics: the isolated Scheduled JSON files are retained for idempotency. “11 → 10” means the number of **remaining unpublished state entries** fell from 11 to 10; it does not mean a Scheduled JSON file is physically deleted.
+Rebase status: **PASS**. Publication policy was then resumed through PR #396.
 
-Do **not** reinstall or duplicate the cron. The hourly cron is only a poller; each article's `publish_at` controls actual release eligibility. Planned editorial slots remain 10:00 and 19:00 Asia/Singapore, so a due item is normally processed around minute 07 after the hour.
+## 9. Publication cadence / stop rule
 
-## 5. Historical queue safety — HARD RULE
-
-The website repository still contains 11 historical JSON files under `content/scheduled/`. They are preserved history only and are forbidden as the CF50 runtime source.
-
-Do not weaken:
-- isolated source guard;
-- realpath guard;
-- isolated state/lock guard;
-- durable Publisher idempotency;
-- legacy queue prohibition.
-
-## 6. Publication cadence
-
-- target: 2 articles/day
+- target cadence: 2 articles/day
 - timezone: Asia/Singapore
 - editorial slots: 10:00 and 19:00
-- first-wave cap: 12 total pages including 001
-- after 12 live pages: mandatory search-discovery checkpoint before Wave B
+- first-wave cap: 12 live Seed pages including 001
+- after first 12: **stop before Wave B and run Issue #264 Search Discovery checkpoint**
 
-The clock times are operating cadence, not claimed as a Google ranking signal.
+Clock time is an operating cadence, not claimed as a Google ranking signal.
 
-## 7. Post-publication SEO is automatic
+For every new real publication, the existing runner must:
+1. publish through Native Publisher/idempotent adapter;
+2. regenerate Sitemap;
+3. export Publication Receipt;
+4. verify HTTP, canonical, noindex, Title, H1, Description and XML-aware Sitemap membership;
+5. preserve evidence under isolated Publisher state.
 
-The scheduled runner performs, for **new pages actually published in the current cron run**:
+## 10. Inventory-driven intake — CODE READY, TRANSPORT NOT YET ACTIVATED
 
-1. Native Publisher writes the CMS page through the existing idempotent adapter.
-2. Sitemap is regenerated.
-3. A Publication Receipt is exported for the new CMS ID.
-4. `verify_publication_seo.php` verifies the live page and Sitemap.
-5. PASS/WARN evidence is stored under the isolated Publisher state parent.
+Merged website-side components:
+- `config/content_inventory_policy.json`
+- `config/content_source_sync_policy.json`
+- `scripts/content/inventory_diff.py`
 
-The live verifier checks the established contract including HTTP status, final URL/canonical, noindex, Title, H1, Description and Sitemap membership. A live-SEO verification failure is warning-gated: it does not roll back an already committed CMS page or corrupt Publisher idempotency.
+They implement:
+- formal source = `caipiaowenzhang/main` + formal public-release manifest;
+- variable 10–25 quality-first daily supply, not fixed 20;
+- sub-minimum 1–9 failed daily batch = zero formal new inventory;
+- Draft-only destination;
+- durable ledger `/var/lib/xyptdq-content/intake/state.json`;
+- same revision/hash = idempotent NOOP;
+- changed hash, duplicate slug or Primary Keyword conflict = fail closed;
+- final-five freeze enforcement tied to Issue #264.
 
-## 8. New article inventory monitoring
+**Automatic intake is still disabled.**
 
-An hourly condition-watch is active for `fdsasaaa/caipiaowenzhang`.
+Production probes proved no reusable HTTPS GitHub credential or credential helper exists on the server. A dedicated Ed25519 read-only keypair has now been provisioned server-side:
+- fingerprint: `SHA256:qgkoW70e+CTTmZ+AQOxM/kcpHu5i0WsinMMSXoMKD7E`
+- private key remains only on production server and was never exported.
 
-When new content appears:
-- reviewed public-rN inventory may continue through website intake and future release planning;
-- Approved-only inventory must first receive a separately reviewed public-release revision;
-- raw Approved bodies are never sent directly to production;
-- existing release-order/Cluster/search-discovery gates remain authoritative.
+One manual GitHub repository action remains:
+- `fdsasaaa/caipiaowenzhang` → Settings → Deploy keys → Add deploy key
+- paste the provisioned public key
+- **Allow write access must remain OFF**.
 
-The CF50 high-overlap final five `020, 029, 038, 039, 040` remain hard-frozen until Issue #264 explicitly records `CF50_FINAL_5_RELEASE=AUTHORIZED`.
+After registration, next gates are:
+1. prove SSH read of `caipiaowenzhang/main`;
+2. run `inventory_diff.py` read-only against the formal source;
+3. prove A=45 and currently known website ingress=12 without duplicate/drift;
+4. create durable intake-ledger canary;
+5. run one Draft-only public-r1 canary;
+6. only then enable unattended incremental intake.
 
-This removes the need for the user to manually announce new article inventory.
+Intake activation must not change Publisher cadence.
 
-## 9. Category / keyword / Cluster rules
+## 11. Hub / Cluster / Search Discovery
 
-Ordinary SEO articles:
-- category key `tzjq`
-- catid `3`
-- CMS display label `投注机巧`
+- CF50 Primary Cluster: `ffc_research`.
+- `ffc_research_hub` is blueprint-only and **not live**.
+- Do not create a thin/empty Hub before the 12 Seed checkpoint.
+- Issue #264 owns the post-12 Search Discovery / Hub / final-five release conclusions.
 
-Retired categories remain `seo-articles` and `gdrz`.
-
-`content/keyword_map.json` v1.1.2 remains authoritative (51 keywords at formal checkpoint; exact owner conflicts 0). CF50 Primary Cluster is `ffc_research`, assigned explicitly/editorially, never guessed from title text.
-
-`ffc_research_hub` remains blueprint-only and not live. Evaluate it only after the 12 diverse live seeds pass the required gates; do not create an empty/thin Hub.
-
-## 10. Search-discovery checkpoint after first 12
-
-Before Wave B, verify:
+Checkpoint should review:
 - HTTP 200;
 - self-canonical;
 - no noindex;
@@ -161,62 +203,34 @@ Before Wave B, verify:
 - Search Console Sitemap processing if available;
 - representative URL Inspection Live Tests.
 
-Do not require all 12 pages to be indexed before continuing; indexing can lag. A systemic robots/canonical/noindex/Sitemap blocker must hold Wave B.
+Do not require all 12 to be indexed before continuing; indexing can lag. A systemic robots/canonical/noindex/Sitemap blocker must hold Wave B.
 
-## 11. Article-page visual design — PRODUCTION PASS
+## 12. Article reading design
 
-The user approved a professional research/blog reading style: restrained typography, clearer heading hierarchy, comfortable line-height, paragraph rhythm, lists/blockquote/table/image/link styling, and responsive mobile readability. Do not use rainbow keyword colors or exaggerated font-size SEO styling.
+Production reading design remains **PASS / closed unless regression** through the scoped `XYPTDQ_ARTICLE_READING` static CSS block. Do not reopen template-cache experiments without a real regression.
 
-Template/cache deployment attempts were rollback-safe and established that production mobile requests render the responsive PC shell. The final implementation therefore uses a tightly scoped managed block in the live static stylesheet rather than repeated template-cache mutation.
+## 13. Immediate next actions
 
-Authoritative production result:
-- Server Bridge job: `deploy-article-reading-static-css-20260814-03`
-- result branch: `agent/results/deploy-article-reading-static-css-20260814-03`
-- status: **PASS**
-- CSS path: `static/default/pc/css/style.bundle.css`
-- managed block: `XYPTDQ_ARTICLE_READING`
-- public CSS marker: PASS
-- PC HTTP: 200
-- mobile HTTP: 200
-- Title/canonical stable: PASS
-- Publisher cron before/after: `1 / 1`
-- Publisher queue consumed: false
-- templates mutated: false
-- template cache mutated: false
-- whole cache cleared: false
-- database changed: false
-- article publishing attempted: false
+1. Let the resumed isolated first-wave schedule continue from `031` at `2026-08-16T10:00:00+08:00`.
+2. Verify every actual publication through Publisher state + Sitemap + Receipt + live SEO; do not infer success from clock time.
+3. Do not duplicate cron and do not use the historical repository Scheduled queue.
+4. Register the dedicated public key as a read-only Deploy Key on `caipiaowenzhang`; then prove SSH transport and Draft-only intake canaries.
+5. Keep `020/029/038/039/040` frozen pending exact Issue #264 authorization.
+6. Stop after 12 live Seed pages for Search Discovery; do not start Wave B or live Hub earlier.
+7. Keep Phase 1 and article-reading design closed unless a real regression appears.
 
-Evidence: `docs/seo/ARTICLE_READING_DESIGN_PRODUCTION_PASS_20260814.md`.
+## 14. New-session takeover protocol
 
-This visual work is **closed unless a real production regression is observed**. Do not reopen template-cache deployment attempts.
+A new session must first inspect current `main`, this handoff, `config/seo_project_state.json`, publication/inventory/source-sync policies, Issue #264, recent PRs and newer `agent/results/*`.
 
-## 12. Immediate next actions
+Canonical current facts:
+- upstream formal website-ready inventory = 45;
+- website synced first wave = 12;
+- live Seed pages = 3 (`001/011/021`), CMS IDs `92/93/94`, all live SEO PASS;
+- remaining nine Seed pages are rebased one slot and Publisher policy is resumed;
+- next = `031` at 2026-08-16 10:00 Asia/Singapore;
+- first-wave final scheduled Seed = `049` at 2026-08-20 10:00;
+- automatic upstream intake remains disabled only because the dedicated server public key still needs one read-only Deploy Key registration plus SSH/diff/ledger/Draft canaries;
+- final five remain frozen and Wave B/Hub remain blocked by Issue #264.
 
-1. Do not make further scheduler changes unless a new production regression is proven; the cron repair is now production PASS.
-2. Let 021 reach `2026-08-15T10:00:00+08:00` and confirm the normal recurring cron publishes it without a manual one-shot invocation.
-3. Confirm each real publication only after Publisher state/live URL evidence exists.
-4. Use automatic post-publication Sitemap + receipt + live SEO evidence for each new page.
-5. Continue hourly new-inventory monitoring; never publish raw Approved bodies directly.
-6. Keep `020, 029, 038, 039, 040` frozen until Issue #264 explicitly authorizes release.
-7. Stop after the first 12 live seed articles and perform the search-discovery checkpoint before Wave B.
-8. Keep article-page visual design closed unless a real production regression appears.
-9. Keep Phase 1 closed unless a real regression appears.
-
-## 13. New-session takeover protocol
-
-A new session must first confirm current `main`, `config/content_publication_policy.json`, newer `agent/results/*`, Publisher state and current live article count. Canonical facts at this handoff are:
-- CF50-001 is live as CMS ID 92 and passed live SEO;
-- CF50-011 is live as CMS ID 93 and passed live SEO after the controlled 10-second repair test;
-- the missed-011 root cause was direct cron execution of a mode-0600 runner;
-- the durable cron fix is explicit `/bin/bash .../run_scheduled_publish.sh` invocation;
-- corrected repair job `repair-test-cf50-011-cron-20260814-02` is production PASS;
-- Wave1 state is `1 published / 10 scheduled / 0 failed` for the 11 post-canary runtime items;
-- next item is 021 at `2026-08-15T10:00:00+08:00`;
-- recurring cron is installed and bound only to the isolated Wave1 source/state/lock;
-- post-publication Sitemap/receipt/live SEO verification is active;
-- article-page reading design is production PASS through the scoped `XYPTDQ_ARTICLE_READING` static CSS block and is closed unless regression;
-- CF50 final five `020, 029, 038, 039, 040` remain frozen;
-- Wave B is not authorized before the Issue #264 post-12 checkpoint.
-
-Continue from the first real publication/checkpoint gap. Do not repeat Phase 1, do not reopen completed visual work, do not republish 001/011, do not reinstall the Publisher cron, and do not ask the user for publication authorization already recorded.
+Continue from the first real unfinished checkpoint. Do not redo Phase 1, rebuild article generation, republish 001/011/021, reinstall cron, bypass the final-five gate, or activate Wave B before Issue #264.
