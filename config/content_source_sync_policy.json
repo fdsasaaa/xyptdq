@@ -8,8 +8,19 @@
   "immutable_parent_root": "articles/approved",
   "inventory_policy": "config/content_inventory_policy.json",
   "allowed_revision_kind": "website_public_release",
-  "transport_status": "contract_ready_disabled",
-  "sync_enabled": false,
+  "transport_status": "private_repo_readonly_ssh_proven",
+  "sync_enabled": true,
+  "transport": {
+    "protocol": "ssh",
+    "repository_url": "git@github.com:fdsasaaa/caipiaowenzhang.git",
+    "credential_kind": "dedicated_repository_deploy_key_read_only",
+    "private_key_location": "/var/lib/xyptdq-content/intake/credentials/caipiaowenzhang_readonly_ed25519",
+    "private_key_must_never_be_exported": true,
+    "deploy_key_fingerprint": "SHA256:qgkoW70e+CTTmZ+AQOxM/kcpHu5i0WsinMMSXoMKD7E",
+    "github_host_key_pinned": true,
+    "proof_job": "prove-article-repo-ssh-inventory-20260816-01",
+    "proof_status": "PASS"
+  },
   "allowed_source_status": ["approved"],
   "destination_publication_state": "draft",
   "allow_create_publish_at": false,
@@ -59,14 +70,12 @@
     "upstream_inventory_growth_must_not_change_website_publish_cadence_automatically": true,
     "seed_search_discovery_gate_remains_independent": true
   },
-  "future_activation_requires": [
-    "trusted_private_repository_transport",
-    "public_release_manifest_and_revision_contract_match",
-    "source_contract_matches_current_website_category_policy",
-    "incremental_inventory_diff_and_duplicate_check_pass",
-    "durable_intake_ledger_canary_pass",
-    "public_release_to_draft_canary_pass",
-    "publishing_remains_separately_gated"
-  ],
-  "notes": "The upstream article factory is treated as a variable-rate inventory producer. Only website_public_release revisions formally present on source main count as website inventory. Intake may reconcile them into Draft only; it never creates publish_at, schedules, invokes Publisher, alters cron, or bypasses Seed/Search Discovery gates. Formal Approved packages remain immutable parent evidence."
+  "activation_evidence": {
+    "private_source_main_read_access": "PASS",
+    "inventory_diff_dry_run": "45_upstream_12_ingress_33_candidates",
+    "first_draft_ledger_canary": "LCM-CREATOR-cf50-20260813-003:PASS",
+    "first_ledger_idempotency": "PASS",
+    "generic_runner_canary_required_before_cron_install": "LCM-CREATOR-cf50-20260813-004"
+  },
+  "notes": "The upstream article factory is a variable-rate inventory producer. Automatic source synchronization only reconciles formally selected website_public_release revisions into isolated Draft state. It never creates publish_at, schedules, invokes Publisher, alters publication cron, or bypasses Seed/Search Discovery gates."
 }

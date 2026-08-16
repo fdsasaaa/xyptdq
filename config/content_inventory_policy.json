@@ -102,15 +102,22 @@
     "wave_b_requires_post_seed_search_discovery_checkpoint": true
   },
   "activation": {
-    "automatic_intake_enabled": false,
-    "reason": "contract is now inventory-driven, but automatic cross-repository transport must remain fail-closed until trusted private-repository read access and an incremental Draft canary are proven on production",
-    "requires": [
-      "private_source_main_read_access_proven",
-      "formal_manifest_selection_proven",
-      "incremental_inventory_diff_dry_run_pass",
-      "durable_intake_ledger_canary_pass",
-      "public_release_to_draft_canary_pass",
-      "keyword_and_cluster_conflict_gate_pass"
-    ]
+    "automatic_intake_enabled": true,
+    "scope": "draft_only_incremental_reconciliation",
+    "does_not_authorize_scheduling_or_publication": true,
+    "runner": "scripts/content/incremental_inventory_intake.py",
+    "wrapper": "scripts/content/run_incremental_inventory_intake.sh",
+    "runtime_draft_root": "/var/lib/xyptdq-content/intake/drafts",
+    "runtime_ledger_path": "/var/lib/xyptdq-content/intake/state.json",
+    "max_candidates_per_run": 25,
+    "proofs": {
+      "private_source_main_read_access_proven": "prove-article-repo-ssh-inventory-20260816-01:PASS",
+      "formal_manifest_selection_proven": true,
+      "incremental_inventory_diff_dry_run_pass": true,
+      "durable_intake_ledger_canary_pass": "canary-article-repo-draft-ledger-20260816-01:PASS",
+      "public_release_to_draft_canary_pass": "canary-article-repo-draft-ledger-20260816-01:PASS",
+      "generic_incremental_runner_canary_required_before_cron_install": "canary-incremental-intake-runner-004-20260816-01",
+      "keyword_and_slug_conflict_gate": "built_into_incremental_runner"
+    }
   }
 }
