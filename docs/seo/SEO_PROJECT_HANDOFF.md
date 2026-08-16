@@ -9,7 +9,7 @@
 - Upstream article repository: `fdsasaaa/caipiaowenzhang`
 - Phase 1 technical SEO: **closed unless a real regression is proven**.
 - Article factory: **PRODUCTION / SEALED**.
-- Website phase: **first 12 Seed publication active + automatic Draft-only inventory intake active**.
+- Website phase: **first 12 Seed publication active + automatic Draft-only inventory intake healthy/idle**.
 - Wave B remains unauthorized until the post-12 Search Discovery checkpoint in Issue #264.
 
 Two independent automations are active:
@@ -32,12 +32,13 @@ Hard rules:
 
 ## 3. Current inventory / live watermarks
 
-At the 2026-08-16 10:09 Asia/Singapore checkpoint:
+At the 2026-08-16 17:36 Asia/Singapore checkpoint:
 
 - Upstream formal public-r1: **45**.
 - Website repository ingress already known: **12** first-wave revisions.
-- Runtime automatic-intake ledger: **3** (`003`, `004`, `005`).
-- Remaining new Draft candidates after activation: **30**.
+- Runtime automatic-intake ledger: **33**.
+- Remaining new Draft candidates: **0**.
+- Current 45 formal public-r1 are fully accounted for as `12 ingress + 33 intake-ledger Drafts`.
 - Proven live Seed pages: **4** (`001`, `011`, `021`, `031`).
 - Remaining first-wave Scheduled pages: **8**.
 
@@ -96,7 +97,7 @@ Runtime:
 - runner invocation uses `/bin/bash scripts/content/run_scheduled_publish.sh`;
 - historical repository `content/scheduled` queue is forbidden as runtime source.
 
-The restored Publisher has now proven a normal unattended release through 031. Do not reinstall or duplicate Publisher cron.
+The restored Publisher has proven a normal unattended release through 031. Do not reinstall or duplicate Publisher cron.
 
 ## 8. Remaining Seed schedule
 
@@ -122,15 +123,20 @@ Every actual publication must be proven through Publisher state, Publication Rec
 - current proven live Seed count: 4/12;
 - after first 12: stop before Wave B and run Issue #264 Search Discovery checkpoint.
 
-## 10. Automatic private-repo Draft intake — PRODUCTION PASS / ACTIVE
+## 10. Automatic private-repo Draft intake — FULLY RECONCILED / HEALTHY IDLE
 
-The user's manual read-only Deploy Key registration is complete and has been proven from the production server. The private key remains server-only and has never been exported.
+The dedicated read-only Deploy Key registration is complete and proven from production. The private key remains server-only and has never been exported.
 
 Proof chain:
 1. `prove-article-repo-ssh-inventory-20260816-01`: PASS — private source `main` readable; upstream formal=45; initial new Draft candidates=33; final-five excluded.
 2. `canary-article-repo-draft-ledger-20260816-01`: PASS — `003` became the first isolated Draft + durable ledger record; candidates 33→32.
 3. `canary-incremental-intake-runner-004-20260816-01`: PASS — generic runner processed exactly `004`; ledger 1→2; candidates 32→31.
 4. `activate-incremental-intake-20260816-01`: PASS — real auto-mode one-shot processed exactly `005`; ledger 2→3; candidates 31→30; exactly one automatic intake cron installed.
+5. `audit-first-scheduled-intake-20260816-01`: PASS — first natural 10:23 run processed exactly 25; ledger 3→28; candidates 30→5; Draft-only/idempotent guards PASS.
+6. The natural 11:23 run processed the remaining 5 and actually reached ledger 28→33 / candidates 5→0, but the old runner emitted a false failure after successful writes: `post-intake candidate count mismatch expected=0 actual=0`.
+7. `diagnose-scheduled-intake-failure-20260816-01`: PASS — proved the 11:23 business writes were complete, current ledger=33, Draft files=33, candidates=0, no frozen-final5 leakage, and no publication-side mutation.
+8. PR #417 fixed the exact zero-value verifier bug: Python truthiness had converted a legitimate `0` into `-1`. The fix merged as `cea94bc700c325dcb0ac9eea8f9487fee78b5ae3` after `incremental-intake-ci`, `repository-ci`, `embedded-python-ci` and `content-bridge-test` passed.
+9. `audit-idle-intake-after-zero-fix-20260816-01`: PASS — five natural post-fix cron runs at 13:23, 14:23, 15:23, 16:23 and 17:23 Asia/Singapore all ran as healthy `auto` no-ops with `selected=0`, `ledger=33`, `candidates=0`; all 33 runtime Drafts remained Draft-only and the final five remained frozen.
 
 Current automatic intake:
 - cron file `/etc/cron.d/xyptdq-intake`;
@@ -138,7 +144,11 @@ Current automatic intake:
 - max 25 candidates/run;
 - runtime Draft root `/var/lib/xyptdq-content/intake/drafts`;
 - ledger `/var/lib/xyptdq-content/intake/state.json`;
-- lock `/var/lib/xyptdq-content/intake/intake.lock`.
+- lock `/var/lib/xyptdq-content/intake/intake.lock`;
+- current source commit `e4833ff81a71f6246922ec8992d9ddc8faec1ccf`;
+- current ledger records **33**;
+- current new Draft candidates **0**;
+- operating state: **healthy idle, waiting for new upstream formal public-r1**.
 
 Safety properties:
 - read-only SSH transport;
@@ -156,7 +166,7 @@ Safety properties:
 
 PR #407 scopes the CF50 editorial Cluster map to its explicit batch ID, so `ffc_research` cannot leak into future batches. Future formal batches may use explicit revision Cluster metadata or remain temporarily unassigned at Draft stage; Cluster is never guessed from title.
 
-At this checkpoint the first scheduled :23 cron run has not yet been observed. This is operational health evidence only; it is not a publication gate.
+Do **not** manually replay the five revisions processed at 11:23. The business state is already complete and idempotently reconciled; only the obsolete postcheck falsely failed.
 
 ## 11. Hub / Cluster / Search Discovery
 
@@ -173,10 +183,10 @@ Production reading design remains **PASS / closed unless regression** through th
 
 ## 13. Immediate next actions
 
-1. Let the normal isolated Publisher continue to `041` at 2026-08-16 19:00 and verify the real result afterward.
-2. Allow the independent :23 Draft intake cron to reconcile formal inventory; do not treat Drafts as publication authorization.
-3. Observe the first scheduled :23 intake run as automation-health evidence when available.
-4. Do not duplicate either cron and do not use the historical repository Scheduled queue.
+1. Let the normal isolated Publisher continue to `041` at 2026-08-16 19:00 and verify the real result afterward through Publisher state, Publication Receipt and Live SEO.
+2. Leave the independent `:23` Draft intake cron active as an idempotent inventory watcher. Current formal inventory is fully reconciled at ledger=33 / candidates=0; future new formal public-r1 may be ingested automatically.
+3. Do not manually replay the 11:23 five-revision run and do not duplicate either cron.
+4. Do not use the historical repository Scheduled queue.
 5. Keep `020/029/038/039/040` frozen pending exact Issue #264 authorization.
 6. Stop after 12 live Seed pages for Search Discovery; do not start Wave B or live Hub earlier.
 7. Keep Phase 1 and article-reading design closed unless a real regression appears.
@@ -186,14 +196,15 @@ Production reading design remains **PASS / closed unless regression** through th
 Canonical current facts:
 - upstream formal public-r1=45;
 - `001/011/021/031` are proven live as CMS `92/93/94/95` with Live SEO PASS;
-- 031 is the first post-021 recovery normal unattended slot proof and published at 10:07:03 Asia/Singapore;
+- 031 is the first post-021 recovery normal unattended Publisher slot proof and published at 10:07:03 Asia/Singapore;
 - Wave1 runtime is `3 published / 8 scheduled / 0 failed`; next is `041` at 2026-08-16 19:00;
-- Publisher is independent at :07;
-- automatic private-repo Draft intake is active and production-PASS at :23, max 25/run;
-- `003/004/005` proved first Draft+ledger, generic runner and auto-mode activation respectively;
-- intake ledger=3 and remaining new Draft candidates=30 after activation;
+- Publisher is independent at `:07`;
+- automatic private-repo Draft intake is active at `:23`, max 25/run, and current formal inventory is fully reconciled at `ledger=33 / candidates=0`;
+- first natural `:23` run processed 25; second processed the remaining 5 but hit a post-write zero-value verifier false failure;
+- diagnosis proved all 33 Drafts safe; PR #417 fixed the zero bug with CI PASS;
+- five natural post-fix idle `:23` runs through 17:23 all passed with zero selected revisions;
 - intake never creates `publish_at` or invokes Publisher;
 - final five remain frozen;
 - Wave B and live Hub remain blocked by Issue #264.
 
-Continue from the first real unfinished checkpoint. Do not redo Phase 1, rebuild article generation, republish proven Seed pages, reinstall crons, publish raw Approved bodies, release the final five, or activate Wave B before Issue #264.
+Continue from the first real unfinished checkpoint: the next production event is CF50-041 at 2026-08-16 19:00 Asia/Singapore. Do not redo Phase 1, rebuild article generation, republish proven Seed pages, reinstall crons, manually replay reconciled Draft intake, publish raw Approved bodies, release the final five, or activate Wave B before Issue #264.
