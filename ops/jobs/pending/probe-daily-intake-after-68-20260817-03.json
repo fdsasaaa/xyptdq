@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-daily-intake-after-68-20260817-03",
+  "required_commit": "46a9077f5b1883cef6f21d6a3d6e7e9a44a09f3f",
+  "script": "scripts/ops/agent_tasks/probe_daily_intake_after_68_v3.sh",
+  "script_sha256": "b07805231640ae5dfe0061f1f7fa647a8a9ff2f845808bbbdaf31e0e26ed9625",
+  "timeout_seconds": 300
+}
