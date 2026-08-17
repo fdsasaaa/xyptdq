@@ -1,0 +1,14 @@
+{
+  "exit_code": 128,
+  "finished_at": "2026-08-17T01:36:07Z",
+  "job_id": "probe-daily-intake-after-68-20260817-01",
+  "payload": {},
+  "raw_log_published": false,
+  "required_commit": "d68fc6415e8cb94aea4bfac3b130a3ca4514d146",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/run_probe_daily_intake_after_68_v1.sh",
+  "script_sha256": "b46e910e7a14881d41a5fae71359858af1c60d5bd1fe2d2e688cf7a5041ca61b",
+  "started_at": "2026-08-17T01:36:04Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
