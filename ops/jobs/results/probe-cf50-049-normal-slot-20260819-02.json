@@ -1,0 +1,45 @@
+{
+  "exit_code": 20,
+  "finished_at": "2026-08-19T15:45:48Z",
+  "job_id": "probe-cf50-049-normal-slot-20260819-02",
+  "payload": {
+    "article_id": "LCM-CREATOR-cf50-20260813-049",
+    "article_key": "lcm-creator-cf50-20260813-049",
+    "article_state_status": "scheduled",
+    "cms_id": 0,
+    "cms_write_attempted": false,
+    "cron_mutated": false,
+    "phase": "verification",
+    "problems": [
+      "049 is not published in Publisher state",
+      "049 cms_id invalid",
+      "unexpected Wave1 state counts after 049"
+    ],
+    "publication_attempted": false,
+    "published_at": null,
+    "publisher_state_article_count": 11,
+    "publisher_state_counts": {
+      "published": 10,
+      "scheduled": 1
+    },
+    "queue_consumed": false,
+    "read_only": true,
+    "receipt_exists": false,
+    "receipt_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/receipts/__invalid_cms__.json",
+    "runtime_mutated": false,
+    "search_discovery_checkpoint_required": true,
+    "status": "FAIL",
+    "task": "probe_cf50_049_normal_slot_v2",
+    "verifier_detail": "",
+    "verifier_exit_code": null,
+    "wave_b_must_remain_blocked_until_gate_conclusion": true
+  },
+  "raw_log_published": false,
+  "required_commit": "9a65d0ea25e705b101ae196d10ed4a70e609d3a6",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/probe_cf50_049_normal_slot_v2.sh",
+  "script_sha256": "6c09e66c62b59a8c73584c086d1cf7f0b6094cd434aecf7397ae7ff2c08730ff",
+  "started_at": "2026-08-19T15:45:48Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
