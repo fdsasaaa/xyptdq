@@ -3,6 +3,6 @@
   "job_id": "deploy-home-layout-v2-20260824-01",
   "required_commit": "c5879cd70db28db92411d3411250e10e4c564e8b",
   "script": "scripts/ops/agent_tasks/deploy_home_layout_v2.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "f4ab0f337a838f8d40b19dad311894e0ce5a1929c8a320b5feaba6aaa72a8254",
   "timeout_seconds": 900
 }
