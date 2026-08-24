@@ -45,14 +45,16 @@ jobs:
               'og_description': 'property="og:description"' in low,
               'og_url': 'property="og:url"' in low,
               'single_nav_output': 'class="m-middle"' not in text,
-              'tips_module_present': 'module module=news catid=7' in text,
+              'tips_module_present': 'module module=news catid=3' in text,
+              'tips_category_link_present': 'category module=share id=3' in text,
+              'retired_cat7_not_used_for_tips': 'module module=news catid=7' not in text,
               'tips_before_platform': tips_pos >= 0 and platform_pos >= 0 and tips_pos < platform_pos,
           }
           required=[
               "dr_site_value('wzsm')", "dr_site_value('bywz')", "dr_site_value('yddlogo')",
               "dr_site_value('pcsyxwyd')", "dr_site_value('banquanxinxi')",
               "dr_site_value('zuoduilian')", "dr_site_value('youduilian')", "dr_site_value('zxgg')",
-              "module=xm catid=1", "module module=news catid=7", "config/popup.php", '{SITE_TONGJI}',
+              "module=xm catid=1", "module module=news catid=3", "config/popup.php", '{SITE_TONGJI}',
               'rel="nofollow sponsored noopener"', '平台资料导航', '最新研究文章'
           ]
           missing=[x for x in required if x not in text]
