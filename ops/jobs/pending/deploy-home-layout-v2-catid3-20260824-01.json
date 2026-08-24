@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-home-layout-v2-catid3-20260824-01",
+  "required_commit": "df7b7ebe0c8059888033104d2dd071dda53e617f",
+  "script": "scripts/ops/agent_tasks/deploy_home_layout_v2_catid3.sh",
+  "script_sha256": "c3712a1f6446cabc7f628fbfbbd92abb6cbe184e275ca356fd8b2f25301a333f",
+  "timeout_seconds": 900
+}
