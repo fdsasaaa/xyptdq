@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "contract_version": "1.0",
+  "legacy_packages_allowed": true,
+  "candidate_min": 3,
+  "candidate_max": 5,
+  "required_gates": [
+    "TITLE_TOPIC_MATCH",
+    "TITLE_DUPLICATION_CHECK",
+    "TITLE_KEYWORD_DIVERSITY",
+    "TITLE_NUMERIC_CLAIM_VERIFIED",
+    "TITLE_SEARCH_INTENT_CHECK",
+    "TITLE_CLICKABILITY_CHECK"
+  ],
+  "require_title_equals_seo_title": true,
+  "require_selected_title_matches_review": true,
+  "require_candidate_set_matches_review": true,
+  "block_reserved_primary_keyword_conflict": true,
+  "block_exact_reserved_title": true,
+  "enforce_sensitive_title_claim_prohibitions": true,
+  "keyword_map_path": "content/keyword_map.json",
+  "notes": [
+    "Primary Keyword is ownership metadata; human title does not need exact-keyword inclusion.",
+    "Historical packages without Title SEO V1.0 metadata remain valid.",
+    "New packages declaring Title SEO V1.0 fail closed if the contract or any required gate is incomplete.",
+    "Reserved broad keywords in keyword_map remain owned by their hub/category/home targets and cannot be reassigned to an article primary_keyword."
+  ]
+}
