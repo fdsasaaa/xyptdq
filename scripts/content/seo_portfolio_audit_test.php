@@ -91,7 +91,7 @@ try {
     portfolioWrite($tmpBase, 'drafts', 'a', portfolioRow('A', '分分彩定位胆冷热技巧', str_repeat('a', 64)));
     portfolioWrite($tmpBase, 'drafts', 'b', portfolioRow('B', '分分彩定位胆遗漏技巧', str_repeat('b', 64)));
     $run = portfolioRun($audit, $tmpBase);
-    if ($run['code'] !== 0 || strpos($run['output'], '"keyword_conflicts": 0') === false) {
+    if ($run['code'] !== 0 || strpos($run['output'], '"keyword_conflicts": 0') === false || strpos($run['output'], '"title_conflicts": 0') === false) {
         portfolioTestFail('unique draft owners should pass: ' . $run['output']);
     }
 
@@ -151,6 +151,27 @@ try {
         portfolioTestFail('same-article fingerprint drift was not rejected');
     }
 
+    // Broad site keywords are owned by home/category/hub targets, never by an article Draft.
+    portfolioReset($tmpBase);
+    portfolioWrite($tmpBase, 'drafts', 'a', portfolioRow('A', '分分彩技巧', str_repeat('a', 64)));
+    $run = portfolioRun($audit, $tmpBase);
+    if ($run['code'] === 0 || strpos($run['output'], 'reserved site target') === false) {
+        portfolioTestFail('reserved broad site keyword was not rejected');
+    }
+
+    // Different articles cannot use the same normalized human title even if primary keywords differ.
+    portfolioReset($tmpBase);
+    $a = portfolioRow('A', '分分彩定位胆冷热技巧', str_repeat('a', 64));
+    $b = portfolioRow('B', '分分彩定位胆遗漏技巧', str_repeat('b', 64));
+    $a['title'] = '先看规则，再看复核：定位胆怎么理解';
+    $b['title'] = '先看规则再看复核，定位胆怎么理解';
+    portfolioWrite($tmpBase, 'drafts', 'a', $a);
+    portfolioWrite($tmpBase, 'drafts', 'b', $b);
+    $run = portfolioRun($audit, $tmpBase);
+    if ($run['code'] === 0 || strpos($run['output'], 'normalized title has multiple article owners') === false) {
+        portfolioTestFail('different articles sharing normalized title were not rejected');
+    }
+
     // Stored content hash must still prove the actual content bytes.
     portfolioReset($tmpBase);
     $tampered = portfolioRow('A', '分分彩定位胆冷热技巧', str_repeat('a', 64));
@@ -168,4 +189,4 @@ try {
     @rmdir($tmpBase);
 }
 
-fwrite(STDOUT, "[seo-portfolio-test] PASS unique=1 named-legacy-exempt=1 unknown-legacy=blocked same-article-cross-state=1 keyword-conflict=blocked keyword-drift=blocked fingerprint-drift=blocked hash-tamper=blocked\n");
+fwrite(STDOUT, "[seo-portfolio-test] PASS unique=1 named-legacy-exempt=1 unknown-legacy=blocked same-article-cross-state=1 keyword-conflict=blocked keyword-drift=blocked fingerprint-drift=blocked reserved-keyword=blocked title-conflict=blocked hash-tamper=blocked\n");
