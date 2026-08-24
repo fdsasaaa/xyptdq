@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "deploy-home-tips-bottom-mobile-single-v1-20260824-01",
+  "required_commit": "10c82cc77de446fd82e92a3822c3d01f3d57017c",
+  "script": "scripts/ops/agent_tasks/deploy_home_tips_bottom_mobile_single_v1.sh",
+  "script_sha256": "932e0db4a7f96570edd486d04210f00510e1819d018fb42c445c851d89aa300b",
+  "timeout_seconds": 900
+}
