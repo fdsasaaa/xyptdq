@@ -131,10 +131,10 @@ if (!is_array($popup_cfg)) {
     <div class="seo-article-box">
         <!-- 兼容 seo-home-guard 历史标记：最新研究文章 -->
         <h2 id="latest-article-heading" class="section-title">投注技巧
-            {category module=share id=7}<a class="section-more" href="{$t.url}">查看全部</a>{/category}
+            {category module=share id=3}<a class="section-more" href="{$t.url}">查看全部</a>{/category}
         </h2>
         <ul class="seo-article-list">
-            {module module=news catid=7 order=updatetime num=10}
+            {module module=news catid=3 order=updatetime num=10}
             <li><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 50)}</a></li>
             {/module}
         </ul>
