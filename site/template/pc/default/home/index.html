@@ -91,7 +91,9 @@ if (!is_array($popup_cfg)) {
             .site-header{padding:12px 0}.site-brand{flex-direction:column;text-align:center;gap:8px}.site-brand-copy h1{font-size:20px;margin-bottom:3px}.site-brand-copy p{font-size:13px}
             .research-nav{padding:7px 0}.research-nav a{margin:3px 6px;font-size:14px}
             .seo-article-section{padding:0 10px;margin-top:12px}.seo-article-box{padding:14px}.section-title{font-size:19px}
-            .seo-article-list{columns:1}.seo-article-list li{padding:9px 0}.seo-article-list a{font-size:14px}
+            .seo-article-list{columns:1!important;column-count:1!important;display:block!important;width:100%}
+            .seo-article-list li{padding:9px 0;width:100%;max-width:100%;overflow:hidden}
+            .seo-article-list a{font-size:14px;display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
             .platform-section{margin-top:12px}.platform-section .section-head{padding:14px}.platform-disclosure{font-size:12px;margin-top:7px}
             .footer-info{margin:18px 10px 8px;padding:14px}
         }
@@ -126,20 +128,6 @@ if (!is_array($popup_cfg)) {
 <?php $myimg = $mysite; if ($myimg) { $key=0; foreach ($myimg as $c) { ?>
 <div class="m-logo"><img src="{dr_get_file($c)}" alt="站点标识"></div>
 <?php $key++;} } ?>
-
-<section class="container seo-article-section" aria-labelledby="latest-article-heading">
-    <div class="seo-article-box">
-        <!-- 兼容 seo-home-guard 历史标记：最新研究文章 -->
-        <h2 id="latest-article-heading" class="section-title">投注技巧
-            {category module=share id=3}<a class="section-more" href="{$t.url}">查看全部</a>{/category}
-        </h2>
-        <ul class="seo-article-list">
-            {module module=news catid=3 order=updatetime num=10}
-            <li><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 50)}</a></li>
-            {/module}
-        </ul>
-    </div>
-</section>
 
 <section class="container platform-section" aria-labelledby="platform-heading">
     <div class="section-head">
@@ -183,6 +171,20 @@ if (!is_array($popup_cfg)) {
         <div class="col-md-4 col-xs-6 plat-item-1"><img class="ad_pic" src="{dr_get_file($v[1])}" width="227" height="71" loading="lazy" decoding="async" alt="站点展示位" style="margin-top:20px;max-width:100%;height:auto;"></div>
         {/if}
         {/loop}
+    </div>
+</section>
+
+<section class="container seo-article-section" aria-labelledby="latest-article-heading">
+    <div class="seo-article-box">
+        <!-- 兼容 seo-home-guard 历史标记：最新研究文章 -->
+        <h2 id="latest-article-heading" class="section-title">投注技巧
+            {category module=share id=3}<a class="section-more" href="{$t.url}">查看全部</a>{/category}
+        </h2>
+        <ul class="seo-article-list">
+            {module module=news catid=3 order=updatetime num=10}
+            <li><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 50)}</a></li>
+            {/module}
+        </ul>
     </div>
 </section>
 

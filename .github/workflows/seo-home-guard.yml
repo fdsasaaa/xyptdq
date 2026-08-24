@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - 'site/template/pc/default/home/index.html'
+      - 'site/template/mobile/default/home/index.html'
       - '.github/workflows/seo-home-guard.yml'
   push:
     branches: [main]
     paths:
       - 'site/template/pc/default/home/index.html'
+      - 'site/template/mobile/default/home/index.html'
       - '.github/workflows/seo-home-guard.yml'
 
 permissions:
@@ -30,6 +32,7 @@ jobs:
           low=text.lower()
           tips_pos=text.find('class="container seo-article-section"')
           platform_pos=text.find('class="container platform-section"')
+          footer_info_pos=text.find('class="footer-info"')
           checks={
               'doctype_exactly_one': len(re.findall(r'<!doctype\b',low)) == 1,
               'html_exactly_one': len(re.findall(r'<html\b',low)) == 1,
@@ -48,7 +51,9 @@ jobs:
               'tips_module_present': 'module module=news catid=3' in text,
               'tips_category_link_present': 'category module=share id=3' in text,
               'retired_cat7_not_used_for_tips': 'module module=news catid=7' not in text,
-              'tips_before_platform': tips_pos >= 0 and platform_pos >= 0 and tips_pos < platform_pos,
+              'tips_after_platform': tips_pos >= 0 and platform_pos >= 0 and tips_pos > platform_pos,
+              'tips_before_footer_info': tips_pos >= 0 and footer_info_pos >= 0 and tips_pos < footer_info_pos,
+              'pc_mobile_single_column_guard': 'column-count:1!important' in text and 'text-overflow:ellipsis' in text,
           }
           required=[
               "dr_site_value('wzsm')", "dr_site_value('bywz')", "dr_site_value('yddlogo')",
@@ -60,9 +65,24 @@ jobs:
           missing=[x for x in required if x not in text]
           legacy=['站长素材','copy="lyy"','jQuery仿Discuz','u3s1.com','demo.5moban.com','pblu.mobanqi.com','<? php']
           legacy_found=[x for x in legacy if x.lower() in low]
+
+          mp=pathlib.Path('site/template/mobile/default/home/index.html')
+          mobile=mp.read_text(encoding='utf-8')
+          mobile_tips_pos=mobile.find('class="page-content mobile-tips-section"')
+          mobile_search_pos=mobile.find('class="search-page search-content-1"')
+          mobile_checks={
+              'mobile_tips_after_main_list': mobile_tips_pos >= 0 and mobile_search_pos >= 0 and mobile_tips_pos > mobile_search_pos,
+              'mobile_tips_catid3': 'module module=news catid=3' in mobile,
+              'mobile_tips_single_column': 'column-count:1!important' in mobile and 'columns:1!important' in mobile,
+              'mobile_tips_ellipsis': 'white-space:nowrap' in mobile and 'overflow:hidden' in mobile and 'text-overflow:ellipsis' in mobile,
+              'mobile_retired_cat7_not_used': 'module module=news catid=7' not in mobile,
+          }
+
           failed=[k for k,v in checks.items() if not v]
-          if failed or missing or legacy_found:
-              print('failed structural checks:',failed)
+          mobile_failed=[k for k,v in mobile_checks.items() if not v]
+          if failed or mobile_failed or missing or legacy_found:
+              print('failed desktop structural checks:',failed)
+              print('failed mobile presentation checks:',mobile_failed)
               print('missing preserved markers:',missing)
               print('legacy fragments found:',legacy_found)
               raise SystemExit(1)
