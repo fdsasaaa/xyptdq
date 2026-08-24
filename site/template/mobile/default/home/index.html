@@ -45,7 +45,7 @@
 
 <section class="page-content" style="background:#fff;margin-top:10px;" aria-labelledby="mobile-seo-latest">
     <div style="padding:12px 15px;border-bottom:1px solid #eee;">
-        <h2 id="mobile-seo-latest" style="font-size:16px;color:#333;margin:0;padding-left:8px;border-left:3px solid #336798;">最新文章</h2>
+        <h2 id="mobile-seo-latest" style="font-size:16px;color:#333;margin:0;padding-left:8px;border-left:3px solid #336798;">投注技巧</h2>
     </div>
     <ul style="list-style:none;padding:0;margin:0;">
         {php $seo_articles = \Phpcmf\Service::M()->db->table(SITE_ID.'_news')->where('catid', 7)->where('status', 9)->orderBy('updatetime', 'DESC')->limit(10)->get()->getResultArray();}
