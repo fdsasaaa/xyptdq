@@ -6,6 +6,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/approved_package.php';
+require_once __DIR__ . '/title_seo_acceptance.php';
 
 function xyptdq_public_release_expected_fingerprint(array $revision): string
 {
@@ -54,6 +55,19 @@ function xyptdq_validate_public_release_intake(array $revision, array $parent, a
     }
     foreach ($revisionValidation['warnings'] as $warning) {
         $warnings[] = 'revision: ' . $warning;
+    }
+
+    // Historical revisions without Title SEO metadata remain legal. Any revision
+    // that declares Title SEO V1.0 is fail-closed at the website boundary and
+    // must also preserve the site's broad keyword ownership architecture.
+    $titleSeoValidation = xyptdq_validate_title_seo_site_acceptance($revision);
+    if (!$titleSeoValidation['passed']) {
+        foreach ($titleSeoValidation['errors'] as $error) {
+            $errors[] = 'title-seo: ' . $error;
+        }
+    }
+    foreach ($titleSeoValidation['warnings'] as $warning) {
+        $warnings[] = 'title-seo: ' . $warning;
     }
 
     $articleId = trim((string) ($revision['article_id'] ?? ''));
@@ -175,5 +189,6 @@ function xyptdq_validate_public_release_intake(array $revision, array $parent, a
         'source_batch_id' => $sourceBatch,
         'mode' => $mode,
         'manifest_match' => $manifestMatch,
+        'title_seo' => $titleSeoValidation,
     ];
 }
