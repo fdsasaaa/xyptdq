@@ -52,10 +52,9 @@ if (!is_array($popup_cfg)) {
         .site-brand img{max-width:220px;max-height:64px;width:auto;height:auto}
         .site-brand-copy h1{font-size:24px;line-height:1.35;margin:0 0 5px;color:#263548;font-weight:700}
         .site-brand-copy p{margin:0;color:#77808c;font-size:14px}
-        .research-nav{background:#fff;border-bottom:1px solid #e8ebef;padding:12px 0;text-align:center}
+        .research-nav{background:#fff;border-bottom:1px solid #e8ebef;padding:10px 0;text-align:center}
         .research-nav a{display:inline-block;margin:4px 12px;color:#336798;font-size:15px;text-decoration:none;font-weight:600}
         .research-nav a:hover{color:#204f78}
-        .site-summary{background:#f8fafc;border-bottom:1px solid #edf0f3;text-align:center;color:#697586;font-size:13px;padding:8px 15px;letter-spacing:.1px}
         .section-title{font-size:22px;color:#263548;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid #336798;font-weight:700}
         .section-subtitle{color:#7b8490;font-size:13px;font-weight:400;margin-left:8px}
         .platform-section{margin-top:18px}
@@ -64,17 +63,14 @@ if (!is_array($popup_cfg)) {
         .plat-item-top h2 a{color:inherit;text-decoration:none}
         .plat-item-top h2 a:hover{text-decoration:underline}
         .platform-disclosure{font-size:13px;color:#7b8490;line-height:1.65;margin:10px 0 0}
-        .seo-article-section{margin-top:22px;margin-bottom:22px}
+        .seo-article-section{margin-top:20px;margin-bottom:22px}
         .seo-article-box{background:#fff;border:1px solid #e5e9ee;border-radius:8px;padding:20px}
-        .seo-article-list{list-style:none;padding:0;margin:0}
-        .seo-article-list li{padding:10px 0;border-bottom:1px dashed #e5e9ee;display:flex;align-items:flex-start;gap:10px}
-        .seo-article-list li:last-child{border-bottom:0}
-        .seo-article-date{color:#999;font-size:13px;min-width:42px;padding-top:2px}
-        .seo-article-list a{color:#4d5968;text-decoration:none;font-size:15px;line-height:1.6}
+        .seo-article-list{list-style:none;padding:0;margin:0;columns:2;column-gap:34px}
+        .seo-article-list li{padding:10px 0;border-bottom:1px dashed #e5e9ee;break-inside:avoid;display:block}
+        .seo-article-list a{color:#4d5968;text-decoration:none;font-size:15px;line-height:1.6;display:block}
         .seo-article-list a:hover{color:#336798}
         .section-more{float:right;font-size:14px;font-weight:400;color:#336798;text-decoration:none}
-        .m-logo{text-align:center;margin:12px auto}.m-logo img{max-width:220px;height:auto}
-        .m-middle{text-align:center;background:#fff;padding:8px 0}.m-middle a{color:#336798;text-decoration:none;margin:0 5px}
+        .m-logo{text-align:center;margin:10px auto 0}.m-logo img{max-width:220px;height:auto}
         .footer-info{margin:26px auto 8px;background:#fff;border:1px solid #e5e9ee;border-radius:8px;padding:16px 20px;color:#707b88;font-size:13px;line-height:1.75}
         .footer-info-title{font-size:15px;color:#465467;font-weight:700;margin:0 0 7px}
         .footer-info a{color:#336798;text-decoration:none}
@@ -92,10 +88,11 @@ if (!is_array($popup_cfg)) {
         .popup-actions button{border:1px solid #ccc;background:#fff;border-radius:4px;padding:7px 14px;margin-left:8px}
         .popup-actions .popup-primary{border-color:#337ab7;background:#337ab7;color:#fff}
         @media(max-width:768px){
-            .site-brand{flex-direction:column;text-align:center;gap:10px}.site-brand-copy h1{font-size:21px}
-            .research-nav a{margin:4px 7px;font-size:14px}.site-summary{padding:7px 10px;font-size:12px}
-            .seo-article-section{padding:0 10px}.seo-article-box{padding:15px}.section-title{font-size:19px}
-            .seo-article-list li{display:block}.seo-article-date{display:inline-block;margin-right:8px}
+            .site-header{padding:12px 0}.site-brand{flex-direction:column;text-align:center;gap:8px}.site-brand-copy h1{font-size:20px;margin-bottom:3px}.site-brand-copy p{font-size:13px}
+            .research-nav{padding:7px 0}.research-nav a{margin:3px 6px;font-size:14px}
+            .seo-article-section{padding:0 10px;margin-top:12px}.seo-article-box{padding:14px}.section-title{font-size:19px}
+            .seo-article-list{columns:1}.seo-article-list li{padding:9px 0}.seo-article-list a{font-size:14px}
+            .platform-section{margin-top:12px}.platform-section .section-head{padding:14px}.platform-disclosure{font-size:12px;margin-top:7px}
             .footer-info{margin:18px 10px 8px;padding:14px}
         }
     </style>
@@ -125,19 +122,24 @@ if (!is_array($popup_cfg)) {
     </div>
 </nav>
 
-<div class="site-summary">彩票玩法研究、数据分析、方案验证与平台资料整理</div>
-
 <?php $mysite=dr_site_value('yddlogo');?>
 <?php $myimg = $mysite; if ($myimg) { $key=0; foreach ($myimg as $c) { ?>
 <div class="m-logo"><img src="{dr_get_file($c)}" alt="站点标识"></div>
 <?php $key++;} } ?>
 
-<div class="m-middle">
-    {category module=share id=2}<a href="{$t.url}">{$t.name}</a>{/category}
-    {category module=share id=3}<a href="{$t.url}">{$t.name}</a>{/category}
-    {category module=share id=4}<a href="{$t.url}">{$t.name}</a>{/category}
-    {category module=share id=5}<a href="{$t.url}">{$t.name}</a>{/category}
-</div>
+<section class="container seo-article-section" aria-labelledby="latest-article-heading">
+    <div class="seo-article-box">
+        <!-- 兼容 seo-home-guard 历史标记：最新研究文章 -->
+        <h2 id="latest-article-heading" class="section-title">投注技巧
+            {category module=share id=7}<a class="section-more" href="{$t.url}">查看全部</a>{/category}
+        </h2>
+        <ul class="seo-article-list">
+            {module module=news catid=7 order=updatetime num=10}
+            <li><a href="{$t.url}" title="{$t.title}">{dr_strcut($t.title, 50)}</a></li>
+            {/module}
+        </ul>
+    </div>
+</section>
 
 <section class="container platform-section" aria-labelledby="platform-heading">
     <div class="section-head">
@@ -181,24 +183,6 @@ if (!is_array($popup_cfg)) {
         <div class="col-md-4 col-xs-6 plat-item-1"><img class="ad_pic" src="{dr_get_file($v[1])}" width="227" height="71" loading="lazy" decoding="async" alt="站点展示位" style="margin-top:20px;max-width:100%;height:auto;"></div>
         {/if}
         {/loop}
-    </div>
-</section>
-
-<section class="container seo-article-section" aria-labelledby="latest-article-heading">
-    <div class="seo-article-box">
-        <!-- 兼容 seo-home-guard 历史标记：最新研究文章 -->
-        <h2 id="latest-article-heading" class="section-title">投注技巧
-            {category module=share id=7}<a class="section-more" href="{$t.url}">查看全部</a>{/category}
-        </h2>
-        <ul class="seo-article-list">
-            {php $seo_articles = \Phpcmf\Service::M()->db->table(SITE_ID.'_news')->where('catid', 7)->where('status', 9)->orderBy('updatetime', 'DESC')->limit(10)->get()->getResultArray();}
-            {loop $seo_articles $t}
-            <li>
-                <span class="seo-article-date">{date('m-d', $t['updatetime'])}</span>
-                <a href="{if $t['url']}{$t['url']}{else}/index.php?c=show&id={$t['id']}{/if}" title="{$t['title']}">{dr_strcut($t['title'], 50)}</a>
-            </li>
-            {/loop}
-        </ul>
     </div>
 </section>
 

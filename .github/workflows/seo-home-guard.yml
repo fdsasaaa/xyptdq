@@ -28,6 +28,8 @@ jobs:
           p=pathlib.Path('site/template/pc/default/home/index.html')
           text=p.read_text(encoding='utf-8')
           low=text.lower()
+          tips_pos=text.find('class="container seo-article-section"')
+          platform_pos=text.find('class="container platform-section"')
           checks={
               'doctype_exactly_one': len(re.findall(r'<!doctype\b',low)) == 1,
               'html_exactly_one': len(re.findall(r'<html\b',low)) == 1,
@@ -42,12 +44,15 @@ jobs:
               'og_title': 'property="og:title"' in low,
               'og_description': 'property="og:description"' in low,
               'og_url': 'property="og:url"' in low,
+              'single_nav_output': 'class="m-middle"' not in text,
+              'tips_module_present': 'module module=news catid=7' in text,
+              'tips_before_platform': tips_pos >= 0 and platform_pos >= 0 and tips_pos < platform_pos,
           }
           required=[
               "dr_site_value('wzsm')", "dr_site_value('bywz')", "dr_site_value('yddlogo')",
               "dr_site_value('pcsyxwyd')", "dr_site_value('banquanxinxi')",
               "dr_site_value('zuoduilian')", "dr_site_value('youduilian')", "dr_site_value('zxgg')",
-              "module=xm catid=1", "where('catid', 7)", "config/popup.php", '{SITE_TONGJI}',
+              "module=xm catid=1", "module module=news catid=7", "config/popup.php", '{SITE_TONGJI}',
               'rel="nofollow sponsored noopener"', '平台资料导航', '最新研究文章'
           ]
           missing=[x for x in required if x not in text]

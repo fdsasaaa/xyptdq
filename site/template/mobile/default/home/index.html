@@ -21,6 +21,20 @@
     </ol>
 </div>
 
+<section class="page-content" style="background:#fff;margin-top:10px;" aria-labelledby="mobile-seo-latest">
+    <div style="padding:12px 15px;border-bottom:1px solid #eee;overflow:hidden;">
+        <h2 id="mobile-seo-latest" style="font-size:16px;color:#333;margin:0;padding-left:8px;border-left:3px solid #336798;display:inline-block;">投注技巧</h2>
+        {category module=share id=7}<a href="{$t.url}" style="float:right;font-size:13px;color:#336798;text-decoration:none;">查看全部</a>{/category}
+    </div>
+    <ul style="list-style:none;padding:0;margin:0;">
+        {module module=news catid=7 order=updatetime num=10}
+        <li style="padding:10px 15px;border-bottom:1px solid #f5f5f5;line-height:1.5;">
+            <a href="{$t.url}" title="{$t.title}" style="color:#555;text-decoration:none;font-size:14px;">{dr_strcut($t.title, 34)}</a>
+        </li>
+        {/module}
+    </ul>
+</section>
+
 <div class="page-content">
     <div class="search-page search-content-1">
         <div class="search-container">
@@ -42,20 +56,5 @@
         </div>
     </div>
 </div>
-
-<section class="page-content" style="background:#fff;margin-top:10px;" aria-labelledby="mobile-seo-latest">
-    <div style="padding:12px 15px;border-bottom:1px solid #eee;">
-        <h2 id="mobile-seo-latest" style="font-size:16px;color:#333;margin:0;padding-left:8px;border-left:3px solid #336798;">投注技巧</h2>
-    </div>
-    <ul style="list-style:none;padding:0;margin:0;">
-        {php $seo_articles = \Phpcmf\Service::M()->db->table(SITE_ID.'_news')->where('catid', 7)->where('status', 9)->orderBy('updatetime', 'DESC')->limit(10)->get()->getResultArray();}
-        {loop $seo_articles $t}
-        <li style="padding:10px 15px;border-bottom:1px solid #f5f5f5;line-height:1.5;">
-            <span style="color:#999;font-size:12px;margin-right:8px;">{date('m-d', $t['updatetime'])}</span>
-            <a href="{if $t['url']}{$t['url']}{else}/index.php?c=show&id={$t['id']}{/if}" title="{$t['title']}" style="color:#555;text-decoration:none;font-size:14px;">{dr_strcut($t['title'], 30)}</a>
-        </li>
-        {/loop}
-    </ul>
-</section>
 
 {template "footer.html"}
