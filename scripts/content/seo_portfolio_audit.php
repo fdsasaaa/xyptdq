@@ -2,6 +2,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/lib/title_seo_acceptance.php';
+
 const SEO_PORTFOLIO_LEGACY_SCHEDULED_EXEMPT = [
     'seo-ffc-betting-economics-v1',
     'seo-ffc-drawdown-vs-losing-streak-v1',
@@ -36,12 +38,17 @@ $locations = [
     'scheduled' => 'scheduled',
 ];
 
+$keywordMap = xyptdq_title_seo_read_json($repoRoot . '/content/keyword_map.json', 'keyword map');
+$reservedKeywordOwners = xyptdq_title_seo_reserved_keywords($keywordMap);
+
 $keywordOwners = [];
+$titleOwners = [];
 $articleKeywords = [];
 $articleFingerprints = [];
 $fileCount = 0;
 $managedFileCount = 0;
 $legacyExemptCount = 0;
+$titleSeoManagedCount = 0;
 $stateCounts = ['draft' => 0, 'scheduled' => 0];
 
 foreach ($locations as $dirName => $expectedState) {
@@ -91,6 +98,7 @@ foreach ($locations as $dirName => $expectedState) {
         $stateCounts[$expectedState]++;
 
         $keywordRaw = trim((string) ($row['primary_keyword'] ?? ''));
+        $titleRaw = trim((string) ($row['title'] ?? ''));
         $fingerprint = trim((string) ($row['source_fingerprint'] ?? ''));
         $content = (string) ($row['content'] ?? '');
         $storedHash = trim((string) ($row['source_content_hash'] ?? ''));
@@ -99,6 +107,9 @@ foreach ($locations as $dirName => $expectedState) {
         }
         if ($keywordRaw === '') {
             seoAuditFail('primary_keyword missing: ' . $path, 5);
+        }
+        if ($titleRaw === '') {
+            seoAuditFail('title missing: ' . $path, 16);
         }
         if ($fingerprint === '') {
             seoAuditFail('source_fingerprint missing: ' . $path, 6);
@@ -114,7 +125,25 @@ foreach ($locations as $dirName => $expectedState) {
         }
 
         $keyword = seoNormalizeKeyword($keywordRaw);
+        if (isset($reservedKeywordOwners[$keyword])) {
+            $owner = $reservedKeywordOwners[$keyword];
+            seoAuditFail(
+                'article primary_keyword conflicts with reserved site target: ' . $owner['keyword'] . ' -> ' . $owner['target'] . ' article=' . $articleId,
+                17
+            );
+        }
+
+        if (xyptdq_title_seo_contract_declared($row)) {
+            $titleSeo = xyptdq_validate_title_seo_site_acceptance($row, $repoRoot);
+            if (!$titleSeo['passed']) {
+                seoAuditFail('Title SEO website acceptance failed for ' . $articleId . ': ' . implode('; ', $titleSeo['errors']), 18);
+            }
+            $titleSeoManagedCount++;
+        }
+
+        $title = xyptdq_title_seo_normalize($titleRaw);
         $keywordOwners[$keyword][$articleId][] = $path;
+        $titleOwners[$title][$articleId][] = $path;
         $articleKeywords[$articleId][$keyword] = $keywordRaw;
         $articleFingerprints[$articleId][$fingerprint] = true;
     }
@@ -135,6 +164,11 @@ foreach ($keywordOwners as $keyword => $owners) {
         seoAuditFail('exact primary_keyword has multiple article owners: ' . $keyword . ' -> ' . implode(', ', array_keys($owners)), 12);
     }
 }
+foreach ($titleOwners as $title => $owners) {
+    if ($title !== '' && count($owners) > 1) {
+        seoAuditFail('normalized title has multiple article owners: ' . $title . ' -> ' . implode(', ', array_keys($owners)), 19);
+    }
+}
 
 fwrite(STDOUT, json_encode([
     'status' => 'pass',
@@ -145,5 +179,9 @@ fwrite(STDOUT, json_encode([
     'scheduled' => $stateCounts['scheduled'],
     'article_owners' => count($articleKeywords),
     'keyword_owners' => count($keywordOwners),
+    'title_owners' => count($titleOwners),
+    'title_seo_managed' => $titleSeoManagedCount,
     'keyword_conflicts' => 0,
+    'title_conflicts' => 0,
+    'reserved_keyword_conflicts' => 0,
 ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . PHP_EOL);
