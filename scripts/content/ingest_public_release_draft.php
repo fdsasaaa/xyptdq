@@ -182,6 +182,22 @@ try {
     $draft['source_public_release_reviewed_at'] = (string) $revision['public_release_review']['reviewed_at'];
     $draft['source_public_release_review_contract'] = (string) $revision['public_release_review']['review_contract'];
     $draft['source_intake_mode'] = $mode === 'terminal_cf50' ? 'inventory_terminal_cf50' : 'inventory_formal_batch';
+
+    // Preserve verified Title SEO provenance so website-side portfolio audits can
+    // reason about the exact final title without reopening the immutable source.
+    $titleSeo = $validation['title_seo'] ?? null;
+    if (is_array($titleSeo) && ($titleSeo['applicable'] ?? false) === true) {
+        foreach (['title_seo_contract_version', 'title_candidates', 'title_selection_reason', 'title_review'] as $field) {
+            $draft[$field] = $revision[$field];
+        }
+        $draft['source_title_seo_site_acceptance'] = [
+            'passed' => true,
+            'contract_version' => (string) ($titleSeo['contract_version'] ?? ''),
+            'required_gates_verified' => (int) ($titleSeo['required_gates_verified'] ?? 0),
+            'reserved_primary_keyword_conflict' => $titleSeo['reserved_primary_keyword_conflict'] ?? null,
+        ];
+    }
+
     intakeDraftAtomicWrite($outputPath, $draft);
 
     fwrite(STDOUT, json_encode([
@@ -192,6 +208,7 @@ try {
         'publication_state' => $draft['publication_state'],
         'primary_seo_cluster_id' => $draft['primary_seo_cluster_id'] ?? null,
         'cluster_assignment_source' => $draft['seo_cluster_assignment_source'] ?? null,
+        'title_seo_contract_version' => $draft['title_seo_contract_version'] ?? null,
         'output' => $outputPath,
     ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
 } catch (Throwable $e) {
