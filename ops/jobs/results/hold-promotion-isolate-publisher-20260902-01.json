@@ -1,0 +1,23 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-09-01T23:41:26Z",
+  "job_id": "hold-promotion-isolate-publisher-20260902-01",
+  "payload": {
+    "blocking_item": "promotion_cron_still_active",
+    "cms_write": false,
+    "phase": "hold_promotion_cron",
+    "promotion_cron_held": false,
+    "publisher_invoked": false,
+    "publisher_state_isolated": false,
+    "status": "BLOCKED",
+    "task": "hold_promotion_isolate_publisher_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "f52cf386f1ba4d3f08511b80b0acd2fc7739eb23",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/hold_promotion_isolate_publisher_v1.sh",
+  "script_sha256": "2cc2bf064d87de99733c8e694fe1eb2dffd72e15cd4f577b3f1e7ab8d9da6403",
+  "started_at": "2026-09-01T23:41:25Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
