@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "fresh-server-safety-probe-20260902-01",
+  "required_commit": "30d11d037fe4fca7484826cbcf3504ce53d19e09",
+  "script": "scripts/ops/agent_tasks/fresh_server_safety_probe_v1.sh",
+  "script_sha256": "0b510c6996078c1e2af4b44f1c2b755eb2e75c295ee8aba70537d9aaffe97a6f",
+  "timeout_seconds": 300
+}
