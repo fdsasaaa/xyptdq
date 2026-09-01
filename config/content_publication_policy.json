@@ -64,7 +64,10 @@
   "planned_cadence": {
     "articles_per_day": 2,
     "timezone": "Asia/Singapore",
-    "editorial_slots": ["10:00", "19:00"],
+    "editorial_slots": [
+      "10:00",
+      "19:00"
+    ],
     "first_wave_size": 12,
     "continue_after_first_wave_requires_search_discovery_checkpoint": true,
     "cadence_is_not_claimed_as_a_direct_ranking_signal": true
@@ -107,22 +110,61 @@
   },
   "resume_requires": "remaining Wave1 runtime schedule rebase PASS; after that normal isolated recurring publication may continue through the first 12 only, then stop for Issue #264 search-discovery checkpoint",
   "ordinary_seo_promotion": {
-    "enabled": false,
-    "status": "HOLD_UNTIL_ISSUE_264_SEARCH_DISCOVERY_PASS",
+    "enabled": true,
+    "status": "ACTIVE_ORDINARY_DAILY_SEO_INDEPENDENT_OF_ISSUE_264",
     "stable_runtime_scheduled_queue": "/var/lib/xyptdq-content/ordinary-seo/scheduled",
     "weekly_max_articles": 3,
-    "slot_days": ["Tuesday", "Thursday", "Saturday"],
+    "slot_days": [
+      "Tuesday",
+      "Thursday",
+      "Saturday"
+    ],
     "slot_time": "10:00",
     "timezone": "Asia/Singapore",
-    "eligible_source_batch_prefixes": ["DAILY-"],
-    "excluded_source_batch_patterns": ["CF50", "LCM-CREATOR-cf50"],
+    "eligible_source_batch_prefixes": [
+      "DAILY-"
+    ],
+    "excluded_source_batch_patterns": [
+      "CF50",
+      "LCM-CREATOR-cf50"
+    ],
     "batch_eligibility_overrides": {
-      "DAILY-20260901": "draft_only_pending_issue_264",
+      "DAILY-20260901": "eligible",
       "DAILY-20260817": "pending_title_seo_review"
     },
     "rolling_future_horizon": 1,
     "no_catch_up_burst": true,
     "legacy_repository_queue_forbidden": true,
-    "authorization_recorded": null
+    "authorization_recorded": "2026-09-02",
+    "scope_invariants": {
+      "issue_264_cannot_disable_ordinary_daily_publication": true,
+      "cf50_final_5_remains_frozen": true,
+      "gates_independent": [
+        "CF50_SEARCH_DISCOVERY_GATE",
+        "CF50_FINAL_5_GATE",
+        "ORDINARY_DAILY_SEO_PUBLICATION"
+      ]
+    }
+  },
+  "weekly_promotion_wave": {
+    "source_batch_id": "DAILY-20260901",
+    "mode": "weekly_2_3_ordinary_seo",
+    "publishing_enabled": true,
+    "cadence": {
+      "articles_per_week": 3,
+      "timezone": "Asia/Singapore",
+      "editorial_slots": [
+        "10:00"
+      ],
+      "slot_days": [
+        "Tuesday",
+        "Thursday",
+        "Saturday"
+      ]
+    },
+    "source": "incremental_intake_draft_buffer",
+    "runtime_source_root": "/var/lib/xyptdq-content/ordinary-seo/scheduled",
+    "legacy_repository_queue_forbidden": true,
+    "authorization_recorded": "2026-09-02"
   }
 }
