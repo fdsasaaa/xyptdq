@@ -3,6 +3,6 @@
   "job_id": "promote-daily-20260901-weekly-20260901-01",
   "required_commit": "1eb50de31a89adc9fe2a6649a102738214fc44c1",
   "script": "scripts/ops/agent_tasks/promote_daily_20260901_weekly_v1.sh",
-  "script_sha256": "c422a5fd3eb996eb052c5b31c33691bd8197609ddf5eb43a0c658d81db135582",
+  "script_sha256": "ccc17290f732cc1a17b38b3e5d5b7e354199fa38decc031fa8a1ae2247759864",
   "timeout_seconds": 900
 }
