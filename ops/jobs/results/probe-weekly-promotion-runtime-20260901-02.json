@@ -1,0 +1,86 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-09-01T09:03:33Z",
+  "job_id": "probe-weekly-promotion-runtime-20260901-02",
+  "payload": {
+    "blocking_item": "NONE",
+    "cms_write": false,
+    "cron_write": false,
+    "draft_census": {
+      "cf50_draft_count": 33,
+      "count_by_publication_state": {
+        "draft": 70
+      },
+      "count_by_source_batch_id": {
+        "CF50-20260813": 33,
+        "DAILY-20260817": 23,
+        "DAILY-20260901": 14
+      },
+      "count_with_article_key": 70,
+      "count_with_source_article_id": 70,
+      "count_with_source_content_hash": 70,
+      "count_with_source_fingerprint": 70,
+      "count_with_source_revision_id": 70,
+      "count_with_title_seo_contract_or_review": 14,
+      "daily_20260817_draft_count": 23,
+      "daily_20260901_draft_count": 14,
+      "filename_pattern": "*.draft.json (safe_name from revision_id)",
+      "malformed_json": 0,
+      "total_runtime_draft_files": 70
+    },
+    "environment": {
+      "canonical_repo_dirty": true,
+      "canonical_repo_dirty_lines": 4,
+      "canonical_repo_head": "f2b0c75",
+      "legacy_repository_scheduled_count": 11,
+      "publisher_cron_lines": [
+        "SHELL=/bin/bash",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "7 * * * * root XYPTDQ_REPO_DIR=/opt/xyptdq-repo XYPTDQ_PUBLISH_SOURCE=/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled XYPTDQ_PUBLISH_STATE=/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json XYPTDQ_PUBLISH_LOCK=/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock /bin/bash /opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh >/dev/null 2>&1"
+      ],
+      "publisher_cron_present": true,
+      "publisher_state_files": [
+        {
+          "failed": null,
+          "file": "state.json",
+          "published": null,
+          "scheduled": null
+        }
+      ],
+      "receipt_evidence_dirs": [],
+      "runtime_scheduled_dirs": [
+        {
+          "dir": "CF50-20260813",
+          "file_count": 0
+        },
+        {
+          "dir": "CF50-20260813-wave1",
+          "file_count": 0
+        },
+        {
+          "dir": "DAILY-20260901",
+          "file_count": 0
+        },
+        {
+          "dir": "intake",
+          "file_count": 2
+        }
+      ],
+      "xyptdq_publish_source": "/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled"
+    },
+    "phase": "complete",
+    "publisher_invoked": false,
+    "read_only": true,
+    "schedule_write": false,
+    "status": "PASS",
+    "task": "probe_weekly_promotion_runtime_v2"
+  },
+  "raw_log_published": false,
+  "required_commit": "01660c76f226f58f31818080ea246e5dfe4050f7",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/probe_weekly_promotion_runtime_v2.sh",
+  "script_sha256": "715d285562e44484e0afa31c1ad38ecf1fce49776b55a7783690c246d78b1ded",
+  "started_at": "2026-09-01T09:03:33Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
