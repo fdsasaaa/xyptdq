@@ -1,0 +1,256 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-09-01T10:13:48Z",
+  "job_id": "verify-ordinary-seo-canary-publication-20260901-01",
+  "payload": {
+    "blocking_item": "NONE",
+    "cms_write": false,
+    "phase": "complete",
+    "publisher_invoked": false,
+    "read_only": true,
+    "status": "PASS",
+    "task": "verify_ordinary_seo_canary_publication_v1",
+    "verification": {
+      "checks": {},
+      "intake_ledger": {
+        "intake_count": null,
+        "keys": [
+          "records",
+          "schema_version",
+          "source_ref",
+          "source_repository",
+          "updated_at"
+        ]
+      },
+      "published_evidence": [],
+      "queued_files": [
+        {
+          "article_key": "lcm-angle-0b6f9c192c45dc31",
+          "file": "lcm-angle-0b6f9c192c45dc31.json",
+          "publication_state": "scheduled",
+          "publish_at": "2026-09-03T10:00:00+08:00",
+          "source_article_id": "LCM-ANGLE-0b6f9c192c45dc31",
+          "source_batch_id": "DAILY-20260901",
+          "source_revision_id": "LCM-ANGLE-0b6f9c192c45dc31:public-r1"
+        }
+      ],
+      "receipts": [
+        {
+          "article_key": "lcm-creator-cf50-20260813-001",
+          "cms_id": 92,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-001.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=92",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-002",
+          "cms_id": 98,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-002.98.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=98",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-011",
+          "cms_id": 93,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-011.93.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=93",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-012",
+          "cms_id": 99,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-012.99.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=99",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-021",
+          "cms_id": 94,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-021.94.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=94",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-022",
+          "cms_id": 100,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-022.100.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=100",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-031",
+          "cms_id": 95,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-031.95.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=95",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-032",
+          "cms_id": 101,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-032.101.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=101",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-037",
+          "cms_id": 102,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-037.102.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=102",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-041",
+          "cms_id": 96,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-041.96.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=96",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-046",
+          "cms_id": 97,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-046.97.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=97",
+          "status": null
+        },
+        {
+          "article_key": "lcm-creator-cf50-20260813-049",
+          "cms_id": 103,
+          "dir": "receipts",
+          "file": "lcm-creator-cf50-20260813-049.103.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=103",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 98,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-002.98.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=98",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 93,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-011.93.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=93",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 99,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-012.99.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=99",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 94,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-021.94.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=94",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 100,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-022.100.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=100",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 95,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-031.95.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=95",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 101,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-032.101.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=101",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 102,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-037.102.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=102",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 96,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-041.96.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=96",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 97,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-046.97.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=97",
+          "status": null
+        },
+        {
+          "article_key": null,
+          "cms_id": 103,
+          "dir": "seo-verification",
+          "file": "lcm-creator-cf50-20260813-049.103.json",
+          "publication_state": null,
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=103",
+          "status": null
+        }
+      ]
+    }
+  },
+  "raw_log_published": false,
+  "required_commit": "8a6bb546308866d99fc9d28aa89c63073f89e7cc",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/verify_ordinary_seo_canary_publication_v1.sh",
+  "script_sha256": "3eaeee24e2d118311f9e0928d0f28ea166e477892ea6af4add95124bafa99abc",
+  "started_at": "2026-09-01T10:13:46Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
