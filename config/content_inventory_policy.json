@@ -15,15 +15,12 @@
     "failed_or_below_minimum_daily_batch"
   ],
   "upstream_contract": {
-    "production_system_status": "v3_consolidated",
+    "production_system_status": "minimum_10_fail_closed",
     "daily_target_count": 20,
-    "daily_minimum_formal_batch_count": 1,
+    "daily_minimum_formal_batch_count": 10,
     "daily_operational_minimum_count": 10,
-    "daily_quality_first_range": [
-      1,
-      25
-    ],
-    "below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete": true,
+    "daily_quality_first_range": [10, 25],
+    "below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete": false,
     "website_must_not_assume_fixed_daily_supply": true,
     "website_must_not_request_quality_gate_reduction_to_maintain_cadence": true
   },
@@ -107,7 +104,7 @@
   },
   "activation": {
     "automatic_intake_enabled": true,
-    "scope": "draft_only_incremental_reconciliation_plus_explicit_weekly_promotion_job",
+    "scope": "draft_only_incremental_reconciliation",
     "does_not_authorize_scheduling_or_publication": true,
     "runner": "scripts/content/incremental_inventory_intake.py",
     "wrapper": "scripts/content/run_incremental_inventory_intake.sh",
