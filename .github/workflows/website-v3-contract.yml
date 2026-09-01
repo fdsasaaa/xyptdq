@@ -1,0 +1,18 @@
+name: website-v3-contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-website-v3-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate website V3 contract and Issue 264 scope
+        run: python3 scripts/ops/validate_website_v3_contract.py
