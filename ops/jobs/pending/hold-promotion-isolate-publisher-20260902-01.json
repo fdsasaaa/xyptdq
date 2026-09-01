@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "hold-promotion-isolate-publisher-20260902-01",
+  "required_commit": "f52cf386f1ba4d3f08511b80b0acd2fc7739eb23",
+  "script": "scripts/ops/agent_tasks/hold_promotion_isolate_publisher_v1.sh",
+  "script_sha256": "2cc2bf064d87de99733c8e694fe1eb2dffd72e15cd4f577b3f1e7ab8d9da6403",
+  "timeout_seconds": 300
+}
