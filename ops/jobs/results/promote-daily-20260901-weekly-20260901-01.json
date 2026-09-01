@@ -1,0 +1,29 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-09-01T07:44:24Z",
+  "job_id": "promote-daily-20260901-weekly-20260901-01",
+  "payload": {
+    "added_this_run": 0,
+    "batch_id": "DAILY-20260901",
+    "blocking_item": "no_scheduled_items_after_promotion",
+    "cadence": "weekly_2_3",
+    "cms_write_attempted": false,
+    "draft_available": 70,
+    "legacy_repository_queue_consumed": false,
+    "phase": "promote_schedule",
+    "publisher_run_attempted": false,
+    "runtime_scheduled_dir": "/var/lib/xyptdq-content/DAILY-20260901/scheduled",
+    "schedule_timezone": "Asia/Singapore",
+    "scheduled_count": 0,
+    "status": "BLOCKED",
+    "task": "promote_daily_20260901_weekly_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "0f50ddeb58e848f16d5a3c374a0495888706fdd1",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/promote_daily_20260901_weekly_v1.sh",
+  "script_sha256": "ccc17290f732cc1a17b38b3e5d5b7e354199fa38decc031fa8a1ae2247759864",
+  "started_at": "2026-09-01T07:44:23Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
