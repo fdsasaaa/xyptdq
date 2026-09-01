@@ -1,0 +1,27 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-09-01T10:07:40Z",
+  "job_id": "promote-ordinary-seo-canary-20260901-02",
+  "payload": {
+    "active_future_scheduled": 0,
+    "added_this_run": 1,
+    "blocking_item": "NONE",
+    "cadence": "weekly_2_3",
+    "candidate_available": 14,
+    "cms_write": false,
+    "current_week_scheduled_or_published": 0,
+    "legacy_repository_queue_consumed": false,
+    "phase": "complete",
+    "publisher_invoked": false,
+    "status": "PASS",
+    "task": "promote_ordinary_seo_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "ae4de0facbb5740f151842272e90702ab33d33f2",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/promote_ordinary_seo_v1.sh",
+  "script_sha256": "b67755e9a9e1bc37bf0653bf4ce8d011da6dfb8b0d74e792c7e799ef18786f70",
+  "started_at": "2026-09-01T10:07:38Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
