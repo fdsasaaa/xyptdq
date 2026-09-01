@@ -128,7 +128,7 @@
       "LCM-CREATOR-cf50"
     ],
     "batch_eligibility_overrides": {
-      "DAILY-20260901": "eligible_title_seo_v1_canary",
+      "DAILY-20260901": "eligible",
       "DAILY-20260817": "pending_title_seo_review"
     },
     "rolling_future_horizon": 1,
