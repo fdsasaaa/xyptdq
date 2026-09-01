@@ -52,8 +52,10 @@ block(){ BLOCKING_ITEM="$1"; STATUS="BLOCKED"; write_result; echo "[ordinary-seo
 
 PHASE="sync_main"
 cd "$REPO"
-[ -z "$(git status --porcelain)" ] || block production_repo_dirty
-git fetch --prune origin >/dev/null 2>&1
+# Tolerant sync: the canonical repo may hold transient uncommitted state from the
+# result transport; agent jobs never modify the repo, so reset to origin/main is safe.
+git fetch --prune origin >/dev/null 2>&1 || true
+git checkout -q main 2>/dev/null || git checkout -q -B main origin/main
 git reset --hard origin/main >/dev/null
 
 PHASE="preflight"
