@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "probe-weekly-promotion-runtime-20260901-01",
+  "required_commit": "17d23094b52e9e1a5307cc66ebaf0b7e7a249cda",
+  "script": "scripts/ops/agent_tasks/probe_weekly_promotion_runtime_v1.sh",
+  "script_sha256": "63bf29eb019bcde7e1bc3f5dd2b0fb4dce0c3d207427277991e136edf9c22493",
+  "timeout_seconds": 300
+}
