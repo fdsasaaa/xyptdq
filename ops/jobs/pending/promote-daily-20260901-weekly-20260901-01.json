@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "promote-daily-20260901-weekly-20260901-01",
+  "required_commit": "1eb50de31a89adc9fe2a6649a102738214fc44c1",
+  "script": "scripts/ops/agent_tasks/promote_daily_20260901_weekly_v1.sh",
+  "script_sha256": "c422a5fd3eb996eb052c5b31c33691bd8197609ddf5eb43a0c658d81db135582",
+  "timeout_seconds": 900
+}
