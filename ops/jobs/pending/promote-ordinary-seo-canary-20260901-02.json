@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "promote-ordinary-seo-canary-20260901-02",
+  "required_commit": "ae4de0facbb5740f151842272e90702ab33d33f2",
+  "script": "scripts/ops/agent_tasks/promote_ordinary_seo_v1.sh",
+  "script_sha256": "b67755e9a9e1bc37bf0653bf4ce8d011da6dfb8b0d74e792c7e799ef18786f70",
+  "timeout_seconds": 300
+}
