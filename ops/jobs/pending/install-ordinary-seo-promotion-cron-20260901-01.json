@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "install-ordinary-seo-promotion-cron-20260901-01",
+  "required_commit": "fdc37a5664de82637f33fbd5194b9bb30eb47102",
+  "script": "scripts/ops/agent_tasks/install_ordinary_seo_promotion_cron_v1.sh",
+  "script_sha256": "7ebfc1ca709cc6927304516a1276b1dfae7b3ebc23a5d22fdd7c8fd60233163b",
+  "timeout_seconds": 300
+}
