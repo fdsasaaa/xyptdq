@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "publisher-heartbeat-probe-20260902-02",
+  "required_commit": "3f67410227652a184b7411969a99cb7c3dda8692",
+  "script": "scripts/ops/agent_tasks/publisher_execution_probe_v1.sh",
+  "script_sha256": "a0d2c12c2c841c3e25c0981e56ae56be130c5b9d25c7218f5c45aa49294d4713",
+  "timeout_seconds": 300
+}
