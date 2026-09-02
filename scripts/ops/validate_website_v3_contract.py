@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine invariant validator: website upstream contract + Issue-264 scope.
+"""Machine invariant validator: website V3 contract + Issue-264 scope (regression for #474).
 Exit 0 on PASS, exit 1 listing every violated invariant.
 Invoke: python3 scripts/ops/validate_website_v3_contract.py [repo_root]
 """
@@ -27,19 +27,21 @@ def main() -> int:
     up = inv.get("upstream_contract", {})
     failures: list[str] = []
 
-    # --- Website upstream contract must not lower the source formal gate. ---
+    # --- V3 website upstream contract ---
     if up.get("production_system_status") != "v3_consolidated":
         failures.append(f"upstream production_system_status must be v3_consolidated, got {up.get('production_system_status')!r}")
-    if up.get("daily_minimum_formal_batch_count") != 10:
-        failures.append(f"formal minimum must be 10, got {up.get('daily_minimum_formal_batch_count')!r}")
+    if up.get("daily_minimum_formal_batch_count") == 10:
+        failures.append("formal minimum must NOT be 10 (regression: #474)")
+    if up.get("daily_minimum_formal_batch_count") != 1:
+        failures.append(f"formal minimum must be 1, got {up.get('daily_minimum_formal_batch_count')!r}")
     if up.get("daily_operational_minimum_count") != 10:
         failures.append(f"operational minimum must be 10, got {up.get('daily_operational_minimum_count')!r}")
-    if up.get("daily_quality_first_range") != [10, 25]:
-        failures.append(f"quality_first_range must be [10, 25], got {up.get('daily_quality_first_range')!r}")
-    if up.get("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete") is not False:
-        failures.append("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete must be false")
+    if up.get("daily_quality_first_range") != [1, 25]:
+        failures.append(f"quality_first_range must be [1, 25], got {up.get('daily_quality_first_range')!r}")
+    if up.get("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete") is not True:
+        failures.append("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete must be true")
 
-    # --- Issue-264 scope: ordinary DAILY-* publication remains an independent gate. ---
+    # --- Issue-264 scope: ordinary DAILY-* publication is independent ---
     if o.get("enabled") is not True:
         failures.append("ordinary_seo_promotion.enabled must be true")
     ov = o.get("batch_eligibility_overrides", {})
@@ -50,7 +52,7 @@ def main() -> int:
     if str(o.get("status", "")).startswith("HOLD_UNTIL_ISSUE_264"):
         failures.append("ordinary_seo_promotion must not inherit HOLD_UNTIL_ISSUE_264")
 
-    # --- CF50 Final Five stays frozen; Issue #264 stays authoritative. ---
+    # --- CF50 Final Five stays frozen; Issue #264 stays open ---
     cf = inv.get("cf50_terminal_baseline", {})
     if cf.get("release_authorized") is not False:
         failures.append("cf50_terminal_baseline.release_authorized must remain false")
@@ -70,7 +72,7 @@ def main() -> int:
         for f in failures:
             print("  -", f)
         return 1
-    print("WEBSITE_V3_CONTRACT=PASS (minimum-10 upstream + Issue-264 scope invariants hold)")
+    print("WEBSITE_V3_CONTRACT=PASS (V3 upstream + Issue-264 scope invariants hold)")
     return 0
 
 
