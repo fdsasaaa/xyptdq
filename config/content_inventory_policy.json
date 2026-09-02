@@ -17,13 +17,13 @@
   "upstream_contract": {
     "production_system_status": "v3_consolidated",
     "daily_target_count": 20,
-    "daily_minimum_formal_batch_count": 1,
+    "daily_minimum_formal_batch_count": 10,
     "daily_operational_minimum_count": 10,
     "daily_quality_first_range": [
-      1,
+      10,
       25
     ],
-    "below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete": true,
+    "below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete": false,
     "website_must_not_assume_fixed_daily_supply": true,
     "website_must_not_request_quality_gate_reduction_to_maintain_cadence": true
   },
