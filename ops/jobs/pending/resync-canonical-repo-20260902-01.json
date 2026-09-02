@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "resync-canonical-repo-20260902-01",
+  "required_commit": "d9be854156ac336b573d419e340dcf988b6d2534",
+  "script": "scripts/ops/agent_tasks/resync_canonical_repo_v1.sh",
+  "script_sha256": "5ca40d39f3447628905cec41a7080bf522fe934dc905852c325779b1914fbf0a",
+  "timeout_seconds": 300
+}
