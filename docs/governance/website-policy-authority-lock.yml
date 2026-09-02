@@ -1,0 +1,89 @@
+name: website-policy-authority-lock
+
+# BASE-BRANCH-ANCHORED POLICY AUTHORITY LOCK (website side)
+# Structural fix for POLICY_OSCILLATION (PR #485 proved a PR can modify the
+# website upstream_contract AND the validator in the same PR so head-run CI
+# passes on the regressed policy).
+#
+# SECURITY MODEL:
+# - pull_request_target: uses the TRUSTED workflow file from main; the PR can
+#   never alter this workflow's logic.
+# - Does NOT checkout/execute/import ANY PR head code.
+# - Reads ONLY the PR head's config JSON files via the GitHub API and asserts
+#   the canonical V3 contract + Issue-264 scope invariants.
+# - The workflow file itself is a protected governance file (branch protection).
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  website-policy-authority-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assert canonical website V3 contract + Issue-264 scope at PR head
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error
+
+          repo = os.environ["REPO"]
+          head = os.environ["HEAD_SHA"]
+          token = os.environ["GH_TOKEN"]
+
+          def fetch_json(path):
+              url = f"https://api.github.com/repos/{repo}/contents/{path}?ref={head}"
+              req = urllib.request.Request(url, headers={
+                  "Authorization": f"Bearer {token}",
+                  "Accept": "application/vnd.github.raw+json",
+                  "User-Agent": "website-policy-authority-lock",
+              })
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      return json.loads(r.read().decode("utf-8"))
+              except urllib.error.HTTPError as e:
+                  raise SystemExit(f"cannot read {path} at PR head {head}: HTTP {e.code}")
+
+          inv = fetch_json("config/content_inventory_policy.json")
+          pub = fetch_json("config/content_publication_policy.json")
+
+          up = inv.get("upstream_contract", {})
+          failures = []
+          if up.get("production_system_status") != "v3_consolidated":
+              failures.append(f"production_system_status must be v3_consolidated, got {up.get('production_system_status')!r}")
+          if up.get("daily_minimum_formal_batch_count") != 1:
+              failures.append(f"formal minimum must be 1, got {up.get('daily_minimum_formal_batch_count')!r}")
+          if up.get("daily_operational_minimum_count") != 10:
+              failures.append(f"operational minimum must be 10, got {up.get('daily_operational_minimum_count')!r}")
+          if up.get("daily_quality_first_range") != [1, 25]:
+              failures.append(f"quality_first_range must be [1, 25], got {up.get('daily_quality_first_range')!r}")
+          if up.get("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete") is not True:
+              failures.append("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete must be true")
+
+          o = pub.get("ordinary_seo_promotion", {})
+          if o.get("enabled") is not True:
+              failures.append("ordinary_seo_promotion.enabled must be true")
+          if o.get("batch_eligibility_overrides", {}).get("DAILY-20260901") != "eligible":
+              failures.append("DAILY-20260901 must be 'eligible'")
+          if str(o.get("status", "")).startswith("HOLD_UNTIL_ISSUE_264"):
+              failures.append("ordinary_seo_promotion must not inherit HOLD_UNTIL_ISSUE_264")
+
+          cf = inv.get("cf50_terminal_baseline", {})
+          if cf.get("release_authorized") is not False:
+              failures.append("cf50_terminal_baseline.release_authorized must remain false")
+
+          if failures:
+              for f in failures:
+                  print("FAIL:", f)
+              raise SystemExit(1)
+          print("WEBSITE_POLICY_AUTHORITY_LOCK=PASS formal_min=1 op_min=10 range=[1,25] 1-19_official=true DAILY-20260901=eligible issue264_independent=true cf50_release_authorized=false")
+          PY
