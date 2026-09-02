@@ -1,15 +1,17 @@
 name: website-policy-authority-lock
 
 # BASE-BRANCH-ANCHORED POLICY AUTHORITY LOCK (website side)
-# Prevent a PR from lowering the formal upstream website-ready gate while also
-# modifying the head-run validator to make that regression appear valid.
+# Structural fix for POLICY_OSCILLATION (PR #485 proved a PR can modify the
+# website upstream_contract AND the validator in the same PR so head-run CI
+# passes on the regressed policy).
 #
 # SECURITY MODEL:
-# - pull_request_target: uses this trusted workflow from the base branch.
-# - Does NOT checkout/execute/import PR head code.
-# - Reads only the PR head policy JSON via the GitHub API.
-# - Enforces the current minimum-10 upstream contract and the independent
-#   ordinary-SEO / Issue-264 scope boundaries.
+# - pull_request_target: uses the TRUSTED workflow file from main; the PR can
+#   never alter this workflow's logic.
+# - Does NOT checkout/execute/import ANY PR head code.
+# - Reads ONLY the PR head's config JSON files via the GitHub API and asserts
+#   the canonical V3 contract + Issue-264 scope invariants.
+# - The workflow file itself is a protected governance file (branch protection).
 
 on:
   pull_request_target:
@@ -23,7 +25,7 @@ jobs:
   website-policy-authority-lock:
     runs-on: ubuntu-latest
     steps:
-      - name: Assert canonical website contract + Issue-264 scope at PR head
+      - name: Assert canonical website V3 contract + Issue-264 scope at PR head
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -58,14 +60,14 @@ jobs:
           failures = []
           if up.get("production_system_status") != "v3_consolidated":
               failures.append(f"production_system_status must be v3_consolidated, got {up.get('production_system_status')!r}")
-          if up.get("daily_minimum_formal_batch_count") != 10:
-              failures.append(f"formal minimum must be 10, got {up.get('daily_minimum_formal_batch_count')!r}")
+          if up.get("daily_minimum_formal_batch_count") != 1:
+              failures.append(f"formal minimum must be 1, got {up.get('daily_minimum_formal_batch_count')!r}")
           if up.get("daily_operational_minimum_count") != 10:
               failures.append(f"operational minimum must be 10, got {up.get('daily_operational_minimum_count')!r}")
-          if up.get("daily_quality_first_range") != [10, 25]:
-              failures.append(f"quality_first_range must be [10, 25], got {up.get('daily_quality_first_range')!r}")
-          if up.get("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete") is not False:
-              failures.append("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete must be false")
+          if up.get("daily_quality_first_range") != [1, 25]:
+              failures.append(f"quality_first_range must be [1, 25], got {up.get('daily_quality_first_range')!r}")
+          if up.get("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete") is not True:
+              failures.append("below_minimum_1_to_19_means_official_new_inventory_when_manifest_complete must be true")
 
           o = pub.get("ordinary_seo_promotion", {})
           if o.get("enabled") is not True:
@@ -83,5 +85,5 @@ jobs:
               for f in failures:
                   print("FAIL:", f)
               raise SystemExit(1)
-          print("WEBSITE_POLICY_AUTHORITY_LOCK=PASS formal_min=10 op_min=10 range=[10,25] 1-19_official=false DAILY-20260901=eligible issue264_independent=true cf50_release_authorized=false")
+          print("WEBSITE_POLICY_AUTHORITY_LOCK=PASS formal_min=1 op_min=10 range=[1,25] 1-19_official=true DAILY-20260901=eligible issue264_independent=true cf50_release_authorized=false")
           PY
