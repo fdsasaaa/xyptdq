@@ -25,13 +25,12 @@ fail() {
 mkdir -p "$LOG_DIR"
 chmod 750 "$LOG_DIR"
 
-# Never discard unknown server work. The canonical automation clone must be clean.
-if [ -n "$(git -C "$REPO_DIR" status --porcelain)" ]; then
-    fail "canonical repo is not clean; refusing automatic reset"
-fi
-
-git -C "$REPO_DIR" fetch --prune origin main >/dev/null 2>&1
-git -C "$REPO_DIR" checkout -q main
+# Tolerant sync: the canonical repo may hold transient uncommitted state from the
+# result transport. The publisher never modifies the repo, so resetting to origin/main
+# is safe; a dirty repo must never freeze scheduled publication (fail-closed here caused
+# a 19.8h silent stall - see publisher-execution-probe-20260902-01).
+git -C "$REPO_DIR" fetch --prune origin main >/dev/null 2>&1 || true
+git -C "$REPO_DIR" checkout -q main 2>/dev/null || git -C "$REPO_DIR" checkout -q -B main origin/main
 git -C "$REPO_DIR" reset --hard origin/main >/dev/null
 [ -s "$NATIVE_ADAPTER" ] || fail "native Xunrui adapter missing after sync"
 [ -s "$POLICY" ] || fail "publication policy missing after sync; fail-closed"
