@@ -1,0 +1,30 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-09-02T03:38:24Z",
+  "job_id": "resync-canonical-repo-20260902-01",
+  "payload": {
+    "blocking_item": "NONE",
+    "cms_write": false,
+    "cron_write": false,
+    "findings": {
+      "after_dirty_lines": 2,
+      "after_head": "979b140",
+      "before_dirty_lines": 3,
+      "before_head": "14a9e41",
+      "canary_state": "scheduled 2026-09-03T10:00:00+08:00",
+      "tolerant_sync_fix_present": true
+    },
+    "phase": "complete",
+    "publisher_invoked": false,
+    "status": "PASS",
+    "task": "resync_canonical_repo_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "9b086a27000eccb06e09674c4995a003f96535a3",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/resync_canonical_repo_v1.sh",
+  "script_sha256": "5ca40d39f3447628905cec41a7080bf522fe934dc905852c325779b1914fbf0a",
+  "started_at": "2026-09-02T03:38:23Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
