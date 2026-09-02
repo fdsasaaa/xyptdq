@@ -1,0 +1,91 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-09-01T23:59:37Z",
+  "job_id": "fresh-server-safety-probe-post-hold-20260902-02",
+  "payload": {
+    "blocking_item": "NONE",
+    "cms_write": false,
+    "cron_write": false,
+    "findings": {
+      "canary_scheduled_file": {
+        "article_key": "lcm-angle-0b6f9c192c45dc31",
+        "file": "lcm-angle-0b6f9c192c45dc31.json",
+        "publication_state": "scheduled",
+        "publish_at": "2026-09-03T10:00:00+08:00",
+        "source_batch_id": "DAILY-20260901",
+        "source_content_hash": "51f20e7f103a3c73f3d421c86ab283c98669e30639e85a6f5d57792bed6d5239",
+        "source_revision_id": "LCM-ANGLE-0b6f9c192c45dc31:public-r1"
+      },
+      "date_cmd": "UTC +0000 2026-09-01T23:59:37",
+      "promotion_cron_active": false,
+      "promotion_cron_lines": [],
+      "promotion_cron_present": false,
+      "publisher_CF50_20260813_wave1_exists": true,
+      "publisher_CF50_20260813_wave1_state_file": true,
+      "publisher_CF50_20260813_wave1_state_keys": [
+        "articles",
+        "updated_at",
+        "version"
+      ],
+      "publisher_cron_lines": [
+        "SHELL=/bin/bash",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "7 * * * * root XYPTDQ_REPO_DIR=/opt/xyptdq-repo XYPTDQ_PUBLISH_SOURCE=/var/lib/xyptdq-content/ordinary-seo/scheduled XYPTDQ_PUBLISH_STATE=/var/lib/xyptdq-publisher/ordinary-seo/state.json XYPTDQ_PUBLISH_LOCK=/var/lib/xyptdq-publisher/ordinary-seo/publisher.lock /bin/bash /opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh >/dev/null 2>&1"
+      ],
+      "publisher_cron_present": true,
+      "publisher_env": {
+        "XYPTDQ_PUBLISH_LOCK": "/var/lib/xyptdq-publisher/ordinary-seo/publisher.lock",
+        "XYPTDQ_PUBLISH_SOURCE": "/var/lib/xyptdq-content/ordinary-seo/scheduled",
+        "XYPTDQ_PUBLISH_STATE": "/var/lib/xyptdq-publisher/ordinary-seo/state.json",
+        "XYPTDQ_REPO_DIR": "/opt/xyptdq-repo"
+      },
+      "publisher_ordinary_seo_exists": true,
+      "publisher_ordinary_seo_state_file": false,
+      "publisher_state_dirs": [
+        {
+          "count": 2,
+          "dir": "CF50-20260813",
+          "files": [
+            "publisher.lock",
+            "state.json"
+          ]
+        },
+        {
+          "count": 2,
+          "dir": "CF50-20260813-wave1",
+          "files": [
+            "publisher.lock",
+            "state.json"
+          ]
+        },
+        {
+          "count": 0,
+          "dir": "native-input",
+          "files": []
+        },
+        {
+          "count": 0,
+          "dir": "ordinary-seo",
+          "files": []
+        }
+      ],
+      "server_timezone": "Etc/UTC",
+      "stable_ordinary_queue_count": 1,
+      "timedatectl": ""
+    },
+    "phase": "complete",
+    "publisher_invoked": false,
+    "read_only": true,
+    "schedule_write": false,
+    "status": "PASS",
+    "task": "fresh_server_safety_probe_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "921bd9948b88dd24e00fa2e837551715d6aa92ba",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/fresh_server_safety_probe_v1.sh",
+  "script_sha256": "0b510c6996078c1e2af4b44f1c2b755eb2e75c295ee8aba70537d9aaffe97a6f",
+  "started_at": "2026-09-01T23:59:37Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
