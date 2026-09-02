@@ -1,0 +1,74 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-09-02T02:56:13Z",
+  "job_id": "publisher-execution-probe-20260902-01",
+  "payload": {
+    "blocking_item": "NONE",
+    "cms_write": false,
+    "cron_write": false,
+    "findings": {
+      "canonical_repo_dirty": true,
+      "canonical_repo_dirty_lines": 3,
+      "canonical_repo_head": "14a9e41",
+      "latest_publisher_log": "run_20260901T070702Z.log",
+      "latest_publisher_log_mtime_utc": "2026-09-01T07:07:02.424786+00:00",
+      "latest_publisher_log_tail": [
+        "run_id=20260901T070702Z",
+        "git_sha=1eb50de31a89adc9fe2a6649a102738214fc44c1",
+        "limit=2",
+        "source_queue=/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled",
+        "adapter=native_xunrui_v2",
+        "[filequeue] source=11 due=0 limit=2 mode=COMMIT",
+        "[sitemap] OK: 84 URLs -> /www/wwwroot/59.110.217.6/sitemap.xml",
+        "seo_verification=NO_NEW_PUBLICATIONS",
+        "result=PASS"
+      ],
+      "ordinary_lock_exists": false,
+      "ordinary_receipt_count": 0,
+      "ordinary_state_exists": false,
+      "ordinary_verification_count": 0,
+      "promotion_cron_exists": false,
+      "promotion_cron_held_backup_exists": true,
+      "publisher_cron_exists": true,
+      "publisher_cron_lines": [
+        "SHELL=/bin/bash",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "# Run hourly. publish_at inside each isolated Scheduled article controls the actual release time.",
+        "# The publisher is idempotent and publishes at most XYPTDQ_PUBLISH_LIMIT (default 2) due items per run.",
+        "# Invoke the runner through /bin/bash so cron does not depend on the checkout file's executable bit.",
+        "7 * * * * root XYPTDQ_REPO_DIR=/opt/xyptdq-repo XYPTDQ_PUBLISH_SOURCE=/var/lib/xyptdq-content/ordinary-seo/scheduled XYPTDQ_PUBLISH_STATE=/var/lib/xyptdq-publisher/ordinary-seo/state.json XYPTDQ_PUBLISH_LOCK=/var/lib/xyptdq-publisher/ordinary-seo/publisher.lock /bin/bash /opt/xyptdq-repo/scripts/content/run_scheduled_publish.sh >/dev/null 2>&1"
+      ],
+      "publisher_log_count": 411,
+      "publisher_log_dir_exists": true,
+      "queue_items": [
+        {
+          "article_key": "lcm-angle-0b6f9c192c45dc31",
+          "file": "lcm-angle-0b6f9c192c45dc31.json",
+          "publication_state": "scheduled",
+          "publish_at": "2026-09-03T10:00:00+08:00",
+          "source_batch_id": "DAILY-20260901",
+          "source_content_hash": "51f20e7f103a3c73...",
+          "source_revision_id": "LCM-ANGLE-0b6f9c192c45dc31:public-r1"
+        }
+      ],
+      "server_now_utc": "2026-09-02T02:56:13.567368+00:00",
+      "sitemap_exists": true,
+      "sitemap_mtime_utc": "2026-09-01T07:07:02.412786+00:00",
+      "stable_queue_count": 1
+    },
+    "phase": "complete",
+    "publisher_invoked": false,
+    "read_only": true,
+    "schedule_write": false,
+    "status": "PASS",
+    "task": "publisher_execution_probe_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "181829da3855c5d0382cabeef4551f0ded29b02c",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/publisher_execution_probe_v1.sh",
+  "script_sha256": "a0d2c12c2c841c3e25c0981e56ae56be130c5b9d25c7218f5c45aa49294d4713",
+  "started_at": "2026-09-02T02:56:13Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
