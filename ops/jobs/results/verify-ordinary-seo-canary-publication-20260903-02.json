@@ -1,0 +1,102 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-09-03T02:29:43Z",
+  "job_id": "verify-ordinary-seo-canary-publication-20260903-02",
+  "payload": {
+    "blocking_item": "target_still_queued_unpublished",
+    "checks": {
+      "intake_ledger_content_hash": true,
+      "intake_ledger_target_revision": true,
+      "promotion_cron_active_count_before_enable": 0,
+      "publisher_cron_singleton_count": 1,
+      "publisher_lock": true,
+      "publisher_source": true,
+      "publisher_state": true,
+      "sitemap_membership": false
+    },
+    "cms_write": false,
+    "cron_write": false,
+    "evidence": {
+      "batch_ids": [],
+      "cms_ids": [
+        "104"
+      ],
+      "content_hashes": [
+        "51f20e7f103a3c73f3d421c86ab283c98669e30639e85a6f5d57792bed6d5239"
+      ],
+      "legacy_state": [
+        {
+          "contains_target": false,
+          "mtime": 1786404170.6629436,
+          "path": "/var/lib/xyptdq-publisher/state.json"
+        }
+      ],
+      "live": [
+        {
+          "canonical": "https://www.laocaimi.org/index.php?c=show&id=104",
+          "http_status": 200,
+          "noindex": false,
+          "url": "https://www.laocaimi.org/index.php?c=show&id=104"
+        }
+      ],
+      "matched_records": [
+        {
+          "article_key": "lcm-angle-0b6f9c192c45dc31",
+          "cms_id": 104,
+          "content_hash": "51f20e7f103a3c73f3d421c86ab283c98669e30639e85a6f5d57792bed6d5239",
+          "path": "/var/lib/xyptdq-publisher/ordinary-seo/receipts/lcm-angle-0b6f9c192c45dc31.104.json",
+          "published_at": "2026-09-03T02:07:03+00:00",
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=104"
+        },
+        {
+          "cms_id": 104,
+          "path": "/var/lib/xyptdq-publisher/ordinary-seo/seo-verification/lcm-angle-0b6f9c192c45dc31.104.json",
+          "published_url": "https://www.laocaimi.org/index.php?c=show&id=104"
+        }
+      ],
+      "published_urls": [
+        "https://www.laocaimi.org/index.php?c=show&id=104"
+      ],
+      "queue_matches": [
+        {
+          "article_key": "lcm-angle-0b6f9c192c45dc31",
+          "file": "lcm-angle-0b6f9c192c45dc31.json",
+          "publication_state": "scheduled",
+          "publish_at": "2026-09-03T10:00:00+08:00"
+        }
+      ],
+      "receipt_paths": [
+        "/var/lib/xyptdq-publisher/ordinary-seo/receipts/lcm-angle-0b6f9c192c45dc31.104.json"
+      ],
+      "revision_ids": [],
+      "seo_verification_paths": [
+        "/var/lib/xyptdq-publisher/ordinary-seo/seo-verification/lcm-angle-0b6f9c192c45dc31.104.json"
+      ]
+    },
+    "failures": [
+      "sitemap_membership_missing",
+      "source_batch_id_not_verified",
+      "source_revision_id_not_verified",
+      "target_still_queued_unpublished"
+    ],
+    "phase": "complete",
+    "publisher_invoked": false,
+    "read_only": true,
+    "status": "BLOCKED",
+    "target": {
+      "publish_at": "2026-09-03T10:00:00+08:00",
+      "source_article_id": "LCM-ANGLE-0b6f9c192c45dc31",
+      "source_batch_id": "DAILY-20260901",
+      "source_revision_id": "LCM-ANGLE-0b6f9c192c45dc31:public-r1"
+    },
+    "task": "verify_ordinary_seo_canary_publication_v2"
+  },
+  "raw_log_published": false,
+  "required_commit": "5d5268dcd1ef21fa13f1c3f6ea160ba2427e5ac8",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/verify_ordinary_seo_canary_publication_v2.sh",
+  "script_sha256": "a3fc4de3e7f652df360b1468128ad997049accf3f9d5d715ef8e7eeb3b7003e9",
+  "started_at": "2026-09-03T02:29:43Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
