@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "enable-durable-weekly-cron-20260903-02",
+  "required_commit": "5677228ed53c3321e3667841688caa057cce7870",
+  "script": "scripts/ops/agent_tasks/enable_durable_weekly_cron_v1.sh",
+  "script_sha256": "653a32cfcd9a8ea19ba9a3483125b95ba07a3ecd2ef909e360bcbbef153775d7",
+  "timeout_seconds": 300
+}
