@@ -3,6 +3,6 @@
   "job_id": "verify-ordinary-seo-canary-publication-20260903-03",
   "required_commit": "d5166ab610cf6a087b138a3603b63a011f027efa",
   "script": "scripts/ops/agent_tasks/verify_ordinary_seo_canary_publication_v3.sh",
-  "script_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "script_sha256": "8b5905afec1a789f9caa7348f7d65d36e8b98ae71335eca6c02eaa7b323ecafe",
   "timeout_seconds": 300
 }
