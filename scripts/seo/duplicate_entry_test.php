@@ -5,7 +5,7 @@ $root=dirname(__DIR__,2);
 $tmp=sys_get_temp_dir().'/xyptdq-duplicate-entry-'.getmypid();
 mkdir($tmp,0700,true);
 $router=$tmp.'/router.php';
-$source='<?php define("MOD_DIR", $_GET["module"]??"news"); $meta_title="Fixture title"; $meta_description="Fixture description"; $meta_keywords=""; require '.var_export($root,true).'."/site/template/".($_GET["view"]??"pc")."/default/home/seo_header.html";';
+$source='<?php define("MOD_DIR", $_GET["module"]??"news"); $meta_title="Fixture title"; $meta_description="Fixture description"; $meta_keywords=""; $root='.var_export($root,true).'; if (isset($_GET["entry"])) { $entry=file_get_contents($root."/site/index.php"); $prefix=explode("// 是否是开发者模式",$entry,2)[0]; eval(substr($prefix,5)); } require $root."/site/template/".($_GET["view"]??"pc")."/default/home/seo_header.html";';
 file_put_contents($router,$source);
 $socket=stream_socket_server('tcp://127.0.0.1:0',$errno,$errstr);
 if (!$socket) {throw new RuntimeException('test listener unavailable');}
@@ -21,10 +21,11 @@ try {
     }
     if (!$ready) {throw new RuntimeException('test server startup failed');}
     foreach (['pc','mobile'] as $view) {
-        foreach ([[106,'news',301],[105,'news',200],[104,'news',200],[106,'xm',200]] as $case) {
+        foreach ([[106,'news',301],[105,'news',200],[104,'news',200],[106,'xm',200],
+                  [106,'news',301,'&entry=1'],[105,'news',200,'&entry=1'],[104,'news',200,'&entry=1']] as $case) {
             [$id,$module,$expected]=$case;
             $ctx=stream_context_create(['http'=>['follow_location'=>0,'ignore_errors'=>true,'timeout'=>5]]);
-            $body=file_get_contents('http://'.$address.'/?c=show&id='.$id.'&view='.$view.'&module='.$module,false,$ctx);
+            $body=file_get_contents('http://'.$address.'/?c=show&id='.$id.'&view='.$view.'&module='.$module.($case[3]??''),false,$ctx);
             $headers=$http_response_header??[];
             if (!isset($headers[0]) || strpos($headers[0],' '.$expected.' ')===false) {
                 throw new RuntimeException($view.' unexpected HTTP status: '.json_encode($headers));
