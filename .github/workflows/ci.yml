@@ -50,7 +50,7 @@ jobs:
 
       - name: Ordinary publication lifecycle and cron recovery regressions
         run: |
-          python3 scripts/content/publication_ledger_test.py
+          sudo "$(command -v python3)" scripts/content/publication_ledger_test.py
           php scripts/seo/duplicate_entry_test.php
 
       - name: Validate pending agent job pins

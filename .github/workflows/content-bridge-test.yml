@@ -51,7 +51,7 @@ jobs:
       - name: Python inventory syntax check
         run: python3 -m py_compile scripts/content/inventory_diff.py scripts/content/reconcile_publication_ledger.py
       - name: Ordinary publication lifecycle and unattended cron regression
-        run: python3 scripts/content/publication_ledger_test.py
+        run: sudo "$(command -v python3)" scripts/content/publication_ledger_test.py
       - name: Inventory policy JSON check
         run: |
           python3 -m json.tool config/content_inventory_policy.json >/dev/null
