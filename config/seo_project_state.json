@@ -1,34 +1,42 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-16T17:36:33+08:00",
+  "updated_at": "2026-10-31T01:00:03Z",
   "repository": "fdsasaaa/xyptdq",
   "production_site": "https://www.laocaimi.org",
   "article_repository": "fdsasaaa/caipiaowenzhang",
-  "current_phase": "phase2_first_wave_active_inventory_intake_healthy_idle",
+  "current_phase": "phase2_ordinary_seo_recovered_cf50_discovery_hold",
   "canonical_checkpoint": {
     "technical_seo_baseline": "closed_unless_regression",
     "website_thread_owns_intake_seo_publication": true,
-    "article_factory_status": "PRODUCTION_SEALED",
     "raw_approved_body_publication_allowed": false,
     "website_body_source": "validated_website_public_release_revision",
     "draft_intake_is_separate_from_publication": true
   },
+  "historical_checkpoint": {
+    "commit": "aa112291efef3accabd07e463b07184da81d4fac",
+    "path": "config/seo_project_state.json",
+    "as_of": "2026-08-16T17:36:33+08:00",
+    "do_not_use_historical_watermarks_as_current": true
+  },
   "phase1": {
     "status": "closed_unless_regression",
-    "canonical_mismatch": 0,
-    "duplicate_title_groups": 0,
-    "duplicate_h1_groups": 0,
-    "duplicate_description_groups": 0,
-    "orphan_pages": 0,
-    "active_empty_news_categories": 0,
-    "http_errors": 0
+    "latest_full_audit_is_historical": true,
+    "whole_site_reaudit_this_recovery": false,
+    "scoped_duplicate_regression": "106_redirects_to_105_and_is_omitted_from_sitemap"
   },
   "category_policy": {
     "ordinary_seo_article_category_key": "tzjq",
     "ordinary_seo_article_catid": 3,
     "cms_display_label": "投注机巧",
-    "retained_categories": ["gjfa", "tzjq", "zyyy"],
-    "retired_categories": ["seo-articles", "gdrz"],
+    "retained_categories": [
+      "gjfa",
+      "tzjq",
+      "zyyy"
+    ],
+    "retired_categories": [
+      "seo-articles",
+      "gdrz"
+    ],
     "category_guessing_allowed": false
   },
   "keyword_and_cluster_state": {
@@ -44,229 +52,165 @@
     "future_batch_cf50_map_leakage_blocked_by_pr": 407
   },
   "inventory_watermarks": {
-    "A_upstream_official_public_r1": 45,
-    "source_formal_manifests_on_main": ["CF50-20260813.json"],
-    "website_repository_ingress_known": 12,
-    "runtime_intake_ledger_known": 33,
-    "remaining_new_draft_candidates": 0,
-    "website_live_seed_count": 4,
-    "website_scheduled_not_live": 8,
-    "production_rate_decoupled_from_publication_rate": true,
-    "daily_supply_assumed_fixed": false
+    "upstream_manifest_public_release_records": 97,
+    "cf50_public_r1": 45,
+    "daily_public_r1": 52,
+    "website_first_wave_ingress": 12,
+    "pre_recovery_intake_ledger_count": 85,
+    "pre_recovery_ledger_observed_at": "2026-10-31T00:40:58Z",
+    "pre_recovery_draft_batches": {
+      "CF50-20260813": 33,
+      "DAILY-20260817": 23,
+      "DAILY-20260901": 14,
+      "DAILY-20260904": 7,
+      "DAILY-20260905": 8
+    },
+    "source_formal_manifests_on_main": [
+      "CF50-20260813.json",
+      "DAILY-20260817.json",
+      "DAILY-20260901.json",
+      "DAILY-20260904.json",
+      "DAILY-20260905.json"
+    ],
+    "new_stock_is_not_publication_authorization": true
   },
   "cf50": {
     "batch_id": "CF50-20260813",
-    "formal_approved_count": 50,
-    "website_ready_public_r1_count": 45,
-    "manifest_status": "partial",
-    "manifest_canary_ingestion_allowed": true,
-    "manifest_website_batch_ingestion_allowed": false,
-    "terminal_45_of_50_waiting_state_explicitly_allowed": true,
-    "reviewed_first_wave_count": 12,
-    "first_wave_article_numbers": [1, 11, 21, 31, 41, 46, 2, 12, 22, 32, 37, 49],
-    "final5_frozen_article_numbers": [20, 29, 38, 39, 40],
-    "final5_status": "FROZEN_PENDING_ISSUE_264",
-    "final5_required_exact_machine_conclusion": "CF50_FINAL_5_RELEASE=AUTHORIZED",
+    "first_wave_live_count": 12,
+    "first_wave_cms_ids": [
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103
+    ],
+    "last_first_wave_published_at": "2026-08-20T10:07:01+08:00",
+    "search_discovery_gate": "HOLD",
+    "hub_gate": "HOLD",
+    "wave_b_authorized": false,
+    "final5_frozen_article_numbers": [
+      20,
+      29,
+      38,
+      39,
+      40
+    ],
     "final5_release_authorized": false,
-    "release_order_file": "content/cf50_seo_release_order.json"
+    "required_exact_machine_conclusion": "CF50_FINAL_5_RELEASE=AUTHORIZED",
+    "authority_issue": 264
   },
-  "live_seed_pages": [
-    {
-      "article_id": "LCM-CREATOR-cf50-20260813-001",
-      "cms_id": 92,
-      "url": "https://www.laocaimi.org/index.php?c=show&id=92",
-      "live_seo": "PASS"
-    },
-    {
-      "article_id": "LCM-CREATOR-cf50-20260813-011",
-      "cms_id": 93,
-      "url": "https://www.laocaimi.org/index.php?c=show&id=93",
-      "live_seo": "PASS"
-    },
-    {
-      "article_id": "LCM-CREATOR-cf50-20260813-021",
-      "cms_id": 94,
-      "url": "https://www.laocaimi.org/index.php?c=show&id=94",
-      "live_seo": "PASS",
-      "repair_job": "repair-cf50-021-sitemap-20260816-03"
-    },
-    {
-      "article_id": "LCM-CREATOR-cf50-20260813-031",
-      "cms_id": 95,
-      "url": "https://www.laocaimi.org/index.php?c=show&id=95",
-      "published_at": "2026-08-16T02:07:03+00:00",
-      "normal_slot_probe_job": "probe-cf50-031-normal-slot-20260816-01",
-      "publisher_state": "published",
-      "publication_receipt": "PASS",
-      "live_seo": "PASS"
-    }
-  ],
   "article_publishing": {
-    "policy_file": "config/content_publication_policy.json",
     "publishing_enabled": true,
-    "mode": "wave1_resumed_after_cf50_021_xml_gate_repair_and_schedule_rebase",
-    "runtime_source_root": "/var/lib/xyptdq-content/CF50-20260813-wave1/scheduled",
-    "runtime_state_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/state.json",
-    "runtime_lock_path": "/var/lib/xyptdq-publisher/CF50-20260813-wave1/publisher.lock",
+    "ordinary_seo_promotion_enabled": true,
+    "ordinary_seo_independent_of_issue_264": true,
+    "policy_file": "config/content_publication_policy.json",
+    "ordinary_runtime_source": "/var/lib/xyptdq-content/ordinary-seo/scheduled",
+    "ordinary_runtime_state": "/var/lib/xyptdq-publisher/ordinary-seo/state.json",
+    "promotion_cron": "5 * * * *",
+    "publisher_cron": "7 * * * *",
+    "promotion_cron_singleton_verified": true,
+    "publisher_cron_singleton_verified": true,
+    "editorial_timezone": "Asia/Shanghai",
+    "editorial_slots": "Tuesday/Thursday/Saturday 10:00 +08:00",
+    "weekly_max_articles": 3,
+    "rolling_pending_horizon": 1,
+    "overdue_unfinished_item_blocks_more_scheduling": true,
     "historical_repository_queue_forbidden": true,
-    "recurring_cron_present": true,
-    "recurring_cron_schedule": "7 * * * *",
-    "recurring_cron_runner_invocation": "/bin/bash scripts/content/run_scheduled_publish.sh",
-    "current_runtime_article_count": 11,
-    "current_runtime_published_count": 3,
-    "current_runtime_scheduled_count": 8,
-    "current_runtime_failed_count": 0,
-    "current_runtime_remaining_unpublished_count": 8,
-    "pause_schedule_probe_job": "probe-wave1-remaining-schedule-20260816-01",
-    "schedule_rebase_job": "rebase-cf50-wave1-after-021-20260816-01",
-    "schedule_rebase_status": "PASS",
-    "latest_normal_slot_article_id": "LCM-CREATOR-cf50-20260813-031",
-    "latest_normal_slot_cms_id": 95,
-    "latest_normal_slot_probe_job": "probe-cf50-031-normal-slot-20260816-01",
-    "latest_normal_slot_probe_status": "PASS",
-    "next_article_id": "LCM-CREATOR-cf50-20260813-041",
-    "next_publish_at": "2026-08-16T19:00:00+08:00",
-    "last_first_wave_article_id": "LCM-CREATOR-cf50-20260813-049",
-    "last_first_wave_publish_at": "2026-08-20T10:00:00+08:00",
-    "wave_b_authorized": false
-  },
-  "planned_recurring_cadence": {
-    "articles_per_day": 2,
-    "timezone": "Asia/Singapore",
-    "editorial_slots": ["10:00", "19:00"],
-    "first_wave_size": 12,
-    "after_first_wave": "issue_264_search_discovery_checkpoint",
-    "cadence_is_direct_ranking_signal": false
-  },
-  "post_publication_seo": {
-    "status": "enabled",
-    "sitemap_refresh": true,
-    "publication_receipt": true,
-    "live_http_canonical_noindex_title_h1_description_sitemap_verification": true,
-    "sitemap_membership_check": "XML-aware_entity_decoded",
-    "failure_behavior": "warn_without_rolling_back_committed_cms_page",
-    "cf50_011_live_verification": "PASS",
-    "cf50_021_live_verification": "PASS",
-    "cf50_031_live_verification": "PASS"
+    "canary_104_published_ledger_and_receipt_and_live_seo": "PASS",
+    "new_publication_during_repair": false,
+    "next_ordinary_schedule": [
+      {
+        "publish_at": "2026-10-31T10:00:00+08:00",
+        "source_article_id": "LCM-ANGLE-11c1d01b80765af0",
+        "source_batch_id": "DAILY-20260901"
+      }
+    ],
+    "next_new_article_publication_observed": false
   },
   "inventory_intake": {
-    "mode": "inventory_driven_public_release_consumption",
-    "inventory_policy": "config/content_inventory_policy.json",
-    "source_sync_policy": "config/content_source_sync_policy.json",
-    "incremental_diff": "scripts/content/inventory_diff.py",
-    "incremental_runner": "scripts/content/incremental_inventory_intake.py",
-    "wrapper": "scripts/content/run_incremental_inventory_intake.sh",
     "automatic_intake_enabled": true,
     "destination_state": "draft_only",
-    "may_create_publish_at": false,
-    "may_promote_to_scheduled": false,
-    "may_invoke_publisher": false,
-    "runtime_draft_root": "/var/lib/xyptdq-content/intake/drafts",
-    "runtime_ledger_path": "/var/lib/xyptdq-content/intake/state.json",
-    "runtime_lock_path": "/var/lib/xyptdq-content/intake/intake.lock",
-    "idempotency_required": true,
-    "exact_primary_keyword_conflict_gate": "fail_closed",
-    "exact_slug_conflict_gate": "fail_closed",
-    "final5_freeze_gate_synced_to_issue_264": true,
-    "dedicated_readonly_deploy_key": "REGISTERED_AND_PROVEN",
-    "deploy_key_fingerprint": "SHA256:qgkoW70e+CTTmZ+AQOxM/kcpHu5i0WsinMMSXoMKD7E",
-    "private_key_exported": false,
-    "private_source_main_read_proof_job": "prove-article-repo-ssh-inventory-20260816-01",
-    "private_source_main_read_proof_status": "PASS",
-    "proven_source_commit": "e4833ff81a71f6246922ec8992d9ddc8faec1ccf",
-    "first_draft_ledger_canary": "LCM-CREATOR-cf50-20260813-003",
-    "first_draft_ledger_canary_job": "canary-article-repo-draft-ledger-20260816-01",
-    "first_draft_ledger_canary_status": "PASS",
-    "generic_runner_canary": "LCM-CREATOR-cf50-20260813-004",
-    "generic_runner_canary_job": "canary-incremental-intake-runner-004-20260816-01",
-    "generic_runner_canary_status": "PASS",
-    "auto_mode_activation_article": "LCM-CREATOR-cf50-20260813-005",
-    "auto_mode_activation_job": "activate-incremental-intake-20260816-01",
-    "auto_mode_activation_status": "PASS",
-    "ledger_records_after_activation": 3,
-    "remaining_new_draft_candidates_after_activation": 30,
-    "cron_installed": true,
-    "cron_file": "/etc/cron.d/xyptdq-intake",
     "cron_schedule": "23 * * * *",
-    "max_candidates_per_run": 25,
-    "publisher_cron_mutated_by_activation": false,
-    "publication_queue_consumed_by_activation": false,
-    "first_scheduled_cron_run_observed": true,
-    "first_scheduled_cron_run_job": "audit-first-scheduled-intake-20260816-01",
-    "first_scheduled_cron_run_status": "PASS",
-    "first_scheduled_cron_run_selected": 25,
-    "first_scheduled_cron_ledger_before": 3,
-    "first_scheduled_cron_ledger_after": 28,
-    "first_scheduled_cron_candidates_before": 30,
-    "first_scheduled_cron_candidates_after": 5,
-    "second_scheduled_cron_business_status": "PASS_POSTCHECK_FALSE_FAILURE",
-    "second_scheduled_cron_selected": 5,
-    "second_scheduled_cron_ledger_after": 33,
-    "second_scheduled_cron_candidates_after": 0,
-    "second_scheduled_cron_failed_audit_job": "audit-first-scheduled-intake-20260816-02",
-    "second_scheduled_cron_diagnostic_job": "diagnose-scheduled-intake-failure-20260816-01",
-    "second_scheduled_cron_diagnostic_status": "PASS",
-    "zero_candidate_postcheck_root_cause": "python_truthiness_converted_valid_zero_to_minus_one",
-    "zero_candidate_postcheck_fix_pr": 417,
-    "zero_candidate_postcheck_fix_merge_sha": "cea94bc700c325dcb0ac9eea8f9487fee78b5ae3",
-    "zero_candidate_postcheck_fix_status": "MERGED_CI_PASS",
-    "ledger_records_current": 33,
-    "remaining_new_draft_candidates_current": 0,
-    "inventory_reconciliation_status": "FULLY_RECONCILED_WAITING_NEW_UPSTREAM",
-    "post_fix_idle_audit_job": "audit-idle-intake-after-zero-fix-20260816-01",
-    "post_fix_idle_audit_status": "PASS",
-    "post_fix_idle_runs_audited": 5,
-    "post_fix_idle_slots_asia_singapore": ["2026-08-16T13:23:08+08:00", "2026-08-16T14:23:07+08:00", "2026-08-16T15:23:07+08:00", "2026-08-16T16:23:07+08:00", "2026-08-16T17:23:07+08:00"]
+    "runtime_ledger_path": "/var/lib/xyptdq-content/intake/state.json",
+    "intake_lock_shared_with_lifecycle_reconciliation": true,
+    "lifecycle_reconciliation": "exact_revision_article_batch_body_fingerprint_state_receipt_identity; atomic and idempotent",
+    "does_not_authorize_publication": true
   },
   "search_discovery_checkpoint": {
     "issue": 264,
-    "status": "WAITING_FIRST_12_LIVE",
-    "live_seed_count": 4,
+    "status": "HOLD_MISSING_CURRENT_GSC_EVIDENCE",
+    "live_seed_count": 12,
     "required_seed_count": 12,
-    "after_first_12_verify": ["http_200", "self_canonical", "no_noindex", "sitemap_membership", "search_console_sitemap_processing", "representative_url_inspection_live_tests"],
-    "all_12_must_be_indexed_before_continuing": false,
-    "systemic_technical_blocker_holds_next_wave": true
+    "missing": [
+      "Search Console Sitemap processing",
+      "representative URL Inspection/live-test evidence"
+    ],
+    "public_search_is_not_gsc_evidence": true
   },
   "ffc_research_hub": {
-    "status": "blueprint_created_not_live",
-    "blueprint": "content/hub_blueprints/ffc_research_hub.json",
+    "status": "blueprint_only_not_live",
     "live_url": null,
-    "minimum_verified_seed_articles_before_live_evaluation": 12,
-    "empty_hub_creation_allowed": false
+    "gate": "HOLD"
   },
-  "article_reading_design": {
-    "status": "production_pass_closed_unless_regression",
-    "production_job": "deploy-article-reading-static-css-20260814-03",
-    "managed_block": "XYPTDQ_ARTICLE_READING"
+  "duplicate_entry_repair": {
+    "canonical_cms_id": 105,
+    "redirect_cms_id": 106,
+    "pc_and_mobile_http_status": 301,
+    "same_visible_body_and_download_target_verified": true,
+    "cms_records_preserved": true,
+    "sitemap_duplicate_removed": true
+  },
+  "latest_recovery": {
+    "status": "PASS",
+    "job_id": "repair-ordinary-seo-runtime-20261031-04",
+    "required_commit": "a6e91f61fe510c1edd3ad06dcfee1521ec5ffc95",
+    "script_sha256": "f053897b6c8e08cc51c7c3ff51d3e518c0ee2c5679fc65df9e4ec420f565c8f2",
+    "finished_at": "2026-10-31T01:00:03Z",
+    "backup": "/var/backups/xyptdq/ordinary-seo-20261031T005956Z-2575636",
+    "cf50_and_legacy_state_unchanged": true,
+    "framework_lock_unchanged": true,
+    "result_url": "https://www.laocaimi.org/uploadfile/xyptdq-agent-results/repair-ordinary-seo-runtime-20261031-04.json",
+    "prs": [
+      503,
+      504,
+      505,
+      506,
+      507
+    ],
+    "ci": "PASS; 9 lifecycle/cron regressions, PHP receipt compatibility, PC/mobile header and entrypoint HTTP tests"
   },
   "current_open_items": [
     {
-      "id": "first_wave_remaining_publication",
-      "status": "ACTIVE_NORMAL_SLOTS_PROVEN",
-      "detail": "031 published normally through the :07 Publisher poll and passed Receipt/live SEO proof. Next is 041 at 2026-08-16 19:00 Asia/Singapore. Stop after 12 live seeds for Issue #264."
+      "id": "first_new_ordinary_natural_publication",
+      "status": "SCHEDULED_NOT_YET_OBSERVED",
+      "detail": [
+        {
+          "publish_at": "2026-10-31T10:00:00+08:00",
+          "source_article_id": "LCM-ANGLE-11c1d01b80765af0",
+          "source_batch_id": "DAILY-20260901"
+        }
+      ]
     },
     {
-      "id": "inventory_intake_inventory_watch",
-      "status": "HEALTHY_IDLE_ZERO_CANDIDATES",
-      "detail": "All 45 current formal public-r1 are accounted for by 12 website ingress revisions plus 33 Draft-ledger records. The :23 cron is healthy and has passed five post-fix zero-candidate no-op runs. Wait for new upstream formal public-r1; do not manually replay the reconciled CF50 inventory."
-    },
-    {
-      "id": "first_wave_search_discovery_checkpoint",
-      "status": "WAITING_FIRST_12_LIVE",
-      "detail": "Do not start Wave B, release the final five, or activate the live Hub until Issue #264 evaluates the first 12 live seeds."
+      "id": "search_console_evidence",
+      "status": "ACCOUNT_DATA_ACCESS_REQUIRED",
+      "detail": "Do not infer clicks, rankings or index counts; keep CF50/Hub/final-five gates unchanged."
     }
   ],
   "next_actions": [
-    "Do not republish CF50-001/011/021/031.",
-    "Let the rebased isolated Wave1 schedule continue to CF50-041 at 2026-08-16T19:00:00+08:00 and prove the actual publication through Publisher state, Receipt and live SEO.",
-    "Leave the independent :23 Draft-only intake cron active as an idempotent inventory watcher; current formal public-r1 inventory is fully reconciled at ledger=33 / candidates=0.",
-    "Do not manually replay the five revisions processed by the 11:23 run; that run completed the business writes and only the old zero-value postcheck failed.",
-    "Do not reinstall or duplicate either Publisher cron (:07) or intake cron (:23).",
-    "Keep final five 020/029/038/039/040 frozen until Issue #264 records CF50_FINAL_5_RELEASE=AUTHORIZED.",
-    "Stop after 12 live seed articles for Search Discovery before Wave B or Hub activation.",
-    "Keep Phase 1 and article-reading visual work closed unless a real regression appears."
+    "Observe the next ordinary article at its existing future slot and require Publisher state, receipt, exact ledger row and live SEO proof.",
+    "Keep the hourly ordinary promotion watcher and single Publisher active; do not add more cron entries or replay the historical queue.",
+    "Acquire current Search Console evidence before evaluating Issue #264.",
+    "Keep CF50 final-five and Wave B frozen; ordinary DAILY publication remains independent."
   ],
   "handoff_document": "docs/seo/SEO_PROJECT_HANDOFF.md",
-  "changelog": "docs/seo/SEO_CHANGELOG.md",
-  "new_session_instruction": "Read main handoff/state and newer agent/results first. Phase 1 is closed. CF50 has 45 formal public-r1. 001/011/021/031 are proven live as CMS 92/93/94/95 with live SEO PASS; Wave1 runtime is 3 published / 8 scheduled / 0 failed and next is 041 at 2026-08-16 19:00. Automatic private-repo Draft intake is ACTIVE and fully reconciled: 003/004/005 proved canary/generic/activation, the first natural 10:23 run processed 25 (ledger 3->28, candidates 30->5), the 11:23 run processed the remaining 5 and reached ledger=33/candidates=0 but the old postcheck falsely failed because valid zero was converted to -1. Diagnosis proved all 33 Drafts safe; PR #417 fixed the zero-value verifier with CI PASS. Five natural post-fix :23 runs from 13:23 through 17:23 all passed as selected=0 no-ops. Intake never creates publish_at or invokes Publisher. Publisher remains independent at :07. Do not duplicate crons, manually replay reconciled intake, publish raw Approved bodies, release 020/029/038/039/040, start Wave B, or activate the live Hub before Issue #264 post-12 Search Discovery."
+  "recovery_report": "docs/seo/ORDINARY_SEO_RECOVERY_20261031.md",
+  "changelog": "docs/seo/SEO_CHANGELOG.md"
 }
