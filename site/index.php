@@ -14,6 +14,14 @@ declare(strict_types=1);
 header('Content-Type: text/html; charset=utf-8');
 //header('X-Frame-Options: SAMEORIGIN'); // 防止被站外加入iframe中浏览
 
+// Global shared-routing ID 106 duplicates 105's visible body and download.
+// Redirect before CMS rendering/response handling, on both PC and mobile.
+if (strtolower(trim((string)($_GET['c'] ?? ''))) === 'show'
+    && (int)($_GET['id'] ?? 0) === 106 && strtolower((string)($_GET['s'] ?? '')) !== 'api') {
+    header('Location: https://www.laocaimi.org/index.php?c=show&id=105', true, 301);
+    exit;
+}
+
 // Retired SEO文章 category: preserve any old category-link equity by sending
 // both canonical-dir and legacy id routes to the retained tzjq carrier.
 if (strtolower(trim((string)($_GET['c'] ?? ''))) === 'category') {

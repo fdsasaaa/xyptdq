@@ -14,7 +14,7 @@ TMP=$(mktemp -d /tmp/xyptdq-ordinary-recovery.XXXXXX)
 PHASE=init
 DEPLOYED=0
 CRON_WRITTEN=0
-FILES=(template/pc/default/home/seo_header.html template/mobile/default/home/seo_header.html)
+FILES=(index.php template/pc/default/home/seo_header.html template/mobile/default/home/seo_header.html)
 cleanup(){ rm -rf "$TMP"; }
 trap cleanup EXIT
 failed(){
