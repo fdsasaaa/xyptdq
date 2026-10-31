@@ -24,12 +24,20 @@ failed(){
         XYPTDQ_WEBROOT="$WEBROOT" bash "$REPO/scripts/content/safe_clear_cache.sh" >/dev/null || true
     fi
     if [ "$CRON_WRITTEN" = 1 ]; then install -o root -g root -m 0644 "$BACKUP/promotion.cron" "$CRON"; fi
-    python3 - "$XYPTDQ_AGENT_RESULT_FILE" "$PHASE" "$rc" "$BACKUP" <<'PY'
-import json, sys
-out, phase, rc, backup=sys.argv[1:]
+    python3 - "$XYPTDQ_AGENT_RESULT_FILE" "$PHASE" "$rc" "$BACKUP" "$TMP" <<'PY'
+import json, pathlib, sys
+out, phase, rc, backup, tmp=sys.argv[1:]
+diagnostics={}
+headers=pathlib.Path(tmp)/"headers"
+if headers.is_file():
+    diagnostics["redirect_headers"]=[s for s in headers.read_text(errors="replace").splitlines() if s.lower().startswith(("http/","location:"))]
+seo=pathlib.Path(tmp)/"live-seo.json"
+if seo.is_file():
+    try: diagnostics["live_seo"]=json.loads(seo.read_text())
+    except Exception: diagnostics["live_seo_json_valid"]=False
 with open(out,'w') as f:
     json.dump({'task':'repair_ordinary_seo_runtime_v1','status':'BLOCKED','phase':phase,
-               'exit_code':int(rc),'backup':backup,'cms_write':False,'publisher_invoked':False,
+               'exit_code':int(rc),'backup':backup,'cms_write':False,'publisher_invoked':False,'diagnostics':diagnostics,
                'note':'Template/cron installation rolled back if changed; validated ledger recovery is retained.'},f)
 PY
     exit "$rc"
@@ -101,15 +109,19 @@ XYPTDQ_WEBROOT="$WEBROOT" php "$REPO/scripts/seo/generate_sitemap.php" > "$TMP/s
 PHASE=live_redirect_verify
 for ua in 'xyptdq-recovery/1' 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/134 Mobile Safari/537.36'; do
     code=$(curl -sS --max-time 25 -A "$ua" -D "$TMP/headers" -o /dev/null -w '%{http_code}' 'https://www.laocaimi.org/index.php?c=show&id=106')
+    PHASE=redirect_http_status
     [ "$code" = 301 ]
+    PHASE=redirect_destination
     tr -d '\r' < "$TMP/headers" | grep -Fqi 'Location: https://www.laocaimi.org/index.php?c=show&id=105'
 done
+PHASE=sitemap_canonical_membership
 python3 - "$WEBROOT/sitemap.xml" <<'PY'
 import sys, xml.etree.ElementTree as ET
 urls={(x.text or '').strip() for x in ET.parse(sys.argv[1]).iter() if x.tag.endswith('loc')}
 assert 'https://www.laocaimi.org/index.php?c=show&id=105' in urls
 assert 'https://www.laocaimi.org/index.php?c=show&id=106' not in urls
 PY
+PHASE=canary_live_seo
 php "$REPO/scripts/seo/verify_publication_seo.php" \
   --receipt="$PUB/ordinary-seo/receipts/lcm-angle-0b6f9c192c45dc31.104.json" > "$TMP/live-seo.json"
 
