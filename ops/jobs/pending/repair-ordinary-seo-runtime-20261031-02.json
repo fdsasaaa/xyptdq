@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "repair-ordinary-seo-runtime-20261031-02",
+  "required_commit": "b37ca468bb61ddbab1b3b0f498d3b5ba44774c5e",
+  "script": "scripts/ops/agent_tasks/repair_ordinary_seo_runtime_v1.sh",
+  "script_sha256": "740479fb797b00849b1eadc8cd40aecc97ca48fd2df8ae1ffadc7dbcc2f4c86f",
+  "timeout_seconds": 600
+}
