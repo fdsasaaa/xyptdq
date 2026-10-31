@@ -45,24 +45,38 @@ grep -Fq 'XYPTDQ_PUBLISH_STATE=/var/lib/xyptdq-publisher/ordinary-seo/state.json
 grep -Fq 'XYPTDQ_PUBLISH_LOCK=/var/lib/xyptdq-publisher/ordinary-seo/publisher.lock' /etc/cron.d/xyptdq-publisher
 
 PHASE=duplicate_identity_preflight
-php /dev/stdin "$REPO" > "$TMP/duplicate-proof.json" <<'PHP'
-<?php
-require $argv[1].'/scripts/content/cms_publish_native_adapter.php';
-$c=xyptdq_native_load_db_config(); $pdo=xyptdq_native_open_pdo($c);
-$prefix=xyptdq_native_identifier((string)($c['DBPrefix']??'dr_'),'prefix');
-$expected=[105=>'f816fb7803174d689dea36e135c62bd10c443bc8d0ecb04fa21bf35fd117168d',106=>'d77dc156ba8b20334dacb5b835daa0894523ed6210f3295d3f4dd2ab280eccc5'];
-$visible=[];$links=[];
-foreach ($expected as $id=>$hash) {
-    $q=$pdo->prepare('SELECT catid,content FROM `'.$prefix.'1_news_data_0` WHERE id=?');$q->execute([$id]);$r=$q->fetch();
-    if (!$r) {throw new RuntimeException('duplicate source missing');} ksort($r);
-    if (hash('sha256',json_encode($r,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES))!==$hash) {throw new RuntimeException('duplicate body drifted; review required');}
-    $body=(string)$r['content'];
-    $visible[$id]=preg_replace('/\s+/u',' ',trim(html_entity_decode(strip_tags($body),ENT_QUOTES,'UTF-8')));
-    preg_match_all('/href\s*=\s*[\x22\x27]([^\x22\x27]+)[\x22\x27]/i',$body,$matches);$links[$id]=$matches[1];
-}
-if ($visible[105]!==$visible[106] || $links[105]!==$links[106]) {throw new RuntimeException('duplicate content/attachment mismatch');}
-echo json_encode(['visible_text_identical'=>true,'download_links_identical'=>true,'canonical_id'=>105,'redirect_id'=>106]);
-PHP
+python3 - "$TMP/duplicate-proof.json" <<'PY'
+import hashlib, json, pathlib, sys, urllib.request
+from html.parser import HTMLParser
+from urllib.parse import urljoin
+class Article(HTMLParser):
+    def __init__(self):
+        super().__init__(); self.depth=0; self.skip=0; self.text=[]; self.links=[]
+    def handle_starttag(self, tag, attrs):
+        a=dict(attrs)
+        if self.depth==0:
+            if 'xyptdq-content' in a.get('class','').split():self.depth=1
+            return
+        if tag not in ('area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'):self.depth+=1
+        if tag in ('script','style'):self.skip+=1
+        if tag=='a' and a.get('href'):self.links.append(urljoin('https://www.laocaimi.org/',a['href']))
+    def handle_endtag(self, tag):
+        if self.depth:
+            if tag in ('script','style'):self.skip-=1
+            self.depth-=1
+    def handle_data(self, text):
+        if self.depth and not self.skip:self.text.append(text)
+pages=[]
+for article_id in (105,106):
+    with urllib.request.urlopen('https://www.laocaimi.org/index.php?c=show&id='+str(article_id),timeout=25) as response:
+        assert response.status==200
+        parser=Article();parser.feed(response.read().decode('utf-8'))
+    text=' '.join(' '.join(parser.text).split())
+    assert len(text)>180 and parser.links==['https://www.laocaimi.org/uploadfile/202610/a698cade5a2dd96.zip']
+    pages.append({'id':article_id,'visible_body_sha256':hashlib.sha256(text.encode()).hexdigest(),'download_links':parser.links})
+assert pages[0]['visible_body_sha256']==pages[1]['visible_body_sha256'], 'visible article body differs'
+pathlib.Path(sys.argv[1]).write_text(json.dumps({'visible_text_identical':True,'download_links_identical':True,'pages':pages}),encoding='utf-8')
+PY
 
 PHASE=backup
 mkdir -p "$BACKUP"; chmod 0700 "$BACKUP"
@@ -158,6 +172,7 @@ result={'task':'repair_ordinary_seo_runtime_v1','status':'PASS','phase':'complet
         'cron_environment_first_run':first,'cron_environment_repeat_run':repeat,
         'promotion_cron_singleton':True,'publisher_cron_singleton':True,
         'duplicate_106_redirects_to_105_pc_and_mobile':True,'sitemap_duplicate_removed':True,
+        'duplicate_content_comparison':load(tmp/'duplicate-proof.json'),
         'future_ordinary_schedule':future,'final_ledger_reconciliation':rec}
 out.write_text(json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
 PY
