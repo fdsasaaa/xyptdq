@@ -1,0 +1,23 @@
+{
+  "exit_code": 1,
+  "finished_at": "2026-10-31T00:53:40Z",
+  "job_id": "repair-ordinary-seo-runtime-20261031-02",
+  "payload": {
+    "backup": "/var/backups/xyptdq/ordinary-seo-20261031T005337Z-2567643",
+    "cms_write": false,
+    "exit_code": 1,
+    "note": "Template/cron installation rolled back if changed; validated ledger recovery is retained.",
+    "phase": "live_redirect_verify",
+    "publisher_invoked": false,
+    "status": "BLOCKED",
+    "task": "repair_ordinary_seo_runtime_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "b37ca468bb61ddbab1b3b0f498d3b5ba44774c5e",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/repair_ordinary_seo_runtime_v1.sh",
+  "script_sha256": "740479fb797b00849b1eadc8cd40aecc97ca48fd2df8ae1ffadc7dbcc2f4c86f",
+  "started_at": "2026-10-31T00:53:37Z",
+  "status": "FAIL",
+  "transport": "static_https"
+}
