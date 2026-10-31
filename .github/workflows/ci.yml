@@ -48,6 +48,11 @@ jobs:
           print(f'validated {len(paths)} json files')
           PY
 
+      - name: Ordinary publication lifecycle and cron recovery regressions
+        run: |
+          sudo "$(command -v python3)" scripts/content/publication_ledger_test.py
+          php scripts/seo/duplicate_entry_test.php
+
       - name: Validate pending agent job pins
         shell: bash
         run: |
