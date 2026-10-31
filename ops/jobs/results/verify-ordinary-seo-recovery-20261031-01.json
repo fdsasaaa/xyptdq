@@ -1,0 +1,59 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-10-31T01:07:04Z",
+  "job_id": "verify-ordinary-seo-recovery-20261031-01",
+  "payload": {
+    "canary_104_published": true,
+    "cms_write": false,
+    "cron_write": false,
+    "ledger_count": 85,
+    "ledger_lifecycle_counts": {
+      "draft": 83,
+      "published": 1,
+      "scheduled": 1
+    },
+    "natural_ledger_reconciliation": {
+      "changed_count": 0,
+      "changed_revision_ids": [],
+      "cms_write": false,
+      "mode": "commit",
+      "publisher_invoked": false,
+      "status": "PASS"
+    },
+    "natural_promotion": {
+      "active_future_scheduled": 1,
+      "added_this_run": 0,
+      "blocking_item": "NONE",
+      "cadence": "weekly_2_3",
+      "candidate_available": 27,
+      "cms_write": false,
+      "current_week_scheduled_or_published": 1,
+      "legacy_repository_queue_consumed": false,
+      "observed_at": "2026-10-31T01:05:04.549417+00:00",
+      "phase": "complete",
+      "publisher_invoked": false,
+      "status": "PASS",
+      "task": "promote_ordinary_seo_v1"
+    },
+    "natural_publisher_counts": "[filequeue] source=2 due=0 limit=2 mode=COMMIT",
+    "natural_publisher_git_sha": "59a673dd4228d738be26e57a6599aa5c61b16d6a",
+    "natural_publisher_log": "run_20261031T010702Z.log",
+    "natural_publisher_result": "PASS",
+    "new_publication_observed": false,
+    "new_target_publish_at": "2026-10-31T10:00:00+08:00",
+    "new_target_still_scheduled": true,
+    "observed_at": "2026-10-31T01:07:04.154461+00:00",
+    "publisher_invoked": false,
+    "read_only": true,
+    "status": "PASS",
+    "task": "verify_ordinary_seo_recovery_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "9a33233cbbd492484e60f22b6701005ba4aa5cc8",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/verify_ordinary_seo_recovery_v1.sh",
+  "script_sha256": "4a51374e966b9ec864de2a144e8674a60e159b92f79daac21307423daeeb3b87",
+  "started_at": "2026-10-31T01:06:08Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
