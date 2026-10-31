@@ -90,6 +90,19 @@ chmod 750 "$RECEIPT_DIR" "$VERIFY_DIR"
         php "$REPO_DIR/scripts/seo/generate_sitemap.php"
 
     mapfile -t PUBLISHED_LINES < <(grep -E '^\[filequeue\] PUBLISHED key=[a-z0-9_-]+ cms_id=[0-9]+$' "$PUBLISH_TMP" || true)
+    if [ "$SOURCE_QUEUE" = "$RUNTIME_QUEUE_ROOT/ordinary-seo/scheduled" ]; then
+        # Recover proof/ledger after a crash following a committed CMS write.
+        # The immutable source remains scheduled; durable state proves publication.
+        mapfile -t PUBLISHED_LINES < <(python3 - "$STATE_PATH" <<'PY'
+import json, pathlib, sys
+p=pathlib.Path(sys.argv[1])
+state=json.loads(p.read_text()) if p.is_file() else {"articles":{}}
+for key, row in state["articles"].items():
+    if row.get("status")=="published":
+        print("[filequeue] PUBLISHED key=%s cms_id=%s" % (key,row["cms_id"]))
+PY
+        )
+    fi
     SEO_STATUS="NO_NEW_PUBLICATIONS"
     SEO_WARN=0
     if [ "${#PUBLISHED_LINES[@]}" -gt 0 ]; then
@@ -116,6 +129,18 @@ if(count($matches)!==1){exit(2);} echo $matches[0];
                 continue
             fi
             chmod 640 "$receipt"
+            if [ "$SOURCE_QUEUE" = "$RUNTIME_QUEUE_ROOT/ordinary-seo/scheduled" ] && \
+               python3 - "$verify" <<'PY'
+import json, pathlib, sys
+p=pathlib.Path(sys.argv[1])
+try: ok=p.is_file() and json.loads(p.read_text()).get("status")=="PASS"
+except Exception: ok=False
+raise SystemExit(0 if ok else 1)
+PY
+            then
+                echo "[scheduled-publish] SEO_VERIFY_PASS key=$key cms_id=$cms_id evidence=retained"
+                continue
+            fi
             if php "$REPO_DIR/scripts/seo/verify_publication_seo.php" --receipt="$receipt" > "$verify" 2>&1; then
                 chmod 640 "$verify"
                 echo "[scheduled-publish] SEO_VERIFY_PASS key=$key cms_id=$cms_id receipt=$receipt verification=$verify"
@@ -126,6 +151,10 @@ if(count($matches)!==1){exit(2);} echo $matches[0];
             fi
         done
         if [ "$SEO_WARN" -ne 0 ]; then SEO_STATUS="WARN"; fi
+    fi
+    if [ "$SOURCE_QUEUE" = "$RUNTIME_QUEUE_ROOT/ordinary-seo/scheduled" ]; then
+        python3 "$REPO_DIR/scripts/content/reconcile_publication_ledger.py" \
+            --queue="$SOURCE_QUEUE" --state="$STATE_PATH" --receipts="$RECEIPT_DIR" --commit
     fi
     echo "seo_verification=$SEO_STATUS"
     echo "result=PASS"

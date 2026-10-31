@@ -1,3 +1,12 @@
+<?php
+// 2026-10-31 audit: 105/106 have identical visible body and download target.
+// Preserve both CMS records; consolidate the later public entry into 105.
+if (strtolower((string)($_GET['c'] ?? '')) === 'show' && (int)($_GET['id'] ?? 0) === 106
+    && defined('MOD_DIR') && MOD_DIR === 'news' && !headers_sent()) {
+    header('Location: https://www.laocaimi.org/index.php?c=show&id=105', true, 301);
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -56,6 +65,7 @@ $xyptdq_canonical = 'https://www.laocaimi.org/';
 if ($xyptdq_is_show) {
     $xyptdq_show_id = $xyptdq_request_id > 0 ? $xyptdq_request_id : (int)($id ?? 0);
     if ($xyptdq_show_id > 0) {
+        if ($xyptdq_module === 'news' && $xyptdq_show_id === 106) { $xyptdq_show_id = 105; }
         $xyptdq_canonical = 'https://www.laocaimi.org/index.php?c=show&id=' . $xyptdq_show_id;
     }
 } elseif ($xyptdq_is_category) {

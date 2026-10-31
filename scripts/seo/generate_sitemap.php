@@ -192,6 +192,11 @@ foreach (['news', 'xm'] as $module) {
             if ($id <= 0) {
                 continue;
             }
+            // Later duplicate 106 redirects to 105; retain only the canonical
+            // public entry. Both underlying CMS records remain untouched.
+            if ($module === 'news' && $id === 106) {
+                continue;
+            }
             if (isset($managedCmsIds[$id])) {
                 $candidate = '/index.php?c=show&id=' . $id;
             } else {

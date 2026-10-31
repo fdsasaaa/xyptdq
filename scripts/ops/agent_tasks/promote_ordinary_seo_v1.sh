@@ -6,14 +6,15 @@
 set -euo pipefail
 umask 077
 
-RESULT_FILE="${XYPTDQ_AGENT_RESULT_FILE:-}"
+CONTENT_ROOT="${XYPTDQ_CONTENT_ROOT:-/var/lib/xyptdq-content}"
+RESULT_FILE="${XYPTDQ_AGENT_RESULT_FILE:-$CONTENT_ROOT/ordinary-seo/promotion-last-run.json}"
 REPO="${XYPTDQ_REPO_DIR:-/opt/xyptdq-repo}"
-INTAKE_DRAFTS="/var/lib/xyptdq-content/intake/drafts"
-STABLE_QUEUE="/var/lib/xyptdq-content/ordinary-seo/scheduled"
+INTAKE_DRAFTS="$CONTENT_ROOT/intake/drafts"
+STABLE_QUEUE="$CONTENT_ROOT/ordinary-seo/scheduled"
 POLICY="$REPO/config/content_publication_policy.json"
 INVENTORY_POLICY="$REPO/config/content_inventory_policy.json"
 PROMOTE="$REPO/scripts/content/promote_draft.php"
-PUBLISHER_STATE_DIR="/var/lib/xyptdq-publisher"
+PUBLISHER_STATE_DIR="${XYPTDQ_PUBLISHER_STATE_ROOT:-/var/lib/xyptdq-publisher}"
 
 PHASE="init"
 STATUS="BLOCKED"
@@ -23,11 +24,13 @@ SCHEDULED_ACTIVE=0
 WEEK_COUNT=0
 ADDED=0
 
-[ -n "$RESULT_FILE" ] || exit 2
 [ -d "$REPO/.git" ] || exit 3
+mkdir -p "$(dirname "$RESULT_FILE")" "$CONTENT_ROOT/ordinary-seo"
+exec 8>"$CONTENT_ROOT/ordinary-seo/promotion.lock"
+flock -n 8 || exit 0
 
 write_result(){ python3 - "$RESULT_FILE" "$STATUS" "$PHASE" "$BLOCKING_ITEM" "$CANDIDATE_AVAILABLE" "$SCHEDULED_ACTIVE" "$WEEK_COUNT" "$ADDED" <<'PY'
-import json, sys
+import datetime, json, os, sys, tempfile
 out, status, phase, blocker, cand, active, week, added = sys.argv[1:]
 p = {
   "task": "promote_ordinary_seo_v1",
@@ -42,13 +45,18 @@ p = {
   "cms_write": False,
   "publisher_invoked": False,
   "legacy_repository_queue_consumed": False,
+  "observed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
 }
-with open(out, "w", encoding="utf-8") as f:
+fd, tmp = tempfile.mkstemp(prefix=".promotion-result.", dir=os.path.dirname(out))
+with os.fdopen(fd, "w", encoding="utf-8") as f:
     json.dump(p, f, ensure_ascii=False, indent=2, sort_keys=True); f.write("\n")
+os.chmod(tmp, 0o600)
+os.replace(tmp, out)
 PY
 }
 
 block(){ BLOCKING_ITEM="$1"; STATUS="BLOCKED"; write_result; echo "[ordinary-seo-promote] BLOCKED: $1" >&2; exit 1; }
+trap 'rc=$?; BLOCKING_ITEM="runtime_error_exit_$rc"; STATUS="BLOCKED"; write_result; exit "$rc"' ERR
 
 PHASE="sync_main"
 cd "$REPO"
@@ -66,10 +74,18 @@ PHASE="preflight"
 AUTH=$(php -r '$x=json_decode(file_get_contents($argv[1]),true); echo ((($x["ordinary_seo_promotion"]["enabled"]??null)===true)?"yes":"no");' "$POLICY")
 [ "$AUTH" = yes ] || block ordinary_seo_promotion_not_enabled_in_policy
 
+PHASE="recover_existing_lifecycle"
+if [ -d "$STABLE_QUEUE" ]; then
+    python3 "$REPO/scripts/content/reconcile_publication_ledger.py" \
+      --queue="$STABLE_QUEUE" --state="$PUBLISHER_STATE_DIR/ordinary-seo/state.json" \
+      --ledger="$CONTENT_ROOT/intake/state.json" --lock="$CONTENT_ROOT/intake/intake.lock" \
+      --receipts="$PUBLISHER_STATE_DIR/ordinary-seo/receipts" --commit
+fi
+
 PHASE="compute_state"
-STATE=$(python3 - "$INTAKE_DRAFTS" "$STABLE_QUEUE" "$POLICY" "$INVENTORY_POLICY" <<'PY'
+STATE=$(python3 - "$INTAKE_DRAFTS" "$STABLE_QUEUE" "$POLICY" "$INVENTORY_POLICY" "$PUBLISHER_STATE_DIR/ordinary-seo/state.json" "$CONTENT_ROOT/intake/state.json" <<'PY'
 import json, pathlib, sys, datetime
-drafts_root, queue_root, policy_path, inv_path = [pathlib.Path(x) for x in sys.argv[1:]]
+drafts_root, queue_root, policy_path, inv_path, publisher_path, ledger_path = [pathlib.Path(x) for x in sys.argv[1:]]
 zone = datetime.timezone(datetime.timedelta(hours=8))
 now = datetime.datetime.now(zone)
 
@@ -81,6 +97,8 @@ excluded = [str(x) for x in cfg.get("excluded_source_batch_patterns", [])]
 overrides = cfg.get("batch_eligibility_overrides", {})
 weekly_max = int(cfg.get("weekly_max_articles", 3))
 frozen = set(str(x) for x in (inv.get("cf50_terminal_baseline", {}).get("final5_frozen_pending_issue_264", [])))
+publisher = json.loads(publisher_path.read_text()) if publisher_path.is_file() else {"articles": {}}
+ledger = json.loads(ledger_path.read_text())
 
 # queue state
 active_future = 0
@@ -101,7 +119,9 @@ if queue_root.is_dir():
             when = datetime.datetime.fromisoformat(str(x.get("publish_at")))
         except Exception:
             continue
-        if when > now:
+        # An overdue unfinished item also fills the horizon. Never build a
+        # catch-up backlog when the Publisher is unhealthy.
+        if publisher.get("articles", {}).get(x.get("article_key"), {}).get("status") != "published":
             active_future += 1
         if week_start <= when < week_end:
             week_count += 1
@@ -128,6 +148,9 @@ for p in sorted(drafts_root.glob("*.draft.json")):
     rev = str(x.get("source_revision_id") or "")
     key = str(x.get("article_key") or "")
     if not rev or not key or not x.get("source_content_hash"):
+        continue
+    record = ledger.get("records", {}).get(rev, {})
+    if record.get("lifecycle_state") != "draft" or record.get("content_hash") != x["source_content_hash"]:
         continue
     if key in queue_by_key or rev in queue_by_rev:
         continue
@@ -158,7 +181,7 @@ PHASE="quota_check"
 [ "$SCHEDULED_ACTIVE" -lt 1 ] || { PHASE="complete"; STATUS="PASS"; write_result; echo "ORDINARY_SEO_PROMOTE=PASS(rolling_horizon_full=$SCHEDULED_ACTIVE)"; exit 0; }
 
 PHASE="select_candidate"
-[ "$CANDIDATE_AVAILABLE" -ge 1 ] || block no_eligible_draft_candidates
+[ "$CANDIDATE_AVAILABLE" -ge 1 ] || { PHASE="complete"; STATUS="PASS"; write_result; echo "ORDINARY_SEO_PROMOTE=PASS(idle_no_eligible_candidates)"; exit 0; }
 CAND_PATH=$(echo "$STATE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["candidate"]["path"])')
 CAND_KEY=$(echo "$STATE" | python3 -c 'import json,sys; print(json.load(sys.stdin)["candidate"]["article_key"])')
 
@@ -201,6 +224,12 @@ when = datetime.datetime.fromisoformat(str(x["publish_at"]))
 assert when > datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))), "publish_at must be future"
 assert int(x.get("catid") or 0) > 0
 PY
+
+PHASE="reconcile_ledger"
+python3 "$REPO/scripts/content/reconcile_publication_ledger.py" \
+  --queue="$STABLE_QUEUE" --state="$PUBLISHER_STATE_DIR/ordinary-seo/state.json" \
+  --ledger="$CONTENT_ROOT/intake/state.json" --lock="$CONTENT_ROOT/intake/intake.lock" \
+  --receipts="$PUBLISHER_STATE_DIR/ordinary-seo/receipts" --commit
 
 PHASE="complete"
 STATUS="PASS"
