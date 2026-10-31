@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "verify-ordinary-seo-recovery-20261031-01",
+  "required_commit": "33331484dd654ef12d12859830e300bd0acec539",
+  "script": "scripts/ops/agent_tasks/audit_ordinary_seo_runtime_v1.sh",
+  "script_sha256": "5a7f8adb2e24fbd0bda504627c837cd5a2a4e4083bd42c361b644c520c3d2e35",
+  "timeout_seconds": 300
+}

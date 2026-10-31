@@ -224,3 +224,14 @@ Append-only milestone log for the `fdsasaaa/xyptdq` SEO project. The canonical c
 - Current intake state is **healthy idle / fully reconciled**. All 45 current formal public-r1 are accounted for as 12 website-ingress revisions + 33 intake-ledger Drafts. The `:23` cron remains active only as an idempotent watcher for future upstream formal public-r1.
 - The intake never created `publish_at`, promoted content to Scheduled, wrote CMS content, invoked Publisher, altered Publisher cron, or released CF50 final-five `020/029/038/039/040`.
 - Do not manually replay the five revisions from 11:23; their business writes are already complete.
+
+
+## 2026-10-31
+
+### Ordinary SEO recovery — production PASS
+- Replaced stale August watermarks with the October 31 checkpoint; 12/12 CF50 seeds are live and #264 remains HOLD independently of DAILY publication.
+- Fixed cron-only startup failure, single-instance/unfinished-queue handling, and exact atomic Scheduled/Published ledger reconciliation. CMS 104 live SEO and ledger/receipt proof pass.
+- Verified one new future schedule plus a zero-add repeat under the actual unattended environment; installed one hourly promotion watcher, retaining weekly three-article editorial slots and the isolated Publisher.
+- Consolidated duplicate 106 into 105 with a pre-CMS 301 on PC/mobile and Sitemap omission; kept both CMS records/download intact.
+- CI behavior/HTTP tests and final Server Bridge job `repair-ordinary-seo-runtime-20261031-04` passed. Backups and guarded rollback were exercised; CF50/legacy state/framework lock remained unchanged.
+- New natural publication and current Search Console evidence remain explicit follow-up checkpoints. See `ORDINARY_SEO_RECOVERY_20261031.md`.
