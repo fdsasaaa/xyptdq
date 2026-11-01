@@ -19,6 +19,7 @@ StartLimitBurst=3
 [Service]
 Type=oneshot
 User=root
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 UMask=0077
 Nice=10
 IOSchedulingClass=idle

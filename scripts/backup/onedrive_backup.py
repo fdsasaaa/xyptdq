@@ -201,6 +201,7 @@ def _build_stage(c):
     environment = {}
     for label, args in {'php': ['php', '-v'], 'php_modules': ['php', '-m'],
                         'mysql': ['mysql', '--version'], 'nginx': ['nginx', '-v'],
+                        'restic': ['restic', 'version'], 'rclone': ['rclone', 'version'],
                         'packages': ['dpkg-query', '-W'],
                         'units': ['systemctl', 'list-timers', '--all', '--no-pager']}.items():
         p = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,

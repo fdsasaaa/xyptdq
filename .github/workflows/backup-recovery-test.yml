@@ -19,3 +19,4 @@ jobs:
           bash -n scripts/backup/install_timer.sh
           bash -n scripts/ops/agent_tasks/backup_readiness_probe_v1.sh
           bash -n scripts/ops/agent_tasks/prepare_onedrive_backup_v1.sh
+          bash -n scripts/ops/agent_tasks/upgrade_backup_tools_v1.sh
