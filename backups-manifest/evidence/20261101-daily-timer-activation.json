@@ -1,0 +1,52 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T04:22:29Z",
+  "job_id": "activate-onedrive-backup-20261101-01",
+  "payload": {
+    "backup_finished_at": "2026-11-01T04:21:54.507327+00:00",
+    "calendar_triggered_run_verified": false,
+    "credential_contents_published": false,
+    "current_repository_key_verified": true,
+    "daily_timer_enabled": true,
+    "download_verified": true,
+    "finished_at": "2026-11-01T04:22:29.158972+00:00",
+    "first_snapshot_preserved": true,
+    "independent_key_escrow_confirmed": true,
+    "next_trigger_server_timezone": "Sun 2026-11-01 19:34:19 UTC",
+    "owner_file_sha256_verified": true,
+    "phase": "complete",
+    "remote_inventory_verified": true,
+    "schedule": {
+      "failure_retry_minutes": 15,
+      "maximum_jitter_minutes": 5,
+      "persistent_catchup": true,
+      "time": "03:30",
+      "timezone": "Asia/Shanghai"
+    },
+    "service": {
+      "ActiveState": "inactive",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "0",
+      "Result": "success"
+    },
+    "service_test_invocation": "manual_systemd_start",
+    "single_use_export_revoked": true,
+    "snapshot_count": 2,
+    "snapshot_id": "de808c15eaeb02cc7cbca8ba20f05e3591cec6cd06d0adcbc3c78c1aff148cc1",
+    "status": "PASS",
+    "systemd_service_verified": true,
+    "task": "activate_onedrive_backup_v1",
+    "timer": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "raw_log_published": false,
+  "required_commit": "a19e97aaf7b7187a720f882dbe30bb17c1a0b9cd",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/activate_onedrive_backup_v1.sh",
+  "script_sha256": "cd25f10d421601bbbc77a0dcf58decb4f942fcd306100391dc2cdae8a18e2c8c",
+  "started_at": "2026-11-01T04:20:52Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
