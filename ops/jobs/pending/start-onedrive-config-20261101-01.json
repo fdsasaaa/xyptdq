@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "start-onedrive-config-20261101-01",
+  "required_commit": "18d2b55dd097b7accebee4aabbf7e703e4c8a4d5",
+  "script": "scripts/ops/agent_tasks/start_onedrive_config_v1.sh",
+  "script_sha256": "1a38a68441bce155b13c765644555ded587418b8493db4081d001c3077f04fbd",
+  "timeout_seconds": 180
+}
