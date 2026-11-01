@@ -10,7 +10,7 @@ trap 'rm -f -- "$TEMP"' EXIT
 git --git-dir="$CONTROL" show "$COMMIT:scripts/backup/authorize_ssh.py" > "$TEMP"
 install -o root -g root -m 0700 "$TEMP" /usr/local/lib/xyptdq-backup/authorize_ssh.py
 python3 - <<'PY'
-import ipaddress, json, os, pathlib, re, subprocess
+import importlib.util, ipaddress, json, os, pathlib, re, subprocess, tempfile, time
 
 def output(args):
     p = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -32,9 +32,39 @@ route = output(['ip','-4','route','get','1.1.1.1']).split()
 origin = route[route.index('src')+1] if 'src' in route else None
 if origin and not ipaddress.ip_address(origin).is_global:
     origin = None
+spec = importlib.util.spec_from_file_location('auth','/usr/local/lib/xyptdq-backup/authorize_ssh.py')
+auth = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(auth)
+with tempfile.TemporaryDirectory(prefix='oauth-startup.',dir='/var/lib/xyptdq-backup') as directory:
+    root = pathlib.Path(directory)
+    with open(str(root/'response'),'w') as stdout, open(str(root/'log'),'w') as stderr:
+        p = subprocess.Popen(['/usr/local/bin/rclone','--config',str(root/'probe.conf'),
+                              'config','create','onedrive','onedrive',
+                              'config_is_local','true','config_auth_no_browser','true','--non-interactive'],
+                             stdin=subprocess.DEVNULL,stdout=stdout,stderr=stderr)
+        found = False
+        try:
+            for _ in range(40):
+                if auth.find_login_url((root/'log').read_text(errors='replace')):
+                    found = True
+                    break
+                if p.poll() is not None:
+                    break
+                time.sleep(0.25)
+            if not found:
+                raise SystemExit('private OAuth startup self-test failed')
+        finally:
+            if p.poll() is None:
+                p.terminate()
+                try:
+                    p.wait(timeout=8)
+                except subprocess.TimeoutExpired:
+                    p.kill()
+                    p.wait()
 result = {'task':'prepare_onedrive_ssh_v1', 'status':'PASS',
           'helper_installed':True, 'listener_exposed_publicly':False,
           'browser_authorization_started':False,
+          'private_oauth_startup_selftest_verified':True,
           'ssh_host_ed25519_sha256':fingerprint, 'ssh_settings':data,
           'server_public_interface_ipv4':origin,
           'configuration_contents_published':False,
