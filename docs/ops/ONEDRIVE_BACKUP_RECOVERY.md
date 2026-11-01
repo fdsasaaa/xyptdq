@@ -18,6 +18,8 @@
 
 2026-11-01 12:22（北京时间）已核对用户本机恢复文件 SHA-256 与私有一次性导出记录完全一致，并确认该文件密钥仍对应当前仓库；导出公钥入口已消费撤销。每日 timer 已 enabled/active，实际通过 systemd 手动运行的新快照 `de808c15eaeb02cc7cbca8ba20f05e3591cec6cd06d0adcbc3c78c1aff148cc1` 下载校验通过，远端状态索引一致，首份快照保留。下一次计划触发为北京时间 2026-11-02 03:34:19（03:30 加随机延迟）。证据：`backups-manifest/evidence/20261101-daily-timer-activation.json`。这次手动服务验证不记为日历触发证据。
 
+2026-11-01 12:48（北京时间）GitHub 云端恢复密钥核验已 PASS：仓库 Actions secret `XYPTDQ_RECOVERY_JSON` 可被受审查的 main 工作流使用，规范化后的恢复 JSON 与此前用户本机及服务器私有导出文件的 SHA-256 一致。实际运行：`https://github.com/fdsasaaa/xyptdq/actions/runs/41274518057`；证据：`backups-manifest/evidence/20261101-github-recovery-secret.json`。原始 JSON 没有提交为仓库文件，也没有输出到日志或 artifact。恢复密钥不再依赖某台本地电脑；仍需能访问 GitHub/微软账号，并在新主机恢复时安全使用 secret。此验证不代表已完成新主机安装导入或上线演练。
+
 ## 保存位置与范围
 
 - GitHub：恢复程序、说明、非敏感状态入口和实施记录。整站数据、SQL、OAuth 配置和密钥不得提交到这个公共仓库。
@@ -83,7 +85,7 @@ sudo python3 /usr/local/lib/xyptdq-backup/onedrive_backup.py snapshots
 
 每日北京时间 03:30 执行，最多延迟5分钟；服务器关机错过后会补跑；失败15分钟后重试，2小时内最多3次。运行在网站服务器，用户电脑可以关机，不使用 GitHub Actions 上传整站。
 
-### 可选的 GitHub 云端恢复密钥保管
+### GitHub 云端恢复密钥保管
 
 用户要求恢复不依赖本机文件时，将完整恢复 JSON 作为仓库 Actions secret `XYPTDQ_RECOVERY_JSON` 保管，不能把原始 JSON 提交到当前公开仓库。设置页为 `https://github.com/fdsasaaa/xyptdq/settings/secrets/actions/new`。用户只在自己的 GitHub 页面粘贴内容，不发送到聊天；当前连接不具备 Secrets 写入接口。
 

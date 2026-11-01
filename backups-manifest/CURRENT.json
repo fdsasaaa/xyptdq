@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-01T04:22:29Z",
+  "updated_at": "2026-11-01T04:48:50.932027+00:00",
   "project": "xyptdq",
   "tracking_issue": "https://github.com/fdsasaaa/xyptdq/issues/509",
   "runbook": "docs/ops/ONEDRIVE_BACKUP_RECOVERY.md",
@@ -33,8 +33,7 @@
   "pending": [
     "first_calendar_trigger_verification",
     "independent_fresh_host_restore_drill",
-    "external_failure_and_stale_backup_alert",
-    "github_secret_escrow_setup_and_verification"
+    "external_failure_and_stale_backup_alert"
   ],
   "tool_upgrade_verified": true,
   "deployed_implementation_commit": "494681f0c1fa76a6567869d6977ccf7ff4c4e037",
@@ -72,8 +71,13 @@
     "provider": "github_actions_repository_secret",
     "repository": "fdsasaaa/xyptdq",
     "secret_name": "XYPTDQ_RECOVERY_JSON",
-    "status": "awaiting_owner_secret_setup",
-    "verified": false,
-    "verification_workflow": ".github/workflows/verify-recovery-secret.yml"
+    "status": "verified",
+    "verified": true,
+    "verification_workflow": ".github/workflows/verify-recovery-secret.yml",
+    "verified_at": "2026-11-01T04:48:50.932027+00:00",
+    "evidence": "backups-manifest/evidence/20261101-github-recovery-secret.json",
+    "verification_run_url": "https://github.com/fdsasaaa/xyptdq/actions/runs/41274518057",
+    "verified_owner_file_sha256": "e8a866fb7f115c1f7f3d6dbb9c83fb1cc68ca3173644a303dd294f92883ead13",
+    "recovery_key_depends_on_local_copy": false
   }
 }
