@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "finalize-default-onedrive-20261101-01",
+  "required_commit": "b9b741ae7bdcd1f4b24502afcde62bf283a21efb",
+  "script": "scripts/ops/agent_tasks/finalize_default_onedrive_v1.sh",
+  "script_sha256": "a6058329a60e9912a4b89b11fe6cd0dda45c4dad872e85d9f93ed956a9e48811",
+  "timeout_seconds": 1800
+}
