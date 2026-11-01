@@ -6,6 +6,8 @@ import tempfile
 import time
 import unittest
 from unittest.mock import patch
+import contextlib
+import io
 
 spec = importlib.util.spec_from_file_location('limited',Path(__file__).with_name('limited_ssh.py'))
 limited = importlib.util.module_from_spec(spec)
@@ -54,6 +56,7 @@ class LimitedSSHTests(unittest.TestCase):
             record.write_text(json.dumps({'suffix':suffix.decode(),'used':False,'expires_unix':time.time()+600}))
             with patch.object(limited,'BASE',root), patch.object(limited,'AUTHORIZED',authorized), \
                  patch.object(limited,'prepare_paths'), patch.object(limited,'check_root_file',lambda p:p.stat()), \
+                 patch.dict(limited.os.environ,{'SSH_ORIGINAL_COMMAND':'authorize-onedrive'}), \
                  patch.object(limited.os,'execv') as execute:
                 limited.consume(grant_id)
                 self.assertEqual(authorized.read_bytes(),prior)
@@ -72,6 +75,48 @@ class LimitedSSHTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     limited.consume(grant_id)
                 execute.assert_not_called()
+
+    def test_recovery_export_grant_has_no_forwarding_rights(self):
+        line,_,_=limited.key_entry(KEY,'onedrive-recovery-01',time.time()+600,'export_recovery')
+        self.assertTrue(line.startswith('restrict,command='))
+        self.assertNotIn('port-forwarding',line)
+        self.assertNotIn('permitopen',line)
+
+    def test_wrong_remote_command_cannot_consume_or_export(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            grant_id='onedrive-recovery-01'
+            record=root/(grant_id+'.json')
+            record.write_text(json.dumps({'used':False,'expires_unix':time.time()+600,'purpose':'export_recovery'}))
+            with patch.object(limited,'BASE',root),patch.object(limited,'prepare_paths'), \
+                 patch.object(limited,'check_root_file',lambda p:p.stat()), \
+                 patch.dict(limited.os.environ,{'SSH_ORIGINAL_COMMAND':'authorize-onedrive'}), \
+                 patch.object(limited,'export_recovery') as export:
+                with self.assertRaises(ValueError):
+                    limited.consume(grant_id)
+                export.assert_not_called()
+                self.assertFalse(json.loads(record.read_text())['used'])
+
+    def test_export_is_private_and_receipt_does_not_contain_password(self):
+        import hashlib
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            key=root/'password'
+            key.write_text('fixture-recovery-password-that-is-not-real\n')
+            key.chmod(0o600)
+            cfg=root/'config'
+            cfg.write_text(json.dumps({'repository':'rclone:onedrive:WebsiteBackups/xyptdq/restic-v1'}))
+            cfg.chmod(0o600)
+            grant={'grant_id':'onedrive-recovery-01','purpose':'export_recovery','used':True}
+            with patch.object(limited,'BASE',root),patch.object(limited,'PASSWORD_FILE',key), \
+                 patch.object(limited,'CONFIG_FILE',cfg),patch.object(limited,'check_root_file',lambda p:p.stat()):
+                payload=limited.export_recovery(grant)
+            envelope=json.loads(payload)
+            self.assertEqual(envelope['repository_password'],'fixture-recovery-password-that-is-not-real')
+            receipt=json.loads((root/'onedrive-recovery-01.json').read_text())
+            self.assertEqual(receipt['recovery_file_sha256'],hashlib.sha256(payload).hexdigest())
+            self.assertNotIn('repository_password',receipt)
+            self.assertEqual((root/'onedrive-recovery-01.recovery.json').stat().st_mode & 0o777,0o600)
 
 
 if __name__ == '__main__':
