@@ -44,34 +44,38 @@ SQL 使用本机管理员 socket 认证并短暂加全局读锁，兼容事务�
 
 原一次性grant已在启动第一轮助手前消费；超时后用相同用户公钥和新grant-id恢复入口，不要求用户重建私钥，也不复用旧OAuth链接。`renew_onedrive_auth_key_v1.sh` 会保留已经配置好的连接，并在仍有授权监听器时停止重发，避免打断活跃会话。
 
-### 初始化备份仓库
+多个云盘还可由 `finalize_default_onedrive_v1.sh` 核对 Microsoft Graph `/me/drive` 返回的本人默认 OneDrive。仅在其 ID 与 rclone 候选值唯一匹配、类型为 personal/business 时继续，不按候选顺序猜测，不选择共享文档库；公开结果只含容量和是否匹配。只有确认原助手仍停在同一个选择状态时，才结束该助手并接管其配置锁。
 
-### 独立保存恢复文件
-
-首次云快照下载验证后，`prepare_recovery_export_v1.sh` 可以对同一用户公钥签发 `export_recovery` 专用的一次性grant。此用途没有任何端口转发权；仅允许 `SSH_ORIGINAL_COMMAND=export-recovery-key`，错误的远程命令会在消费grant前被拒绝，避免用户重跑旧授权命令时把恢复密码输出到终端。
-
-用户通过SSH将单行恢复JSON直接保存到本机 `%LOCALAPPDATA%/XYPTDQ-BackupRecovery`，使用UTF-8无BOM和LF换行；不在控制台显示内容。JSON含仓库路径、`repository_password`、源码仓库和手册入口。服务器在私有grant记录中保留文件SHA-256与字节数，核对用户本机文件的SHA-256即可确认传输一致，不需要用户把内容发给ChatGPT或公共GitHub。
-
-这个文件必须独立于原服务器保管，建议另放用户自己的密码管理器或离线介质。文件内容不进入聊天、公开回执或Git仓库。新主机恢复时，从JSON的 `repository_password` 写入受保护的Restic密码文件，并重新授权同一OneDrive；已有仓库不可再次init。
+### 临时 SSH 公钥入口
 
 若用户无法使用原 SSH 密码，可由用户在本机生成 Ed25519 临时密钥，只提供 `.pub` 公钥。经用户提供并核对指纹后，固定 SHA 的任务将它加入原有 `authorized_keys`，保留全部原条目；限制为指定授权助手以及127.0.0.1:53682的转发，禁止普通shell/PTY/代理/X11/用户rc，设置两小时有效期。OpenSSH8.2的 `expiry-time` 使用服务器本地14位日期时间，不使用新版的Z后缀。
 
 入口为 `/usr/local/lib/xyptdq-backup/limited_ssh.py use <grant-id>`，它在启动OAuth助手前移除自己对应的授权条目并记录已消费；不恢复整份旧 `authorized_keys`，不修改密码或全局SSH配置。若尝试已消费或到期，必须通过新任务明确重发新grant，不能把失败误判为服务器原密码又出错。未使用的条目到期后会被sshd拒绝，后续清理记录时只删除本项目标记的对应条目。用户连接应明确指定本机私钥、IdentitiesOnly及BatchMode，避免回退到服务器密码登录。
 
+### 初始化与首次备份
+
 1. 运行固定 SHA 的 `prepare_onedrive_backup_v1.sh` 生产任务，安装工具、部署程序、创建受保护的随机加密密码，生成并校验一份本地恢复载荷。它不启用 timer，不创建云端备份。
 2. 用户在微软官方登录页面完成 rclone 的 OneDrive OAuth 授权，配置名为 `onedrive`，配置文件仅放在服务器 `/etc/xyptdq-backup/rclone.conf`。不要把授权结果、token 或配置内容贴到 GitHub/聊天/公开任务回执。无浏览器服务器依照 rclone 官方 headless OAuth 流程在有浏览器的设备授权，通过安全文件传输交给服务器。
 3. 用 `rclone --config /etc/xyptdq-backup/rclone.conf about onedrive: --json` 私下核对账户及容量。确保是用户长期控制且可恢复登录的账号。
-4. 用户把 `/etc/xyptdq-backup/repository-password` 通过安全渠道另存到独立的密码管理器或离线介质。原服务器消失后，这个密码仍必须取得；只有网盘账号而没有此密码无法恢复。
-5. 配置文件与密码设置为 root:root、0600，配置目录0700。再执行：
+4. 配置文件与密码设置为 root:root、0600，配置目录0700。对新仓库执行以下首次备份步骤；自动化首次任务会先确认目标为空，已有仓库则校验原仓库和密码，不重复初始化：
 
 ```bash
 sudo python3 /usr/local/lib/xyptdq-backup/onedrive_backup.py init
 sudo python3 /usr/local/lib/xyptdq-backup/onedrive_backup.py backup
 sudo python3 /usr/local/lib/xyptdq-backup/onedrive_backup.py snapshots
-sudo bash /usr/local/lib/xyptdq-backup/install_timer.sh
 ```
 
-`init` 仅限新仓库；已有仓库须使用原密码，不得重建或覆盖。`backup` 会下载同一个 snapshot 到私有目录并校验全部载荷后才记录成功。`install_timer.sh` 拒绝在没有近期成功备份时启用。
+`init` 仅限新仓库；已有仓库须使用原密码，不得重建或覆盖。`backup` 会下载同一个 snapshot 到私有目录并校验全部载荷后才记录成功。
+
+### 独立保存恢复文件与启用每日任务
+
+首次云快照下载验证后，`prepare_recovery_export_v1.sh` 可以对同一用户公钥签发 `export_recovery` 专用的一次性grant。此用途没有任何端口转发权；仅允许 `SSH_ORIGINAL_COMMAND=export-recovery-key`，错误的远程命令会在消费grant前被拒绝，避免用户重跑旧授权命令时把恢复密码输出到终端。
+
+用户通过SSH将单行恢复JSON直接保存到本机 `%LOCALAPPDATA%/XYPTDQ-BackupRecovery`，使用UTF-8无BOM和LF换行；不在控制台显示内容。JSON含仓库路径、`repository_password`、源码仓库和手册入口。服务器在私有grant记录中保留文件SHA-256与字节数，核对用户本机文件的SHA-256即可确认传输一致，不需要用户把内容发给ChatGPT或公共GitHub。
+
+这个文件必须独立于原服务器保管，建议另放用户自己的密码管理器或离线介质。文件内容不进入聊天、公开回执或Git仓库。新主机恢复时，从JSON的 `repository_password` 写入受保护的Restic密码文件，并重新授权同一OneDrive；已有仓库不可再次init。只有网盘账号而没有此密码无法恢复。
+
+核对独立恢复文件的 SHA-256 后，再执行 `sudo bash /usr/local/lib/xyptdq-backup/install_timer.sh`。安装程序本身拒绝在没有近期成功备份时启用；自动部署任务还必须核对私有导出记录与用户回报的文件哈希，再记录独立保管确认。
 
 每日北京时间 03:30 执行，最多延迟5分钟；服务器关机错过后会补跑；失败15分钟后重试，2小时内最多3次。运行在网站服务器，用户电脑可以关机，不使用 GitHub Actions 上传整站。
 
