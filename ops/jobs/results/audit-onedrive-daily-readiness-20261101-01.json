@@ -1,0 +1,26 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T04:25:38Z",
+  "job_id": "audit-onedrive-daily-readiness-20261101-01",
+  "payload": {
+    "backup_started_by_probe": false,
+    "calendar_triggered_run_verified": false,
+    "last_timer_trigger_server_timezone": "",
+    "observed_at": "2026-11-01T04:25:38.969214+00:00",
+    "read_only": true,
+    "status": "WAITING_FIRST_CALENDAR_TRIGGER",
+    "task": "audit_onedrive_daily_run_v1",
+    "timer": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "raw_log_published": false,
+  "required_commit": "f8eff9df5ccb34c759baff424a2c1c5ac069f086",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/audit_onedrive_daily_run_v1.sh",
+  "script_sha256": "c3d18db6ae6450d24778776be9e5ce4b50f47cc8be87bd0f081a692489757f0a",
+  "started_at": "2026-11-01T04:25:38Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
