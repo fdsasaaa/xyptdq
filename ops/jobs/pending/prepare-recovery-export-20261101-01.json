@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "prepare-recovery-export-20261101-01",
+  "required_commit": "29d0308826da13e20745e415b180f47a95618870",
+  "script": "scripts/ops/agent_tasks/prepare_recovery_export_v1.sh",
+  "script_sha256": "b83fd5296c889919190cbe9515c751181fda9b256af926a7bf2e0cd219ba46f9",
+  "timeout_seconds": 120
+}
