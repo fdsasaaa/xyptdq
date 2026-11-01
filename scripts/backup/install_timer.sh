@@ -7,7 +7,9 @@ SOURCE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 for tool in restic rclone python3 mysqldump php tar git; do command -v "$tool" >/dev/null; done
 python3 "$SOURCE/onedrive_backup.py" status >/dev/null
 install -d -m 0700 /usr/local/lib/xyptdq-backup
-install -m 0700 "$SOURCE/onedrive_backup.py" /usr/local/lib/xyptdq-backup/onedrive_backup.py
+if ! [ "$SOURCE/onedrive_backup.py" -ef /usr/local/lib/xyptdq-backup/onedrive_backup.py ]; then
+  install -m 0700 "$SOURCE/onedrive_backup.py" /usr/local/lib/xyptdq-backup/onedrive_backup.py
+fi
 cat > /etc/systemd/system/xyptdq-backup.service <<'EOF'
 [Unit]
 Description=XYPTDQ encrypted OneDrive backup and download verification

@@ -25,3 +25,4 @@ jobs:
           bash -n scripts/ops/agent_tasks/upgrade_backup_tools_v1.sh
           bash -n scripts/ops/agent_tasks/prepare_onedrive_ssh_v1.sh
           bash -n scripts/ops/agent_tasks/install_onedrive_auth_key_v1.sh
+          bash -n scripts/ops/agent_tasks/first_onedrive_backup_v1.sh
