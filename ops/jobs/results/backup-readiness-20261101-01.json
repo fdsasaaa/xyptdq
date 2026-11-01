@@ -1,0 +1,62 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T00:50:33Z",
+  "job_id": "backup-readiness-20261101-01",
+  "payload": {
+    "backup_configuration_present": false,
+    "backup_timer_active": false,
+    "disk_free_bytes": 27484073984,
+    "essential_cms_files": {
+      "cache/config/system.php": true,
+      "cache/frame.lock": true,
+      "cache/install.lock": true,
+      "config/database.php": true,
+      "index.php": true
+    },
+    "onedrive_configuration_present": false,
+    "paths": {
+      "canonical_repo": {
+        "bytes": 54549593,
+        "exists": true
+      },
+      "content_state": {
+        "bytes": 13420026,
+        "exists": true
+      },
+      "nginx_config": {
+        "bytes": 73197,
+        "exists": true
+      },
+      "publisher_state": {
+        "bytes": 68878,
+        "exists": true
+      },
+      "webroot": {
+        "bytes": 45244377,
+        "exists": true
+      }
+    },
+    "production_write_performed": false,
+    "read_only": true,
+    "task": "backup_readiness_probe_v1",
+    "timezone": "Etc/UTC",
+    "tools": {
+      "mysql": true,
+      "mysqldump": true,
+      "php": true,
+      "rclone": false,
+      "restic": false,
+      "rsync": true,
+      "systemctl": true,
+      "tar": true
+    }
+  },
+  "raw_log_published": false,
+  "required_commit": "ab8b37905ee134c4f888c3b35e841c5e69e18059",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/backup_readiness_probe_v1.sh",
+  "script_sha256": "01b8f67521ba14b3e14127bc5b6f31745437abe2d1a6951b83b9cff020321417",
+  "started_at": "2026-11-01T00:50:32Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
