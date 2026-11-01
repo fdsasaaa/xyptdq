@@ -2,6 +2,13 @@
 
 > 由 WorkBuddy 网站运营与研发总控系统管理
 
+## 整站备份与迁移入口
+
+每日 OneDrive 加密备份实施状态：[backups-manifest/CURRENT.json](backups-manifest/CURRENT.json)。
+按日期恢复、新主机迁移及密钥保管：[备份与恢复手册](docs/ops/ONEDRIVE_BACKUP_RECOVERY.md)。
+实时实施和验收证据：[Issue #509](https://github.com/fdsasaaa/xyptdq/issues/509)。
+是否已启用以实际回执为准，不把代码入库当成远程备份成功。
+
 ## 网站信息
 
 | 项目 | 值 |
