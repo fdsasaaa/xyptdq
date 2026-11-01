@@ -27,3 +27,4 @@ jobs:
           bash -n scripts/ops/agent_tasks/install_onedrive_auth_key_v1.sh
           bash -n scripts/ops/agent_tasks/first_onedrive_backup_v1.sh
           bash -n scripts/ops/agent_tasks/renew_onedrive_auth_key_v1.sh
+          bash -n scripts/ops/agent_tasks/prepare_recovery_export_v1.sh

@@ -17,6 +17,8 @@ BASE = Path('/var/lib/xyptdq-backup/ssh-grants')
 AUTHORIZED = Path('/root/.ssh/authorized_keys')
 INSTALLED = '/usr/local/lib/xyptdq-backup/limited_ssh.py'
 HELPER = '/usr/local/lib/xyptdq-backup/authorize_ssh.py'
+PASSWORD_FILE = Path('/etc/xyptdq-backup/repository-password')
+CONFIG_FILE = Path('/etc/xyptdq-backup/config.json')
 GRANT_RE = re.compile(r'onedrive-[a-z0-9-]{3,60}')
 
 
@@ -35,16 +37,20 @@ def validated_key(line):
     return parts[1], fingerprint
 
 
-def key_entry(line, grant_id, expires):
+def key_entry(line, grant_id, expires, purpose='authorize'):
     if not GRANT_RE.fullmatch(grant_id):
         raise ValueError('invalid grant identifier')
     blob, fingerprint = validated_key(line)
+    if purpose not in ('authorize','export_recovery'):
+        raise ValueError('unsupported grant purpose')
     # OpenSSH 8.2 accepts local YYYYMMDDHHMMSS, but does not accept the newer Z suffix.
     expiry = time.strftime('%Y%m%d%H%M%S', time.localtime(expires))
     forced = '/usr/bin/python3 {} use {}'.format(INSTALLED, grant_id)
-    options = ['restrict', 'port-forwarding', 'permitopen="127.0.0.1:53682"',
-               'permitlisten="127.0.0.1:53682"', 'command="{}"'.format(forced),
-               'expiry-time="{}"'.format(expiry)]
+    options = ['restrict']
+    if purpose == 'authorize':
+        options += ['port-forwarding', 'permitopen="127.0.0.1:53682"',
+                    'permitlisten="127.0.0.1:53682"']
+    options += ['command="{}"'.format(forced), 'expiry-time="{}"'.format(expiry)]
     suffix = 'ssh-ed25519 {} xyptdq-{}'.format(blob, grant_id)
     return ','.join(options) + ' ' + suffix + '\n', suffix.encode(), fingerprint
 
@@ -87,16 +93,16 @@ def prepare_paths():
         raise ValueError('unsafe SSH directory')
 
 
-def install(line, grant_id, expected_fingerprint):
+def install(line, grant_id, expected_fingerprint, purpose='authorize'):
     prepare_paths()
     with open(str(BASE/'update.lock'), 'a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        return _install_locked(line, grant_id, expected_fingerprint)
+        return _install_locked(line, grant_id, expected_fingerprint, purpose)
 
 
-def _install_locked(line, grant_id, expected_fingerprint):
+def _install_locked(line, grant_id, expected_fingerprint, purpose):
     expires = int(time.time()) + 7200
-    entry, suffix, fingerprint = key_entry(line, grant_id, expires)
+    entry, suffix, fingerprint = key_entry(line, grant_id, expires, purpose)
     if fingerprint != expected_fingerprint:
         raise ValueError('public key fingerprint mismatch')
     record = BASE/(grant_id + '.json')
@@ -113,7 +119,7 @@ def _install_locked(line, grant_id, expected_fingerprint):
     # A root-only backup is for review. Revocation removes only this exact grant.
     atomic(BASE/(grant_id+'.authorized-before'), before)
     grant = {'schema_version':1, 'grant_id':grant_id, 'fingerprint':fingerprint,
-             'suffix':suffix.decode(), 'expires_unix':expires, 'used':False}
+             'suffix':suffix.decode(), 'expires_unix':expires, 'used':False,'purpose':purpose}
     atomic(record, (json.dumps(grant, indent=2)+'\n').encode())
     if AUTHORIZED.exists() and AUTHORIZED.read_bytes() != before:
         raise ValueError('SSH authorization file changed concurrently')
@@ -124,7 +130,8 @@ def _install_locked(line, grant_id, expected_fingerprint):
         raise ValueError('existing SSH authorization preservation check failed')
     return {'grant_id':grant_id, 'fingerprint':fingerprint,
             'expires_at':dt.datetime.fromtimestamp(expires,dt.timezone.utc).isoformat(),
-            'single_use':True, 'forced_helper_only':True, 'authorized_port':53682,
+            'single_use':True, 'forced_helper_only':True, 'purpose':purpose,
+            'authorized_port':53682 if purpose == 'authorize' else None,
             'existing_authorizations_preserved':True, 'server_password_changed':False}
 
 
@@ -134,7 +141,12 @@ def consume(grant_id):
         raise ValueError('invalid grant identifier')
     with open(str(BASE/'update.lock'), 'a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        _consume_locked(grant_id)
+        grant = _consume_locked(grant_id)
+    if grant.get('purpose','authorize') == 'export_recovery':
+        payload = export_recovery(grant)
+        sys.stdout.write(payload.decode('ascii'))
+        sys.stdout.flush()
+        return
     # Existing authenticated SSH session keeps its restricted forwarding rights.
     # The key has already been revoked before the browser authorization starts.
     os.execv('/usr/bin/python3', ['/usr/bin/python3', HELPER])
@@ -146,6 +158,10 @@ def _consume_locked(grant_id):
     grant = json.loads(record.read_text())
     if grant.get('used') or time.time() >= grant['expires_unix']:
         raise ValueError('authorization grant expired or already used')
+    purpose = grant.get('purpose','authorize')
+    expected = {'authorize':'authorize-onedrive','export_recovery':'export-recovery-key'}.get(purpose)
+    if not expected or os.environ.get('SSH_ORIGINAL_COMMAND','').strip() != expected:
+        raise ValueError('request does not match authorized operation')
     check_root_file(AUTHORIZED)
     original = AUTHORIZED.read_bytes()
     revised = without_grant(original, grant['suffix'].encode())
@@ -155,6 +171,32 @@ def _consume_locked(grant_id):
     grant['used'] = True
     grant['used_at'] = dt.datetime.now(dt.timezone.utc).isoformat()
     atomic(record, (json.dumps(grant, indent=2)+'\n').encode())
+    return grant
+
+
+def export_recovery(grant):
+    # Called only after an authenticated one-use SSH grant is consumed. Never run by a bridge task.
+    for path in (PASSWORD_FILE,CONFIG_FILE):
+        if check_root_file(path).st_mode & 0o077:
+            raise ValueError('recovery configuration must be private')
+    password = PASSWORD_FILE.read_text().strip()
+    if len(password) < 24 or '\n' in password or '\x00' in password:
+        raise ValueError('unexpected recovery password format')
+    cfg = json.loads(CONFIG_FILE.read_text())
+    if not str(cfg.get('repository','')).startswith('rclone:onedrive:WebsiteBackups/xyptdq/'):
+        raise ValueError('unexpected recovery repository')
+    envelope = {'schema_version':1,'project':'xyptdq','repository':cfg['repository'],
+                'repository_password':password,
+                'created_at':dt.datetime.now(dt.timezone.utc).isoformat(),
+                'source_repository':'https://github.com/fdsasaaa/xyptdq',
+                'runbook':'docs/ops/ONEDRIVE_BACKUP_RECOVERY.md'}
+    payload = (json.dumps(envelope,sort_keys=True,separators=(',',':'),ensure_ascii=True)+'\n').encode('ascii')
+    atomic(BASE/(grant['grant_id']+'.recovery.json'),payload)
+    grant['recovery_file_sha256'] = hashlib.sha256(payload).hexdigest()
+    grant['recovery_file_bytes'] = len(payload)
+    grant['exported_at'] = dt.datetime.now(dt.timezone.utc).isoformat()
+    atomic(BASE/(grant['grant_id']+'.json'),(json.dumps(grant,indent=2)+'\n').encode())
+    return payload
 
 
 if __name__ == '__main__':

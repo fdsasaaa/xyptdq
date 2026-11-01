@@ -46,6 +46,14 @@ SQL 使用本机管理员 socket 认证并短暂加全局读锁，兼容事务�
 
 ### 初始化备份仓库
 
+### 独立保存恢复文件
+
+首次云快照下载验证后，`prepare_recovery_export_v1.sh` 可以对同一用户公钥签发 `export_recovery` 专用的一次性grant。此用途没有任何端口转发权；仅允许 `SSH_ORIGINAL_COMMAND=export-recovery-key`，错误的远程命令会在消费grant前被拒绝，避免用户重跑旧授权命令时把恢复密码输出到终端。
+
+用户通过SSH将单行恢复JSON直接保存到本机 `%LOCALAPPDATA%/XYPTDQ-BackupRecovery`，使用UTF-8无BOM和LF换行；不在控制台显示内容。JSON含仓库路径、`repository_password`、源码仓库和手册入口。服务器在私有grant记录中保留文件SHA-256与字节数，核对用户本机文件的SHA-256即可确认传输一致，不需要用户把内容发给ChatGPT或公共GitHub。
+
+这个文件必须独立于原服务器保管，建议另放用户自己的密码管理器或离线介质。文件内容不进入聊天、公开回执或Git仓库。新主机恢复时，从JSON的 `repository_password` 写入受保护的Restic密码文件，并重新授权同一OneDrive；已有仓库不可再次init。
+
 若用户无法使用原 SSH 密码，可由用户在本机生成 Ed25519 临时密钥，只提供 `.pub` 公钥。经用户提供并核对指纹后，固定 SHA 的任务将它加入原有 `authorized_keys`，保留全部原条目；限制为指定授权助手以及127.0.0.1:53682的转发，禁止普通shell/PTY/代理/X11/用户rc，设置两小时有效期。OpenSSH8.2的 `expiry-time` 使用服务器本地14位日期时间，不使用新版的Z后缀。
 
 入口为 `/usr/local/lib/xyptdq-backup/limited_ssh.py use <grant-id>`，它在启动OAuth助手前移除自己对应的授权条目并记录已消费；不恢复整份旧 `authorized_keys`，不修改密码或全局SSH配置。若尝试已消费或到期，必须通过新任务明确重发新grant，不能把失败误判为服务器原密码又出错。未使用的条目到期后会被sshd拒绝，后续清理记录时只删除本项目标记的对应条目。用户连接应明确指定本机私钥、IdentitiesOnly及BatchMode，避免回退到服务器密码登录。
