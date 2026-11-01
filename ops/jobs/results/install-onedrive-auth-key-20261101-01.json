@@ -1,0 +1,30 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T02:54:24Z",
+  "job_id": "install-onedrive-auth-key-20261101-01",
+  "payload": {
+    "daily_timer_enabled": false,
+    "grant": {
+      "authorized_port": 53682,
+      "existing_authorizations_preserved": true,
+      "expires_at": "2026-11-01T04:54:24+00:00",
+      "fingerprint": "SHA256:6noVoCRkDD1Gh5lII16ZEWKtGH9Xz4JHtV/X0eJT8WI",
+      "forced_helper_only": true,
+      "grant_id": "onedrive-20261101-01",
+      "server_password_changed": false,
+      "single_use": true
+    },
+    "remote_snapshot_created": false,
+    "status": "PASS",
+    "task": "install_onedrive_auth_key_v1",
+    "temporary_key_installed": true
+  },
+  "raw_log_published": false,
+  "required_commit": "610741f8bca0d62685f9f6f73dc68932c563a531",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/install_onedrive_auth_key_v1.sh",
+  "script_sha256": "d136287d51bd381bb04c94a3d6bdb219846270896f448df12244c0834d2167c9",
+  "started_at": "2026-11-01T02:54:24Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
