@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "install-onedrive-auth-key-20261101-01",
+  "required_commit": "610741f8bca0d62685f9f6f73dc68932c563a531",
+  "script": "scripts/ops/agent_tasks/install_onedrive_auth_key_v1.sh",
+  "script_sha256": "d136287d51bd381bb04c94a3d6bdb219846270896f448df12244c0834d2167c9",
+  "timeout_seconds": 120
+}
