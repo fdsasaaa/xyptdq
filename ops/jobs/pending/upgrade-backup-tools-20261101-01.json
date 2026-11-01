@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "upgrade-backup-tools-20261101-01",
+  "required_commit": "494681f0c1fa76a6567869d6977ccf7ff4c4e037",
+  "script": "scripts/ops/agent_tasks/upgrade_backup_tools_v1.sh",
+  "script_sha256": "d0c7d7ff36bfbd7c7d9262eccfdb19bb1a03ca236740b738a0c63e8852ffc314",
+  "timeout_seconds": 900
+}
