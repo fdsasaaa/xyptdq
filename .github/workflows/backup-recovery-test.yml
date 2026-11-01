@@ -32,3 +32,4 @@ jobs:
           bash -n scripts/ops/agent_tasks/prepare_recovery_export_v1.sh
           bash -n scripts/ops/agent_tasks/finalize_default_onedrive_v1.sh
           bash -n scripts/ops/agent_tasks/activate_onedrive_backup_v1.sh
+          bash -n scripts/ops/agent_tasks/audit_onedrive_daily_run_v1.sh

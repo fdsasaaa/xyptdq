@@ -16,6 +16,8 @@
 
 2026-11-01 12:05（北京时间）首次 OneDrive 云快照已 PASS：`06a54631125227b5f8624e4392f0a6cac1c92fefc633b3eaaef9c63b08b56b70`，恢复载荷 111,179,372 字节；同一快照下载后的全部载荷校验及远端 `check --read-data` 均通过。默认本人 OneDrive 已唯一对应，容量约 1 TB。证据：`backups-manifest/evidence/20261101-first-cloud-backup.json`。独立恢复文件尚待用户在本机保存并核对哈希，因此每日 timer 仍未启用；新主机完整恢复及首个日历触发运行尚未验证。
 
+2026-11-01 12:22（北京时间）已核对用户本机恢复文件 SHA-256 与私有一次性导出记录完全一致，并确认该文件密钥仍对应当前仓库；导出公钥入口已消费撤销。每日 timer 已 enabled/active，实际通过 systemd 手动运行的新快照 `de808c15eaeb02cc7cbca8ba20f05e3591cec6cd06d0adcbc3c78c1aff148cc1` 下载校验通过，远端状态索引一致，首份快照保留。下一次计划触发为北京时间 2026-11-02 03:34:19（03:30 加随机延迟）。证据：`backups-manifest/evidence/20261101-daily-timer-activation.json`。这次手动服务验证不记为日历触发证据。
+
 ## 保存位置与范围
 
 - GitHub：恢复程序、说明、非敏感状态入口和实施记录。整站数据、SQL、OAuth 配置和密钥不得提交到这个公共仓库。
@@ -80,6 +82,8 @@ sudo python3 /usr/local/lib/xyptdq-backup/onedrive_backup.py snapshots
 核对独立恢复文件的 SHA-256 后，再执行 `sudo bash /usr/local/lib/xyptdq-backup/install_timer.sh`。安装程序本身拒绝在没有近期成功备份时启用；自动部署任务还必须核对私有导出记录与用户回报的文件哈希，再记录独立保管确认。
 
 每日北京时间 03:30 执行，最多延迟5分钟；服务器关机错过后会补跑；失败15分钟后重试，2小时内最多3次。运行在网站服务器，用户电脑可以关机，不使用 GitHub Actions 上传整站。
+
+`audit_onedrive_daily_run_v1.sh` 是只读的定时执行核验入口：要求 timer 的实际 LastTrigger 晚于本次激活记录，随后对应重试窗口内的 systemd 服务成功、同一快照下载验证和 OneDrive 索引一致。它不启动备份；首次触发前应返回 WAITING_FIRST_CALENDAR_TRIGGER，避免把手动服务测试算作定时运行。通过后将唯一任务回执入库，更新 CURRENT 的 calendar_triggered_run_verified。
 
 ## 日常检查与保留
 
