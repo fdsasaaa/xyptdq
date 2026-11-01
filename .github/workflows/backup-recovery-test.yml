@@ -13,10 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Backup and isolated recovery regressions
-        run: python3 scripts/backup/test_onedrive_backup.py
+        run: |
+          python3 scripts/backup/test_onedrive_backup.py
+          python3 scripts/backup/test_authorize_ssh.py
       - name: Shell syntax
         run: |
           bash -n scripts/backup/install_timer.sh
           bash -n scripts/ops/agent_tasks/backup_readiness_probe_v1.sh
           bash -n scripts/ops/agent_tasks/prepare_onedrive_backup_v1.sh
           bash -n scripts/ops/agent_tasks/upgrade_backup_tools_v1.sh
+          bash -n scripts/ops/agent_tasks/prepare_onedrive_ssh_v1.sh
