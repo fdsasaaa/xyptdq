@@ -42,6 +42,10 @@ SQL 使用本机管理员 socket 认证并短暂加全局读锁，兼容事务�
 
 ### 初始化备份仓库
 
+若用户无法使用原 SSH 密码，可由用户在本机生成 Ed25519 临时密钥，只提供 `.pub` 公钥。经用户提供并核对指纹后，固定 SHA 的任务将它加入原有 `authorized_keys`，保留全部原条目；限制为指定授权助手以及127.0.0.1:53682的转发，禁止普通shell/PTY/代理/X11/用户rc，设置两小时有效期。OpenSSH8.2的 `expiry-time` 使用服务器本地14位日期时间，不使用新版的Z后缀。
+
+入口为 `/usr/local/lib/xyptdq-backup/limited_ssh.py use <grant-id>`，它在启动OAuth助手前移除自己对应的授权条目并记录已消费；不恢复整份旧 `authorized_keys`，不修改密码或全局SSH配置。若尝试已消费或到期，必须通过新任务明确重发新grant，不能把失败误判为服务器原密码又出错。未使用的条目到期后会被sshd拒绝，后续清理记录时只删除本项目标记的对应条目。用户连接应明确指定本机私钥、IdentitiesOnly及BatchMode，避免回退到服务器密码登录。
+
 1. 运行固定 SHA 的 `prepare_onedrive_backup_v1.sh` 生产任务，安装工具、部署程序、创建受保护的随机加密密码，生成并校验一份本地恢复载荷。它不启用 timer，不创建云端备份。
 2. 用户在微软官方登录页面完成 rclone 的 OneDrive OAuth 授权，配置名为 `onedrive`，配置文件仅放在服务器 `/etc/xyptdq-backup/rclone.conf`。不要把授权结果、token 或配置内容贴到 GitHub/聊天/公开任务回执。无浏览器服务器依照 rclone 官方 headless OAuth 流程在有浏览器的设备授权，通过安全文件传输交给服务器。
 3. 用 `rclone --config /etc/xyptdq-backup/rclone.conf about onedrive: --json` 私下核对账户及容量。确保是用户长期控制且可恢复登录的账号。
