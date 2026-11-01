@@ -83,6 +83,14 @@ sudo python3 /usr/local/lib/xyptdq-backup/onedrive_backup.py snapshots
 
 每日北京时间 03:30 执行，最多延迟5分钟；服务器关机错过后会补跑；失败15分钟后重试，2小时内最多3次。运行在网站服务器，用户电脑可以关机，不使用 GitHub Actions 上传整站。
 
+### 可选的 GitHub 云端恢复密钥保管
+
+用户要求恢复不依赖本机文件时，将完整恢复 JSON 作为仓库 Actions secret `XYPTDQ_RECOVERY_JSON` 保管，不能把原始 JSON 提交到当前公开仓库。设置页为 `https://github.com/fdsasaaa/xyptdq/settings/secrets/actions/new`。用户只在自己的 GitHub 页面粘贴内容，不发送到聊天；当前连接不具备 Secrets 写入接口。
+
+设置后运行 `.github/workflows/verify-recovery-secret.yml`，或在 main 更新非敏感的 `ops/recovery-secret-check.json` 来触发核验。该流程只在 main 运行、没有第三方 action、不检出仓库、没有 API 写权限；只在内存校验 JSON、项目/仓库与用户此前已确认的恢复文件 SHA-256，不显示密钥、不创建含密钥的 artifact。它规范化 JSON 排版/换行后与原导出文件比较，允许 GitHub 页面粘贴时改变空白。只有真实 Actions 回执 PASS 后，才能将云端密钥保管记为已验证。未设置/错误文件会失败，不影响生产每日备份。
+
+GitHub Secrets 不能通过普通文件下载或 API 读回原文。未来原服务器丢失时，应让 main 上另行审查的恢复 workflow 在内存中使用 `secrets.XYPTDQ_RECOVERY_JSON`，通过认证且核对主机身份的加密通道直接交给新主机；不要为了取回而输出到日志、Issue、artifact 或公共文件。新主机凭据和微软重新授权仍需具备；本次云端密钥核验不代表新主机完整恢复已完成。具有工作流修改权限的账号能通过修改流程使用该 secret，因此必须保护 GitHub 账号和仓库写权限。GitHub Secrets 的设置/变更与密钥轮换后，要重新核验并更新预期 SHA-256；独立本机副本可以继续保留。
+
 `audit_onedrive_daily_run_v1.sh` 是只读的定时执行核验入口：要求 timer 的实际 LastTrigger 晚于本次激活记录，随后对应重试窗口内的 systemd 服务成功、同一快照下载验证和 OneDrive 索引一致。它不启动备份；首次触发前应返回 WAITING_FIRST_CALENDAR_TRIGGER，避免把手动服务测试算作定时运行。通过后将唯一任务回执入库，更新 CURRENT 的 calendar_triggered_run_verified。
 
 ## 日常检查与保留
