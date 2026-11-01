@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "prepare-onedrive-backup-20261101-01",
+  "required_commit": "36881d3318280d09a3b6aa7e5063bc5c60c7bffc",
+  "script": "scripts/ops/agent_tasks/prepare_onedrive_backup_v1.sh",
+  "script_sha256": "53d1dd64c7bf7c8dd6646e222c1df18efcdbc2ed8d06e1ef70d5cd0009265d89",
+  "timeout_seconds": 1800
+}
