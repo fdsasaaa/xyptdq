@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "job_id": "prepare-onedrive-ssh-20261101-01",
-  "required_commit": "410bd3f04069ed46af51fb540d97ded0c8509e08",
+  "required_commit": "a7964a753380de28bddda88d095bf3e22842eb51",
   "script": "scripts/ops/agent_tasks/prepare_onedrive_ssh_v1.sh",
   "script_sha256": "cb9eb795a3134a92c1b23115b9525f69f346529d821fd885442122aade758a1a",
   "timeout_seconds": 180
