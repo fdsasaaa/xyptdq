@@ -89,8 +89,12 @@ def prepare_paths():
 
 def install(line, grant_id, expected_fingerprint):
     prepare_paths()
-    lock = open(str(BASE/'update.lock'), 'a')
-    fcntl.flock(lock, fcntl.LOCK_EX)
+    with open(str(BASE/'update.lock'), 'a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        return _install_locked(line, grant_id, expected_fingerprint)
+
+
+def _install_locked(line, grant_id, expected_fingerprint):
     expires = int(time.time()) + 7200
     entry, suffix, fingerprint = key_entry(line, grant_id, expires)
     if fingerprint != expected_fingerprint:
@@ -118,7 +122,6 @@ def install(line, grant_id, expected_fingerprint):
     after = AUTHORIZED.read_bytes()
     if without_grant(after, suffix) != before + (b'\n' if before and not before.endswith(b'\n') else b''):
         raise ValueError('existing SSH authorization preservation check failed')
-    lock.close()
     return {'grant_id':grant_id, 'fingerprint':fingerprint,
             'expires_at':dt.datetime.fromtimestamp(expires,dt.timezone.utc).isoformat(),
             'single_use':True, 'forced_helper_only':True, 'authorized_port':53682,
@@ -129,8 +132,15 @@ def consume(grant_id):
     prepare_paths()
     if not GRANT_RE.fullmatch(grant_id):
         raise ValueError('invalid grant identifier')
-    lock = open(str(BASE/'update.lock'), 'a')
-    fcntl.flock(lock, fcntl.LOCK_EX)
+    with open(str(BASE/'update.lock'), 'a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        _consume_locked(grant_id)
+    # Existing authenticated SSH session keeps its restricted forwarding rights.
+    # The key has already been revoked before the browser authorization starts.
+    os.execv('/usr/bin/python3', ['/usr/bin/python3', HELPER])
+
+
+def _consume_locked(grant_id):
     record = BASE/(grant_id+'.json')
     check_root_file(record)
     grant = json.loads(record.read_text())
@@ -145,10 +155,6 @@ def consume(grant_id):
     grant['used'] = True
     grant['used_at'] = dt.datetime.now(dt.timezone.utc).isoformat()
     atomic(record, (json.dumps(grant, indent=2)+'\n').encode())
-    lock.close()
-    # Existing authenticated SSH session keeps its restricted forwarding rights.
-    # The key has already been revoked before the browser authorization starts.
-    os.execv('/usr/bin/python3', ['/usr/bin/python3', HELPER])
 
 
 if __name__ == '__main__':
