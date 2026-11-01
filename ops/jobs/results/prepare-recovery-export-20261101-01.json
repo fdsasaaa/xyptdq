@@ -1,0 +1,31 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T04:06:23Z",
+  "job_id": "prepare-recovery-export-20261101-01",
+  "payload": {
+    "credential_contents_published": false,
+    "daily_timer_enabled": false,
+    "grant": {
+      "authorized_port": null,
+      "existing_authorizations_preserved": true,
+      "expires_at": "2026-11-01T06:06:23+00:00",
+      "fingerprint": "SHA256:6noVoCRkDD1Gh5lII16ZEWKtGH9Xz4JHtV/X0eJT8WI",
+      "forced_helper_only": true,
+      "grant_id": "onedrive-recovery-20261101-01",
+      "purpose": "export_recovery",
+      "server_password_changed": false,
+      "single_use": true
+    },
+    "grant_installed": true,
+    "status": "PASS",
+    "task": "prepare_recovery_export_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "29d0308826da13e20745e415b180f47a95618870",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/prepare_recovery_export_v1.sh",
+  "script_sha256": "b83fd5296c889919190cbe9515c751181fda9b256af926a7bf2e0cd219ba46f9",
+  "started_at": "2026-11-01T04:06:23Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
