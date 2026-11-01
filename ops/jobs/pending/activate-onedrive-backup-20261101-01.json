@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "activate-onedrive-backup-20261101-01",
+  "required_commit": "a19e97aaf7b7187a720f882dbe30bb17c1a0b9cd",
+  "script": "scripts/ops/agent_tasks/activate_onedrive_backup_v1.sh",
+  "script_sha256": "cd25f10d421601bbbc77a0dcf58decb4f942fcd306100391dc2cdae8a18e2c8c",
+  "timeout_seconds": 1800
+}

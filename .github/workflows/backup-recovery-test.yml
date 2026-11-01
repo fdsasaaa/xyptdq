@@ -18,6 +18,7 @@ jobs:
           python3 scripts/backup/test_authorize_ssh.py
           python3 scripts/backup/test_limited_ssh.py
           python3 scripts/backup/test_select_default_drive.py
+          python3 scripts/backup/test_recovery_escrow.py
       - name: Shell syntax
         run: |
           bash -n scripts/backup/install_timer.sh
@@ -30,3 +31,4 @@ jobs:
           bash -n scripts/ops/agent_tasks/renew_onedrive_auth_key_v1.sh
           bash -n scripts/ops/agent_tasks/prepare_recovery_export_v1.sh
           bash -n scripts/ops/agent_tasks/finalize_default_onedrive_v1.sh
+          bash -n scripts/ops/agent_tasks/activate_onedrive_backup_v1.sh
