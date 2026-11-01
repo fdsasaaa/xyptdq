@@ -19,7 +19,32 @@
   "daily_timer_verified": false,
   "download_restore_verified": false,
   "fresh_host_restore_verified": false,
-  "daily_schedule": {"timezone": "Asia/Shanghai", "time": "03:30", "maximum_jitter_minutes": 5},
-  "retention": {"automatic_prune_enabled": false, "planned_daily": 30, "planned_weekly": 12, "planned_monthly": 12},
-  "pending": ["pinned_tool_upgrade_receipt", "microsoft_oauth", "quota_verification", "independent_key_escrow", "first_remote_backup_and_download_verification", "daily_timer_activation_and_scheduled_receipt", "independent_fresh_host_restore_drill", "external_failure_and_stale_backup_alert"]
+  "daily_schedule": {
+    "timezone": "Asia/Shanghai",
+    "time": "03:30",
+    "maximum_jitter_minutes": 5
+  },
+  "retention": {
+    "automatic_prune_enabled": false,
+    "planned_daily": 30,
+    "planned_weekly": 12,
+    "planned_monthly": 12
+  },
+  "pending": [
+    "microsoft_oauth",
+    "quota_verification",
+    "independent_key_escrow",
+    "first_remote_backup_and_download_verification",
+    "daily_timer_activation_and_scheduled_receipt",
+    "independent_fresh_host_restore_drill",
+    "external_failure_and_stale_backup_alert"
+  ],
+  "tool_upgrade_verified": true,
+  "deployed_implementation_commit": "494681f0c1fa76a6567869d6977ccf7ff4c4e037",
+  "tools": {
+    "restic": "0.19.1",
+    "rclone": "1.75.2",
+    "official_asset_sha256_verified": true
+  },
+  "tool_upgrade_evidence": "backups-manifest/evidence/20261101-tool-upgrade.json"
 }
