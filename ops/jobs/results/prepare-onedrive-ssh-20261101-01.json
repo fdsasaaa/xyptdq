@@ -1,0 +1,32 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T02:05:43Z",
+  "job_id": "prepare-onedrive-ssh-20261101-01",
+  "payload": {
+    "browser_authorization_started": false,
+    "configuration_contents_published": false,
+    "daily_timer_enabled": false,
+    "helper_installed": true,
+    "listener_exposed_publicly": false,
+    "private_oauth_startup_selftest_verified": true,
+    "remote_snapshot_created": false,
+    "server_public_interface_ipv4": "94.103.5.248",
+    "ssh_host_ed25519_sha256": "SHA256:t4E6LOSIAtKiGib+kER4Ba0rPU3sHGNcCOdk97NKCds",
+    "ssh_settings": {
+      "passwordauthentication": "yes",
+      "permitrootlogin": "yes",
+      "port": "22",
+      "pubkeyauthentication": "yes"
+    },
+    "status": "PASS",
+    "task": "prepare_onedrive_ssh_v1"
+  },
+  "raw_log_published": false,
+  "required_commit": "a7964a753380de28bddda88d095bf3e22842eb51",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/prepare_onedrive_ssh_v1.sh",
+  "script_sha256": "cb9eb795a3134a92c1b23115b9525f69f346529d821fd885442122aade758a1a",
+  "started_at": "2026-11-01T02:05:43Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
