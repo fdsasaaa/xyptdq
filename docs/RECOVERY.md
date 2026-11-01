@@ -2,6 +2,8 @@
 
 > 本文件不含真实密码或私钥。
 
+> 2026-11-01 新增：跨服务器恢复优先阅读 [OneDrive 备份与恢复手册](ops/ONEDRIVE_BACKUP_RECOVERY.md)，状态入口为 `backups-manifest/CURRENT.json`。下文旧命令含原主机固定路径，不得直接作为新主机一键迁移脚本。
+
 ## 恢复层次
 
 ### 第一层：GitHub 版本恢复

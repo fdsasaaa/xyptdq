@@ -1,0 +1,21 @@
+name: backup-recovery-contract
+on:
+  pull_request:
+    paths: ['scripts/backup/**', 'scripts/ops/agent_tasks/*backup*', '.github/workflows/backup-recovery-test.yml']
+  push:
+    branches: [main]
+    paths: ['scripts/backup/**', 'scripts/ops/agent_tasks/*backup*', '.github/workflows/backup-recovery-test.yml']
+permissions:
+  contents: read
+jobs:
+  recovery-behavior:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Backup and isolated recovery regressions
+        run: python3 scripts/backup/test_onedrive_backup.py
+      - name: Shell syntax
+        run: |
+          bash -n scripts/backup/install_timer.sh
+          bash -n scripts/ops/agent_tasks/backup_readiness_probe_v1.sh
+          bash -n scripts/ops/agent_tasks/prepare_onedrive_backup_v1.sh
