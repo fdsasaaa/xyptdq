@@ -30,6 +30,18 @@ SQL 使用本机管理员 socket 认证并短暂加全局读锁，兼容事务�
 
 ## 首次配置（一次性）
 
+### 推荐的浏览器授权入口：SSH 隧道
+
+用户电脑的 OpenSSH 已确认可用时，由固定 SHA 的 `prepare_onedrive_ssh_v1.sh` 部署 `authorize_ssh.py` 并返回生产服务器的 ED25519 指纹、SSH端口与登录方式。该任务不启动过期计时中的授权会话，不修改 SSH 配置。
+
+用户在自己的 Windows PowerShell 通过 SSH 转发本机 `127.0.0.1:53682` 到服务器相同回环地址，同时运行服务器上的 `python3 /usr/local/lib/xyptdq-backup/authorize_ssh.py`。先核对本次探测的主机指纹，再使用用户已有的 SSH 登录方式；SSH 密码只在本机终端输入。
+
+连接后程序会在用户自己的 SSH 终端显示一次性回环登录链接。用户用本机浏览器打开，登录拥有备份空间的微软账号并授权；完整回调/令牌直接回到服务器，用户不需要复制令牌到聊天。单个云盘自动选定；多个云盘由用户在自己的SSH终端明确选择。所有原始日志/配置仅存服务器私有目录，公开回执只含阶段、云盘类型和容量数字。
+
+授权程序只监听服务器回环地址，无公网授权端口；SSH断开或20分钟超时会清理子进程。成功后通过 `rclone about` 验证容量，非敏感结果可从 `/uploadfile/xyptdq-agent-results/onedrive-oauth-status.json` 读取。成功授权不等于已有备份：仍须完成加密密码独立保管、首次远端快照、下载验证、timer 激活及定时运行验证。原 `onedrive-setup.json` 是此前无浏览器流程的状态，不应据其旧问题推断当前授权是否完成。
+
+### 初始化备份仓库
+
 1. 运行固定 SHA 的 `prepare_onedrive_backup_v1.sh` 生产任务，安装工具、部署程序、创建受保护的随机加密密码，生成并校验一份本地恢复载荷。它不启用 timer，不创建云端备份。
 2. 用户在微软官方登录页面完成 rclone 的 OneDrive OAuth 授权，配置名为 `onedrive`，配置文件仅放在服务器 `/etc/xyptdq-backup/rclone.conf`。不要把授权结果、token 或配置内容贴到 GitHub/聊天/公开任务回执。无浏览器服务器依照 rclone 官方 headless OAuth 流程在有浏览器的设备授权，通过安全文件传输交给服务器。
 3. 用 `rclone --config /etc/xyptdq-backup/rclone.conf about onedrive: --json` 私下核对账户及容量。确保是用户长期控制且可恢复登录的账号。
