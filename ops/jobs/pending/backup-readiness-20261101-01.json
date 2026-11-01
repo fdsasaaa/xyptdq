@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "backup-readiness-20261101-01",
+  "required_commit": "ab8b37905ee134c4f888c3b35e841c5e69e18059",
+  "script": "scripts/ops/agent_tasks/backup_readiness_probe_v1.sh",
+  "script_sha256": "01b8f67521ba14b3e14127bc5b6f31745437abe2d1a6951b83b9cff020321417",
+  "timeout_seconds": 600
+}
