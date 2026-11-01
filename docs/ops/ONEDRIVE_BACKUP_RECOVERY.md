@@ -40,6 +40,10 @@ SQL 使用本机管理员 socket 认证并短暂加全局读锁，兼容事务�
 
 授权程序只监听服务器回环地址，无公网授权端口；SSH断开或20分钟超时会清理子进程。成功后通过 `rclone about` 验证容量，非敏感结果可从 `/uploadfile/xyptdq-agent-results/onedrive-oauth-status.json` 读取。成功授权不等于已有备份：仍须完成加密密码独立保管、首次远端快照、下载验证、timer 激活及定时运行验证。原 `onedrive-setup.json` 是此前无浏览器流程的状态，不应据其旧问题推断当前授权是否完成。
 
+2026-11-01第一轮SSH授权在20分钟等候后返回 `LOGIN_TIMED_OUT_RERUN_SSH_COMMAND`，没有保存可用token/drive。用户只看到登录链接时，不应将其记录为授权完成。后续Windows连接建议使用 `-L localhost:53682:127.0.0.1:53682`，兼容微软回调localhost的IPv4/IPv6，并设置 `ServerAliveInterval=20`。可在本机PowerShell逐行显示SSH输出，只对白名单 `http://127.0.0.1:53682/auth?state=<URL-safe-value>` 自动调用默认浏览器；最终仍由用户在微软网页登录并同意。终端显示“授权完成，OneDrive容量校验通过”才算完整结束。
+
+原一次性grant已在启动第一轮助手前消费；超时后用相同用户公钥和新grant-id恢复入口，不要求用户重建私钥，也不复用旧OAuth链接。`renew_onedrive_auth_key_v1.sh` 会保留已经配置好的连接，并在仍有授权监听器时停止重发，避免打断活跃会话。
+
 ### 初始化备份仓库
 
 若用户无法使用原 SSH 密码，可由用户在本机生成 Ed25519 临时密钥，只提供 `.pub` 公钥。经用户提供并核对指纹后，固定 SHA 的任务将它加入原有 `authorized_keys`，保留全部原条目；限制为指定授权助手以及127.0.0.1:53682的转发，禁止普通shell/PTY/代理/X11/用户rc，设置两小时有效期。OpenSSH8.2的 `expiry-time` 使用服务器本地14位日期时间，不使用新版的Z后缀。

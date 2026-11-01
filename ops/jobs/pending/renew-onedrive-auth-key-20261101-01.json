@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "renew-onedrive-auth-key-20261101-01",
+  "required_commit": "6702395ef93b8a7ad74673a9033b144ee515f47d",
+  "script": "scripts/ops/agent_tasks/renew_onedrive_auth_key_v1.sh",
+  "script_sha256": "b8ffa6ce76c2da02ecf76b8a66d02e525b63066e81958a2c19c583e6a05bd3c8",
+  "timeout_seconds": 120
+}

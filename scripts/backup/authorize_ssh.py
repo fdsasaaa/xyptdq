@@ -51,7 +51,8 @@ def choose_result(question, ask=input):
         for i, example in enumerate(examples, 1):
             label = ''.join(x for x in str(example.get('Help', 'OneDrive')) if x.isprintable())
             print('  {}. {}'.format(i, label[:300]))
-        answer = ask('Drive number: ').strip()
+        print('请输入要用于备份的云盘序号，并按回车：', flush=True)
+        answer = ask('').strip()
         if not answer.isdigit() or not 1 <= int(answer) <= len(examples):
             raise SetupError('DRIVE_SELECTION_REQUIRED')
         return examples[int(answer)-1]['Value']
@@ -93,10 +94,11 @@ def invoke(arguments):
                 if not shown:
                     url = find_login_url(log.read_text(errors='replace'))
                     if url:
-                        print('\nOpen this link in the browser on THIS Windows computer:', flush=True)
+                        print('\n下一步：在当前Windows电脑的浏览器打开下面整条链接：', flush=True)
                         print(url, flush=True)
-                        print('Sign in to the Microsoft account that owns the backup storage.', flush=True)
-                        print('Keep this PowerShell window open. Do not send the link or OAuth output to chat.', flush=True)
+                        print('在微软网页登录拥有备份空间的账号，并点击允许/同意授权。', flush=True)
+                        print('保持本PowerShell窗口开着，等待终端显示“授权完成，容量校验通过”。', flush=True)
+                        print('请勿把登录链接或授权数据复制到聊天。', flush=True)
                         save_status('WAITING_BROWSER_LOGIN')
                         shown = True
                 if time.monotonic() > deadline:
@@ -170,8 +172,8 @@ def main():
     save_status('AUTHORIZED_AND_CAPACITY_VERIFIED',
                 drive_type=c.get('onedrive','drive_type',fallback='unknown'),
                 **{dst:quota[src] for src,dst in [('total','total_bytes'),('free','free_bytes'),('used','used_bytes')] if src in quota})
-    print('\nMicrosoft authorization completed and storage capacity verified.', flush=True)
-    print('Return to ChatGPT and say: authorization completed. No cloud backup has run yet.', flush=True)
+    print('\n授权完成，OneDrive容量校验通过。', flush=True)
+    print('现在可以回到ChatGPT说明“授权完成”。备份将由ChatGPT继续处理。', flush=True)
     lock.close()
 
 
