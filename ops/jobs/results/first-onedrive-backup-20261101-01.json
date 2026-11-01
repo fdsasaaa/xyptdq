@@ -1,0 +1,28 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T03:06:57Z",
+  "job_id": "first-onedrive-backup-20261101-01",
+  "payload": {
+    "authorization_data_present": false,
+    "available_drive_count": 0,
+    "callback_received_marker": false,
+    "daily_timer_enabled": false,
+    "next_option": "unknown",
+    "oauth_loopback_listener_active": true,
+    "phase": "authorization_probe",
+    "read_only": true,
+    "remote_snapshot_created": false,
+    "selected_drive_present": false,
+    "status": "WAITING_AUTHORIZATION_COMPLETION",
+    "task": "first_onedrive_backup_v1",
+    "waiting_for_code_marker": true
+  },
+  "raw_log_published": false,
+  "required_commit": "42838a3ebb3b52d36cf2caa607d2b556c997f3bb",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/first_onedrive_backup_v1.sh",
+  "script_sha256": "365f359c9c640cc422b06db35229368eff3b19ab993d6e61e54d416f82b1784c",
+  "started_at": "2026-11-01T03:06:57Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
