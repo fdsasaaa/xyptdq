@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-01",
+  "updated_at": "2026-11-01T04:05:10Z",
   "project": "xyptdq",
   "tracking_issue": "https://github.com/fdsasaaa/xyptdq/issues/509",
   "runbook": "docs/ops/ONEDRIVE_BACKUP_RECOVERY.md",
   "implementation": "scripts/backup/onedrive_backup.py",
-  "status": "awaiting_microsoft_authorization",
+  "status": "cloud_verified_waiting_independent_key_escrow",
   "server_preparation_verified": true,
   "local_recovery_copy_verified": true,
-  "local_recovery_payload_bytes": 110985974,
+  "local_recovery_payload_bytes": 111179372,
   "local_encrypted_roundtrip_verified": true,
   "installed_initial_implementation_commit": "36881d3318280d09a3b6aa7e5063bc5c60c7bffc",
   "preparation_evidence": "backups-manifest/evidence/20261101-server-preparation.json",
   "remote_repository": "onedrive:WebsiteBackups/xyptdq/restic-v1",
   "remote_inventory": "onedrive:WebsiteBackups/xyptdq/restic-v1-inventory/status.json",
-  "first_remote_snapshot_id": null,
-  "latest_remote_snapshot_id": null,
+  "first_remote_snapshot_id": "06a54631125227b5f8624e4392f0a6cac1c92fefc633b3eaaef9c63b08b56b70",
+  "latest_remote_snapshot_id": "06a54631125227b5f8624e4392f0a6cac1c92fefc633b3eaaef9c63b08b56b70",
   "daily_timer_verified": false,
-  "download_restore_verified": false,
+  "download_restore_verified": true,
   "fresh_host_restore_verified": false,
   "daily_schedule": {
     "timezone": "Asia/Shanghai",
@@ -31,10 +31,7 @@
     "planned_monthly": 12
   },
   "pending": [
-    "microsoft_oauth",
-    "quota_verification",
     "independent_key_escrow",
-    "first_remote_backup_and_download_verification",
     "daily_timer_activation_and_scheduled_receipt",
     "independent_fresh_host_restore_drill",
     "external_failure_and_stale_backup_alert"
@@ -46,5 +43,17 @@
     "rclone": "1.75.2",
     "official_asset_sha256_verified": true
   },
-  "tool_upgrade_evidence": "backups-manifest/evidence/20261101-tool-upgrade.json"
+  "tool_upgrade_evidence": "backups-manifest/evidence/20261101-tool-upgrade.json",
+  "microsoft_authorization_verified": true,
+  "default_onedrive_identity_verified": true,
+  "quota_verified": true,
+  "quota": {
+    "free": 1104450840166,
+    "total": 1104880336896,
+    "used": 429496730
+  },
+  "latest_remote_snapshot_finished_at": "2026-11-01T04:04:16.023144+00:00",
+  "remote_repository_read_data_verified": true,
+  "first_cloud_backup_evidence": "backups-manifest/evidence/20261101-first-cloud-backup.json",
+  "independent_key_escrow_verified": false
 }

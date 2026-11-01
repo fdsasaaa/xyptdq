@@ -1,0 +1,49 @@
+{
+  "exit_code": 0,
+  "finished_at": "2026-11-01T04:05:10Z",
+  "job_id": "finalize-default-onedrive-20261101-01",
+  "payload": {
+    "backup_finished_at": "2026-11-01T04:04:16.023144+00:00",
+    "daily_timer_enabled": false,
+    "download_verified": true,
+    "drive_type": "personal",
+    "key_escrow_confirmed": false,
+    "local_payload_bytes": 111179372,
+    "phase": "complete",
+    "quota": {
+      "free": 1104450840166,
+      "total": 1104880336896,
+      "used": 429496730
+    },
+    "remote_repository_read_data_verified": true,
+    "remote_snapshot_created": true,
+    "repository_initialized_this_run": true,
+    "selection_verification": {
+      "account_identifiers_published": false,
+      "candidate_count": 5,
+      "daily_timer_enabled": false,
+      "default_onedrive_identity_verified": true,
+      "drive_type": "personal",
+      "phase": "selection_complete",
+      "quota": {
+        "free": 1104450840166,
+        "total": 1104880336896,
+        "used": 429496730
+      },
+      "status": "PASS",
+      "task": "finalize_default_onedrive_v1"
+    },
+    "snapshot_id": "06a54631125227b5f8624e4392f0a6cac1c92fefc633b3eaaef9c63b08b56b70",
+    "status": "PASS",
+    "task": "first_onedrive_backup_v1",
+    "timer_activation_pending_key_escrow": true
+  },
+  "raw_log_published": false,
+  "required_commit": "b9b741ae7bdcd1f4b24502afcde62bf283a21efb",
+  "schema_version": 1,
+  "script": "scripts/ops/agent_tasks/finalize_default_onedrive_v1.sh",
+  "script_sha256": "a6058329a60e9912a4b89b11fe6cd0dda45c4dad872e85d9f93ed956a9e48811",
+  "started_at": "2026-11-01T04:02:32Z",
+  "status": "PASS",
+  "transport": "static_https"
+}
