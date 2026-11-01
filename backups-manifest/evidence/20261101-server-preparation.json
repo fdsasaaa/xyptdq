@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "job_id": "prepare-onedrive-backup-20261101-01",
+  "status": "PASS",
+  "started_at": "2026-11-01T00:58:03Z",
+  "finished_at": "2026-11-01T00:58:43Z",
+  "required_commit": "36881d3318280d09a3b6aa7e5063bc5c60c7bffc",
+  "script_sha256": "53d1dd64c7bf7c8dd6646e222c1df18efcdbc2ed8d06e1ef70d5cd0009265d89",
+  "source_receipt": "https://www.laocaimi.org/uploadfile/xyptdq-agent-results/prepare-onedrive-backup-20261101-01.json",
+  "local_recovery_payload_bytes": 110985974,
+  "essential_cms_files_included": true,
+  "local_integrity_verified": true,
+  "local_encrypted_roundtrip_verified": true,
+  "production_content_modified": false,
+  "remote_snapshot_created": false,
+  "daily_timer_enabled": false,
+  "next_required_step": "microsoft_oauth_and_independent_key_escrow"
+}

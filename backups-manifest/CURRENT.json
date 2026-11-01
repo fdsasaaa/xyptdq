@@ -5,7 +5,13 @@
   "tracking_issue": "https://github.com/fdsasaaa/xyptdq/issues/509",
   "runbook": "docs/ops/ONEDRIVE_BACKUP_RECOVERY.md",
   "implementation": "scripts/backup/onedrive_backup.py",
-  "status": "preparing_server_awaiting_microsoft_authorization",
+  "status": "awaiting_microsoft_authorization",
+  "server_preparation_verified": true,
+  "local_recovery_copy_verified": true,
+  "local_recovery_payload_bytes": 110985974,
+  "local_encrypted_roundtrip_verified": true,
+  "installed_initial_implementation_commit": "36881d3318280d09a3b6aa7e5063bc5c60c7bffc",
+  "preparation_evidence": "backups-manifest/evidence/20261101-server-preparation.json",
   "remote_repository": "onedrive:WebsiteBackups/xyptdq/restic-v1",
   "remote_inventory": "onedrive:WebsiteBackups/xyptdq/restic-v1-inventory/status.json",
   "first_remote_snapshot_id": null,
@@ -15,5 +21,5 @@
   "fresh_host_restore_verified": false,
   "daily_schedule": {"timezone": "Asia/Shanghai", "time": "03:30", "maximum_jitter_minutes": 5},
   "retention": {"automatic_prune_enabled": false, "planned_daily": 30, "planned_weekly": 12, "planned_monthly": 12},
-  "pending": ["server_preparation_receipt", "microsoft_oauth", "quota_verification", "independent_key_escrow", "first_remote_backup_and_download_verification", "daily_timer_activation_and_scheduled_receipt", "independent_fresh_host_restore_drill", "external_failure_and_stale_backup_alert"]
+  "pending": ["pinned_tool_upgrade_receipt", "microsoft_oauth", "quota_verification", "independent_key_escrow", "first_remote_backup_and_download_verification", "daily_timer_activation_and_scheduled_receipt", "independent_fresh_host_restore_drill", "external_failure_and_stale_backup_alert"]
 }
