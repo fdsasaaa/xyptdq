@@ -116,6 +116,10 @@ def invoke(arguments):
         question = json.loads(out.read_text())
     except ValueError:
         raise SetupError('PROVIDER_RESPONSE_REQUIRES_PRIVATE_REVIEW')
+    if question is None:
+        question = {}
+    if not isinstance(question, dict):
+        raise SetupError('PROVIDER_RESPONSE_REQUIRES_PRIVATE_REVIEW')
     if question.get('Error'):
         raise SetupError('PROVIDER_REPORTED_ERROR')
     return question
