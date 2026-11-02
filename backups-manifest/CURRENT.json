@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-01T04:48:50.932027+00:00",
+  "updated_at": "2026-11-02T00:41:49.833297+00:00",
   "project": "xyptdq",
   "tracking_issue": "https://github.com/fdsasaaa/xyptdq/issues/509",
   "runbook": "docs/ops/ONEDRIVE_BACKUP_RECOVERY.md",
   "implementation": "scripts/backup/onedrive_backup.py",
-  "status": "daily_timer_active_service_verified",
+  "status": "daily_calendar_triggered_backup_verified",
   "server_preparation_verified": true,
   "local_recovery_copy_verified": true,
   "local_recovery_payload_bytes": 111179372,
@@ -15,7 +15,7 @@
   "remote_repository": "onedrive:WebsiteBackups/xyptdq/restic-v1",
   "remote_inventory": "onedrive:WebsiteBackups/xyptdq/restic-v1-inventory/status.json",
   "first_remote_snapshot_id": "06a54631125227b5f8624e4392f0a6cac1c92fefc633b3eaaef9c63b08b56b70",
-  "latest_remote_snapshot_id": "de808c15eaeb02cc7cbca8ba20f05e3591cec6cd06d0adcbc3c78c1aff148cc1",
+  "latest_remote_snapshot_id": "f03b5d5db7e4e23f7b48c140810f50eebefb7ba55386004204db9b88783b589d",
   "daily_timer_verified": true,
   "download_restore_verified": true,
   "fresh_host_restore_verified": false,
@@ -31,7 +31,6 @@
     "planned_monthly": 12
   },
   "pending": [
-    "first_calendar_trigger_verification",
     "independent_fresh_host_restore_drill",
     "external_failure_and_stale_backup_alert"
   ],
@@ -51,13 +50,13 @@
     "total": 1104880336896,
     "used": 429496730
   },
-  "latest_remote_snapshot_finished_at": "2026-11-01T04:21:54.507327+00:00",
+  "latest_remote_snapshot_finished_at": "2026-11-01T19:35:18.056606+00:00",
   "remote_repository_read_data_verified": true,
   "first_cloud_backup_evidence": "backups-manifest/evidence/20261101-first-cloud-backup.json",
   "independent_key_escrow_verified": true,
   "daily_timer_activation_verified": true,
   "systemd_service_run_verified": true,
-  "calendar_triggered_run_verified": false,
+  "calendar_triggered_run_verified": true,
   "daily_timer_activation_evidence": "backups-manifest/evidence/20261101-daily-timer-activation.json",
   "snapshot_count_at_activation": 2,
   "next_scheduled_trigger_at_activation": "2026-11-01T19:34:19Z",
@@ -79,5 +78,12 @@
     "verification_run_url": "https://github.com/fdsasaaa/xyptdq/actions/runs/41274518057",
     "verified_owner_file_sha256": "e8a866fb7f115c1f7f3d6dbb9c83fb1cc68ca3173644a303dd294f92883ead13",
     "recovery_key_depends_on_local_copy": false
-  }
+  },
+  "first_calendar_trigger_evidence": "backups-manifest/evidence/20261102-first-calendar-backup.json",
+  "first_calendar_trigger_at": "2026-11-01T19:34:20Z",
+  "first_calendar_backup_finished_at": "2026-11-01T19:35:18.056606+00:00",
+  "first_calendar_snapshot_id": "f03b5d5db7e4e23f7b48c140810f50eebefb7ba55386004204db9b88783b589d",
+  "remote_inventory_verified": true,
+  "last_successful_calendar_trigger_at": "2026-11-01T19:34:20Z",
+  "last_successful_calendar_backup_finished_at": "2026-11-01T19:35:18.056606+00:00"
 }
