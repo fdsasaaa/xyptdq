@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "job_id": "audit-onedrive-first-calendar-20261102-01",
+  "required_commit": "f8eff9df5ccb34c759baff424a2c1c5ac069f086",
+  "script": "scripts/ops/agent_tasks/audit_onedrive_daily_run_v1.sh",
+  "script_sha256": "c3d18db6ae6450d24778776be9e5ce4b50f47cc8be87bd0f081a692489757f0a",
+  "timeout_seconds": 300
+}
